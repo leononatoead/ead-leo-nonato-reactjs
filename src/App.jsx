@@ -7,6 +7,7 @@ import Course from './pages/Course';
 import Dashboard from './pages/Dashboard';
 import Newsletter from './pages/Newsletter';
 import Register from './pages/Register/';
+import VerifyPhone from './pages/VerifyPhone';
 
 import Navbar from './components/Navbar';
 
@@ -20,6 +21,7 @@ function App() {
         <Route path='/dashboard' element={<Dashboard />} />
         <Route path='/newsletter' element={<Newsletter />} />
         <Route path='/register' element={<Register />} />
+        <Route path='/validate' element={<VerifyPhone />} />
       </Routes>
     </FluentProvider>
   );

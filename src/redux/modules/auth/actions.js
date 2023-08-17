@@ -42,6 +42,7 @@ export const removeUser = () => ({
 
 export const verifyAuthentication = () => (dispatch) => {
   onAuthStateChanged(auth, async (user) => {
+    console.log(user);
     if (user) {
       dispatch({ type: AUTH_USER, payload: 'user' });
     } else {
