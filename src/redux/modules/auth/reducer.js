@@ -1,6 +1,5 @@
 import {
   AUTH_USER,
-  GET_USER_DATA,
   LOGIN_USER,
   LOGOUT_USER,
   REGISTER_USER,
@@ -9,19 +8,18 @@ import {
 } from './actionType';
 
 const initialState = {
-  user: ''
+  user: null
 };
 
 const chatReducer = (state = initialState, action) => {
   switch (action.type) {
     case AUTH_USER:
-      return action.payload;
-    case GET_USER_DATA:
-      return action.payload;
+      console.log({ ...action.payload });
+      return { user: { ...action.payload } };
     case LOGIN_USER:
       return action.payload;
     case LOGOUT_USER:
-      return action.payload;
+      return { user: action.payload };
     case REGISTER_USER:
       return action.payload;
     case EDIT_USER:

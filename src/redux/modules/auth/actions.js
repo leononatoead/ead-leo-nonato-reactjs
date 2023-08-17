@@ -1,23 +1,19 @@
 import { database, auth } from '../../../firebase/config';
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
-  RecaptchaVerifier,
   sendEmailVerification,
-  signInWithPhoneNumber,
   sendPasswordResetEmail,
   updateProfile,
   onAuthStateChanged,
-  deleteUser,
-  PhoneAuthProvider
+  deleteUser
 } from 'firebase/auth';
 
 import {
   AUTH_USER,
-  GET_USER_DATA,
   LOGIN_USER,
   LOGOUT_USER,
   REGISTER_USER,
@@ -25,28 +21,33 @@ import {
   REMOVE_USER
 } from './actionType';
 
-export const getUserData = () => ({
-  type: GET_USER_DATA,
-  payload: ''
-});
+const getUserData = async (uid) => {
+  try {
+    const collectionRef = doc(database, `users/${uid}`);
+    const res = await getDoc(collectionRef);
 
-export const editUser = () => ({
-  type: EDIT_USER,
-  payload: ''
-});
-
-export const removeUser = () => ({
-  type: REMOVE_USER,
-  payload: ''
-});
+    return res.data();
+  } catch (e) {
+    console.log(e.message);
+  }
+};
 
 export const verifyAuthentication = () => (dispatch) => {
   onAuthStateChanged(auth, async (user) => {
-    console.log(user);
     if (user) {
-      dispatch({ type: AUTH_USER, payload: 'user' });
+      const collectionData = await getUserData(user.uid);
+
+      const userPayload = {
+        uid: user.uid,
+        name: user.displayName,
+        email: user.email,
+        emailVerified: user.emailVerified,
+        phoneNumber: user.phoneNumber,
+        ...collectionData
+      };
+      dispatch({ type: AUTH_USER, payload: userPayload });
     } else {
-      dispatch({ type: AUTH_USER, payload: 'sem user' });
+      dispatch({ type: AUTH_USER, payload: null });
     }
   });
 };
@@ -70,7 +71,7 @@ export const logoutUser = () => (dispatch) => {
 
   dispatch({
     type: LOGOUT_USER,
-    payload: ''
+    payload: null
   });
 };
 
@@ -92,7 +93,6 @@ export const registerUser = (registerData) => async (dispatch) => {
     });
 
     const userData = {
-      id: user.uid,
       admin: false
     };
 
@@ -101,3 +101,13 @@ export const registerUser = (registerData) => async (dispatch) => {
     sendEmailVerification(user, actionCodeSettings);
   } catch (error) {}
 };
+
+export const editUser = () => ({
+  type: EDIT_USER,
+  payload: ''
+});
+
+export const removeUser = () => ({
+  type: REMOVE_USER,
+  payload: ''
+});

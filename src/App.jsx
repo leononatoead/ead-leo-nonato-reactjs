@@ -1,5 +1,8 @@
-import { Routes, Route } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { verifyAuthentication } from './redux/modules/auth/actions';
 
+import { Routes, Route } from 'react-router-dom';
 import { FluentProvider, webLightTheme } from '@fluentui/react-components';
 
 import Home from './pages/Home';
@@ -12,6 +15,12 @@ import VerifyPhone from './pages/VerifyPhone';
 import Navbar from './components/Navbar';
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(verifyAuthentication());
+  }, [dispatch]);
+
   return (
     <FluentProvider theme={webLightTheme}>
       <Navbar />
