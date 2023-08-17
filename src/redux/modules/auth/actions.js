@@ -1,14 +1,5 @@
-import {
-  AUTH_USER,
-  GET_USER_DATA,
-  LOGIN_USER,
-  LOGOUT_USER,
-  REGISTER_USER,
-  EDIT_USER,
-  REMOVE_USER
-} from './actionType';
-
-import { auth } from '../../../firebase/config';
+import { database, auth } from '../../../firebase/config';
+import { doc, setDoc } from 'firebase/firestore';
 
 import {
   createUserWithEmailAndPassword,
@@ -20,18 +11,24 @@ import {
   sendPasswordResetEmail,
   updateProfile,
   onAuthStateChanged,
-  deleteUser
+  deleteUser,
+  PhoneAuthProvider
 } from 'firebase/auth';
+
+import {
+  AUTH_USER,
+  GET_USER_DATA,
+  LOGIN_USER,
+  LOGOUT_USER,
+  REGISTER_USER,
+  EDIT_USER,
+  REMOVE_USER
+} from './actionType';
 
 export const getUserData = () => ({
   type: GET_USER_DATA,
   payload: ''
 });
-
-// export const registerUser = () => ({
-//   type: REGISTER_USER,
-//   payload: ''
-// });
 
 export const editUser = () => ({
   type: EDIT_USER,
@@ -45,9 +42,6 @@ export const removeUser = () => ({
 
 export const verifyAuthentication = () => (dispatch) => {
   onAuthStateChanged(auth, async (user) => {
-    console.log('foi');
-    console.log(user);
-
     if (user) {
       dispatch({ type: AUTH_USER, payload: 'user' });
     } else {
@@ -58,7 +52,6 @@ export const verifyAuthentication = () => (dispatch) => {
 
 export const loginUser = (email, password) => async (dispatch) => {
   try {
-    console.log(email, password);
     const data = await signInWithEmailAndPassword(auth, email, password);
 
     console.log(data);
@@ -80,29 +73,30 @@ export const logoutUser = () => (dispatch) => {
   });
 };
 
-export const registerUser =
-  (name, phone, email, password) => async (dispatch) => {
-    try {
-      auth.languageCode = 'pt-BR';
-      const actionCodeSettings = {
-        url: import.meta.env.VITE_APP_URL
-      };
+export const registerUser = (registerData) => async (dispatch) => {
+  try {
+    auth.languageCode = 'pt-BR';
+    const actionCodeSettings = {
+      url: import.meta.env.VITE_APP_URL
+    };
 
-      const { user } = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+    const { user } = await createUserWithEmailAndPassword(
+      auth,
+      registerData.email,
+      registerData.password
+    );
 
-      await updateProfile(user, { displayName: name, phoneNumber: phone });
+    await updateProfile(user, {
+      displayName: registerData.name
+    });
 
-      const userData = {
-        id: user.uid,
-        admin: false
-      };
+    const userData = {
+      id: user.uid,
+      admin: false
+    };
 
-      await setDoc(doc(database, 'users', user.uid), userData);
+    await setDoc(doc(database, 'users', user.uid), userData);
 
-      sendEmailVerification(user, actionCodeSettings);
-    } catch (error) {}
-  };
+    sendEmailVerification(user, actionCodeSettings);
+  } catch (error) {}
+};

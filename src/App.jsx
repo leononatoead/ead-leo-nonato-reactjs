@@ -6,7 +6,7 @@ import Home from './pages/Home';
 import Course from './pages/Course';
 import Dashboard from './pages/Dashboard';
 import Newsletter from './pages/Newsletter';
-import Register from './pages/Register';
+import Register from './pages/Register/';
 
 import Navbar from './components/Navbar';
 
