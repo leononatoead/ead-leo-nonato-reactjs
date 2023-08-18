@@ -15,11 +15,11 @@ export default function Navbar() {
   return (
     <header>
       <Link to='/'> Home </Link>
-      <Link to='/register'> Register </Link>
+
+      {!user && <Link to='/register'> Register </Link>}
 
       {user && (
         <>
-          <Link to='/validate'> Validar </Link>
           <button onClick={handleLogout}>Logout</button>
         </>
       )}

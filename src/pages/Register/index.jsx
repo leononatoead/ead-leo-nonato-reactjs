@@ -1,4 +1,6 @@
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { RegisterSchema } from './registerSchema';
 
@@ -6,6 +8,8 @@ import useAuth from '../../hooks/useAuth';
 
 export default function Register() {
   const { registerUser } = useAuth();
+
+  const navigate = useNavigate();
 
   const {
     register,
@@ -18,12 +22,13 @@ export default function Register() {
   const handleRegister = (formData) => {
     const data = {
       name: `${formData.firstName.trim()} ${formData.lastName}`,
-      phone: `+55${formData.phone}`,
+      // phone: `+55${formData.phone}`,
       email: formData.email,
       password: formData.password
     };
 
     registerUser(data);
+    navigate('/');
   };
 
   return (
@@ -53,7 +58,7 @@ export default function Register() {
           {errors.lastName.message}
         </span>
       )}
-      <input
+      {/* <input
         type='text'
         placeholder='Telefone'
         {...register('phone')}
@@ -63,7 +68,7 @@ export default function Register() {
         <span className='text-xs text-red-400 mt-[-12px]'>
           {errors.phone.message}
         </span>
-      )}
+      )} */}
       <input
         type='email'
         placeholder='E-mail'
@@ -98,7 +103,12 @@ export default function Register() {
         </span>
       )}
 
-      <button type='submit'>Cadastrar</button>
+      <button
+        type='submit'
+        className='p-2 bg-sky-500 rounded-md text-white font-bold'
+      >
+        Cadastrar
+      </button>
     </form>
   );
 }

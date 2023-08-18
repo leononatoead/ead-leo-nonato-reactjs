@@ -10,6 +10,7 @@ import OtpInput from 'otp-input-react';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import { toast } from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 export default function VerifyPhone() {
   const [loading, setLoading] = useState(false);
@@ -17,6 +18,8 @@ export default function VerifyPhone() {
   const [phone, setPhone] = useState('');
   const [verificationId, setVerificationId] = useState('');
   const [verificationCode, setVerificationCode] = useState('');
+
+  const navigate = useNavigate();
 
   const onCaptchaVerify = () => {
     if (!window.recaptchaVerifier) {
@@ -35,7 +38,7 @@ export default function VerifyPhone() {
   };
   useEffect(() => {
     onCaptchaVerify();
-  }, []);
+  }, [phone]);
 
   const verifyPhone = async () => {
     setLoading(true);
@@ -52,11 +55,13 @@ export default function VerifyPhone() {
       setLoading(false);
       toast.success('Código enviado por SMS');
     } catch (error) {
-      console.error('Error sending verification code:', error);
+      toast.error('Error sending verification code:', error);
+      setLoading(false);
     }
   };
 
   const handleUpdatePhoneNumber = async () => {
+    setLoading(true);
     try {
       const user = auth._currentUser;
 
@@ -66,9 +71,10 @@ export default function VerifyPhone() {
       );
 
       await updatePhoneNumber(user, phoneCredential);
-      console.log('Phone number updated successfully!');
+      navigate('/');
     } catch (error) {
-      console.error('Error updating phone number:', error);
+      toast.error('Error updating phone number:', error);
+      setLoading(false);
     }
   };
 

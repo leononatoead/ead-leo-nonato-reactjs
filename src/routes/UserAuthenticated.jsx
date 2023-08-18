@@ -5,13 +5,16 @@ import Course from '../pages/Course';
 import Newsletter from '../pages/Newsletter';
 import VerifyPhone from '../pages/VerifyPhone';
 
-export default function UserAuthenticatedRoutes() {
+export default function UserAuthenticatedRoutes({ user }) {
   return (
     <Routes>
-      <Route path='/' element={<Home />} />
+      {user.emailVerified && user.phoneNumber ? (
+        <Route path='/' element={<Home />} />
+      ) : (
+        <Route path='/' element={<VerifyPhone />} />
+      )}
       <Route path='/course' element={<Course />} />
       <Route path='/newsletter' element={<Newsletter />} />
-      <Route path='/validate' element={<VerifyPhone />} />
     </Routes>
   );
 }

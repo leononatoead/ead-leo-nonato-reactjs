@@ -24,7 +24,7 @@ function App() {
     <FluentProvider theme={webLightTheme}>
       <Navbar />
       {user && user.admin && <AdminRoutes />}
-      {user && !user.admin && <UserAuthenticated />}
+      {user && !user.admin && <UserAuthenticated user={user} />}
       {!user && <UserUnAuthenticated />}
 
       <Footer />

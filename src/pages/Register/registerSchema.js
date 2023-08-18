@@ -4,15 +4,15 @@ export const RegisterSchema = z
   .object({
     firstName: z.string().min(2, 'Digite um nome válido.'),
     lastName: z.string().min(2, 'Digite um sobrenome válido.'),
-    phone: z
-      .string()
-      .refine(
-        (value) =>
-          /^\s*(\d{2}|\d{0})[-. ]?(\d{5}|\d{4})[-. ]?(\d{4})[-. ]?\s*$/.test(
-            value
-          ),
-        'Digite um número de telefone válido.'
-      ),
+    // phone: z
+    //   .string()
+    //   .refine(
+    //     (value) =>
+    //       /^\s*(\d{2}|\d{0})[-. ]?(\d{5}|\d{4})[-. ]?(\d{4})[-. ]?\s*$/.test(
+    //         value
+    //       ),
+    //     'Digite um número de telefone válido.'
+    //   ),
     email: z
       .string()
       .min(1, 'O E-mail é obrigatório.')
