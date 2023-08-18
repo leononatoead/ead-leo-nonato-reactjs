@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { loginUser } from '../redux/modules/auth/actions';
+import { loginUser } from '../../redux/modules/auth/actions';
 
 export default function ModalLogin() {
   const [email, setEmail] = useState('yago.ramiresx@gmail.com');
@@ -29,6 +29,8 @@ export default function ModalLogin() {
         onChange={(e) => setPassword(e.target.value)}
       />
       <button type='submit'>login</button>
+
+      <p>Esqueceu sua senha?</p>
     </form>
   );
 }

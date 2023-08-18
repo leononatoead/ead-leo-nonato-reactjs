@@ -1,37 +1,29 @@
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { verifyAuthentication } from './redux/modules/auth/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { logoutUser, verifyAuthentication } from './redux/modules/auth/actions';
 
-import { Routes, Route } from 'react-router-dom';
 import { FluentProvider, webLightTheme } from '@fluentui/react-components';
 
-import Home from './pages/Home';
-import Course from './pages/Course';
-import Dashboard from './pages/Dashboard';
-import Newsletter from './pages/Newsletter';
-import Register from './pages/Register/';
-import VerifyPhone from './pages/VerifyPhone';
-
 import Navbar from './components/Navbar';
+import AdminRoutes from './routes/Admin';
+import UserAuthenticated from './routes/UserAuthenticated';
+import UserUnAuthenticated from './routes/UserUnAuthenticated';
 
 function App() {
   const dispatch = useDispatch();
 
+  const user = useSelector((state) => state.auth.user);
+
   useEffect(() => {
     dispatch(verifyAuthentication());
-  }, [dispatch]);
+  }, [dispatch, logoutUser]);
 
   return (
     <FluentProvider theme={webLightTheme}>
       <Navbar />
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/course' element={<Course />} />
-        <Route path='/dashboard' element={<Dashboard />} />
-        <Route path='/newsletter' element={<Newsletter />} />
-        <Route path='/register' element={<Register />} />
-        <Route path='/validate' element={<VerifyPhone />} />
-      </Routes>
+      {user && user.admin && <AdminRoutes />}
+      {user && !user.admin && <UserAuthenticated />}
+      {!user && <UserUnAuthenticated />}
     </FluentProvider>
   );
 }

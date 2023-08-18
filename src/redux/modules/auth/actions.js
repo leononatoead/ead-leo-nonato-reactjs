@@ -12,14 +12,11 @@ import {
   deleteUser
 } from 'firebase/auth';
 
-import {
-  AUTH_USER,
-  LOGIN_USER,
-  LOGOUT_USER,
-  REGISTER_USER,
-  EDIT_USER,
-  REMOVE_USER
-} from './actionType';
+import { AUTH_USER, LOGOUT_USER } from './actionType';
+
+const actionCodeSettings = {
+  url: import.meta.env.VITE_APP_URL
+};
 
 const getUserData = async (uid) => {
   try {
@@ -52,17 +49,11 @@ export const verifyAuthentication = () => (dispatch) => {
   });
 };
 
-export const loginUser = (email, password) => async (dispatch) => {
+export const loginUser = (email, password) => async () => {
   try {
-    const data = await signInWithEmailAndPassword(auth, email, password);
-
-    console.log(data);
-    dispatch({
-      type: LOGIN_USER,
-      payload: ''
-    });
+    await signInWithEmailAndPassword(auth, email, password);
   } catch (e) {
-    setError(e.message);
+    console.log(e.message);
   }
 };
 
@@ -77,11 +68,6 @@ export const logoutUser = () => (dispatch) => {
 
 export const registerUser = (registerData) => async (dispatch) => {
   try {
-    auth.languageCode = 'pt-BR';
-    const actionCodeSettings = {
-      url: import.meta.env.VITE_APP_URL
-    };
-
     const { user } = await createUserWithEmailAndPassword(
       auth,
       registerData.email,
@@ -99,15 +85,15 @@ export const registerUser = (registerData) => async (dispatch) => {
     await setDoc(doc(database, 'users', user.uid), userData);
 
     sendEmailVerification(user, actionCodeSettings);
-  } catch (error) {}
+  } catch (error) {
+    console.log(e.message);
+  }
 };
 
-export const editUser = () => ({
-  type: EDIT_USER,
-  payload: ''
-});
-
-export const removeUser = () => ({
-  type: REMOVE_USER,
-  payload: ''
-});
+export const resetPassword = async (email) => {
+  try {
+    await sendPasswordResetEmail(auth, email);
+  } catch (e) {
+    console.log(e.message);
+  }
+};
