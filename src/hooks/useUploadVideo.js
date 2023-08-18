@@ -7,15 +7,15 @@ import {
   uploadBytesResumable,
   getDownloadURL
 } from 'firebase/storage';
+import { database } from '../firebase/config';
+import { Timestamp, addDoc, collection } from '@firebase/firestore';
 
-const useVideo = () => {
-  const [videoName, setVideoName] = useState('');
-  const [videoPath, setVideoPath] = useState('');
+const useUploadVideo = () => {
   const [progress, setProgress] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const uploadVideo = (collection, file) => {
+  const uploadVideo = (data, docCollection, file) => {
     setLoading(true);
 
     if (file === null) {
@@ -26,7 +26,7 @@ const useVideo = () => {
     // Método do FB para acessar a storage
     const storage = getStorage();
     // Referencia da Storage, passando a coleção e o nome do arquivo que será inserido
-    const firestoreFileName = `${collection}/${Date.now()}${v4()}`;
+    const firestoreFileName = `${docCollection}/${Date.now()}${v4()}`;
 
     // Referencia da Storage, passando a coleção e o nome do arquivo que será inserido
     const storageRef = ref(storage, firestoreFileName);
@@ -41,14 +41,14 @@ const useVideo = () => {
 
         const progressStatus =
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        setProgress(`Progresso: ${progressStatus} % completo`);
+        setProgress(`Progresso: ${progressStatus.toFixed(0)}%`);
         switch (snapshot.state) {
           case 'paused':
-            setMessage('Envio pausado');
+            // setMessage('Envio pausado');
             break;
 
           default:
-            setMessage('Enviando ...');
+            // setMessage('Enviando ...');
             break;
         }
       },
@@ -68,8 +68,17 @@ const useVideo = () => {
       async () => {
         // Upload completo, agora pegamos a URL
         const res = await getDownloadURL(uploadTask.snapshot.ref);
-        setVideoPath(res);
-        setVideoName(generateName);
+
+        console.log(firestoreFileName);
+        console.log(res);
+        const videoData = {
+          ...data,
+          videoPath: res,
+          storageRef: firestoreFileName,
+          createdAt: Timestamp.now()
+        };
+
+        await addDoc(collection(database, docCollection), videoData);
       }
     );
 
@@ -79,4 +88,4 @@ const useVideo = () => {
   return { uploadVideo, loading, error, progress };
 };
 
-export default useVideo;
+export default useUploadVideo;

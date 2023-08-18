@@ -12,7 +12,6 @@ const useFetchDocument = (docCollection) => {
 
     try {
       const docRef = doc(database, docCollection, id);
-
       const docSnapshot = await getDoc(docRef);
 
       setDocument(docSnapshot.data());
