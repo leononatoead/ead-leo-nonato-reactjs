@@ -11,7 +11,6 @@ export default function Navbar() {
     dispatch(logoutUser());
   };
 
-  console.log(user);
   return (
     <header>
       <Link to='/'> Home </Link>
@@ -21,6 +20,8 @@ export default function Navbar() {
       {user && (
         <>
           <button onClick={handleLogout}>Logout</button>
+
+          {user.admin && <Link to='/dashboard'> Dashboard </Link>}
         </>
       )}
     </header>

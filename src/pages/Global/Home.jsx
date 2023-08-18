@@ -1,5 +1,5 @@
-import ModalLogin from '../components/ModalLogin';
-import ProductList from '../components/ProductList';
+import ModalLogin from '../../components/ModalLogin';
+import ProductList from '../../components/ProductList';
 
 export default function Home() {
   return (

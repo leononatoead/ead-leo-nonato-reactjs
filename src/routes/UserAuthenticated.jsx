@@ -1,9 +1,9 @@
 import { Routes, Route } from 'react-router-dom';
 
-import Home from '../pages/Home';
-import Course from '../pages/Course';
-import Newsletter from '../pages/Newsletter';
-import VerifyPhone from '../pages/VerifyPhone';
+import Home from '../pages/Global/Home';
+import Course from '../pages/Global/Course';
+import Newsletter from '../pages/Global/Newsletter';
+import VerifyPhone from '../pages/Global/VerifyPhone';
 
 export default function UserAuthenticatedRoutes({ user }) {
   return (

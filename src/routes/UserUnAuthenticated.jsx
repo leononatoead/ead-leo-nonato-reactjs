@@ -1,8 +1,8 @@
 import { Routes, Route } from 'react-router-dom';
 
-import Home from '../pages/Home';
-import Newsletter from '../pages/Newsletter';
-import Register from '../pages/Register';
+import Home from '../pages/Global/Home';
+import Newsletter from '../pages/Global/Newsletter';
+import Register from '../pages/Global/Register';
 
 export default function UserUnAuthenticatedRoutes() {
   return (
