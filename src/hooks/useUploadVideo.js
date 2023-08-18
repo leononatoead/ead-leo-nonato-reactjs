@@ -41,7 +41,7 @@ const useUploadVideo = () => {
 
         const progressStatus =
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        setProgress(`Progresso: ${progressStatus.toFixed(0)}%`);
+        setProgress(progressStatus);
         switch (snapshot.state) {
           case 'paused':
             // setMessage('Envio pausado');

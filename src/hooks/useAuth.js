@@ -23,8 +23,8 @@ const useAuth = () => {
   const loginUser = async (email, password) => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
-    } catch (e) {
-      toast.error(e.message);
+    } catch (error) {
+      toast.error(error.message);
     }
   };
 
@@ -48,15 +48,15 @@ const useAuth = () => {
 
       sendEmailVerification(user, actionCodeSettings);
     } catch (error) {
-      toast.error(e.message);
+      toast.error(error.message);
     }
   };
 
   const resetPassword = async (email) => {
     try {
       await sendPasswordResetEmail(auth, email);
-    } catch (e) {
-      toast.error(e.message);
+    } catch (error) {
+      toast.error(error.message);
     }
   };
 
