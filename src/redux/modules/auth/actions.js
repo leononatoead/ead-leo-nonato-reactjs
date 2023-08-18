@@ -1,22 +1,9 @@
 import { database, auth } from '../../../firebase/config';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { doc, getDoc } from 'firebase/firestore';
 
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
-  sendEmailVerification,
-  sendPasswordResetEmail,
-  updateProfile,
-  onAuthStateChanged,
-  deleteUser
-} from 'firebase/auth';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
 
-import { AUTH_USER, LOGOUT_USER } from './actionType';
-
-const actionCodeSettings = {
-  url: import.meta.env.VITE_APP_URL
-};
+import { AUTH_USER, LOGOUT_USER } from './actionTypes';
 
 const getUserData = async (uid) => {
   try {
@@ -49,14 +36,6 @@ export const verifyAuthentication = () => (dispatch) => {
   });
 };
 
-export const loginUser = (email, password) => async () => {
-  try {
-    await signInWithEmailAndPassword(auth, email, password);
-  } catch (e) {
-    console.log(e.message);
-  }
-};
-
 export const logoutUser = () => (dispatch) => {
   signOut(auth);
 
@@ -64,36 +43,4 @@ export const logoutUser = () => (dispatch) => {
     type: LOGOUT_USER,
     payload: null
   });
-};
-
-export const registerUser = (registerData) => async (dispatch) => {
-  try {
-    const { user } = await createUserWithEmailAndPassword(
-      auth,
-      registerData.email,
-      registerData.password
-    );
-
-    await updateProfile(user, {
-      displayName: registerData.name
-    });
-
-    const userData = {
-      admin: false
-    };
-
-    await setDoc(doc(database, 'users', user.uid), userData);
-
-    sendEmailVerification(user, actionCodeSettings);
-  } catch (error) {
-    console.log(e.message);
-  }
-};
-
-export const resetPassword = async (email) => {
-  try {
-    await sendPasswordResetEmail(auth, email);
-  } catch (e) {
-    console.log(e.message);
-  }
 };

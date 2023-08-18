@@ -1,10 +1,12 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { RegisterSchema } from './registerSchema';
-import { registerUser } from '../../redux/modules/auth/actions';
-import { useDispatch } from 'react-redux';
+
+import useAuth from '../../hooks/useAuth';
 
 export default function Register() {
+  const { registerUser } = useAuth();
+
   const {
     register,
     handleSubmit,
@@ -12,8 +14,6 @@ export default function Register() {
   } = useForm({
     resolver: zodResolver(RegisterSchema)
   });
-
-  const dispatch = useDispatch();
 
   const handleRegister = (formData) => {
     const data = {
@@ -23,7 +23,7 @@ export default function Register() {
       password: formData.password
     };
 
-    dispatch(registerUser(data));
+    registerUser(data);
   };
 
   return (

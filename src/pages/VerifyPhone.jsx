@@ -9,7 +9,7 @@ import {
 import OtpInput from 'otp-input-react';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
-import { Toaster, toast } from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 
 export default function VerifyPhone() {
   const [loading, setLoading] = useState(false);
@@ -75,7 +75,6 @@ export default function VerifyPhone() {
   return (
     <section className='bg-sky-500 min-h-[calc(100vh-20px)] flex justify-center items-center'>
       <div>
-        <Toaster toastOptions={{ duration: 4000 }} />
         <div id='recaptcha-container'></div>
 
         <div className='w-80 flex flex-col gap-4 rounded-lg p-4'>

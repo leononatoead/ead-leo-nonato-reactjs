@@ -1,10 +1,10 @@
-import { AUTH_USER, LOGOUT_USER } from './actionType';
+import { AUTH_USER, LOGOUT_USER } from './actionTypes';
 
 const initialState = {
   user: null
 };
 
-const chatReducer = (state = initialState, action) => {
+const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case AUTH_USER:
       return { user: action.payload };
@@ -16,4 +16,4 @@ const chatReducer = (state = initialState, action) => {
   }
 };
 
-export default chatReducer;
+export default authReducer;
