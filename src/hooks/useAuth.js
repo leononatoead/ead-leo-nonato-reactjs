@@ -60,7 +60,15 @@ const useAuth = () => {
     }
   };
 
-  return { loginUser, registerUser, resetPassword };
+  const verifyEmail = async () => {
+    try {
+      await sendEmailVerification(auth._currentUser, actionCodeSettings);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  return { loginUser, registerUser, resetPassword, verifyEmail };
 };
 
 export default useAuth;

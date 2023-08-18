@@ -36,8 +36,8 @@ export const verifyAuthentication = () => (dispatch) => {
   });
 };
 
-export const logoutUser = () => (dispatch) => {
-  signOut(auth);
+export const logoutUser = () => async (dispatch) => {
+  await signOut(auth);
 
   dispatch({
     type: LOGOUT_USER,
