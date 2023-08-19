@@ -12,8 +12,6 @@ export default function Courses() {
     loadDocuments();
   }, []);
 
-  console.log(documents);
-
   return (
     <main className='mainHeight p-8'>
       <div className='w-full flex justify-end'>
