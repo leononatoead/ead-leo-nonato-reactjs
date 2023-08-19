@@ -12,16 +12,20 @@ export default function Navbar() {
   };
 
   return (
-    <header>
+    <header className='w-full p-4 bg-sky-500 text-white font-bold flex gap-4 items-center justify-center'>
       <Link to='/'> Home </Link>
 
       {!user && <Link to='/register'> Register </Link>}
 
       {user && (
         <>
+          {user.admin && (
+            <>
+              <Link to='/dashboard'> Dashboard </Link>
+              <Link to='/courses'> Cursos </Link>
+            </>
+          )}
           <button onClick={handleLogout}>Logout</button>
-
-          {user.admin && <Link to='/dashboard'> Dashboard </Link>}
         </>
       )}
     </header>

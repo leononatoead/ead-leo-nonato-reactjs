@@ -16,8 +16,6 @@ function App() {
 
   const user = useSelector((state) => state.auth.user);
 
-  console.log(user);
-
   useEffect(() => {
     dispatch(verifyAuthentication());
   }, [dispatch, logoutUser]);
@@ -29,7 +27,7 @@ function App() {
       {user && !user.admin && <UserAuthenticated user={user} />}
       {!user && <UserUnAuthenticated />}
 
-      <Footer />
+      {/* <Footer /> */}
       <Toaster toastOptions={{ duration: 4000 }} />
     </FluentProvider>
   );

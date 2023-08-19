@@ -12,11 +12,10 @@ const useFetchDocuments = (docCollection) => {
     setLoading(true);
 
     const collectionRef = collection(database, docCollection);
-
     try {
       const q = query(collectionRef, orderBy('createdAt', 'asc'));
-
       onSnapshot(q, (querySnapshot) => {
+        console.log(querySnapshot);
         setDocuments(
           querySnapshot.docs.map((doc) => ({
             id: doc.id,

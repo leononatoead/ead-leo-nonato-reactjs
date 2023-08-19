@@ -7,15 +7,16 @@ import {
   uploadBytesResumable,
   getDownloadURL
 } from 'firebase/storage';
+import { Timestamp, addDoc, collection } from 'firebase/firestore';
+import { database } from '../firebase/config';
 
 import { toast } from 'react-hot-toast';
 
 const useUploadImage = () => {
-  const [imageData, setImageData] = useState();
   const [progress, setProgress] = useState(0);
   const [loading, setLoading] = useState(false);
 
-  const uploadImage = (docCollection, file) => {
+  const uploadImage = (data, docCollection, file) => {
     setLoading(true);
 
     if (file === null) {
@@ -26,7 +27,7 @@ const useUploadImage = () => {
     // Método do FB para acessar a storage
     const storage = getStorage();
     // Referencia da Storage, passando a coleção e o nome do arquivo que será inserido
-    const firestoreFileName = `${docCollection}/${Date.now()}${v4()}`;
+    const firestoreFileName = `${docCollection}/images/${Date.now()}${v4()}`;
 
     // Referencia da Storage, passando a coleção e o nome do arquivo que será inserido
     const storageRef = ref(storage, firestoreFileName);
@@ -69,12 +70,14 @@ const useUploadImage = () => {
         // Upload completo, agora pegamos a URL
         try {
           const res = await getDownloadURL(uploadTask.snapshot.ref);
-          const data = {
-            videoPath: res,
+          const imageData = {
+            ...data,
+            createdAt: Timestamp.now(),
+            imagePath: res,
             storageRef: firestoreFileName
           };
 
-          setImageData(data);
+          await addDoc(collection(database, docCollection), imageData);
         } catch (error) {
           toast.error(error.message);
         }
@@ -84,7 +87,7 @@ const useUploadImage = () => {
     setLoading(false);
   };
 
-  return { uploadImage, imageData, loading, progress };
+  return { uploadImage, loading, progress };
 };
 
 export default useUploadImage;

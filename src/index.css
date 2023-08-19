@@ -13,3 +13,7 @@
 .opt-container input {
   @apply !mr-0 flex-1 py-5 outline-none text-black;
 }
+
+.mainHeight {
+  @apply min-h-[calc(100vh-52px)];
+}

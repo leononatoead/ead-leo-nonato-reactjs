@@ -15,7 +15,11 @@ export default function Courses() {
   console.log(documents);
 
   return (
-    <div>
+    <main className='mainHeight p-8'>
+      <div className='w-full flex justify-end'>
+        <AddCourse />
+      </div>
+
       {documents && (
         <ul className='flex flex-col gap-2'>
           {documents.map((course) => (
@@ -29,7 +33,6 @@ export default function Courses() {
           ))}
         </ul>
       )}
-      <AddCourse />
-    </div>
+    </main>
   );
 }
