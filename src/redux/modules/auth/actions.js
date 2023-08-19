@@ -20,6 +20,7 @@ export const verifyAuthentication = () => (dispatch) => {
   onAuthStateChanged(auth, async (user) => {
     if (user) {
       const collectionData = await getUserData(user.uid);
+      console.log(collectionData);
 
       const userPayload = {
         uid: user.uid,

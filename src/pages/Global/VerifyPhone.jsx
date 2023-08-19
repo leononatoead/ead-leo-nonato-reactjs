@@ -60,8 +60,7 @@ export default function VerifyPhone() {
     }
   };
 
-  // async
-  const handleUpdatePhoneNumber = () => {
+  const handleUpdatePhoneNumber = async () => {
     setLoading(true);
     try {
       const user = auth._currentUser;
@@ -71,12 +70,12 @@ export default function VerifyPhone() {
         verificationCode
       );
 
-      // await
-      updatePhoneNumber(user, phoneCredential);
+      await updatePhoneNumber(user, phoneCredential);
 
-      navigate('/');
+      window.location.reload();
     } catch (error) {
-      toast.error('Error updating phone number:', error);
+      toast.error(error);
+    } finally {
       setLoading(false);
     }
   };

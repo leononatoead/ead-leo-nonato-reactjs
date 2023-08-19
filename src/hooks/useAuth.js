@@ -11,6 +11,7 @@ import {
 } from 'firebase/auth';
 
 import { toast } from 'react-hot-toast';
+import { doc, setDoc } from 'firebase/firestore';
 
 const useAuth = () => {
   const [loading, setLoading] = useState(false);
@@ -48,6 +49,7 @@ const useAuth = () => {
 
       sendEmailVerification(user, actionCodeSettings);
     } catch (error) {
+      console.log(error);
       toast.error(error.message);
     }
   };
