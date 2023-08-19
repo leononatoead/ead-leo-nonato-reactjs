@@ -19,19 +19,14 @@ const useStyles = makeStyles({
     flexWrap: 'wrap'
   },
 
-  card: {
-    width: '400px',
-    maxWidth: '100%',
-    height: 'fit-content'
-  },
-
   caption: {
     color: tokens.colorNeutralForeground3
   },
 
   smallRadius: {
     ...shorthands.borderRadius(tokens.borderRadiusSmall),
-    maxHeight: '200px'
+    maxHeight: '200px',
+    objectFit: 'cover'
   },
 
   grayBackground: {
@@ -75,7 +70,10 @@ export default function ProductCard({ cardData, setOpenLoginModal }) {
     );
   } else {
     return (
-      <Card className={styles.card} onClick={() => setOpenLoginModal(true)}>
+      <Card
+        className='w-[400px] max-w-full h-fit'
+        onClick={() => setOpenLoginModal(true)}
+      >
         <CardPreview
           className={styles.grayBackground}
           logo={

@@ -13,9 +13,9 @@ export default function Navbar() {
 
   return (
     <header className='w-full p-4 bg-sky-500 text-white font-bold flex gap-4 items-center justify-center'>
-      <Link to='/'> Home </Link>
+      <Link to='/'> Página Inicial </Link>
 
-      {!user && <Link to='/register'> Register </Link>}
+      {!user && <Link to='/register'> Cadastro </Link>}
 
       {user && (
         <>
