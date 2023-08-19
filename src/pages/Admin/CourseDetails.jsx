@@ -1,72 +1,72 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+
 import useFetchDocument from '../../hooks/useFetchDocument';
-import useUploadVideo from '../../hooks/useUploadVideo';
 import useFetchDocuments from '../../hooks/useFetchDocuments';
 
-import { Field, ProgressBar } from '@fluentui/react-components';
+import AddVideoModal from '../../components/AddVideoModal';
 
 export default function CourseDetails() {
-  const [title, setTitle] = useState('');
-  const [video, setVideo] = useState();
-
   const { id } = useParams();
 
-  const { document, loadDocument, loading } = useFetchDocument('courses');
+  const {
+    document: course,
+    loadDocument,
+    loading
+  } = useFetchDocument('courses');
+
   const {
     documents: videos,
     loadDocuments: loadVideos,
     loading: loadingVideos
   } = useFetchDocuments(`courses/${id}/videos/`);
-  const { uploadVideo, progress } = useUploadVideo();
 
   useEffect(() => {
-    console.log('load');
     loadDocument(id);
     loadVideos();
   }, []);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    uploadVideo({ title }, `courses/${id}/videos`, video);
-  };
+  console.log(videos);
 
   return (
-    <div>
-      {progress > 0 && progress < 100 ? (
-        <Field validationMessage='Enviando arquivo' validationState='none'>
-          <ProgressBar />
-        </Field>
-      ) : (
-        <form onSubmit={handleSubmit}>
-          <input
-            type='text'
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <input type='file' onChange={(e) => setVideo(e.target.files[0])} />
-          <button
-            type='submit'
-            className='bg-zinc-300 py-2 px-8 font-bold rounded-md'
-          >
-            Add
-          </button>
-        </form>
-      )}
+    <main className='mainLayout'>
+      <h1 className='text-3xl text-sky-400 font-bold uppercase mb-2'>
+        {course?.name}
+      </h1>
+      <div className='flex justify-start gap-20 items-start mt-8'>
+        <div>
+          <p className='mb-2'>
+            <span className='font-bold'>Autor:</span> {course?.author}
+          </p>
+          <p className='mb-2'>
+            <span className='font-bold'>Descrição:</span> {course?.description}
+          </p>
+          <p className='mb-2'>
+            <span className='font-bold'>Gratuito:</span>
+            {course?.isFree ? ' Sim' : ' Não'}
+          </p>
+          <p className='mb-2'>
+            <span className='font-bold'>Necessita de cadastro:</span>
+            {course?.isFree ? ' Sim' : ' Não'}
+          </p>
+        </div>
+        <img src={course?.imagePath} alt='banner' className='max-h-[200px]' />
+      </div>
 
-      <h1>{document?.name}</h1>
-      <p>{document?.author}</p>
-      <p>{document?.isFree ? 'Gratis' : 'Pago'}</p>
-
-      <ul>
+      <h1 className='text-3xl text-sky-400 font-bold uppercase mb-2'>AULAS</h1>
+      <div className='w-full flex justify-end'>
+        <AddVideoModal id={id} />
+      </div>
+      <ul className='flex flex-col gap-4'>
         {videos?.map((video) => (
           <li key={video.id}>
-            <video controls controlsList='nodownload'>
+            <span className='text-xl font-bold'>{video.title}</span>
+            {/* <video controls controlsList='nodownload'>
               <source src={video.videoPath} type='video/mp4' />
-            </video>
+            </video> */}
           </li>
         ))}
       </ul>
-    </div>
+    </main>
   );
 }

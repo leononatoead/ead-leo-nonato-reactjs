@@ -1,73 +1,68 @@
-
+import * as React from 'react';
 import {
   makeStyles,
-  Body1,
-  Caption1,
-  Button,
   shorthands,
-  Card,
-  CardFooter,
-  CardHeader,
-  CardPreview,
-} from "@fluentui/react-components";
-import * as React from "react";
-
-import { ArrowReplyRegular, ShareRegular } from "@fluentui/react-icons";
-
-
-const resolveAsset = (asset) => {
-  const ASSET_URL =
-    "https://raw.githubusercontent.com/microsoft/fluentui/master/packages/react-components/react-card/stories/assets/";
-
-  return `${ASSET_URL}${asset}`;
-};
+  Caption1,
+  tokens,
+  Text
+} from '@fluentui/react-components';
+import { Card, CardHeader, CardPreview } from '@fluentui/react-components';
 
 const useStyles = makeStyles({
-  card: {
-    ...shorthands.margin("auto"),
-    width: "720px",
-    maxWidth: "100%",
+  main: {
+    ...shorthands.gap('16px'),
+    display: 'flex',
+    flexWrap: 'wrap'
   },
+
+  card: {
+    width: '400px',
+    maxWidth: '100%',
+    height: 'fit-content'
+  },
+
+  caption: {
+    color: tokens.colorNeutralForeground3
+  },
+
+  smallRadius: {
+    ...shorthands.borderRadius(tokens.borderRadiusSmall),
+    maxHeight: '200px',
+    objectFit: 'cover'
+  },
+
+  grayBackground: {
+    backgroundColor: tokens.colorNeutralBackground3
+  },
+
+  logoBadge: {
+    ...shorthands.padding('5px'),
+    ...shorthands.borderRadius(tokens.borderRadiusSmall),
+    backgroundColor: '#FFF',
+    boxShadow:
+      '0px 1px 2px rgba(0, 0, 0, 0.14), 0px 0px 2px rgba(0, 0, 0, 0.12)'
+  }
 });
 
-export default function ProductCard () {
+export default function ProductCard({ cardData }) {
   const styles = useStyles();
 
   return (
     <Card className={styles.card}>
-      <CardHeader
-        img={
-          <img
-            src={resolveAsset("avatar_elvia.svg")}
-            alt="Elvia Atkins avatar picture"
-          />
-        }
-        header={
-          <Body1>
-            <b>Elvia Atkins</b> mentioned you
-          </Body1>
-        }
-        description={<Caption1>5h ago · About us - Overview</Caption1>}
-      />
-
-      <CardPreview
-        logo={
-          <img
-            src={resolveAsset("word_logo.svg")}
-            alt="Microsoft Word document"
-          />
-        }
-      >
+      <CardPreview className={styles.grayBackground}>
         <img
-          src={resolveAsset("doc_template.png")}
-          alt="Preview of a Word document: About Us - Overview"
+          className={styles.smallRadius}
+          src={cardData.imagePath}
+          alt='Presentation Preview'
         />
       </CardPreview>
 
-      <CardFooter>
-        <Button icon={<ArrowReplyRegular fontSize={16} />}>Reply</Button>
-        <Button icon={<ShareRegular fontSize={16} />}>Share</Button>
-      </CardFooter>
+      <CardHeader
+        header={<Text weight='semibold'>{cardData.name}</Text>}
+        description={
+          <Caption1 className={styles.caption}>{cardData.author}</Caption1>
+        }
+      />
     </Card>
   );
-};
+}

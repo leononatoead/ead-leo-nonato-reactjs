@@ -22,7 +22,6 @@ export default function Register() {
   const handleRegister = (formData) => {
     const data = {
       name: `${formData.firstName.trim()} ${formData.lastName}`,
-      // phone: `+55${formData.phone}`,
       email: formData.email,
       password: formData.password
     };
@@ -32,83 +31,72 @@ export default function Register() {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(handleRegister)}
-      className='flex flex-col mx-auto w-[90%] p-4 gap-4'
-    >
-      <input
-        type='text'
-        placeholder='Nome'
-        {...register('firstName')}
-        className='rounded-md border-[1px] border-zinc-300 bg-zinc-200 p-2'
-      />
-      {errors.firstName && (
-        <span className='text-xs text-red-400 mt-[-12px]'>
-          {errors.firstName.message}
-        </span>
-      )}
-      <input
-        type='text'
-        placeholder='Sobrenome'
-        {...register('lastName')}
-        className='rounded-md border-[1px] border-zinc-300 bg-zinc-200 p-2'
-      />
-      {errors.lastName && (
-        <span className='text-xs text-red-400 mt-[-12px]'>
-          {errors.lastName.message}
-        </span>
-      )}
-      {/* <input
-        type='text'
-        placeholder='Telefone'
-        {...register('phone')}
-        className='rounded-md border-[1px] border-zinc-300 bg-zinc-200 p-2'
-      />
-      {errors.phone && (
-        <span className='text-xs text-red-400 mt-[-12px]'>
-          {errors.phone.message}
-        </span>
-      )} */}
-      <input
-        type='email'
-        placeholder='E-mail'
-        {...register('email')}
-        className='rounded-md border-[1px] border-zinc-300 bg-zinc-200 p-2'
-      />
-      {errors.email && (
-        <span className='text-xs text-red-400 mt-[-12px]'>
-          {errors.email.message}
-        </span>
-      )}
-      <input
-        type='password'
-        placeholder='Senha'
-        {...register('password')}
-        className='rounded-md border-[1px] border-zinc-300 bg-zinc-200 p-2'
-      />
-      {errors.password && (
-        <span className='text-xs text-red-400 mt-[-12px]'>
-          {errors.password.message}
-        </span>
-      )}
-      <input
-        type='password'
-        placeholder='Confirme sua senha'
-        {...register('confirmPassword')}
-        className='rounded-md border-[1px] border-zinc-300 bg-zinc-200 p-2'
-      />
-      {errors.confirmPassword && (
-        <span className='text-xs text-red-400 mt-[-12px]'>
-          {errors.confirmPassword.message}
-        </span>
-      )}
-
-      <button
-        type='submit'
-        className='p-2 bg-sky-500 rounded-md text-white font-bold'
+    <main className='mainLayout'>
+      <form
+        onSubmit={handleSubmit(handleRegister)}
+        className='formLayout max-w-[600px] mx-auto'
       >
-        Cadastrar
-      </button>
-    </form>
+        <input
+          type='text'
+          placeholder='Nome'
+          {...register('firstName')}
+          className='inputLayout'
+        />
+        {errors.firstName && (
+          <span className='text-xs text-red-400 mt-[-12px]'>
+            {errors.firstName.message}
+          </span>
+        )}
+        <input
+          type='text'
+          placeholder='Sobrenome'
+          {...register('lastName')}
+          className='inputLayout'
+        />
+        {errors.lastName && (
+          <span className='text-xs text-red-400 mt-[-12px]'>
+            {errors.lastName.message}
+          </span>
+        )}
+
+        <input
+          type='email'
+          placeholder='E-mail'
+          {...register('email')}
+          className='inputLayout'
+        />
+        {errors.email && (
+          <span className='text-xs text-red-400 mt-[-12px]'>
+            {errors.email.message}
+          </span>
+        )}
+        <input
+          type='password'
+          placeholder='Senha'
+          {...register('password')}
+          className='inputLayout'
+        />
+        {errors.password && (
+          <span className='text-xs text-red-400 mt-[-12px]'>
+            {errors.password.message}
+          </span>
+        )}
+        <input
+          type='password'
+          placeholder='Confirme sua senha'
+          {...register('confirmPassword')}
+          className='inputLayout'
+        />
+        {errors.confirmPassword && (
+          <span className='text-xs text-red-400 mt-[-12px]'>
+            {errors.confirmPassword.message}
+          </span>
+        )}
+
+        <button type='submit' className='formSubmitButton'>
+          Cadastrar
+        </button>
+      </form>
+    </main>
   );
 }

@@ -52,13 +52,13 @@ export default function AddCourse() {
         <DialogBody>
           <DialogTitle>Novo Curso</DialogTitle>
           <DialogContent>
-            <form className='flex flex-col gap-2 my-6'>
+            <form className='formLayout'>
               <label htmlFor={'name'}>Nome do curso</label>
               <input
                 id='name'
                 type='text'
                 {...register('name')}
-                className='w-full border-b-[1px] border-black p-2 outline-none'
+                className='inputLayout'
               />
               {errors.name && (
                 <span className='text-xs text-red-400 mt-[-12px]'>
@@ -70,7 +70,7 @@ export default function AddCourse() {
                 id='description'
                 type='text'
                 {...register('description')}
-                className='w-full border-b-[1px] border-black p-2 outline-none'
+                className='inputLayout'
               />
               {errors.description && (
                 <span className='text-xs text-red-400 mt-[-12px]'>
@@ -106,7 +106,7 @@ export default function AddCourse() {
                 id='author'
                 type='text'
                 {...register('author')}
-                className='w-full border-b-[1px] border-black p-2 outline-none'
+                className='inputLayout'
               />
               {errors.Autor && (
                 <span className='text-xs text-red-400 mt-[-12px]'>

@@ -14,6 +14,18 @@
   @apply !mr-0 flex-1 py-5 outline-none text-black;
 }
 
-.mainHeight {
-  @apply min-h-[calc(100vh-52px)];
+.mainLayout {
+  @apply min-h-[calc(100vh-52px)] p-8;
+}
+
+.formLayout {
+  @apply flex flex-col gap-4 my-6;
+}
+
+.inputLayout {
+  @apply w-full border-b-[1px] border-black p-2 outline-none;
+}
+
+.formSubmitButton {
+  @apply p-2 bg-sky-500 rounded-md text-white font-bold;
 }
