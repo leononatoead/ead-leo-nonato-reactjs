@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import useFetchDocument from '../../hooks/useFetchDocument';
@@ -7,6 +7,7 @@ import useFetchDocuments from '../../hooks/useFetchDocuments';
 import AddVideoModal from '../../components/AddVideoModal';
 
 export default function CourseDetails() {
+  const [openVideoModal, setOpenVideoModal] = useState(false);
   const { id } = useParams();
 
   const {
@@ -25,8 +26,6 @@ export default function CourseDetails() {
     loadDocument(id);
     loadVideos();
   }, []);
-
-  console.log(videos);
 
   return (
     <main className='mainLayout'>
@@ -55,7 +54,11 @@ export default function CourseDetails() {
 
       <h1 className='text-3xl text-sky-400 font-bold uppercase mb-2'>AULAS</h1>
       <div className='w-full flex justify-end'>
-        <AddVideoModal id={id} />
+        <AddVideoModal
+          id={id}
+          openVideoModal={openVideoModal}
+          setOpenVideoModal={setOpenVideoModal}
+        />
       </div>
       <ul className='flex flex-col gap-4'>
         {videos?.map((video) => (

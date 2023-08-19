@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import useFetchDocuments from '../../hooks/useFetchDocuments';
@@ -7,6 +7,8 @@ import AddCourse from '../../components/AddCourseModal';
 import ProductCard from '../../components/ProductCard';
 
 export default function Courses() {
+  const [openCourseModal, setOpenCourseModal] = useState(false);
+
   const { documents, loadDocuments, loading } = useFetchDocuments('courses');
 
   useEffect(() => {
@@ -16,7 +18,10 @@ export default function Courses() {
   return (
     <main className='mainLayout'>
       <div className='w-full flex justify-end'>
-        <AddCourse />
+        <AddCourse
+          openCourseModal={openCourseModal}
+          setOpenCourseModal={setOpenCourseModal}
+        />
       </div>
 
       {documents && (

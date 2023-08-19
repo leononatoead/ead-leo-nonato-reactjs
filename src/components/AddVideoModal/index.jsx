@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AddVideoSchema } from './addVideoSchema';
 
@@ -18,8 +19,14 @@ import {
   ProgressBar
 } from '@fluentui/react-components';
 
-export default function AddVideoModal({ id }) {
+export default function AddVideoModal({
+  id,
+  openVideoModal,
+  setOpenVideoModal
+}) {
   const [video, setVideo] = useState();
+
+  const { uploadVideo, progress, loading } = useUploadVideo();
 
   const {
     register,
@@ -29,26 +36,26 @@ export default function AddVideoModal({ id }) {
     resolver: zodResolver(AddVideoSchema)
   });
 
-  const { uploadVideo, progress, loading } = useUploadVideo();
-
   const handleAddVideo = (formData) => {
-    uploadVideo({ title: formData.title }, `courses/${id}/videos`, video);
+    uploadVideo(
+      { title: formData.title },
+      `courses/${id}/videos`,
+      video,
+      setOpenVideoModal
+    );
   };
 
   return (
-    <Dialog>
+    <Dialog modalType='modal' open={openVideoModal}>
       <DialogTrigger disableButtonEnhancement>
-        <Button>Adicionar aula</Button>
+        <Button onClick={() => setOpenVideoModal(true)}>Adicionar aula</Button>
       </DialogTrigger>
       <DialogSurface>
         <DialogBody>
           <DialogTitle>Novo Curso</DialogTitle>
           <DialogContent>
             {progress > 0 && progress < 100 ? (
-              <Field
-                validationMessage='Enviando arquivo'
-                validationState='none'
-              >
+              <Field validationMessage='cadastrando ...' validationState='none'>
                 <ProgressBar />
               </Field>
             ) : (
@@ -70,26 +77,31 @@ export default function AddVideoModal({ id }) {
                 <input
                   type='file'
                   onChange={(e) => setVideo(e.target.files[0])}
-                  WS
                 />
               </form>
             )}
           </DialogContent>
-          <DialogActions>
-            <DialogTrigger disableButtonEnhancement>
-              <Button appearance='secondary'>Cancelar</Button>
-            </DialogTrigger>
-            {loading ? (
-              ''
-            ) : (
+          {loading ? (
+            ''
+          ) : (
+            <DialogActions>
+              <DialogTrigger disableButtonEnhancement>
+                <Button
+                  appearance='secondary'
+                  onClick={() => setOpenVideoModal(false)}
+                >
+                  Cancelar
+                </Button>
+              </DialogTrigger>
+
               <Button
                 appearance='primary'
                 onClick={handleSubmit(handleAddVideo)}
               >
                 Confirmar
               </Button>
-            )}
-          </DialogActions>
+            </DialogActions>
+          )}
         </DialogBody>
       </DialogSurface>
     </Dialog>

@@ -16,7 +16,7 @@ const useUploadImage = () => {
   const [progress, setProgress] = useState(0);
   const [loading, setLoading] = useState(false);
 
-  const uploadImage = (data, docCollection, file) => {
+  const uploadImage = (data, docCollection, file, setOpenCourseModal) => {
     setLoading(true);
 
     if (file === null) {
@@ -45,11 +45,11 @@ const useUploadImage = () => {
         setProgress(progressStatus);
         switch (snapshot.state) {
           case 'paused':
-            toast.promise('Envio pausdo');
+            toast.promise('Envio pausado');
             break;
 
           default:
-            toast.loading('Enviando ...');
+            // toast.loading('Enviando ...');
             break;
         }
       },
@@ -72,12 +72,14 @@ const useUploadImage = () => {
           const res = await getDownloadURL(uploadTask.snapshot.ref);
           const imageData = {
             ...data,
-            createdAt: Timestamp.now(),
             imagePath: res,
-            storageRef: firestoreFileName
+            storageRef: firestoreFileName,
+            createdAt: Timestamp.now()
           };
-
           await addDoc(collection(database, docCollection), imageData);
+
+          setOpenCourseModal(false);
+          toast.success('Curso criado com sucesso!');
         } catch (error) {
           toast.error(error.message);
         }

@@ -7,6 +7,10 @@ import {
   Text
 } from '@fluentui/react-components';
 import { Card, CardHeader, CardPreview } from '@fluentui/react-components';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+
+import lock from '../assets/lock.png';
 
 const useStyles = makeStyles({
   main: {
@@ -27,8 +31,7 @@ const useStyles = makeStyles({
 
   smallRadius: {
     ...shorthands.borderRadius(tokens.borderRadiusSmall),
-    maxHeight: '200px',
-    objectFit: 'cover'
+    maxHeight: '200px'
   },
 
   grayBackground: {
@@ -44,25 +47,59 @@ const useStyles = makeStyles({
   }
 });
 
-export default function ProductCard({ cardData }) {
+export default function ProductCard({ cardData, setOpenLoginModal }) {
   const styles = useStyles();
 
-  return (
-    <Card className={styles.card}>
-      <CardPreview className={styles.grayBackground}>
-        <img
-          className={styles.smallRadius}
-          src={cardData.imagePath}
-          alt='Presentation Preview'
-        />
-      </CardPreview>
+  const user = useSelector((state) => state.auth.user);
 
-      <CardHeader
-        header={<Text weight='semibold'>{cardData.name}</Text>}
-        description={
-          <Caption1 className={styles.caption}>{cardData.author}</Caption1>
-        }
-      />
-    </Card>
-  );
+  if (user) {
+    return (
+      <Link to={`course/${cardData.id}`}>
+        <Card className={styles.card}>
+          <CardPreview className={styles.grayBackground}>
+            <img
+              className={styles.smallRadius}
+              src={cardData.imagePath}
+              alt='Presentation Preview'
+            />
+          </CardPreview>
+
+          <CardHeader
+            header={<Text weight='semibold'>{cardData.name}</Text>}
+            description={
+              <Caption1 className={styles.caption}>{cardData.author}</Caption1>
+            }
+          />
+        </Card>
+      </Link>
+    );
+  } else {
+    return (
+      <Card className={styles.card} onClick={() => setOpenLoginModal(true)}>
+        <CardPreview
+          className={styles.grayBackground}
+          logo={
+            <img
+              src={lock}
+              alt='locked-content'
+              className='bg-white p-2 rounded-sm'
+            />
+          }
+        >
+          <img
+            src={cardData.imagePath}
+            alt='Presentation Preview'
+            className={styles.smallRadius}
+          />
+        </CardPreview>
+
+        <CardHeader
+          header={<Text weight='semibold'>{cardData.name}</Text>}
+          description={
+            <Caption1 className={styles.caption}>{cardData.author}</Caption1>
+          }
+        />
+      </Card>
+    );
+  }
 }

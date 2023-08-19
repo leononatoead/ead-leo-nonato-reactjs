@@ -21,11 +21,11 @@ import {
   Field
 } from '@fluentui/react-components';
 
-export default function AddCourse() {
+export default function AddCourse({ openCourseModal, setOpenCourseModal }) {
+  const [imageFile, setImageFile] = useState();
+
   const { addDocument } = useAddDocument('courses');
   const { uploadImage, loading: loadImage, progress } = useUploadImage();
-
-  const [imageFile, setImageFile] = useState();
 
   const {
     register,
@@ -37,16 +37,19 @@ export default function AddCourse() {
 
   const handlAddCourse = async (formData) => {
     if (imageFile) {
-      uploadImage(formData, 'courses', imageFile);
+      uploadImage(formData, 'courses', imageFile, setOpenCourseModal);
     } else {
       addDocument(formData);
+      setOpenCourseModal(false);
     }
   };
 
   return (
-    <Dialog>
+    <Dialog modalType='modal' open={openCourseModal}>
       <DialogTrigger disableButtonEnhancement>
-        <Button>Cadastrar curso</Button>
+        <Button onClick={() => setOpenCourseModal(true)}>
+          Cadastrar curso
+        </Button>
       </DialogTrigger>
       <DialogSurface>
         <DialogBody>
@@ -115,7 +118,7 @@ export default function AddCourse() {
               )}
               {progress > 0 && progress < 100 ? (
                 <Field
-                  validationMessage='Enviando arquivo'
+                  validationMessage='carregando ...'
                   validationState='none'
                 >
                   <ProgressBar />
@@ -133,21 +136,27 @@ export default function AddCourse() {
               )}
             </form>
           </DialogContent>
-          <DialogActions>
-            <DialogTrigger disableButtonEnhancement>
-              <Button appearance='secondary'>Cancelar</Button>
-            </DialogTrigger>
-            {loadImage ? (
-              ''
-            ) : (
+          {loadImage ? (
+            ''
+          ) : (
+            <DialogActions>
+              <DialogTrigger disableButtonEnhancement>
+                <Button
+                  appearance='secondary'
+                  onClick={() => setOpenCourseModal(true)}
+                >
+                  Cancelar
+                </Button>
+              </DialogTrigger>
+
               <Button
                 appearance='primary'
                 onClick={handleSubmit(handlAddCourse)}
               >
                 Confirmar
               </Button>
-            )}
-          </DialogActions>
+            </DialogActions>
+          )}
         </DialogBody>
       </DialogSurface>
     </Dialog>

@@ -9,17 +9,17 @@ import {
 } from 'firebase/storage';
 import { database } from '../firebase/config';
 import { Timestamp, addDoc, collection } from '@firebase/firestore';
+import { toast } from 'react-hot-toast';
 
 const useUploadVideo = () => {
   const [progress, setProgress] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
 
-  const uploadVideo = (data, docCollection, file) => {
+  const uploadVideo = (data, docCollection, file, setOpenVideoModal) => {
     setLoading(true);
 
     if (file === null) {
-      setError('Envie um arquivo!');
+      toast.error('Envie um arquivo!');
       return;
     }
 
@@ -44,48 +44,52 @@ const useUploadVideo = () => {
         setProgress(progressStatus);
         switch (snapshot.state) {
           case 'paused':
-            // setMessage('Envio pausado');
+            toast.promise('Envio pausado');
             break;
 
           default:
-            // setMessage('Enviando ...');
+            // toast.loading('Enviando ...');
             break;
         }
       },
       (e) => {
         switch (e.code) {
           case 'storage/unauthorized':
-            setError('O usuário não tem autorização para acessar o objeto.');
+            toast.error('O usuário não tem autorização para acessar o objeto.');
             break;
           case 'storage/canceled':
-            setError('O usuário cancelou o upload');
+            toast.error('O usuário cancelou o upload');
             break;
           default:
-            setError('Ocorreu um erro, tente novamente.');
+            toast.error('Ocorreu um erro, tente novamente.');
             break;
         }
       },
       async () => {
         // Upload completo, agora pegamos a URL
-        const res = await getDownloadURL(uploadTask.snapshot.ref);
+        try {
+          const res = await getDownloadURL(uploadTask.snapshot.ref);
+          const videoData = {
+            ...data,
+            videoPath: res,
+            storageRef: firestoreFileName,
+            createdAt: Timestamp.now()
+          };
 
-        console.log(firestoreFileName);
-        console.log(res);
-        const videoData = {
-          ...data,
-          videoPath: res,
-          storageRef: firestoreFileName,
-          createdAt: Timestamp.now()
-        };
+          await addDoc(collection(database, docCollection), videoData);
 
-        await addDoc(collection(database, docCollection), videoData);
+          setOpenVideoModal(false);
+          toast.success('Aula adicionada com sucesso!');
+        } catch (error) {
+          toast.error(error.message);
+        } finally {
+          setLoading(false);
+        }
       }
     );
-
-    setLoading(false);
   };
 
-  return { uploadVideo, loading, error, progress };
+  return { uploadVideo, loading, progress };
 };
 
 export default useUploadVideo;

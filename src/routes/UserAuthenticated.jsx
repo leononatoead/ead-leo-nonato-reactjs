@@ -16,7 +16,7 @@ export default function UserAuthenticatedRoutes({ user }) {
       ) : (
         !user.emailVerified && <Route path='/' element={<VerifyEmail />} />
       )}
-      <Route path='/course' element={<Course />} />
+      <Route path='/course/:id' element={<Course />} />
       <Route path='/newsletter' element={<Newsletter />} />
     </Routes>
   );
