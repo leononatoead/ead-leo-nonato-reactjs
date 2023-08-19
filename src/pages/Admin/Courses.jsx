@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 import useFetchDocuments from '../../hooks/useFetchDocuments';
 
 import AddCourse from '../../components/AddCourseModal';
-import { Link } from 'react-router-dom';
 import ProductCard from '../../components/ProductCard';
 
 export default function Courses() {

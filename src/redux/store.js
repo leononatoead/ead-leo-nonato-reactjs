@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './modules/auth/reducer';
-import videosReducer from './modules/videos/reducer';
+import coursesReducer from './modules/courses/reducer';
 
 const reducers = {
   auth: authReducer,
-  videos: videosReducer
+  courses: coursesReducer
 };
 
 const store = configureStore({
