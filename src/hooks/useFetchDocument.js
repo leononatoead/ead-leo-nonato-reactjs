@@ -4,7 +4,6 @@ import { database } from '../firebase/config';
 
 const useFetchDocument = (docCollection) => {
   const [document, setDocument] = useState(null);
-  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(null);
 
   const loadDocument = async (id) => {
@@ -18,12 +17,12 @@ const useFetchDocument = (docCollection) => {
 
       setLoading(false);
     } catch (e) {
-      setError(e.message);
+      console.log(e.message);
       setLoading(false);
     }
   };
 
-  return { loadDocument, document, error, loading };
+  return { loadDocument, document, loading };
 };
 
 export default useFetchDocument;

@@ -49,7 +49,7 @@ export default function ProductCard({ cardData, setOpenLoginModal }) {
 
   if (user) {
     return (
-      <Link to={`course/${cardData.id}`}>
+      <Link to={`/course/${cardData.id}`}>
         <Card className={styles.card}>
           <CardPreview className={styles.grayBackground}>
             <img

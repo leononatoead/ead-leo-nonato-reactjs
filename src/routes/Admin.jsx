@@ -14,7 +14,7 @@ export default function AdminRoutes() {
   return (
     <Routes>
       <Route path='/' element={<Home />} />
-      <Route path='/course' element={<Course />} />
+      <Route path='/course/:id' element={<Course />} />
       <Route path='/newsletter' element={<Newsletter />} />
       <Route path='/register' element={<Register />} />
       <Route path='/validate' element={<VerifyPhone />} />
