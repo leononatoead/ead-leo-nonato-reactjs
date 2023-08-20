@@ -27,9 +27,9 @@ export default function Course() {
   };
 
   useEffect(() => {
-    const verifyIfAlreadyLoaded = courses.find((course) => course.id === id);
+    const course = courses.find((course) => course.id === id);
 
-    if (!verifyIfAlreadyLoaded.videos) {
+    if (!course.videos) {
       dispatch(fetchVideos(id));
     }
   }, [courses, id]);
@@ -44,36 +44,40 @@ export default function Course() {
 
   return (
     <main className='mainLayout'>
-      <div className='flex items-start justify-between'>
-        <div className={`w-${videoSize}`}>
-          <video
-            src={activeVideo?.videoPath}
-            controls
-            className='w-full max-h-[80vh]'
-          />
-          <button
-            onClick={() => handleSetVideoSize()}
-            className='bg-sky-400 p-4 text-white font-bold mt-2'
-          >
-            {videoSize === 'full' ? 'Diminuir' : 'Expandir'}
-          </button>
+      {videoList?.length === 0 ? (
+        <h1>Nenhuma aula.</h1>
+      ) : (
+        <div className='flex items-start justify-between'>
+          <div className={`w-${videoSize}`}>
+            <video
+              src={activeVideo?.videoPath}
+              controls
+              className='w-full max-h-[80vh]'
+            />
+            <button
+              onClick={() => handleSetVideoSize()}
+              className='bg-sky-400 p-4 text-white font-bold mt-2'
+            >
+              {videoSize === 'full' ? 'Diminuir' : 'Expandir'}
+            </button>
+          </div>
+          {videoSize !== 'full' && (
+            <ul className='p-8 flex flex-col gap-4'>
+              {videoList?.map((video) => (
+                <li
+                  key={video.id}
+                  onClick={() => handleSelectVideo(video.id)}
+                  className={`cursor-pointer font-bold ${
+                    activeVideo?.id === video.id && 'text-sky-400'
+                  }`}
+                >
+                  {video.title}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
-        {videoSize !== 'full' && (
-          <ul className='p-8 flex flex-col gap-4'>
-            {videoList?.map((video) => (
-              <li
-                key={video.id}
-                onClick={() => handleSelectVideo(video.id)}
-                className={`cursor-pointer font-bold ${
-                  activeVideo?.id === video.id && 'text-sky-400'
-                }`}
-              >
-                {video.title}
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+      )}
     </main>
   );
 }

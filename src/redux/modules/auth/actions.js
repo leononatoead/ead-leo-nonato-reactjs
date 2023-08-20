@@ -37,7 +37,6 @@ export const verifyAuthentication = () => (dispatch) => {
 
 export const logoutUser = () => async (dispatch) => {
   await signOut(auth);
-  window.location.href = '/';
 
   dispatch({
     type: LOGOUT_USER,
