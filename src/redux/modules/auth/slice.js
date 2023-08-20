@@ -1,4 +1,5 @@
-import { AUTH_USER, LOGOUT_USER } from './actionTypes';
+export const AUTH_USER = 'AUTH_USER';
+export const LOGOUT_USER = 'LOGOUT_USER';
 
 const initialState = {
   user: null
@@ -9,7 +10,6 @@ const authReducer = (state = initialState, action) => {
     case AUTH_USER:
       return { user: action.payload };
     case LOGOUT_USER:
-      console.log(action.payload);
       return { user: action.payload };
     default:
       return state;

@@ -1,7 +1,5 @@
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-
-import useFetchDocuments from '../../hooks/useFetchDocuments';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import AddCourse from '../../components/AddCourseModal';
 import ProductCardAdmin from '../../components/ProductCardAdmin';
@@ -9,11 +7,7 @@ import ProductCardAdmin from '../../components/ProductCardAdmin';
 export default function Courses() {
   const [openCourseModal, setOpenCourseModal] = useState(false);
 
-  const { documents, loadDocuments, loading } = useFetchDocuments('courses');
-
-  useEffect(() => {
-    loadDocuments();
-  }, []);
+  const courses = useSelector((state) => state.courses.courses);
 
   return (
     <main className='mainLayout'>
@@ -24,9 +18,9 @@ export default function Courses() {
         />
       </div>
 
-      {documents && (
+      {courses && (
         <ul className='grid grid-cols-4 gap-6'>
-          {documents.map((course) => (
+          {courses?.map((course) => (
             <ProductCardAdmin cardData={course} key={course.id} />
           ))}
         </ul>

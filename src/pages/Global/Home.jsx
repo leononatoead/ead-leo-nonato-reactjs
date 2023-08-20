@@ -1,17 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import LoginModal from '../../components/LoginModal';
-import useFetchDocuments from '../../hooks/useFetchDocuments';
 import ProductCard from '../../components/ProductCard';
 
 export default function Home() {
   const [openLoginModal, setOpenLoginModal] = useState(false);
 
-  const { documents, loadDocuments, loading } = useFetchDocuments('courses');
-
-  useEffect(() => {
-    loadDocuments();
-  }, []);
+  const courses = useSelector((state) => state.courses.courses);
 
   return (
     <main className='mainLayout'>
@@ -20,9 +16,9 @@ export default function Home() {
         setOpenLoginModal={setOpenLoginModal}
       />
 
-      {documents && (
+      {courses && (
         <ul className='grid grid-cols-4 gap-6'>
-          {documents.map((course) => (
+          {courses.map((course) => (
             <li key={course.id}>
               <ProductCard
                 cardData={course}

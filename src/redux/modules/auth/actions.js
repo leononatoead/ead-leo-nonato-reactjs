@@ -3,7 +3,7 @@ import { doc, getDoc } from 'firebase/firestore';
 
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 
-import { AUTH_USER, LOGOUT_USER } from './actionTypes';
+import { AUTH_USER, LOGOUT_USER } from './slice';
 
 const getUserData = async (uid) => {
   try {
