@@ -11,7 +11,30 @@ const courseReducer = createSlice({
         return { ...state, courses: action.payload };
       })
       .addCase(fetchVideos.fulfilled, (state, action) => {
-        return { ...state, videos: action.payload };
+        const courses = JSON.parse(JSON.stringify([...state.courses]));
+
+        const findCourseById = courses.find(
+          (course) => course.id === action.payload.id
+        );
+
+        const addVideosToCourse = {
+          ...findCourseById,
+          videos: action.payload.videos
+        };
+
+        const updateCourseList = courses.map((course) => {
+          if (course.id === action.payload.id) {
+            return addVideosToCourse;
+          } else {
+            return course;
+          }
+        });
+
+        return {
+          ...state,
+          courses: updateCourseList,
+          videos: action.payload.videos
+        };
       });
   }
 });

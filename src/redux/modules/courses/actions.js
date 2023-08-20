@@ -4,6 +4,7 @@ import { database } from '../../../firebase/config';
 
 import {
   collection,
+  getDocs,
   limit,
   onSnapshot,
   orderBy,
@@ -43,29 +44,23 @@ export const fetchCourses = createAsyncThunk(
 export const fetchVideos = createAsyncThunk(
   'courses/fetchVideos',
   async (courseId) => {
-    console.log(courseId);
     const collectionRef = collection(database, `courses/${courseId}/videos`);
-    console.log(collectionRef);
 
     try {
       const q = query(collectionRef, orderBy('createdAt', 'asc'), limit(10));
 
-      return new Promise((resolve, reject) => {
-        onSnapshot(
-          q,
-          (querySnapshot) => {
-            const data = querySnapshot.docs.map((doc) => ({
-              id: doc.id,
-              ...doc.data(),
-              createdAt: doc.data().createdAt.toMillis()
-            }));
-            resolve(data);
-          },
-          (error) => {
-            reject(error);
-          }
-        );
-      });
+      const querySnapshot = await getDocs(q);
+
+      const videos = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+        createdAt: doc.data().createdAt.toMillis()
+      }));
+
+      return {
+        id: courseId,
+        videos: videos
+      };
     } catch (error) {
       console.log(error.message);
     }

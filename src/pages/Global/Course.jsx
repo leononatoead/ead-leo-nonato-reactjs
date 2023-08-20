@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import useFetchDocument from '../../hooks/useFetchDocument';
-// import useFetchDocuments from '../../hooks/useFetchDocuments';
 import { fetchVideos } from '../../redux/modules/courses/actions';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -13,18 +11,10 @@ export default function Course() {
 
   const dispatch = useDispatch();
 
-  const videos = useSelector((state) => state.courses.videos);
-  console.log(videos);
-
-  // const {
-  //   loadDocuments: loadVideos,
-  //   documents: videos,
-  //   loading: loadingVideos
-  // } = useFetchDocuments(`courses/${id}/videos/`);
+  const courses = useSelector((state) => state.courses.courses);
 
   const handleSelectVideo = (id) => {
     const newActive = videoList.find((video) => video.id === id);
-
     setActiveVideo(newActive);
   };
 
@@ -37,17 +27,20 @@ export default function Course() {
   };
 
   useEffect(() => {
-    dispatch(fetchVideos(id));
-    // loadVideos();
-  }, []);
+    const verifyIfAlreadyLoaded = courses.find((course) => course.id === id);
+
+    if (!verifyIfAlreadyLoaded.videos) {
+      dispatch(fetchVideos(id));
+    }
+  }, [courses, id]);
 
   useEffect(() => {
-    if (videos) {
-      setActiveVideo(videos[0]);
-
-      setVideoList(videos);
+    const course = courses.find((course) => course.id === id);
+    if (course.videos) {
+      setActiveVideo(course?.videos[0]);
+      setVideoList(course?.videos);
     }
-  }, [videos]);
+  }, [courses, id]);
 
   return (
     <main className='mainLayout'>
