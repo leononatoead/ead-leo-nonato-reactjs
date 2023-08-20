@@ -87,17 +87,17 @@ const useAuth = () => {
     }
   };
 
-  const logoutUser = () => {
-    signOut(auth);
-    navigate('/');
-  };
+  // const logoutUser = () => {
+  //   signOut(auth);
+  //   navigate('/');
+  // };
 
   return {
     loginUser,
     registerUser,
     resetPassword,
     verifyEmail,
-    logoutUser,
+    // logoutUser,
     loading
   };
 };

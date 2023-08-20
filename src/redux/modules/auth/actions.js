@@ -1,7 +1,6 @@
 import { database, auth } from '../../../firebase/config';
-import { doc, getDoc } from 'firebase/firestore';
-
 import { onAuthStateChanged, signOut } from 'firebase/auth';
+import { doc, getDoc } from 'firebase/firestore';
 
 import { AUTH_USER, LOGOUT_USER } from './slice';
 
@@ -38,6 +37,7 @@ export const verifyAuthentication = () => (dispatch) => {
 
 export const logoutUser = () => async (dispatch) => {
   await signOut(auth);
+  window.location.href = '/';
 
   dispatch({
     type: LOGOUT_USER,
