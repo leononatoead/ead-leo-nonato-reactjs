@@ -1,27 +1,27 @@
 import { useEffect } from 'react';
+
 import { useDispatch, useSelector } from 'react-redux';
-import { logoutUser, verifyAuthentication } from './redux/modules/auth/actions';
+import { fetchCourses } from './redux/modules/courses/actions';
+import { verifyAuthentication } from './redux/modules/auth/actions';
 
 import { FluentProvider, webLightTheme } from '@fluentui/react-components';
 import { Toaster } from 'react-hot-toast';
 
 import Navbar from './components/Navbar';
-import Footer from './components/Footer';
 import AdminRoutes from './routes/Admin';
+
 import UserAuthenticated from './routes/UserAuthenticated';
 import UserUnAuthenticated from './routes/UserUnAuthenticated';
-import { fetchCourses } from './redux/modules/courses/actions';
 
 function App() {
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.auth.user);
-  const courses = useSelector((state) => state.courses);
 
   useEffect(() => {
     dispatch(fetchCourses());
     dispatch(verifyAuthentication());
-  }, [dispatch, logoutUser]);
+  }, []);
 
   return (
     <FluentProvider theme={webLightTheme}>

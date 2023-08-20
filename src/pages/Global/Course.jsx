@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import useFetchDocument from '../../hooks/useFetchDocument';
-import useFetchDocuments from '../../hooks/useFetchDocuments';
+// import useFetchDocuments from '../../hooks/useFetchDocuments';
+import { fetchVideos } from '../../redux/modules/courses/actions';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function Course() {
   const [activeVideo, setActiveVideo] = useState();
@@ -9,17 +11,16 @@ export default function Course() {
   const [videoSize, setVideoSize] = useState();
   const { id } = useParams();
 
-  const {
-    loadDocument,
-    document: course,
-    loading
-  } = useFetchDocument(`courses`);
+  const dispatch = useDispatch();
 
-  const {
-    loadDocuments: loadVideos,
-    documents: videos,
-    loading: loadingVideos
-  } = useFetchDocuments(`courses/${id}/videos/`);
+  const videos = useSelector((state) => state.courses.videos);
+  console.log(videos);
+
+  // const {
+  //   loadDocuments: loadVideos,
+  //   documents: videos,
+  //   loading: loadingVideos
+  // } = useFetchDocuments(`courses/${id}/videos/`);
 
   const handleSelectVideo = (id) => {
     const newActive = videoList.find((video) => video.id === id);
@@ -36,8 +37,8 @@ export default function Course() {
   };
 
   useEffect(() => {
-    loadDocument(id);
-    loadVideos();
+    dispatch(fetchVideos(id));
+    // loadVideos();
   }, []);
 
   useEffect(() => {
@@ -68,6 +69,7 @@ export default function Course() {
           <ul className='p-8 flex flex-col gap-4'>
             {videoList?.map((video) => (
               <li
+                key={video.id}
                 onClick={() => handleSelectVideo(video.id)}
                 className={`cursor-pointer font-bold ${
                   activeVideo?.id === video.id && 'text-sky-400'
