@@ -11,10 +11,14 @@ import { Timestamp, addDoc, collection } from 'firebase/firestore';
 import { database } from '../firebase/config';
 
 import { toast } from 'react-hot-toast';
+import { useDispatch } from 'react-redux';
+import { addCourse } from '../redux/modules/courses/actions';
 
 const useUploadImage = () => {
   const [progress, setProgress] = useState(0);
   const [loading, setLoading] = useState(false);
+
+  const dispatch = useDispatch();
 
   const uploadImage = (data, docCollection, file, setOpenCourseModal) => {
     setLoading(true);
@@ -76,7 +80,19 @@ const useUploadImage = () => {
             storageRef: firestoreFileName,
             createdAt: Timestamp.now()
           };
-          await addDoc(collection(database, docCollection), imageData);
+
+          const courseData = await addDoc(
+            collection(database, docCollection),
+            imageData
+          );
+
+          dispatch(
+            addCourse({
+              id: courseData.id,
+              ...imageData,
+              createdAt: imageData.createdAt.toMillis()
+            })
+          );
 
           setOpenCourseModal(false);
           toast.success('Curso criado com sucesso!');

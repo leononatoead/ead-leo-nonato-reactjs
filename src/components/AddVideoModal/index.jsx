@@ -69,9 +69,7 @@ export default function AddVideoModal({
                     {...register('title')}
                   />
                   {errors.title && (
-                    <span className='text-xs text-red-400 mt-[-12px]'>
-                      {errors.title.message}
-                    </span>
+                    <span className='errorText'>{errors.title.message}</span>
                   )}
                 </div>
                 <input

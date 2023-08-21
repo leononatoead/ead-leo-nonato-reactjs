@@ -12,8 +12,6 @@ import {
   query
 } from 'firebase/firestore';
 
-import { toast } from 'react-hot-toast';
-
 export const fetchCourses = createAsyncThunk(
   'courses/fetchCourses',
   async () => {
@@ -44,22 +42,6 @@ export const fetchCourses = createAsyncThunk(
   }
 );
 
-//TODO: MIGRAR FUNCAO DE ADD CURSO PARA O REDUCER
-// export const addCourse = createAsyncThunk(
-//   'courses/addCourse',
-//   async (docCollection) => {
-//     try {
-//       const newDocument = { ...document, createdAt: Timestamp.now() };
-//       await addDoc(collection(database, docCollection), newDocument);
-
-//       toast.success('Curso cadastrado com sucesso!');
-//     } catch (e) {
-//       toast.error(e.message);
-//       console.log(e.message);
-//     }
-//   }
-// );
-
 export const fetchVideos = createAsyncThunk(
   'courses/fetchVideos',
   async (courseId) => {
@@ -85,3 +67,10 @@ export const fetchVideos = createAsyncThunk(
     }
   }
 );
+
+export const addCourse = (courseData) => {
+  return {
+    type: 'courses/addCourse',
+    payload: courseData
+  };
+};

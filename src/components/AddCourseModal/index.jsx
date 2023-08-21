@@ -23,6 +23,7 @@ import {
 
 export default function AddCourse({ openCourseModal, setOpenCourseModal }) {
   const [imageFile, setImageFile] = useState();
+  const [error, setError] = useState();
 
   const { addDocument } = useAddDocument('courses');
   const { uploadImage, loading: loadImage, progress } = useUploadImage();
@@ -36,11 +37,11 @@ export default function AddCourse({ openCourseModal, setOpenCourseModal }) {
   });
 
   const handlAddCourse = async (formData) => {
+    setError(null);
     if (imageFile) {
       uploadImage(formData, 'courses', imageFile, setOpenCourseModal);
     } else {
-      addDocument(formData);
-      setOpenCourseModal(false);
+      setError('Envie uma imagem!');
     }
   };
 
@@ -64,9 +65,7 @@ export default function AddCourse({ openCourseModal, setOpenCourseModal }) {
                 className='inputLayout'
               />
               {errors.name && (
-                <span className='text-xs text-red-400 mt-[-12px]'>
-                  {errors.name.message}
-                </span>
+                <span className='errorText'>{errors.name.message}</span>
               )}
               <label htmlFor={'description'}>Descrição</label>
               <input
@@ -76,9 +75,7 @@ export default function AddCourse({ openCourseModal, setOpenCourseModal }) {
                 className='inputLayout'
               />
               {errors.description && (
-                <span className='text-xs text-red-400 mt-[-12px]'>
-                  {errors.description.message}
-                </span>
+                <span className='errorText'>{errors.description.message}</span>
               )}
               <label htmlFor={'isFree'}>Gratuido?</label>
               <Select
@@ -112,9 +109,7 @@ export default function AddCourse({ openCourseModal, setOpenCourseModal }) {
                 className='inputLayout'
               />
               {errors.Autor && (
-                <span className='text-xs text-red-400 mt-[-12px]'>
-                  {errors.Autor.message}
-                </span>
+                <span className='errorText'>{errors.Autor.message}</span>
               )}
               {progress > 0 && progress < 100 ? (
                 <Field
@@ -132,6 +127,7 @@ export default function AddCourse({ openCourseModal, setOpenCourseModal }) {
                     className='w-full border-b-[1px]p-2 outline-none'
                     onChange={(e) => setImageFile(e.target.files[0])}
                   />
+                  <span className='errorText'>{error}</span>
                 </>
               )}
             </form>
@@ -143,7 +139,7 @@ export default function AddCourse({ openCourseModal, setOpenCourseModal }) {
               <DialogTrigger disableButtonEnhancement>
                 <Button
                   appearance='secondary'
-                  onClick={() => setOpenCourseModal(true)}
+                  onClick={() => setOpenCourseModal(false)}
                 >
                   Cancelar
                 </Button>
@@ -153,7 +149,7 @@ export default function AddCourse({ openCourseModal, setOpenCourseModal }) {
                 appearance='primary'
                 onClick={handleSubmit(handlAddCourse)}
               >
-                Confirmar
+                Adicionar
               </Button>
             </DialogActions>
           )}

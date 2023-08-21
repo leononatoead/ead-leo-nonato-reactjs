@@ -4,7 +4,24 @@ import { fetchCourses, fetchVideos } from './actions';
 const courseReducer = createSlice({
   name: 'courses',
   initialState: {},
-  reducers: {},
+  reducers: {
+    addCourse: (state, action) => {
+      const newCourse = action.payload;
+      return {
+        ...state,
+        courses: [...state.courses, newCourse]
+      };
+    }
+    // updateCourse: (state, action) => {
+    //   const updatedCourse = action.payload;
+    //   return {
+    //     ...state,
+    //     courses: state.courses.map((course) =>
+    //       course.id === updatedCourse.id ? updatedCourse : course
+    //     )
+    //   };
+    // }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchCourses.fulfilled, (state, action) => {

@@ -29,3 +29,7 @@
 .formSubmitButton {
   @apply p-2 bg-sky-500 rounded-md text-white font-bold;
 }
+
+.errorText {
+  @apply text-xs text-red-400 mt-[-12px];
+}

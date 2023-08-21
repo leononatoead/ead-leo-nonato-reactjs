@@ -43,9 +43,7 @@ export default function Register() {
           className='inputLayout'
         />
         {errors.firstName && (
-          <span className='text-xs text-red-400 mt-[-12px]'>
-            {errors.firstName.message}
-          </span>
+          <span className='errorText'>{errors.firstName.message}</span>
         )}
         <input
           type='text'
@@ -54,9 +52,7 @@ export default function Register() {
           className='inputLayout'
         />
         {errors.lastName && (
-          <span className='text-xs text-red-400 mt-[-12px]'>
-            {errors.lastName.message}
-          </span>
+          <span className='errorText'>{errors.lastName.message}</span>
         )}
 
         <input
@@ -66,9 +62,7 @@ export default function Register() {
           className='inputLayout'
         />
         {errors.email && (
-          <span className='text-xs text-red-400 mt-[-12px]'>
-            {errors.email.message}
-          </span>
+          <span className='errorText'>{errors.email.message}</span>
         )}
         <input
           type='password'
@@ -77,9 +71,7 @@ export default function Register() {
           className='inputLayout'
         />
         {errors.password && (
-          <span className='text-xs text-red-400 mt-[-12px]'>
-            {errors.password.message}
-          </span>
+          <span className='errorText'>{errors.password.message}</span>
         )}
         <input
           type='password'
@@ -88,9 +80,7 @@ export default function Register() {
           className='inputLayout'
         />
         {errors.confirmPassword && (
-          <span className='text-xs text-red-400 mt-[-12px]'>
-            {errors.confirmPassword.message}
-          </span>
+          <span className='errorText'>{errors.confirmPassword.message}</span>
         )}
 
         <button type='submit' className='formSubmitButton'>
