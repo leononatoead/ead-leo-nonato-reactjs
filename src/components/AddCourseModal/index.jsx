@@ -4,7 +4,6 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AddCourseSchema } from './addCourseSchema';
 
-import useAddDocument from '../../hooks/useAddDocument';
 import useUploadImage from '../../hooks/useUploadImage';
 
 import {
@@ -25,7 +24,6 @@ export default function AddCourse({ openCourseModal, setOpenCourseModal }) {
   const [imageFile, setImageFile] = useState();
   const [error, setError] = useState();
 
-  const { addDocument } = useAddDocument('courses');
   const { uploadImage, loading: loadImage, progress } = useUploadImage();
 
   const {
