@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AddVideoSchema } from './addVideoSchema';
 
-import useUploadVideo from '../../hooks/useUploadVideo';
+import useUploadVideo from '../../hooks/useVideo';
 
 import {
   Button,

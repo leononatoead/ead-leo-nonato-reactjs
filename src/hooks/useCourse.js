@@ -7,19 +7,20 @@ import {
   uploadBytesResumable,
   getDownloadURL
 } from 'firebase/storage';
+import { Timestamp, addDoc, collection } from 'firebase/firestore';
 import { database } from '../firebase/config';
-import { Timestamp, addDoc, collection } from '@firebase/firestore';
+
 import { toast } from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
-import { addVideo } from '../redux/modules/courses/actions';
+import { addCourse } from '../redux/modules/courses/actions';
 
-const useUploadVideo = () => {
+const useCourse = () => {
   const [progress, setProgress] = useState(0);
   const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
 
-  const uploadVideo = (data, docCollection, file, setOpenVideoModal) => {
+  const addNewCourse = (data, docCollection, file, setOpenCourseModal) => {
     setLoading(true);
 
     if (file === null) {
@@ -30,7 +31,7 @@ const useUploadVideo = () => {
     // Método do FB para acessar a storage
     const storage = getStorage();
     // Referencia da Storage, passando a coleção e o nome do arquivo que será inserido
-    const firestoreFileName = `${docCollection}/${Date.now()}${v4()}`;
+    const firestoreFileName = `${docCollection}/images/${Date.now()}${v4()}`;
 
     // Referencia da Storage, passando a coleção e o nome do arquivo que será inserido
     const storageRef = ref(storage, firestoreFileName);
@@ -56,8 +57,8 @@ const useUploadVideo = () => {
             break;
         }
       },
-      (e) => {
-        switch (e.code) {
+      (error) => {
+        switch (error.code) {
           case 'storage/unauthorized':
             toast.error('O usuário não tem autorização para acessar o objeto.');
             break;
@@ -73,31 +74,28 @@ const useUploadVideo = () => {
         // Upload completo, agora pegamos a URL
         try {
           const res = await getDownloadURL(uploadTask.snapshot.ref);
-          const videoData = {
+          const courseData = {
             ...data,
-            videoPath: res,
+            imagePath: res,
             storageRef: firestoreFileName,
             createdAt: Timestamp.now()
           };
 
-          const videoRes = await addDoc(
+          const courseRes = await addDoc(
             collection(database, docCollection),
-            videoData
+            courseData
           );
 
           dispatch(
-            addVideo({
-              courseRef: docCollection
-                .replace('courses/', '')
-                .replace('/videos', ''),
-              id: videoRes.id,
-              ...videoData,
-              createdAt: videoData.createdAt.toMillis()
+            addCourse({
+              id: courseRes.id,
+              ...imageData,
+              createdAt: imageData.createdAt.toMillis()
             })
           );
 
-          setOpenVideoModal(false);
-          toast.success('Aula adicionada com sucesso!');
+          setOpenCourseModal(false);
+          toast.success('Curso criado com sucesso!');
         } catch (error) {
           toast.error(error.message);
         } finally {
@@ -107,7 +105,7 @@ const useUploadVideo = () => {
     );
   };
 
-  return { uploadVideo, loading, progress };
+  return { addNewCourse, loading, progress };
 };
 
-export default useUploadVideo;
+export default useCourse;

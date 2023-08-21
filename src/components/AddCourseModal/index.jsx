@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AddCourseSchema } from './addCourseSchema';
 
-import useUploadImage from '../../hooks/useUploadImage';
+import useCourse from '../../hooks/useCourse';
 
 import {
   Dialog,
@@ -24,7 +24,7 @@ export default function AddCourse({ openCourseModal, setOpenCourseModal }) {
   const [imageFile, setImageFile] = useState();
   const [error, setError] = useState();
 
-  const { uploadImage, loading: loadImage, progress } = useUploadImage();
+  const { addNewCourse, loading: loadImage, progress } = useCourse();
 
   const {
     register,
@@ -37,7 +37,7 @@ export default function AddCourse({ openCourseModal, setOpenCourseModal }) {
   const handlAddCourse = async (formData) => {
     setError(null);
     if (imageFile) {
-      uploadImage(formData, 'courses', imageFile, setOpenCourseModal);
+      addNewCourse(formData, 'courses', imageFile, setOpenCourseModal);
     } else {
       setError('Envie uma imagem!');
     }
