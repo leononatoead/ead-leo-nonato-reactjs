@@ -19,9 +19,10 @@ export default function AdminRoutes() {
       <Route path='/register' element={<Register />} />
       <Route path='/validate' element={<VerifyPhone />} />
 
-      <Route path='/dashboard' element={<Dashboard />} />
-      <Route path='/courses' element={<Courses />} />
-      <Route path='/courses/:id' element={<CourseDetails />} />
+      <Route path='/dashboard' element={<Dashboard />}>
+        <Route path='courses' element={<Courses />} />
+        <Route path='courses/:id' element={<CourseDetails />} />
+      </Route>
     </Routes>
   );
 }

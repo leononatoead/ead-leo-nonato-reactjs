@@ -25,7 +25,6 @@ export default function Navbar() {
           {user.admin && (
             <>
               <Link to='/dashboard'> Dashboard </Link>
-              <Link to='/courses'> Cursos </Link>
             </>
           )}
           <button onClick={handleLogout}>Logout</button>
