@@ -75,6 +75,13 @@ export const addCourse = (courseData) => {
   };
 };
 
+export const editCourse = (courseData) => {
+  return {
+    type: 'courses/editCourse',
+    payload: courseData
+  };
+};
+
 export const delCourse = (courseId) => {
   return {
     type: 'courses/delCourse',

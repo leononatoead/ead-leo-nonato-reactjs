@@ -8,12 +8,14 @@ import AddVideoModal from '../../components/AddVideoModal';
 
 import useVideo from '../../hooks/useVideo';
 import useCourse from '../../hooks/useCourse';
+import EditCourse from '../../components/EditCourseModal';
 
 export default function CourseDetails() {
   const { id } = useParams();
 
   const [course, setCourse] = useState();
   const [videoList, setVideoList] = useState();
+  const [openEditModal, setOpenEditModal] = useState(false);
   const [openVideoModal, setOpenVideoModal] = useState(false);
 
   const courses = useSelector((state) => state.courses.courses);
@@ -72,12 +74,19 @@ export default function CourseDetails() {
             {course?.isFree ? ' Sim' : ' Não'}
           </p>
 
-          <button
-            onClick={() => handleDeleteCourse(course)}
-            className='px-4 py-2 bg-red-500 rounded-md text-white font-bold'
-          >
-            Deletar
-          </button>
+          <div className='w-full flex justify-between gap-4'>
+            <EditCourse
+              course={course}
+              openEditModal={openEditModal}
+              setOpenEditModal={setOpenEditModal}
+            />
+            <button
+              onClick={() => handleDeleteCourse(course)}
+              className='px-4 py-2 bg-red-500 rounded-md text-white font-bold'
+            >
+              Deletar
+            </button>
+          </div>
         </div>
         <img src={course?.imagePath} alt='banner' className='max-h-[200px]' />
       </div>

@@ -12,6 +12,26 @@ const courseReducer = createSlice({
         courses: [...state.courses, newCourse]
       };
     },
+    editCourse: (state, action) => {
+      const courses = JSON.parse(JSON.stringify([...state.courses]));
+
+      const updateCourse = {
+        ...action.payload
+      };
+
+      const updatedCourseList = courses.map((course) => {
+        if (course.id === action.payload.id) {
+          return updateCourse;
+        } else {
+          return course;
+        }
+      });
+
+      return {
+        ...state,
+        courses: updatedCourseList
+      };
+    },
     delCourse: (state, action) => {
       const filterCourses = state.courses.filter(
         (course) => course.id !== action.payload
@@ -48,6 +68,23 @@ const courseReducer = createSlice({
         courses: updatedCourseList
       };
     },
+    editVideo: (state, action) => {
+      // const courses = JSON.parse(JSON.stringify([...state.courses]));
+      // const updateCourse = {
+      //   ...action.payload
+      // };
+      // const updatedCourseList = courses.map((course) => {
+      //   if (course.id === action.payload.id) {
+      //     return updateCourse;
+      //   } else {
+      //     return course;
+      //   }
+      // });
+      // return {
+      //   ...state,
+      //   courses: updatedCourseList
+      // };
+    },
     delVideo: (state, action) => {
       const removedVideo = action.payload;
 
@@ -78,16 +115,27 @@ const courseReducer = createSlice({
         ...state,
         courses: updatedCourseList
       };
+    },
+    editVideo: (state, action) => {
+      const courses = JSON.parse(JSON.stringify([...state.courses]));
+
+      const updateCourse = {
+        ...action.payload
+      };
+
+      const updatedCourseList = courses.map((course) => {
+        if (course.id === action.payload.id) {
+          return updateCourse;
+        } else {
+          return course;
+        }
+      });
+
+      return {
+        ...state,
+        courses: updatedCourseList
+      };
     }
-    // updateCourse: (state, action) => {
-    //   const updatedCourse = action.payload;
-    //   return {
-    //     ...state,
-    //     courses: state.courses.map((course) =>
-    //       course.id === updatedCourse.id ? updatedCourse : course
-    //     )
-    //   };
-    // }
   },
   extraReducers: (builder) => {
     builder
