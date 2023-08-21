@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchVideos } from '../../redux/modules/courses/actions';
 
 import AddVideoModal from '../../components/AddVideoModal';
+
+import useVideo from '../../hooks/useVideo';
+import useCourse from '../../hooks/useCourse';
 
 export default function CourseDetails() {
   const { id } = useParams();
@@ -16,11 +19,24 @@ export default function CourseDetails() {
   const courses = useSelector((state) => state.courses.courses);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { deleteCourse } = useCourse();
+  const { deleteVideo } = useVideo();
+
+  const handleDeleteCourse = (course) => {
+    deleteCourse(course);
+    navigate('/courses');
+  };
+
+  const handleDeleteVideo = (videoId, storageRef) => {
+    deleteVideo(id, videoId, storageRef);
+  };
 
   useEffect(() => {
     const course = courses.find((course) => course.id === id);
 
-    if (!course.videos) {
+    if (course && !course.videos) {
       dispatch(fetchVideos(id));
     }
   }, [courses, id]);
@@ -29,7 +45,7 @@ export default function CourseDetails() {
     const course = courses.find((course) => course.id === id);
     setCourse(course);
 
-    if (course.videos) {
+    if (course && course.videos) {
       setVideoList(course?.videos);
     }
   }, [courses, id]);
@@ -55,6 +71,13 @@ export default function CourseDetails() {
             <span className='font-bold'>Necessita de cadastro:</span>
             {course?.isFree ? ' Sim' : ' Não'}
           </p>
+
+          <button
+            onClick={() => handleDeleteCourse(course)}
+            className='px-4 py-2 bg-red-500 rounded-md text-white font-bold'
+          >
+            Deletar
+          </button>
         </div>
         <img src={course?.imagePath} alt='banner' className='max-h-[200px]' />
       </div>
@@ -67,10 +90,16 @@ export default function CourseDetails() {
           setOpenVideoModal={setOpenVideoModal}
         />
       </div>
-      <ul className='flex flex-col gap-4'>
+      <ul className='flex flex-col gap-4 my-6'>
         {videoList?.map((video) => (
-          <li key={video.id}>
+          <li key={video.id} className='flex justify-between items-center'>
             <span className='text-xl font-bold'>{video.title}</span>
+            <button
+              onClick={() => handleDeleteVideo(video.id, video.storageRef)}
+              className='px-4 py-2 bg-red-500 rounded-md text-white font-bold'
+            >
+              Deletar
+            </button>
           </li>
         ))}
       </ul>

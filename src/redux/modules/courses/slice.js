@@ -12,6 +12,16 @@ const courseReducer = createSlice({
         courses: [...state.courses, newCourse]
       };
     },
+    delCourse: (state, action) => {
+      const filterCourses = state.courses.filter(
+        (course) => course.id !== action.payload
+      );
+
+      return {
+        ...state,
+        courses: filterCourses
+      };
+    },
     addVideo: (state, action) => {
       const newVideo = action.payload;
       const courses = [...state.courses];
@@ -27,6 +37,37 @@ const courseReducer = createSlice({
 
       const updatedCourseList = courses.map((course) => {
         if (course.id === newVideo.courseRef) {
+          return updateCourseVideos;
+        } else {
+          return course;
+        }
+      });
+
+      return {
+        ...state,
+        courses: updatedCourseList
+      };
+    },
+    delVideo: (state, action) => {
+      const removedVideo = action.payload;
+
+      const courses = JSON.parse(JSON.stringify([...state.courses]));
+
+      const findCourseById = courses.find(
+        (course) => course.id === removedVideo.courseId
+      );
+
+      const filterVideos = findCourseById.videos.filter(
+        (video) => video.id !== removedVideo.videoId
+      );
+
+      const updateCourseVideos = {
+        ...findCourseById,
+        videos: filterVideos
+      };
+
+      const updatedCourseList = courses.map((course) => {
+        if (course.id === removedVideo.courseId) {
           return updateCourseVideos;
         } else {
           return course;

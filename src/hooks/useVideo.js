@@ -1,17 +1,26 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { v4 } from 'uuid';
 
+import { addVideo, delVideo } from '../redux/modules/courses/actions';
+
+import { database, storage } from '../firebase/config';
 import {
   getStorage,
   ref,
   uploadBytesResumable,
-  getDownloadURL
+  getDownloadURL,
+  deleteObject
 } from 'firebase/storage';
-import { database } from '../firebase/config';
-import { Timestamp, addDoc, collection } from '@firebase/firestore';
+import {
+  Timestamp,
+  addDoc,
+  collection,
+  doc,
+  deleteDoc
+} from '@firebase/firestore';
+
 import { toast } from 'react-hot-toast';
-import { useDispatch } from 'react-redux';
-import { addVideo } from '../redux/modules/courses/actions';
 
 const useVideo = () => {
   const [progress, setProgress] = useState(0);
@@ -107,7 +116,24 @@ const useVideo = () => {
     );
   };
 
-  return { uploadVideo, loading, progress };
+  const deleteVideo = async (courseId, videoId, storageRef) => {
+    setLoading(true);
+    try {
+      const videoRef = doc(database, `courses/${courseId}/videos/`, videoId);
+      await deleteDoc(videoRef);
+
+      const fileRef = ref(storage, storageRef);
+      await deleteObject(fileRef);
+
+      dispatch(delVideo({ courseId, videoId }));
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { uploadVideo, deleteVideo, loading, progress };
 };
 
 export default useVideo;

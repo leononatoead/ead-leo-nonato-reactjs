@@ -75,9 +75,23 @@ export const addCourse = (courseData) => {
   };
 };
 
+export const delCourse = (courseId) => {
+  return {
+    type: 'courses/delCourse',
+    payload: courseId
+  };
+};
+
 export const addVideo = (videoData) => {
   return {
     type: 'courses/addVideo',
+    payload: videoData
+  };
+};
+
+export const delVideo = (videoData) => {
+  return {
+    type: 'courses/delVideo',
     payload: videoData
   };
 };

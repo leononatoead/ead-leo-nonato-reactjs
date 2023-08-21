@@ -5,14 +5,22 @@ import {
   getStorage,
   ref,
   uploadBytesResumable,
-  getDownloadURL
+  getDownloadURL,
+  deleteObject,
+  listAll
 } from 'firebase/storage';
-import { Timestamp, addDoc, collection } from 'firebase/firestore';
-import { database } from '../firebase/config';
+import {
+  Timestamp,
+  addDoc,
+  collection,
+  deleteDoc,
+  doc
+} from 'firebase/firestore';
+import { database, storage } from '../firebase/config';
 
 import { toast } from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
-import { addCourse } from '../redux/modules/courses/actions';
+import { addCourse, delCourse } from '../redux/modules/courses/actions';
 
 const useCourse = () => {
   const [progress, setProgress] = useState(0);
@@ -89,8 +97,8 @@ const useCourse = () => {
           dispatch(
             addCourse({
               id: courseRes.id,
-              ...imageData,
-              createdAt: imageData.createdAt.toMillis()
+              ...courseData,
+              createdAt: courseData.createdAt.toMillis()
             })
           );
 
@@ -98,6 +106,7 @@ const useCourse = () => {
           toast.success('Curso criado com sucesso!');
         } catch (error) {
           toast.error(error.message);
+          console.log(error);
         } finally {
           setLoading(false);
         }
@@ -105,7 +114,36 @@ const useCourse = () => {
     );
   };
 
-  return { addNewCourse, loading, progress };
+  const deleteCourse = async (courseData) => {
+    setLoading(true);
+    try {
+      const courseRef = doc(database, `courses/`, courseData.id);
+      await deleteDoc(courseRef);
+
+      const fileRef = ref(storage, courseData.storageRef);
+      await deleteObject(fileRef);
+
+      if (courseData.videos?.length > 0) {
+        const courseStorage = ref(storage, `courses/${courseData.id}/videos`);
+        const list = await listAll(courseStorage);
+
+        const deletePromises = list.items.map(async (item) => {
+          await deleteObject(item);
+        });
+
+        await Promise.all(deletePromises);
+      }
+
+      dispatch(delCourse(courseData.id));
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { addNewCourse, deleteCourse, loading, progress };
 };
 
 export default useCourse;
