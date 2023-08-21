@@ -1,31 +1,38 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import useFetchDocument from '../../hooks/useFetchDocument';
-import useFetchDocuments from '../../hooks/useFetchDocuments';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchVideos } from '../../redux/modules/courses/actions';
 
 import AddVideoModal from '../../components/AddVideoModal';
 
 export default function CourseDetails() {
-  const [openVideoModal, setOpenVideoModal] = useState(false);
   const { id } = useParams();
 
-  const {
-    document: course,
-    loadDocument,
-    loading
-  } = useFetchDocument('courses');
+  const [course, setCourse] = useState();
+  const [videoList, setVideoList] = useState();
+  const [openVideoModal, setOpenVideoModal] = useState(false);
 
-  const {
-    documents: videos,
-    loadDocuments: loadVideos,
-    loading: loadingVideos
-  } = useFetchDocuments(`courses/${id}/videos/`);
+  const courses = useSelector((state) => state.courses.courses);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    loadDocument(id);
-    loadVideos();
-  }, []);
+    const course = courses.find((course) => course.id === id);
+
+    if (!course.videos) {
+      dispatch(fetchVideos(id));
+    }
+  }, [courses, id]);
+
+  useEffect(() => {
+    const course = courses.find((course) => course.id === id);
+    setCourse(course);
+
+    if (course.videos) {
+      setVideoList(course?.videos);
+    }
+  }, [courses, id]);
 
   return (
     <main className='mainLayout'>
@@ -61,12 +68,9 @@ export default function CourseDetails() {
         />
       </div>
       <ul className='flex flex-col gap-4'>
-        {videos?.map((video) => (
+        {videoList?.map((video) => (
           <li key={video.id}>
             <span className='text-xl font-bold'>{video.title}</span>
-            {/* <video controls controlsList='nodownload'>
-              <source src={video.videoPath} type='video/mp4' />
-            </video> */}
           </li>
         ))}
       </ul>

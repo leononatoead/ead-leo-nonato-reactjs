@@ -8,9 +8,10 @@ export default function VerifyEmail() {
   const { verifyEmail } = useAuth();
 
   // const dispatch = useDispatch();
-  // const handleVerify = () => {
-  //   dispatch(verifyAuthentication());
-  // };
+  const handleVerify = () => {
+    // dispatch(verifyAuthentication());
+    window.location.reload();
+  };
 
   return (
     <main className='mainLayout bg-sky-500 text-white flex flex-col items-center justify-center'>

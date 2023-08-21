@@ -19,7 +19,7 @@ export default function Courses() {
       </div>
 
       {courses && (
-        <ul className='grid grid-cols-4 gap-6'>
+        <ul className='grid grid-cols-4 gap-6 mt-6'>
           {courses?.map((course) => (
             <ProductCardAdmin cardData={course} key={course.id} />
           ))}

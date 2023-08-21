@@ -3,6 +3,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { database } from '../../../firebase/config';
 
 import {
+  addDoc,
   collection,
   getDocs,
   limit,
@@ -10,6 +11,8 @@ import {
   orderBy,
   query
 } from 'firebase/firestore';
+
+import { toast } from 'react-hot-toast';
 
 export const fetchCourses = createAsyncThunk(
   'courses/fetchCourses',
@@ -40,6 +43,22 @@ export const fetchCourses = createAsyncThunk(
     }
   }
 );
+
+//TODO: MIGRAR FUNCAO DE ADD CURSO PARA O REDUCER
+// export const addCourse = createAsyncThunk(
+//   'courses/addCourse',
+//   async (docCollection) => {
+//     try {
+//       const newDocument = { ...document, createdAt: Timestamp.now() };
+//       await addDoc(collection(database, docCollection), newDocument);
+
+//       toast.success('Curso cadastrado com sucesso!');
+//     } catch (e) {
+//       toast.error(e.message);
+//       console.log(e.message);
+//     }
+//   }
+// );
 
 export const fetchVideos = createAsyncThunk(
   'courses/fetchVideos',
