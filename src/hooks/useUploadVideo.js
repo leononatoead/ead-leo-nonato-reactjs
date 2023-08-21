@@ -10,10 +10,14 @@ import {
 import { database } from '../firebase/config';
 import { Timestamp, addDoc, collection } from '@firebase/firestore';
 import { toast } from 'react-hot-toast';
+import { useDispatch } from 'react-redux';
+import { addVideo } from '../redux/modules/courses/actions';
 
 const useUploadVideo = () => {
   const [progress, setProgress] = useState(0);
   const [loading, setLoading] = useState(false);
+
+  const dispatch = useDispatch();
 
   const uploadVideo = (data, docCollection, file, setOpenVideoModal) => {
     setLoading(true);
@@ -76,7 +80,21 @@ const useUploadVideo = () => {
             createdAt: Timestamp.now()
           };
 
-          await addDoc(collection(database, docCollection), videoData);
+          const videoRes = await addDoc(
+            collection(database, docCollection),
+            videoData
+          );
+
+          dispatch(
+            addVideo({
+              courseRef: docCollection
+                .replace('courses/', '')
+                .replace('/videos', ''),
+              id: videoRes.id,
+              ...videoData,
+              createdAt: videoData.createdAt.toMillis()
+            })
+          );
 
           setOpenVideoModal(false);
           toast.success('Aula adicionada com sucesso!');

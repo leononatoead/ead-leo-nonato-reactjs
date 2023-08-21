@@ -74,3 +74,10 @@ export const addCourse = (courseData) => {
     payload: courseData
   };
 };
+
+export const addVideo = (videoData) => {
+  return {
+    type: 'courses/addVideo',
+    payload: videoData
+  };
+};

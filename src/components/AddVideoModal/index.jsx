@@ -96,7 +96,7 @@ export default function AddVideoModal({
                 appearance='primary'
                 onClick={handleSubmit(handleAddVideo)}
               >
-                Confirmar
+                Adicionar
               </Button>
             </DialogActions>
           )}

@@ -10,7 +10,7 @@ export default function UserUnAuthenticatedRoutes() {
       <Route path='/' element={<Home />} />
       <Route path='/newsletter' element={<Newsletter />} />
       <Route path='/register' element={<Register />} />
-      <Route path='/*' element={<Navigate to='/' />} />
+      {/* <Route path='/*' element={<Navigate to='/' />} /> */}
     </Routes>
   );
 }

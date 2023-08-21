@@ -11,6 +11,32 @@ const courseReducer = createSlice({
         ...state,
         courses: [...state.courses, newCourse]
       };
+    },
+    addVideo: (state, action) => {
+      const newVideo = action.payload;
+      const courses = [...state.courses];
+
+      const findCourseById = courses.find(
+        (course) => course.id === newVideo.courseRef
+      );
+
+      const updateCourseVideos = {
+        ...findCourseById,
+        videos: [...findCourseById.videos, newVideo]
+      };
+
+      const updatedCourseList = courses.map((course) => {
+        if (course.id === newVideo.courseRef) {
+          return updateCourseVideos;
+        } else {
+          return course;
+        }
+      });
+
+      return {
+        ...state,
+        courses: updatedCourseList
+      };
     }
     // updateCourse: (state, action) => {
     //   const updatedCourse = action.payload;
@@ -39,7 +65,7 @@ const courseReducer = createSlice({
           videos: action.payload.videos
         };
 
-        const updateCourseList = courses.map((course) => {
+        const updatedCourseList = courses.map((course) => {
           if (course.id === action.payload.id) {
             return addVideosToCourse;
           } else {
@@ -49,8 +75,7 @@ const courseReducer = createSlice({
 
         return {
           ...state,
-          courses: updateCourseList,
-          videos: action.payload.videos
+          courses: updatedCourseList
         };
       });
   }

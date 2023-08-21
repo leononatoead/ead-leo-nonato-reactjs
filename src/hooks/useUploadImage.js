@@ -74,21 +74,21 @@ const useUploadImage = () => {
         // Upload completo, agora pegamos a URL
         try {
           const res = await getDownloadURL(uploadTask.snapshot.ref);
-          const imageData = {
+          const courseData = {
             ...data,
             imagePath: res,
             storageRef: firestoreFileName,
             createdAt: Timestamp.now()
           };
 
-          const courseData = await addDoc(
+          const courseRes = await addDoc(
             collection(database, docCollection),
-            imageData
+            courseData
           );
 
           dispatch(
             addCourse({
-              id: courseData.id,
+              id: courseRes.id,
               ...imageData,
               createdAt: imageData.createdAt.toMillis()
             })
@@ -98,11 +98,11 @@ const useUploadImage = () => {
           toast.success('Curso criado com sucesso!');
         } catch (error) {
           toast.error(error.message);
+        } finally {
+          setLoading(false);
         }
       }
     );
-
-    setLoading(false);
   };
 
   return { uploadImage, loading, progress };
