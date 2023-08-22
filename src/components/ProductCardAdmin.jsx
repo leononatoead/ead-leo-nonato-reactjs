@@ -43,7 +43,7 @@ export default function ProductCardAdmin({ cardData }) {
   const styles = useStyles();
 
   return (
-    <Link to={`/courses/${cardData.id}`}>
+    <Link to={`/dashboard/courses/${cardData.id}`}>
       <Card className={styles.card}>
         <CardPreview className={styles.grayBackground}>
           <img

@@ -28,7 +28,7 @@ export default function CourseDetails() {
 
   const handleDeleteCourse = (course) => {
     deleteCourse(course);
-    navigate('/courses');
+    navigate('/dashboard/courses');
   };
 
   const handleDeleteVideo = (videoId, storageRef) => {

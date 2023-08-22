@@ -28,24 +28,25 @@ const useVideo = () => {
 
   const dispatch = useDispatch();
 
-  const uploadVideo = (data, docCollection, file, setOpenVideoModal) => {
+  const uploadVideo = (
+    videoData,
+    docCollection,
+    videoFile,
+    setOpenVideoModal
+  ) => {
     setLoading(true);
 
-    if (file === null) {
+    if (videoFile === null) {
       toast.error('Envie um arquivo!');
       return;
     }
 
-    // Método do FB para acessar a storage
-    const storage = getStorage();
     // Referencia da Storage, passando a coleção e o nome do arquivo que será inserido
     const firestoreFileName = `${docCollection}/${Date.now()}${v4()}`;
-
     // Referencia da Storage, passando a coleção e o nome do arquivo que será inserido
     const storageRef = ref(storage, firestoreFileName);
     // Método do FB para Enviar o arquivo, passando a referencia e o arquivo
-    const uploadTask = uploadBytesResumable(storageRef, file);
-
+    const uploadTask = uploadBytesResumable(storageRef, videoFile);
     // Observa mudanças no estado, erros e a finalização do upload
     uploadTask.on(
       'state_changed',
@@ -82,8 +83,8 @@ const useVideo = () => {
         // Upload completo, agora pegamos a URL
         try {
           const res = await getDownloadURL(uploadTask.snapshot.ref);
-          const videoData = {
-            ...data,
+          const videoDataUpdated = {
+            ...videoData,
             videoPath: res,
             storageRef: firestoreFileName,
             createdAt: Timestamp.now()
@@ -91,7 +92,7 @@ const useVideo = () => {
 
           const videoRes = await addDoc(
             collection(database, docCollection),
-            videoData
+            videoDataUpdated
           );
 
           dispatch(
@@ -100,8 +101,8 @@ const useVideo = () => {
                 .replace('courses/', '')
                 .replace('/videos', ''),
               id: videoRes.id,
-              ...videoData,
-              createdAt: videoData.createdAt.toMillis()
+              ...videoDataUpdated,
+              createdAt: videoDataUpdated.createdAt.toMillis()
             })
           );
 
