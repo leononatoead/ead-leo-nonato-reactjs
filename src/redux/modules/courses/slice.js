@@ -69,21 +69,38 @@ const courseReducer = createSlice({
       };
     },
     editVideo: (state, action) => {
-      // const courses = JSON.parse(JSON.stringify([...state.courses]));
-      // const updateCourse = {
-      //   ...action.payload
-      // };
-      // const updatedCourseList = courses.map((course) => {
-      //   if (course.id === action.payload.id) {
-      //     return updateCourse;
-      //   } else {
-      //     return course;
-      //   }
-      // });
-      // return {
-      //   ...state,
-      //   courses: updatedCourseList
-      // };
+      const courses = JSON.parse(JSON.stringify([...state.courses]));
+      const updatedVideo = { ...action.payload };
+
+      const findCourseById = courses.find(
+        (course) => course.id === updatedVideo.courseRef
+      );
+
+      const removeOldVideoData = findCourseById.videos.map((video) => {
+        if (video.id === updatedVideo.id) {
+          return updatedVideo;
+        } else {
+          return video;
+        }
+      });
+
+      const updateCourseVideos = {
+        ...findCourseById,
+        videos: removeOldVideoData
+      };
+
+      const updatedCourseList = courses.map((course) => {
+        if (course.id === updatedVideo.courseRef) {
+          return updateCourseVideos;
+        } else {
+          return course;
+        }
+      });
+
+      return {
+        ...state,
+        courses: updatedCourseList
+      };
     },
     delVideo: (state, action) => {
       const removedVideo = action.payload;
@@ -106,26 +123,6 @@ const courseReducer = createSlice({
       const updatedCourseList = courses.map((course) => {
         if (course.id === removedVideo.courseId) {
           return updateCourseVideos;
-        } else {
-          return course;
-        }
-      });
-
-      return {
-        ...state,
-        courses: updatedCourseList
-      };
-    },
-    editVideo: (state, action) => {
-      const courses = JSON.parse(JSON.stringify([...state.courses]));
-
-      const updateCourse = {
-        ...action.payload
-      };
-
-      const updatedCourseList = courses.map((course) => {
-        if (course.id === action.payload.id) {
-          return updateCourse;
         } else {
           return course;
         }

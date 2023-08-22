@@ -96,6 +96,13 @@ export const addVideo = (videoData) => {
   };
 };
 
+export const editVideo = (videoData) => {
+  return {
+    type: 'courses/editVideo',
+    payload: videoData
+  };
+};
+
 export const delVideo = (videoData) => {
   return {
     type: 'courses/delVideo',

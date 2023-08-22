@@ -124,30 +124,27 @@ const useCourse = () => {
     oldCourseData,
     updatedCourseData,
     docCollection,
-    file,
+    imageFile,
     setOpenEditModal
   ) => {
     setLoading(true);
 
-    if (file === null) {
+    if (imageFile === null) {
       toast.error('Envie um arquivo!');
       return;
     }
 
     // Referencia da Storage, passando a coleção e o nome do arquivo que será inserido
     const firestoreFileName = `${docCollection}/images/${Date.now()}${v4()}`;
-
     // Referencia da Storage, passando a coleção e o nome do arquivo que será inserido
     const storageRef = ref(storage, firestoreFileName);
     // Método do FB para Enviar o arquivo, passando a referencia e o arquivo
-    const uploadTask = uploadBytesResumable(storageRef, file);
-
+    const uploadTask = uploadBytesResumable(storageRef, imageFile);
     // Observa mudanças no estado, erros e a finalização do upload
     uploadTask.on(
       'state_changed',
       (snapshot) => {
         // Pega o progresso do upload, incluindo o numero de bytes enviados e o total enviado
-
         const progressStatus =
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         setProgress(progressStatus);
@@ -155,7 +152,6 @@ const useCourse = () => {
           case 'paused':
             toast.promise('Envio pausado');
             break;
-
           default:
             // toast.loading('Enviando ...');
             break;
@@ -228,6 +224,8 @@ const useCourse = () => {
           ...updatedCourseData
         })
       );
+
+      toast.success('Curso editado com sucesso!');
     } catch (error) {
       console.log(error);
       toast.error(error.message);

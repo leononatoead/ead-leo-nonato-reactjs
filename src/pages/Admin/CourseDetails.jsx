@@ -6,16 +6,16 @@ import { fetchVideos } from '../../redux/modules/courses/actions';
 
 import AddVideoModal from '../../components/AddVideoModal';
 
-import useVideo from '../../hooks/useVideo';
 import useCourse from '../../hooks/useCourse';
-import EditCourse from '../../components/EditCourseModal';
+import EditCourseModal from '../../components/EditCourseModal';
+import VideoEditCard from '../../components/VideoEditCard';
 
 export default function CourseDetails() {
   const { id } = useParams();
 
   const [course, setCourse] = useState();
   const [videoList, setVideoList] = useState();
-  const [openEditModal, setOpenEditModal] = useState(false);
+  const [openEditCourseModal, setOpenEditCourseModal] = useState(false);
   const [openVideoModal, setOpenVideoModal] = useState(false);
 
   const courses = useSelector((state) => state.courses.courses);
@@ -24,15 +24,10 @@ export default function CourseDetails() {
   const navigate = useNavigate();
 
   const { deleteCourse } = useCourse();
-  const { deleteVideo } = useVideo();
 
   const handleDeleteCourse = (course) => {
     deleteCourse(course);
     navigate('/dashboard/courses');
-  };
-
-  const handleDeleteVideo = (videoId, storageRef) => {
-    deleteVideo(id, videoId, storageRef);
   };
 
   useEffect(() => {
@@ -75,10 +70,10 @@ export default function CourseDetails() {
           </p>
 
           <div className='w-full flex justify-between gap-4'>
-            <EditCourse
+            <EditCourseModal
               course={course}
-              openEditModal={openEditModal}
-              setOpenEditModal={setOpenEditModal}
+              openEditModal={openEditCourseModal}
+              setOpenEditModal={setOpenEditCourseModal}
             />
             <button
               onClick={() => handleDeleteCourse(course)}
@@ -101,15 +96,7 @@ export default function CourseDetails() {
       </div>
       <ul className='flex flex-col gap-4 my-6'>
         {videoList?.map((video) => (
-          <li key={video.id} className='flex justify-between items-center'>
-            <span className='text-xl font-bold'>{video.title}</span>
-            <button
-              onClick={() => handleDeleteVideo(video.id, video.storageRef)}
-              className='px-4 py-2 bg-red-500 rounded-md text-white font-bold'
-            >
-              Deletar
-            </button>
-          </li>
+          <VideoEditCard id={id} video={video} key={video.id} />
         ))}
       </ul>
     </main>
