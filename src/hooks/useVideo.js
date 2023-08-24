@@ -5,7 +5,7 @@ import { v4 } from 'uuid';
 import {
   addVideo,
   delVideo,
-  editVideo
+  editVideo,
 } from '../redux/modules/courses/actions';
 
 import { database, storage } from '../firebase/config';
@@ -13,7 +13,7 @@ import {
   ref,
   uploadBytesResumable,
   getDownloadURL,
-  deleteObject
+  deleteObject,
 } from 'firebase/storage';
 import {
   Timestamp,
@@ -21,7 +21,7 @@ import {
   collection,
   doc,
   deleteDoc,
-  updateDoc
+  updateDoc,
 } from '@firebase/firestore';
 
 import { toast } from 'react-hot-toast';
@@ -36,7 +36,7 @@ const useVideo = () => {
     videoData,
     docCollection,
     videoFile,
-    setOpenVideoModal
+    setOpenVideoModal,
   ) => {
     setLoading(true);
 
@@ -89,12 +89,12 @@ const useVideo = () => {
             ...videoData,
             videoPath: res,
             storageRef: firestoreFileName,
-            createdAt: Timestamp.now()
+            createdAt: Timestamp.now(),
           };
 
           const videoRes = await addDoc(
             collection(database, docCollection),
-            videoDataUpdated
+            videoDataUpdated,
           );
 
           dispatch(
@@ -104,8 +104,8 @@ const useVideo = () => {
                 .replace('/videos', ''),
               id: videoRes.id,
               ...videoDataUpdated,
-              createdAt: videoDataUpdated.createdAt.toMillis()
-            })
+              createdAt: videoDataUpdated.createdAt.toMillis(),
+            }),
           );
 
           toast.success('Aula adicionada com sucesso!');
@@ -115,7 +115,160 @@ const useVideo = () => {
           setLoading(false);
           setOpenVideoModal(false);
         }
+      },
+    );
+  };
+
+  const uploadVideoWithFiles = async (
+    videoData,
+    docCollection,
+    videoFile,
+    downloadFiles,
+    setOpenVideoModal,
+  ) => {
+    setLoading(true);
+
+    if (videoFile === null) {
+      toast.error('Envie um arquivo de vídeo!');
+      return;
+    }
+
+    // Array para armazenar as referências dos arquivos para download
+    const videoAssets = [];
+    // Fazer upload dos arquivos para download
+    for (const downloadFile of downloadFiles) {
+      if (downloadFile.fileURL) {
+        videoAssets.push(downloadFile);
+      } else {
+        const firestoreDownloadFileName = `courses/downloads/${Date.now()}${v4()}`;
+        const downloadStorageRef = ref(storage, firestoreDownloadFileName);
+        const uploadDownloadTask = uploadBytesResumable(
+          downloadStorageRef,
+          downloadFile.file,
+        );
+
+        uploadDownloadTask.on(
+          'state_changed',
+          (snapshot) => {
+            // Pega o progresso do upload, incluindo o numero de bytes enviados e o total enviado
+            const progressStatus =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            switch (snapshot.state) {
+              case 'paused':
+                toast.promise('Envio pausado');
+                break;
+              default:
+                break;
+            }
+          },
+          (e) => {
+            switch (e.code) {
+              case 'storage/unauthorized':
+                toast.error(
+                  'O usuário não tem autorização para acessar o objeto.',
+                );
+                break;
+              case 'storage/canceled':
+                toast.error('O usuário cancelou o upload');
+                break;
+              default:
+                toast.error('Ocorreu um erro, tente novamente.');
+                break;
+            }
+          },
+          async () => {
+            try {
+              const fileURL = await getDownloadURL(
+                uploadDownloadTask.snapshot.ref,
+              );
+
+              const fileObject = {
+                fileName: downloadFile.fileName,
+                fileURL,
+                fileStorageRef: firestoreDownloadFileName,
+              };
+              videoAssets.push(fileObject);
+            } catch (error) {
+              console.log(error);
+              toast.error(error.message);
+            }
+          },
+        );
       }
+    }
+
+    // Referência da Storage para o vídeo
+    const firestoreVideoFileName = `${docCollection}/${Date.now()}${v4()}`;
+    const videoStorageRef = ref(storage, firestoreVideoFileName);
+    const uploadVideoTask = uploadBytesResumable(videoStorageRef, videoFile);
+
+    uploadVideoTask.on(
+      'state_changed',
+      (snapshot) => {
+        // Pega o progresso do upload, incluindo o numero de bytes enviados e o total enviado
+        const progressStatus =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        setProgress(progressStatus);
+        switch (snapshot.state) {
+          case 'paused':
+            toast.promise('Envio pausado');
+            break;
+          default:
+            // toast.loading('Enviando ...');
+            break;
+        }
+      },
+      (e) => {
+        switch (e.code) {
+          case 'storage/unauthorized':
+            toast.error('O usuário não tem autorização para acessar o objeto.');
+            break;
+          case 'storage/canceled':
+            toast.error('O usuário cancelou o upload');
+            break;
+          default:
+            toast.error('Ocorreu um erro, tente novamente.');
+            break;
+        }
+      },
+      async () => {
+        // Upload completo, agora pegamos a URL
+        try {
+          const res = await getDownloadURL(uploadVideoTask.snapshot.ref);
+          const videoDataUpdated = {
+            ...videoData,
+            videoPath: res,
+            storageRef: firestoreVideoFileName,
+            createdAt: Timestamp.now(),
+            assets: videoAssets,
+          };
+
+          const videoRes = await addDoc(
+            collection(database, docCollection),
+            videoDataUpdated,
+          );
+
+          dispatch(
+            addVideo({
+              courseRef: docCollection
+                .replace('courses/', '')
+                .replace('/videos', ''),
+              id: videoRes.id,
+              ...videoDataUpdated,
+              createdAt: videoDataUpdated.createdAt.toMillis(),
+            }),
+          );
+
+          toast.success('Aula adicionada com sucesso!');
+        } catch (error) {
+          console.log(error);
+
+          toast.error(error.message);
+        } finally {
+          setLoading(false);
+          setOpenVideoModal(false);
+        }
+      },
     );
   };
 
@@ -124,7 +277,7 @@ const useVideo = () => {
     updatedVideoData,
     docCollection,
     videoFile,
-    setOpenEditModal
+    setOpenEditModal,
   ) => {
     setLoading(true);
 
@@ -183,7 +336,7 @@ const useVideo = () => {
             ...updatedVideoData,
             createdAt: Timestamp.fromMillis(oldVideoData.createdAt),
             videoPath: res,
-            storageRef: firestoreFileName
+            storageRef: firestoreFileName,
           };
 
           const videoRef = doc(database, docCollection, oldVideoData.id);
@@ -192,8 +345,8 @@ const useVideo = () => {
           dispatch(
             editVideo({
               ...videoData,
-              createdAt: videoData.createdAt.toMillis()
-            })
+              createdAt: videoData.createdAt.toMillis(),
+            }),
           );
 
           toast.success('Video editado com sucesso!');
@@ -204,7 +357,7 @@ const useVideo = () => {
           setLoading(false);
           setOpenEditModal(false);
         }
-      }
+      },
     );
   };
 
@@ -212,14 +365,14 @@ const useVideo = () => {
     oldVideoData,
     updatedVideoData,
     docCollection,
-    setOpenEditModal
+    setOpenEditModal,
   ) => {
     setLoading(true);
     try {
       const videoData = {
         ...oldVideoData,
         ...updatedVideoData,
-        createdAt: Timestamp.fromMillis(oldVideoData.createdAt)
+        createdAt: Timestamp.fromMillis(oldVideoData.createdAt),
       };
 
       const videoRef = doc(database, docCollection, oldVideoData.id);
@@ -228,8 +381,8 @@ const useVideo = () => {
       dispatch(
         editVideo({
           ...videoData,
-          createdAt: videoData.createdAt.toMillis()
-        })
+          createdAt: videoData.createdAt.toMillis(),
+        }),
       );
 
       toast.success('Video editado com sucesso!');
@@ -261,11 +414,12 @@ const useVideo = () => {
 
   return {
     uploadVideo,
+    uploadVideoWithFiles,
     editVideoChangingVideoFile,
     editVideoWithoutChangeVideo,
     deleteVideo,
     loading,
-    progress
+    progress,
   };
 };
 
