@@ -9,6 +9,8 @@ export default function Course() {
   const [videoSize, setVideoSize] = useState();
   const { id } = useParams();
 
+  console.log(activeVideo);
+
   const dispatch = useDispatch();
 
   const courses = useSelector((state) => state.courses.courses);
@@ -47,36 +49,54 @@ export default function Course() {
       {videoList?.length === 0 ? (
         <h1>Nenhuma aula.</h1>
       ) : (
-        <div className='flex items-start justify-between'>
-          <div className={`w-${videoSize}`}>
-            <video
-              src={activeVideo?.videoPath}
-              controls
-              className='w-full max-h-[80vh]'
-            />
-            <button
-              onClick={() => handleSetVideoSize()}
-              className='bg-sky-400 p-4 text-white font-bold mt-2'
-            >
-              {videoSize === 'full' ? 'Diminuir' : 'Expandir'}
-            </button>
+        <>
+          <div className='flex items-start justify-between'>
+            <div className={`w-${videoSize}`}>
+              <video
+                src={activeVideo?.videoPath}
+                controls
+                className='w-full max-h-[80vh]'
+              />
+              <button
+                onClick={() => handleSetVideoSize()}
+                className='bg-sky-400 p-4 text-white font-bold mt-2'
+              >
+                {videoSize === 'full' ? 'Diminuir' : 'Expandir'}
+              </button>
+            </div>
+            {videoSize !== 'full' && (
+              <ul className='p-8 flex flex-col gap-4'>
+                {videoList?.map((video) => (
+                  <li
+                    key={video.id}
+                    onClick={() => handleSelectVideo(video.id)}
+                    className={`cursor-pointer font-bold ${
+                      activeVideo?.id === video.id && 'text-sky-400'
+                    }`}
+                  >
+                    {video.title}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
-          {videoSize !== 'full' && (
-            <ul className='p-8 flex flex-col gap-4'>
-              {videoList?.map((video) => (
-                <li
-                  key={video.id}
-                  onClick={() => handleSelectVideo(video.id)}
-                  className={`cursor-pointer font-bold ${
-                    activeVideo?.id === video.id && 'text-sky-400'
-                  }`}
-                >
-                  {video.title}
+          <ul className='flex flex-col gap-4 mt-8'>
+            {activeVideo?.assets &&
+              activeVideo.assets.map((asset, index) => (
+                <li key={index} className='flex justify-between'>
+                  <span>{asset.fileName}</span>
+                  <a
+                    href={asset.fileURL}
+                    download
+                    target='_blank'
+                    className='text-sky-500 font-bold cursor-pointer'
+                  >
+                    Download
+                  </a>
                 </li>
               ))}
-            </ul>
-          )}
-        </div>
+          </ul>
+        </>
       )}
     </main>
   );

@@ -33,7 +33,7 @@ export default function AddVideoModal({
   const [fileURL, setFileURL] = useState();
   const [fileType, setFileType] = useState('file');
 
-  const { uploadVideo, uploadVideoWithFiles, progress, loading } = useVideo();
+  const { uploadVideo, progress, loading } = useVideo();
 
   const {
     register,
@@ -44,22 +44,13 @@ export default function AddVideoModal({
   });
 
   const handleAddVideo = (formData) => {
-    if (files.length > 0) {
-      uploadVideoWithFiles(
-        { title: formData.title },
-        `courses/${id}/videos`,
-        video,
-        files,
-        setOpenVideoModal,
-      );
-    } else {
-      uploadVideo(
-        { title: formData.title },
-        `courses/${id}/videos`,
-        video,
-        setOpenVideoModal,
-      );
-    }
+    uploadVideo(
+      { title: formData.title },
+      `courses/${id}/videos`,
+      video,
+      files,
+      setOpenVideoModal,
+    );
   };
 
   const handleAddFile = (e) => {
@@ -87,6 +78,12 @@ export default function AddVideoModal({
     setFile();
   };
 
+  const handleRemoveFile = (index) => {
+    const removeSelected = files.filter((file, i) => i !== index);
+
+    setFiles(removeSelected);
+  };
+
   return (
     <Dialog modalType='modal' open={openVideoModal}>
       <DialogTrigger disableButtonEnhancement>
@@ -96,7 +93,7 @@ export default function AddVideoModal({
         <DialogBody>
           <DialogTitle>Novo Curso</DialogTitle>
           <DialogContent>
-            {progress > 0 && progress < 100 ? (
+            {loading ? (
               <Field validationMessage='cadastrando ...' validationState='none'>
                 <ProgressBar />
               </Field>
@@ -138,7 +135,10 @@ export default function AddVideoModal({
                     {files.map((file, index) => (
                       <li key={index} className='flex justify-between'>
                         <span>{file.fileName}</span>
-                        <button className='font-medium text-red-500'>
+                        <button
+                          className='font-medium text-red-500'
+                          onClick={() => handleRemoveFile(index)}
+                        >
                           remover
                         </button>
                       </li>
@@ -214,12 +214,7 @@ export default function AddVideoModal({
                 </Button>
               </DialogTrigger>
 
-              <Button
-                appearance='primary'
-                type='submit'
-                form='videoForm'
-                // onClick={handleSubmit(handleAddVideo)}
-              >
+              <Button appearance='primary' type='submit' form='videoForm'>
                 Adicionar
               </Button>
             </DialogActions>

@@ -32,98 +32,11 @@ const useVideo = () => {
 
   const dispatch = useDispatch();
 
-  const uploadVideo = (
+  const uploadVideo = async (
     videoData,
     docCollection,
     videoFile,
-    setOpenVideoModal,
-  ) => {
-    setLoading(true);
-
-    if (videoFile === null) {
-      toast.error('Envie um arquivo!');
-      return;
-    }
-
-    // Referencia da Storage, passando a coleção e o nome do arquivo que será inserido
-    const firestoreFileName = `${docCollection}/${Date.now()}${v4()}`;
-    // Referencia da Storage, passando a coleção e o nome do arquivo que será inserido
-    const storageRef = ref(storage, firestoreFileName);
-    // Método do FB para Enviar o arquivo, passando a referencia e o arquivo
-    const uploadTask = uploadBytesResumable(storageRef, videoFile);
-    // Observa mudanças no estado, erros e a finalização do upload
-    uploadTask.on(
-      'state_changed',
-      (snapshot) => {
-        // Pega o progresso do upload, incluindo o numero de bytes enviados e o total enviado
-        const progressStatus =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        setProgress(progressStatus);
-        switch (snapshot.state) {
-          case 'paused':
-            toast.promise('Envio pausado');
-            break;
-          default:
-            // toast.loading('Enviando ...');
-            break;
-        }
-      },
-      (e) => {
-        switch (e.code) {
-          case 'storage/unauthorized':
-            toast.error('O usuário não tem autorização para acessar o objeto.');
-            break;
-          case 'storage/canceled':
-            toast.error('O usuário cancelou o upload');
-            break;
-          default:
-            toast.error('Ocorreu um erro, tente novamente.');
-            break;
-        }
-      },
-      async () => {
-        // Upload completo, agora pegamos a URL
-        try {
-          const res = await getDownloadURL(uploadTask.snapshot.ref);
-          const videoDataUpdated = {
-            ...videoData,
-            videoPath: res,
-            storageRef: firestoreFileName,
-            createdAt: Timestamp.now(),
-          };
-
-          const videoRes = await addDoc(
-            collection(database, docCollection),
-            videoDataUpdated,
-          );
-
-          dispatch(
-            addVideo({
-              courseRef: docCollection
-                .replace('courses/', '')
-                .replace('/videos', ''),
-              id: videoRes.id,
-              ...videoDataUpdated,
-              createdAt: videoDataUpdated.createdAt.toMillis(),
-            }),
-          );
-
-          toast.success('Aula adicionada com sucesso!');
-        } catch (error) {
-          toast.error(error.message);
-        } finally {
-          setLoading(false);
-          setOpenVideoModal(false);
-        }
-      },
-    );
-  };
-
-  const uploadVideoWithFiles = async (
-    videoData,
-    docCollection,
-    videoFile,
-    downloadFiles,
+    assetsList,
     setOpenVideoModal,
   ) => {
     setLoading(true);
@@ -133,26 +46,22 @@ const useVideo = () => {
       return;
     }
 
-    // Array para armazenar as referências dos arquivos para download
-    const videoAssets = [];
-    // Fazer upload dos arquivos para download
-    for (const downloadFile of downloadFiles) {
-      if (downloadFile.fileURL) {
-        videoAssets.push(downloadFile);
+    const assets = [];
+
+    const uploadAsset = async (assetFile) => {
+      if (assetFile.fileURL) {
+        assets.push(assetFile);
       } else {
-        const firestoreDownloadFileName = `courses/downloads/${Date.now()}${v4()}`;
-        const downloadStorageRef = ref(storage, firestoreDownloadFileName);
-        const uploadDownloadTask = uploadBytesResumable(
-          downloadStorageRef,
-          downloadFile.file,
+        const firestoreAssetFileName = `courses/downloads/${Date.now()}${v4()}`;
+        const assetStorageRef = ref(storage, firestoreAssetFileName);
+        const uploadAssetTask = uploadBytesResumable(
+          assetStorageRef,
+          assetFile.file,
         );
 
-        uploadDownloadTask.on(
+        uploadAssetTask.on(
           'state_changed',
           (snapshot) => {
-            // Pega o progresso do upload, incluindo o numero de bytes enviados e o total enviado
-            const progressStatus =
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
             switch (snapshot.state) {
               case 'paused':
                 toast.promise('Envio pausado');
@@ -179,15 +88,15 @@ const useVideo = () => {
           async () => {
             try {
               const fileURL = await getDownloadURL(
-                uploadDownloadTask.snapshot.ref,
+                uploadAssetTask.snapshot.ref,
               );
 
               const fileObject = {
-                fileName: downloadFile.fileName,
+                fileName: assetFile.fileName,
                 fileURL,
-                fileStorageRef: firestoreDownloadFileName,
+                fileStorageRef: firestoreAssetFileName,
               };
-              videoAssets.push(fileObject);
+              assets.push(fileObject);
             } catch (error) {
               console.log(error);
               toast.error(error.message);
@@ -195,9 +104,12 @@ const useVideo = () => {
           },
         );
       }
+    };
+
+    for (const assetFile of assetsList) {
+      await uploadAsset(assetFile);
     }
 
-    // Referência da Storage para o vídeo
     const firestoreVideoFileName = `${docCollection}/${Date.now()}${v4()}`;
     const videoStorageRef = ref(storage, firestoreVideoFileName);
     const uploadVideoTask = uploadBytesResumable(videoStorageRef, videoFile);
@@ -205,7 +117,6 @@ const useVideo = () => {
     uploadVideoTask.on(
       'state_changed',
       (snapshot) => {
-        // Pega o progresso do upload, incluindo o numero de bytes enviados e o total enviado
         const progressStatus =
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         setProgress(progressStatus);
@@ -214,7 +125,6 @@ const useVideo = () => {
             toast.promise('Envio pausado');
             break;
           default:
-            // toast.loading('Enviando ...');
             break;
         }
       },
@@ -232,7 +142,6 @@ const useVideo = () => {
         }
       },
       async () => {
-        // Upload completo, agora pegamos a URL
         try {
           const res = await getDownloadURL(uploadVideoTask.snapshot.ref);
           const videoDataUpdated = {
@@ -240,7 +149,7 @@ const useVideo = () => {
             videoPath: res,
             storageRef: firestoreVideoFileName,
             createdAt: Timestamp.now(),
-            assets: videoAssets,
+            assets: assets,
           };
 
           const videoRes = await addDoc(
@@ -262,11 +171,10 @@ const useVideo = () => {
           toast.success('Aula adicionada com sucesso!');
         } catch (error) {
           console.log(error);
-
           toast.error(error.message);
         } finally {
-          setLoading(false);
           setOpenVideoModal(false);
+          setLoading(false);
         }
       },
     );
@@ -414,7 +322,6 @@ const useVideo = () => {
 
   return {
     uploadVideo,
-    uploadVideoWithFiles,
     editVideoChangingVideoFile,
     editVideoWithoutChangeVideo,
     deleteVideo,
