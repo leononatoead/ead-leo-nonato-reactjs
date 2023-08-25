@@ -7,7 +7,7 @@ import {
   uploadBytesResumable,
   getDownloadURL,
   deleteObject,
-  listAll
+  listAll,
 } from 'firebase/storage';
 import {
   Timestamp,
@@ -16,7 +16,7 @@ import {
   deleteDoc,
   doc,
   getDocs,
-  updateDoc
+  updateDoc,
 } from 'firebase/firestore';
 import { database, storage } from '../firebase/config';
 
@@ -25,7 +25,7 @@ import { useDispatch } from 'react-redux';
 import {
   addCourse,
   delCourse,
-  editCourse
+  editCourse,
 } from '../redux/modules/courses/actions';
 
 const useCourse = () => {
@@ -38,7 +38,7 @@ const useCourse = () => {
     courseData,
     docCollection,
     imageFile,
-    setOpenCourseModal
+    setOpenCourseModal,
   ) => {
     setLoading(true);
 
@@ -92,20 +92,20 @@ const useCourse = () => {
             ...courseData,
             imagePath: res,
             storageRef: firestoreFileName,
-            createdAt: Timestamp.now()
+            createdAt: Timestamp.now(),
           };
 
           const courseRes = await addDoc(
             collection(database, docCollection),
-            courseDataUpdated
+            courseDataUpdated,
           );
 
           dispatch(
             addCourse({
               id: courseRes.id,
               ...courseDataUpdated,
-              createdAt: courseDataUpdated.createdAt.toMillis()
-            })
+              createdAt: courseDataUpdated.createdAt.toMillis(),
+            }),
           );
 
           toast.success('Curso criado com sucesso!');
@@ -116,7 +116,7 @@ const useCourse = () => {
           setOpenCourseModal(false);
           setLoading(false);
         }
-      }
+      },
     );
   };
 
@@ -125,7 +125,7 @@ const useCourse = () => {
     updatedCourseData,
     docCollection,
     imageFile,
-    setOpenEditModal
+    setOpenEditModal,
   ) => {
     setLoading(true);
 
@@ -183,7 +183,7 @@ const useCourse = () => {
             ...updatedCourseData,
             createdAt: Timestamp.fromMillis(oldCourseData.createdAt),
             imagePath: res,
-            storageRef: firestoreFileName
+            storageRef: firestoreFileName,
           };
 
           const courseRef = doc(database, 'courses', oldCourseData.id);
@@ -192,8 +192,8 @@ const useCourse = () => {
           dispatch(
             editCourse({
               ...courseData,
-              createdAt: courseData.createdAt.toMillis()
-            })
+              createdAt: courseData.createdAt.toMillis(),
+            }),
           );
 
           toast.success('Curso editado com sucesso!');
@@ -204,14 +204,14 @@ const useCourse = () => {
           setOpenEditModal(false);
           setLoading(false);
         }
-      }
+      },
     );
   };
 
   const editCourseWithoutImage = async (
     oldCourseData,
     updatedCourseData,
-    setOpenEditModal
+    setOpenEditModal,
   ) => {
     setLoading(true);
     try {
@@ -221,8 +221,8 @@ const useCourse = () => {
       dispatch(
         editCourse({
           ...oldCourseData,
-          ...updatedCourseData
-        })
+          ...updatedCourseData,
+        }),
       );
 
       toast.success('Curso editado com sucesso!');
@@ -244,22 +244,24 @@ const useCourse = () => {
       const fileRef = ref(storage, courseData.storageRef);
       await deleteObject(fileRef);
 
-      // Deleta os videos do storage
-      if (courseData.videos?.length > 0) {
-        const courseStorage = ref(storage, `courses/${courseData.id}/videos`);
-        const list = await listAll(courseStorage);
+      courseData.videos?.forEach(async (video) => {
+        const fileRef = ref(storage, video.storageRef);
+        await deleteObject(fileRef);
 
-        const deletePromises = list.items.map(async (item) => {
-          await deleteObject(item);
-        });
-
-        await Promise.all(deletePromises);
-      }
+        if (video.assets) {
+          video.assets.forEach(async (asset) => {
+            if (asset.fileStorageRef) {
+              const fileRef = ref(storage, asset.fileStorageRef);
+              await deleteObject(fileRef);
+            }
+          });
+        }
+      });
 
       // Deleta a subcollection de videos
       const videosSubcollection = collection(
         database,
-        `courses/${courseData.id}/videos`
+        `courses/${courseData.id}/videos`,
       );
       const videosQuery = await getDocs(videosSubcollection);
 
@@ -269,10 +271,10 @@ const useCourse = () => {
           const videoDocRef = doc(
             database,
             `courses/${courseData.id}/videos`,
-            videoDoc.id
+            videoDoc.id,
           );
           await deleteDoc(videoDocRef);
-        }
+        },
       );
 
       await Promise.all(deleteVideoSubcollectionPromises);
@@ -293,7 +295,7 @@ const useCourse = () => {
     editCourseWithoutImage,
     deleteCourse,
     loading,
-    progress
+    progress,
   };
 };
 

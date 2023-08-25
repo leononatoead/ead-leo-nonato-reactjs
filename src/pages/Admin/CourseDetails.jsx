@@ -18,6 +18,8 @@ export default function CourseDetails() {
   const [openEditCourseModal, setOpenEditCourseModal] = useState(false);
   const [openVideoModal, setOpenVideoModal] = useState(false);
 
+  console.log(course);
+
   const courses = useSelector((state) => state.courses.courses);
 
   const dispatch = useDispatch();
