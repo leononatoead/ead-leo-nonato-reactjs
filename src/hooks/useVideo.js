@@ -180,130 +180,196 @@ const useVideo = () => {
     );
   };
 
-  const editVideoChangingVideoFile = (
+  const uploadAssetFile = async (assetFile) => {
+    if (assetFile.fileURL) {
+      return assetFile;
+    } else if (assetFile.file) {
+      return new Promise((resolve, reject) => {
+        const firestoreAssetFileName = `courses/downloads/${Date.now()}${v4()}`;
+        const assetStorageRef = ref(storage, firestoreAssetFileName);
+        const uploadAssetTask = uploadBytesResumable(
+          assetStorageRef,
+          assetFile.file,
+        );
+
+        uploadAssetTask.on(
+          'state_changed',
+          (snapshot) => {
+            switch (snapshot.state) {
+              case 'paused':
+                toast.promise('Envio pausado');
+                break;
+              default:
+                break;
+            }
+          },
+          (e) => {
+            switch (e.code) {
+              case 'storage/unauthorized':
+                toast.error(
+                  'O usuário não tem autorização para acessar o objeto.',
+                );
+                break;
+              case 'storage/canceled':
+                toast.error('O usuário cancelou o upload');
+                break;
+              default:
+                toast.error('Ocorreu um erro, tente novamente.');
+                break;
+            }
+          },
+          async () => {
+            try {
+              const fileURL = await getDownloadURL(
+                uploadAssetTask.snapshot.ref,
+              );
+
+              const fileObject = {
+                fileName: assetFile.fileName,
+                fileURL,
+                fileStorageRef: firestoreAssetFileName,
+              };
+              resolve(fileObject);
+            } catch (error) {
+              reject(error);
+              toast.error(error.message);
+            }
+          },
+        );
+      });
+    } else return;
+  };
+
+  const updateVideo = async (
+    courseId,
+    setOpenEditModal,
     oldVideoData,
     updatedVideoData,
     docCollection,
-    videoFile,
-    setOpenEditModal,
+    fileList,
+    newVideo = null,
   ) => {
     setLoading(true);
 
-    if (videoFile === null) {
-      toast.error('Envie um arquivo!');
-      return;
-    }
-
-    // Referencia da Storage, passando a coleção e o nome do arquivo que será inserido
-    const firestoreFileName = `${docCollection}/${Date.now()}${v4()}`;
-    // Referencia da Storage, passando a coleção e o nome do arquivo que será inserido
-    const storageRef = ref(storage, firestoreFileName);
-    // Método do FB para Enviar o arquivo, passando a referencia e o arquivo
-    const uploadTask = uploadBytesResumable(storageRef, videoFile);
-    // Observa mudanças no estado, erros e a finalização do upload
-
-    uploadTask.on(
-      'state_changed',
-      (snapshot) => {
-        // Pega o progresso do upload, incluindo o numero de bytes enviados e o total enviado
-        const progressStatus =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        setProgress(progressStatus);
-        switch (snapshot.state) {
-          case 'paused':
-            toast.promise('Envio pausado');
-            break;
-          default:
-            // toast.loading('Enviando ...');
-            break;
-        }
-      },
-      (error) => {
-        switch (error.code) {
-          case 'storage/unauthorized':
-            toast.error('O usuário não tem autorização para acessar o objeto.');
-            break;
-          case 'storage/canceled':
-            toast.error('O usuário cancelou o upload');
-            break;
-          default:
-            toast.error('Ocorreu um erro, tente novamente.');
-            break;
-        }
-      },
-      async () => {
-        // Upload completo, agora pegamos a URL
-        try {
-          // Remove a imagem antiga do storage
-          const fileRef = ref(storage, oldVideoData.storageRef);
-          await deleteObject(fileRef);
-
-          const res = await getDownloadURL(uploadTask.snapshot.ref);
-          const videoData = {
-            ...oldVideoData,
-            ...updatedVideoData,
-            createdAt: Timestamp.fromMillis(oldVideoData.createdAt),
-            videoPath: res,
-            storageRef: firestoreFileName,
-          };
-
-          const videoRef = doc(database, docCollection, oldVideoData.id);
-          await updateDoc(videoRef, videoData);
-
-          dispatch(
-            editVideo({
-              ...videoData,
-              createdAt: videoData.createdAt.toMillis(),
-            }),
-          );
-
-          toast.success('Video editado com sucesso!');
-        } catch (error) {
-          toast.error(error.message);
-          console.log(error);
-        } finally {
-          setLoading(false);
-          setOpenEditModal(false);
-        }
-      },
+    const filesToRemove = oldVideoData.assets.filter(
+      (item1) => !fileList.some((item2) => item2.fileURL === item1.fileURL),
     );
-  };
 
-  const editVideoWithoutChangeVideo = async (
-    oldVideoData,
-    updatedVideoData,
-    docCollection,
-    setOpenEditModal,
-  ) => {
-    setLoading(true);
-    try {
-      const videoData = {
-        ...oldVideoData,
-        ...updatedVideoData,
-        createdAt: Timestamp.fromMillis(oldVideoData.createdAt),
-      };
+    if (filesToRemove.length > 0) {
+      filesToRemove.forEach(async (file) => {
+        const fileRef = ref(storage, file.fileStorageRef);
+        await deleteObject(fileRef);
+      });
+    }
 
-      const videoRef = doc(database, docCollection, oldVideoData.id);
-      await updateDoc(videoRef, videoData);
+    if (newVideo !== null) {
+      const firestoreFileName = `${docCollection}/${Date.now()}${v4()}`;
+      const storageRef = ref(storage, firestoreFileName);
+      const uploadTask = uploadBytesResumable(storageRef, newVideo);
 
-      dispatch(
-        editVideo({
-          ...videoData,
-          createdAt: videoData.createdAt.toMillis(),
-        }),
+      uploadTask.on(
+        'state_changed',
+        (snapshot) => {
+          const progressStatus =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          setProgress(progressStatus);
+          switch (snapshot.state) {
+            case 'paused':
+              toast.promise('Envio pausado');
+              break;
+            default:
+              break;
+          }
+        },
+        (error) => {
+          switch (error.code) {
+            case 'storage/unauthorized':
+              toast.error(
+                'O usuário não tem autorização para acessar o objeto.',
+              );
+              break;
+            case 'storage/canceled':
+              toast.error('O usuário cancelou o upload');
+              break;
+            default:
+              toast.error('Ocorreu um erro, tente novamente.');
+              break;
+          }
+        },
+        async () => {
+          try {
+            const updatedAssets = await Promise.all(
+              fileList.map(uploadAssetFile),
+            );
+
+            const fileRef = ref(storage, oldVideoData.storageRef);
+            await deleteObject(fileRef);
+
+            const res = await getDownloadURL(uploadTask.snapshot.ref);
+            const videoData = {
+              ...oldVideoData,
+              ...updatedVideoData,
+              courseRef: courseId,
+              assets: updatedAssets,
+              createdAt: Timestamp.fromMillis(oldVideoData.createdAt),
+              videoPath: res,
+              storageRef: firestoreFileName,
+            };
+
+            const videoRef = doc(database, docCollection, oldVideoData.id);
+            await updateDoc(videoRef, videoData);
+
+            dispatch(
+              editVideo({
+                ...videoData,
+                createdAt: videoData.createdAt.toMillis(),
+              }),
+            );
+
+            toast.success('Video editado com sucesso!');
+          } catch (error) {
+            toast.error(error.message);
+            console.log(error);
+          } finally {
+            setOpenEditModal(false);
+            setLoading(false);
+          }
+        },
       );
+    } else {
+      try {
+        const updatedAssets = await Promise.all(fileList.map(uploadAssetFile));
 
-      toast.success('Video editado com sucesso!');
-    } catch (error) {
-      console.log(error);
-      toast.error(error.message);
-    } finally {
-      setOpenEditModal(false);
-      setLoading(false);
+        const videoData = {
+          ...oldVideoData,
+          ...updatedVideoData,
+          courseRef: courseId,
+          assets: updatedAssets,
+          createdAt: Timestamp.fromMillis(oldVideoData.createdAt),
+        };
+
+        const videoRef = doc(database, docCollection, oldVideoData.id);
+        await updateDoc(videoRef, videoData);
+
+        dispatch(
+          editVideo({
+            ...videoData,
+            createdAt: videoData.createdAt.toMillis(),
+          }),
+        );
+
+        toast.success('Video editado com sucesso!');
+      } catch (error) {
+        console.log(error);
+        toast.error(error.message);
+      } finally {
+        setOpenEditModal(false);
+        setLoading(false);
+      }
     }
   };
 
-  const deleteVideo = async (courseId, videoId, storageRef) => {
+  const deleteVideo = async (courseId, videoId, storageRef, fileList) => {
     setLoading(true);
     try {
       const videoRef = doc(database, `courses/${courseId}/videos/`, videoId);
@@ -311,6 +377,13 @@ const useVideo = () => {
 
       const fileRef = ref(storage, storageRef);
       await deleteObject(fileRef);
+
+      fileList.forEach(async (file) => {
+        if (file.fileStorageRef) {
+          const fileRef = ref(storage, file.fileStorageRef);
+          await deleteObject(fileRef);
+        }
+      });
 
       dispatch(delVideo({ courseId, videoId }));
     } catch (error) {
@@ -322,8 +395,7 @@ const useVideo = () => {
 
   return {
     uploadVideo,
-    editVideoChangingVideoFile,
-    editVideoWithoutChangeVideo,
+    updateVideo,
     deleteVideo,
     loading,
     progress,

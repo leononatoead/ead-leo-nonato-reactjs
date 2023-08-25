@@ -34,9 +34,12 @@ export default function EditVideoModal({
   const [fileURL, setFileURL] = useState();
   const [fileType, setFileType] = useState('file');
 
+  // console.log(oldVideoData);
+
   const {
-    editVideoChangingVideoFile,
-    editVideoWithoutChangeVideo,
+    updateVideo,
+    // editVideoChangingVideoFile,
+    // editVideoWithoutChangeVideo,
     progress,
     loading,
   } = useVideo();
@@ -50,22 +53,15 @@ export default function EditVideoModal({
   });
 
   const handleEditVideo = (formData) => {
-    if (video) {
-      editVideoChangingVideoFile(
-        oldVideoData,
-        { title: formData.title },
-        `courses/${courseId}/videos`,
-        video,
-        setOpenEditModal,
-      );
-    } else {
-      editVideoWithoutChangeVideo(
-        oldVideoData,
-        { title: formData.title },
-        `courses/${courseId}/videos`,
-        setOpenEditModal,
-      );
-    }
+    updateVideo(
+      courseId,
+      setOpenEditModal,
+      oldVideoData,
+      { title: formData.title },
+      `courses/${courseId}/videos`,
+      files,
+      video,
+    );
   };
 
   const handleAddFile = (e) => {
@@ -108,13 +104,17 @@ export default function EditVideoModal({
         <DialogBody>
           <DialogTitle>Editar Video</DialogTitle>
           <DialogContent>
-            {progress > 0 && progress < 100 ? (
+            {loading ? (
               <Field validationMessage='cadastrando ...' validationState='none'>
                 <ProgressBar />
               </Field>
             ) : (
               <>
-                <form className='formLayout'>
+                <form
+                  className='formLayout'
+                  id='videoForm'
+                  onSubmit={handleSubmit(handleEditVideo)}
+                >
                   <div>
                     <label htmlFor={'title'}>Título:</label>
                     <input
@@ -219,11 +219,8 @@ export default function EditVideoModal({
                 </Button>
               </DialogTrigger>
 
-              <Button
-                appearance='primary'
-                onClick={handleSubmit(handleEditVideo)}
-              >
-                Alterar
+              <Button appearance='primary' type='submit' form='videoForm'>
+                Salvar
               </Button>
             </DialogActions>
           )}

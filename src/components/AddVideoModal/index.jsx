@@ -91,7 +91,7 @@ export default function AddVideoModal({
       </DialogTrigger>
       <DialogSurface>
         <DialogBody>
-          <DialogTitle>Novo Curso</DialogTitle>
+          <DialogTitle>Adicionar aula</DialogTitle>
           <DialogContent>
             {loading ? (
               <Field validationMessage='cadastrando ...' validationState='none'>

@@ -7,8 +7,8 @@ export default function VideoEditCard({ id, video }) {
 
   const { deleteVideo } = useVideo();
 
-  const handleDeleteVideo = (videoId, storageRef) => {
-    deleteVideo(id, videoId, storageRef);
+  const handleDeleteVideo = (videoId, storageRef, fileList) => {
+    deleteVideo(id, videoId, storageRef, fileList);
   };
 
   return (
@@ -22,7 +22,9 @@ export default function VideoEditCard({ id, video }) {
           setOpenEditModal={setOpenEditVideoModal}
         />
         <button
-          onClick={() => handleDeleteVideo(video.id, video.storageRef)}
+          onClick={() =>
+            handleDeleteVideo(video.id, video.storageRef, video.assets)
+          }
           className='px-4 py-2 bg-red-500 rounded-md text-white font-bold'
         >
           Deletar
