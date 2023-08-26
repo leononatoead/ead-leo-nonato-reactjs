@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { auth } from '../../firebase/config';
+import { auth } from '../../../firebase/config';
 import {
   RecaptchaVerifier,
   updatePhoneNumber,
-  PhoneAuthProvider
+  PhoneAuthProvider,
 } from 'firebase/auth';
 
 import OtpInput from 'otp-input-react';
@@ -31,8 +31,8 @@ export default function VerifyPhone() {
           callback: (response) => {
             onSignInSubmit();
           },
-          'expired-callback': () => {}
-        }
+          'expired-callback': () => {},
+        },
       );
     }
   };
@@ -49,7 +49,7 @@ export default function VerifyPhone() {
       const phoneProvider = new PhoneAuthProvider(auth);
       const id = await phoneProvider.verifyPhoneNumber(
         formatPhone,
-        appVerifier
+        appVerifier,
       );
       setVerificationId(id);
       setLoading(false);
@@ -67,7 +67,7 @@ export default function VerifyPhone() {
 
       const phoneCredential = PhoneAuthProvider.credential(
         verificationId,
-        verificationCode
+        verificationCode,
       );
 
       await updatePhoneNumber(user, phoneCredential);

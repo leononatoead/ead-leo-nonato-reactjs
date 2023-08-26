@@ -1,6 +1,6 @@
 import React from 'react';
 
-import useAuth from '../../hooks/useAuth';
+import useAuth from '../../../hooks/useAuth';
 // import { useDispatch } from 'react-redux';
 // import { verifyAuthentication } from '../../redux/modules/auth/actions';
 
