@@ -9,13 +9,18 @@ import VerifyEmail from '../pages/Auth/VerifyEmail';
 export default function UserAuthenticatedRoutes({ user }) {
   return (
     <Routes>
-      {/* {user.emailVerified && user.phoneNumber ? (
-        <Route path='/' element={<Home />} />
-      ) : !user.phoneNumber ? (
-        <Route path='/verify-phone' element={<VerifyPhone />} />
-      ) : (
-        !user.emailVerified && <Route path='/' element={<VerifyEmail />} />
-      )} */}
+      <Route
+        path='/register'
+        element={
+          !user.phoneNumber ? (
+            <Navigate to='/verify-phone' />
+          ) : !user.emailVeried ? (
+            <Navigate to='/verify-email' />
+          ) : (
+            <Navigate to='/' />
+          )
+        }
+      />
 
       <Route
         path='/'
@@ -47,7 +52,7 @@ export default function UserAuthenticatedRoutes({ user }) {
         path='/verify-email'
         element={
           !user.emailVeried ? (
-            <VerifyPhone />
+            <VerifyEmail />
           ) : !user.phoneNumber ? (
             <Navigate to='/verify-phone' />
           ) : (
