@@ -2,7 +2,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 
 import Home from '../pages/Global/Home';
 import Newsletter from '../pages/Global/Newsletter';
-import Register from '../pages/Global/Register';
+import Register from '../pages/Auth/Register';
 
 export default function UserUnAuthenticatedRoutes() {
   return (
