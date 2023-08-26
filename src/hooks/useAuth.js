@@ -9,7 +9,6 @@ import {
   sendPasswordResetEmail,
   updateProfile,
   deleteUser,
-  signOut
 } from 'firebase/auth';
 
 import { toast } from 'react-hot-toast';
@@ -21,7 +20,7 @@ const useAuth = () => {
   const navigate = useNavigate();
 
   const actionCodeSettings = {
-    url: import.meta.env.VITE_APP_URL
+    url: import.meta.env.VITE_APP_URL,
   };
 
   const loginUser = async (email, password) => {
@@ -42,22 +41,23 @@ const useAuth = () => {
       const { user } = await createUserWithEmailAndPassword(
         auth,
         registerData.email,
-        registerData.password
+        registerData.password,
       );
 
       await updateProfile(user, {
-        displayName: registerData.name
+        displayName: registerData.name,
       });
 
       const userData = {
-        admin: false
+        admin: false,
+        cpf: registerData.cpf,
       };
 
       await setDoc(doc(database, 'users', user.uid), userData);
 
       sendEmailVerification(user, actionCodeSettings);
 
-      navigate('/');
+      navigate('/verify-phone');
     } catch (error) {
       toast.error(error.message);
     } finally {
@@ -87,18 +87,12 @@ const useAuth = () => {
     }
   };
 
-  // const logoutUser = () => {
-  //   signOut(auth);
-  //   navigate('/');
-  // };
-
   return {
     loginUser,
     registerUser,
     resetPassword,
     verifyEmail,
-    // logoutUser,
-    loading
+    loading,
   };
 };
 

@@ -1,92 +1,132 @@
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { RegisterSchema } from './registerSchema';
 
+import { cpf } from 'cpf-cnpj-validator';
+
 import useAuth from '../../../hooks/useAuth';
+import Input from '../../../components/Input';
+
+import ButtonSubmit from '../../../components/ButtonSubmit';
+import logo from '../../../assets/auth-logo.svg';
+
+import './styles.css';
+import { useState } from 'react';
 
 export default function Register() {
   const { registerUser } = useAuth();
 
-  const navigate = useNavigate();
+  const [cpfError, setCpfError] = useState();
 
   const {
     register,
+    watch,
     handleSubmit,
-    formState: { errors }
+    formState,
+    formState: { errors },
   } = useForm({
-    resolver: zodResolver(RegisterSchema)
+    resolver: zodResolver(RegisterSchema),
   });
 
-  const handleRegister = (formData) => {
-    const data = {
-      name: `${formData.firstName.trim()} ${formData.lastName}`,
-      email: formData.email,
-      password: formData.password
-    };
+  const { isDirty } = formState;
 
-    registerUser(data);
-    navigate('/');
+  const handleRegister = (formData) => {
+    const verifyCPF = cpf.isValid(formData.cpf);
+
+    if (verifyCPF) {
+      const data = {
+        name: formData.name,
+        cpf: formData.cpf,
+        email: formData.email,
+        password: formData.password,
+      };
+      registerUser(data);
+      setCpfError('');
+    } else {
+      setCpfError('CPF Inválido');
+    }
   };
 
   return (
-    <main className='mainLayout'>
+    <main className='min-h-[100vh] py-6'>
+      <div className='w-full flex justify-center pt-4 pb-8'>
+        <img src={logo} alt='logo' />
+      </div>
+
+      <div className='px-4'>
+        <video
+          src='https://www.youtube.com/watch?v=paNdkV9RcSs'
+          autoPlay
+          controls
+          className='rounded-[4px] w-full h-56 border-b-gray-600 border-b-2'
+        />
+      </div>
+
+      <div className='my-6 flex flex-col gap-2 px-4'>
+        <h2 className='font-bold text-[18px] leading-[24px] text-white poppins'>
+          Preparado para fazer um salário mínimo por dia?
+        </h2>
+
+        <h3 className='font-medium text-[14px] leading-[20px] text-white'>
+          Cadastre para obter acesso aos conteúdos que mudarão sua vida.
+        </h3>
+      </div>
+
       <form
         onSubmit={handleSubmit(handleRegister)}
-        className='formLayout max-w-[600px] mx-auto'
+        className='flex flex-col px-5 gap-6'
+        id='registerForm'
       >
-        <input
-          type='text'
-          placeholder='Nome'
-          {...register('firstName')}
-          className='inputLayout'
+        <Input
+          type={'text'}
+          label={'Nome completo'}
+          placeholder={'Digite aqui'}
+          register={register}
+          id={'name'}
+          error={errors?.name?.message}
+          watch={watch}
         />
-        {errors.firstName && (
-          <span className='errorText'>{errors.firstName.message}</span>
-        )}
-        <input
-          type='text'
-          placeholder='Sobrenome'
-          {...register('lastName')}
-          className='inputLayout'
+        <Input
+          type={'text'}
+          label={'CPF'}
+          placeholder={'Digite aqui'}
+          register={register}
+          id={'cpf'}
+          error={errors?.cpf?.message || cpfError}
+          watch={watch}
         />
-        {errors.lastName && (
-          <span className='errorText'>{errors.lastName.message}</span>
-        )}
-
-        <input
-          type='email'
-          placeholder='E-mail'
-          {...register('email')}
-          className='inputLayout'
+        <Input
+          type={'email'}
+          label={'E-mail'}
+          placeholder={'Digite aqui'}
+          register={register}
+          id={'email'}
+          error={errors?.email?.message}
+          watch={watch}
         />
-        {errors.email && (
-          <span className='errorText'>{errors.email.message}</span>
-        )}
-        <input
-          type='password'
-          placeholder='Senha'
-          {...register('password')}
-          className='inputLayout'
+        <Input
+          type={'password'}
+          label={'Senha'}
+          placeholder={'Digite aqui'}
+          register={register}
+          id={'password'}
+          error={errors?.password?.message}
+          watch={watch}
         />
-        {errors.password && (
-          <span className='errorText'>{errors.password.message}</span>
-        )}
-        <input
-          type='password'
-          placeholder='Confirme sua senha'
-          {...register('confirmPassword')}
-          className='inputLayout'
+        <Input
+          type={'password'}
+          label={'Confirme sua senha'}
+          placeholder={'Digite aqui'}
+          register={register}
+          id={'confirmPassword'}
+          error={errors?.confirmPassword?.message}
+          watch={watch}
         />
-        {errors.confirmPassword && (
-          <span className='errorText'>{errors.confirmPassword.message}</span>
-        )}
-
-        <button type='submit' className='formSubmitButton'>
-          Cadastrar
-        </button>
       </form>
+      <div className='p-[10px]'>
+        <ButtonSubmit form='registerForm' disabled={isDirty} />
+      </div>
     </main>
   );
 }
