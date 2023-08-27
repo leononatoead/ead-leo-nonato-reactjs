@@ -20,7 +20,7 @@ const useAuth = () => {
   const navigate = useNavigate();
 
   const actionCodeSettings = {
-    url: import.meta.env.VITE_APP_URL,
+    url: `${import.meta.env.VITE_APP_URL}verify-success`,
   };
 
   const loginUser = async (email, password) => {

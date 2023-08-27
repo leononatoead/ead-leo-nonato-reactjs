@@ -11,7 +11,6 @@ import Input from '../../../components/Input';
 import ButtonSubmit from '../../../components/ButtonSubmit';
 import logo from '../../../assets/auth-logo.svg';
 
-import './styles.css';
 import { useState } from 'react';
 
 export default function Register() {
@@ -49,7 +48,7 @@ export default function Register() {
   };
 
   return (
-    <main className='min-h-[100vh] py-6'>
+    <main className='min-h-screen auth-background py-6'>
       <div className='w-full flex justify-center pt-4 pb-8'>
         <img src={logo} alt='logo' />
       </div>

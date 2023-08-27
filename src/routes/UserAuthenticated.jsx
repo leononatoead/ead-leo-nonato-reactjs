@@ -5,6 +5,7 @@ import Course from '../pages/Global/Course';
 import Newsletter from '../pages/Global/Newsletter';
 import VerifyPhone from '../pages/Auth/VerifyPhone';
 import VerifyEmail from '../pages/Auth/VerifyEmail';
+import VerifySuccess from '../pages/Auth/VerifySuccess';
 
 export default function UserAuthenticatedRoutes({ user }) {
   return (
@@ -14,7 +15,7 @@ export default function UserAuthenticatedRoutes({ user }) {
         element={
           !user.phoneNumber ? (
             <Navigate to='/verify-phone' />
-          ) : !user.emailVeried ? (
+          ) : !user.emailVerified ? (
             <Navigate to='/verify-email' />
           ) : (
             <Navigate to='/' />
@@ -27,7 +28,7 @@ export default function UserAuthenticatedRoutes({ user }) {
         element={
           !user.phoneNumber ? (
             <Navigate to='/verify-phone' />
-          ) : !user.emailVeried ? (
+          ) : !user.emailVerified ? (
             <Navigate to='/verify-email' />
           ) : (
             <Home />
@@ -40,7 +41,7 @@ export default function UserAuthenticatedRoutes({ user }) {
         element={
           !user.phoneNumber ? (
             <VerifyPhone />
-          ) : !user.emailVeried ? (
+          ) : !user.emailVerified ? (
             <Navigate to='/verify-email' />
           ) : (
             <Navigate to='/' />
@@ -51,12 +52,25 @@ export default function UserAuthenticatedRoutes({ user }) {
       <Route
         path='/verify-email'
         element={
-          !user.emailVeried ? (
+          !user.emailVerified ? (
             <VerifyEmail />
           ) : !user.phoneNumber ? (
             <Navigate to='/verify-phone' />
           ) : (
             <Navigate to='/' />
+          )
+        }
+      />
+
+      <Route
+        path='/verify-success'
+        element={
+          !user.emailVerified ? (
+            <Navigate to='/verify-email' />
+          ) : !user.phoneNumber ? (
+            <Navigate to='/verify-phone' />
+          ) : (
+            <VerifySuccess />
           )
         }
       />

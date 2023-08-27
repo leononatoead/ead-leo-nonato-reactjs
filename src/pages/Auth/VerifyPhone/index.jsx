@@ -12,7 +12,7 @@ import PhoneInput from 'react-phone-input-2';
 import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
-import logo from '../../../assets/auth-logo.svg';
+import AuthHeader from '../../../components/AuthHeader';
 
 export default function VerifyPhone() {
   const [loading, setLoading] = useState(false);
@@ -96,37 +96,24 @@ export default function VerifyPhone() {
   };
 
   useEffect(() => {
-    let seconds = 60;
-
-    if (verificationId) {
+    if (timer > 0) {
       const timerInterval = setInterval(() => {
-        if (timer > 0) {
-          seconds--;
-          setTimer(seconds);
-        } else {
-          clearInterval(timerInterval);
-        }
+        setTimer((prevTimer) => prevTimer - 1);
       }, 1000);
+
+      return () => {
+        clearInterval(timerInterval);
+      };
     }
   }, [verificationId]);
 
   return (
-    <main className='min-h-[100vh] py-6 flex flex-col'>
+    <main className='min-h-screen auth-background py-6 flex flex-col'>
       <div id='recaptcha-container'></div>
-
-      <div className='w-full flex justify-center pt-4 pb-8'>
-        <img src={logo} alt='logo' />
-      </div>
 
       {verificationId ? (
         <div className='flex flex-col flex-1 '>
-          <div className='flex justify-center gap-2 w-full p-4'>
-            <span className='h-1 bg-[#005FB8] w-1/4' />
-            <span className='h-1 bg-[#005FB8]  w-1/4' />
-            <span className='h-1 bg-white w-1/4' />
-            <span className='h-1 bg-white w-1/4' />
-          </div>
-
+          <AuthHeader step={2} />
           <div className='mt-6 mb-8 flex flex-col gap-2 px-4'>
             <h2 className='font-bold text-[18px] leading-[24px] text-white poppins'>
               Informe o código
@@ -175,12 +162,7 @@ export default function VerifyPhone() {
         </div>
       ) : (
         <div className='flex flex-col flex-1 '>
-          <div className='flex justify-center gap-2 w-full p-4'>
-            <span className='h-1 bg-[#005FB8] w-1/4' />
-            <span className='h-1 bg-white w-1/4' />
-            <span className='h-1 bg-white w-1/4' />
-            <span className='h-1 bg-white w-1/4' />
-          </div>
+          <AuthHeader step={1} />
           <div className='mt-6 mb-8 flex flex-col gap-2 px-4'>
             <h2 className='font-bold text-[18px] leading-[24px] text-white poppins'>
               Verificação necessária

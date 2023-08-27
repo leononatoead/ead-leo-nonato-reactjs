@@ -29,3 +29,10 @@
 .mainLayout {
   @apply min-h-[calc(100vh-52px)] p-8;
 }
+
+.auth-background {
+  background-image: url('./assets/auth-bg.svg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}

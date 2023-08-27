@@ -1,39 +1,72 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import useAuth from '../../../hooks/useAuth';
-// import { useDispatch } from 'react-redux';
-// import { verifyAuthentication } from '../../redux/modules/auth/actions';
+
+import { Link } from 'react-router-dom';
+import AuthHeader from '../../../components/AuthHeader';
 
 export default function VerifyEmail() {
+  const [timer, setTimer] = useState(60);
+
+  const user = useSelector((state) => state.auth.user);
+
   const { verifyEmail } = useAuth();
 
-  // const dispatch = useDispatch();
   const handleVerify = () => {
-    // dispatch(verifyAuthentication());
-    window.location.reload();
+    verifyEmail();
+    setTimer(60);
   };
 
+  useEffect(() => {
+    if (timer > 0) {
+      const timerInterval = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+
+      return () => {
+        clearInterval(timerInterval);
+      };
+    }
+  }, [timer]);
+
   return (
-    <main className='mainLayout bg-sky-500 text-white flex flex-col items-center justify-center'>
-      <h1 className='text-4xl font-bold uppercase mb-20'>
-        Verifique o seu email!
-      </h1>
+    <main className='min-h-screen auth-background py-6 flex flex-col'>
+      <div id='recaptcha-container'></div>
 
-      <p className='font-medium text-2xl'>Não recebeu o e-mail?</p>
-      <button
-        onClick={verifyEmail}
-        className='px-12 py-4 bg-white text-sky-500 rounded-sm my-4 font-bold'
-      >
-        Reenviar Email
-      </button>
+      <AuthHeader step={3} />
 
-      <p className='font-medium text-2xl mt-4'>Já verificou?</p>
-      <button
-        onClick={handleVerify}
-        className='px-6 py-4 bg-white text-sky-500 rounded-sm my-4 font-bold'
-      >
-        Acesse nossos cursos.
-      </button>
+      <div className='mt-6 mb-8 flex flex-col gap-2 px-4'>
+        <h2 className='font-bold text-[18px] leading-[24px] text-white poppins'>
+          Verifique seu e-mail
+        </h2>
+        <h3 className='font-medium text-[14px] leading-[20px] text-white'>
+          Clique no link enviado para seu e-mail de cadastro {user?.email}
+        </h3>
+      </div>
+      <div className='flex-1 flex flex-col justify-between px-4 '>
+        <div>
+          <p className='text-[14px] text-white'>
+            Não recebeu?{' '}
+            <button
+              className='text-[#60CDFF]'
+              onClick={handleVerify}
+              disabled={timer > 0}
+            >
+              {timer > 0 ? `Reenviar em ${timer}s` : 'Reenviar código'}
+            </button>
+          </p>
+        </div>
+
+        <div className='px-[10px] flex'>
+          <Link
+            to='/verify-success'
+            className='w-full bg-white/30 rounded-[4px] px-3 py-[5px] text-white text-[14px] leading-[20px] text-center'
+          >
+            Continuar
+          </Link>
+        </div>
+      </div>
     </main>
   );
 }
