@@ -31,7 +31,7 @@
 }
 
 .auth-background {
-  background-image: url('./assets/auth-bg.svg');
+  background-image: url('./assets/auth-background.png');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;

@@ -20,7 +20,8 @@ const useAuth = () => {
   const navigate = useNavigate();
 
   const actionCodeSettings = {
-    url: `${import.meta.env.VITE_APP_URL}verify-success`,
+    url: `${import.meta.env.VITE_VERCEL_APP_URL}/verify-success`,
+    locale: 'pt-br',
   };
 
   const loginUser = async (email, password) => {
@@ -81,6 +82,7 @@ const useAuth = () => {
     try {
       await sendEmailVerification(auth._currentUser, actionCodeSettings);
     } catch (error) {
+      console.log(error);
       toast.error(error.message);
     } finally {
       setLoading(false);
