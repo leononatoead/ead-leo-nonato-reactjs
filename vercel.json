@@ -1,0 +1,15 @@
+{
+  "routes": [
+    { "src": "/", "dest": "/" },
+    { "src": "/login", "dest": "/" },
+    { "src": "/register", "dest": "/" },
+    { "src": "/verify-phone", "dest": "/" },
+    { "src": "/verify-email", "dest": "/" },
+    { "src": "/verify-phone", "dest": "/" },
+    { "src": "/profile", "dest": "/" },
+    { "src": "/courses", "dest": "/" },
+    { "src": "/course/:id", "dest": "/" },
+    { "src": "/course", "dest": "/" },
+    { "src": "/newsletter", "dest": "/" }
+  ]
+}
