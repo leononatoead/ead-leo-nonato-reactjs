@@ -5,7 +5,7 @@
     { "src": "/register", "dest": "/" },
     { "src": "/verify-phone", "dest": "/" },
     { "src": "/verify-email", "dest": "/" },
-    { "src": "/verify-phone", "dest": "/" },
+    { "src": "/verify-success", "dest": "/" },
     { "src": "/profile", "dest": "/" },
     { "src": "/courses", "dest": "/" },
     { "src": "/course/:id", "dest": "/" },
