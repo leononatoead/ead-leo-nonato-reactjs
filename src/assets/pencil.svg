@@ -1,0 +1,9 @@
+<svg width="32" height="29" viewBox="0 0 32 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Text Field Primitives / Text Box Button">
+<g id="Base">
+<rect x="3" y="3.40765" width="26" height="22" rx="3" fill="white" fill-opacity="0.7"/>
+<rect x="2.5" y="2.90765" width="27" height="23" rx="3.5" stroke="white" stroke-opacity="0.7"/>
+</g>
+<path id="Vector" d="M20.3184 8.6076H19.1778L12.7325 15.053L12.6074 15.2248L10.7637 18.4436L11.8653 19.5452L15.084 17.7015L15.2559 17.5764L21.7013 11.1311V9.99045L20.3184 8.6076ZM11.8653 18.4436L13.045 16.0998L14.1778 17.2327L11.8653 18.4436ZM14.8575 16.8343L13.4746 15.4514L19.7247 9.20137L21.1075 10.5842L14.8575 16.8343Z" fill="black" fill-opacity="0.4458"/>
+</g>
+</svg>

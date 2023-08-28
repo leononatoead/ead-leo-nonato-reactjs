@@ -64,6 +64,7 @@ export default function LoginForm({ show }) {
 
           <div className='-mt-4 mb-8'>
             <button
+              type='button'
               className='text-[#005FB8] text-[14px]  leading-[24px] mb-7'
               onClick={() => {
                 show(true);

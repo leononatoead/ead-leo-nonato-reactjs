@@ -30,6 +30,7 @@ export default function Navbar() {
 
       {user && (
         <>
+          <Link to='/profile'> Perfil </Link>
           {user.admin && (
             <>
               <Link to='/dashboard'> Dashboard </Link>

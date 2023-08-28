@@ -6,6 +6,7 @@
     { "src": "/verify-phone", "dest": "/" },
     { "src": "/verify-email", "dest": "/" },
     { "src": "/verify-success", "dest": "/" },
+    { "src": "/change-password-success", "dest": "/" },
     { "src": "/profile", "dest": "/" },
     { "src": "/courses", "dest": "/" },
     { "src": "/course/:id", "dest": "/" },
