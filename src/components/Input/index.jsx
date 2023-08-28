@@ -47,6 +47,7 @@ export default function Input({
           className={`w-full rounded-[4px]  px-3 py-[5px] leading-[20px] text-[14px] outline-none ${
             theme === 'light' ? 'bg-white' : 'bg-white/5'
           }`}
+          autoComplete='false'
         />
 
         {error && (

@@ -26,15 +26,12 @@ export default function LoginModal({ openLoginModal, setOpenLoginModal }) {
       <DialogSurface className='!absolute !bottom-0 !rounded-tr-[24px] !rounded-tl-[24px] !rounded-bl-none  !rounded-br-none !outline-none !bg-[#efefef] !overflow-hidden'>
         <div className='relative flex justify-center w-full mb-11'>
           <img src={logo} alt='logo' />
-          <DialogTrigger disableButtonEnhancement>
-            <Button
-              appearance='secondary'
-              onClick={handleCloseModal}
-              className='!border-none !bg-transparent !absolute !-right-10 !outline-none'
-            >
-              <img src={closeIcon} alt='close' className='bg-transparent w-4' />
-            </Button>
-          </DialogTrigger>
+          <button
+            onClick={handleCloseModal}
+            className='border-none bg-transparent absolute right-0 outline-none'
+          >
+            <img src={closeIcon} alt='close' className='w-4' />
+          </button>
         </div>
         {showResetPass ? (
           <ResetPasswordForm show={setShowResetPass} />
