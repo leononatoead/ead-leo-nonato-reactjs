@@ -66,12 +66,19 @@ const useAuth = () => {
     }
   };
 
-  const resetPassword = async (email) => {
+  const resetPassword = async (email, setSuccess) => {
     setLoading(true);
     try {
-      await sendPasswordResetEmail(auth, email);
+      const actionCodeSettings = {
+        url: `${import.meta.env.VITE_VERCEL_APP_URL}/change-password-success`,
+        locale: 'pt-br',
+      };
+
+      await sendPasswordResetEmail(auth, email, actionCodeSettings);
+      setSuccess(true);
     } catch (error) {
       toast.error(error.message);
+      setSuccess(false);
     } finally {
       setLoading(false);
     }

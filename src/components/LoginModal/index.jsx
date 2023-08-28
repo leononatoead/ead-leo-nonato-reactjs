@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import {
   Button,
   Dialog,
@@ -5,11 +7,15 @@ import {
   DialogTrigger,
 } from '@fluentui/react-components';
 
-import logo from '../../assets/auth-logo-black.svg';
-import closeIcon from '../../assets/closeIcon.svg';
 import LoginForm from './LoginForm';
 
+import logo from '../../assets/auth-logo-black.svg';
+import closeIcon from '../../assets/closeIcon.svg';
+import ResetPasswordForm from './ResetPasswordForm';
+
 export default function LoginModal({ openLoginModal, setOpenLoginModal }) {
+  const [showResetPass, setShowResetPass] = useState(false);
+
   return (
     <Dialog modalType='modal' open={openLoginModal}>
       <DialogSurface className='!absolute !bottom-0 !rounded-tr-[24px] !rounded-tl-[24px] !rounded-bl-none  !rounded-br-none !outline-none !bg-[#efefef] !overflow-hidden'>
@@ -25,7 +31,11 @@ export default function LoginModal({ openLoginModal, setOpenLoginModal }) {
             </Button>
           </DialogTrigger>
         </div>
-        <LoginForm />
+        {showResetPass ? (
+          <ResetPasswordForm show={setShowResetPass} />
+        ) : (
+          <LoginForm show={setShowResetPass} />
+        )}
       </DialogSurface>
     </Dialog>
   );

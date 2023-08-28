@@ -12,6 +12,7 @@ import ButtonSubmit from '../../../components/ButtonSubmit';
 import logo from '../../../assets/auth-logo.svg';
 
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Register() {
   const { registerUser } = useAuth();
@@ -46,9 +47,9 @@ export default function Register() {
 
   return (
     <main className='min-h-screen auth-background py-6'>
-      <div className='w-full flex justify-center pt-4 pb-8'>
+      <Link to='/' className='w-full flex justify-center pt-4 pb-8'>
         <img src={logo} alt='logo' />
-      </div>
+      </Link>
 
       <div className='px-4'>
         <video

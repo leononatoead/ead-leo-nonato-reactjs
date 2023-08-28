@@ -1,19 +1,22 @@
+import { Link } from 'react-router-dom';
+
+import useAuth from '../../hooks/useAuth';
+
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { LoginSchema } from './loginSchema';
+
 import {
   DialogActions,
   DialogBody,
   DialogContent,
   DialogTitle,
 } from '@fluentui/react-components';
-import React from 'react';
+
 import Input from '../Input';
 import ButtonSubmit from '../ButtonSubmit';
-import useAuth from '../../hooks/useAuth';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { LoginSchema } from './loginSchema';
-import { Link } from 'react-router-dom';
 
-export default function LoginForm() {
+export default function LoginForm({ show }) {
   const { loginUser, loading } = useAuth();
 
   const {
@@ -60,7 +63,12 @@ export default function LoginForm() {
           />
 
           <div className='-mt-4 mb-8'>
-            <button className='text-[#005FB8] text-[14px]  leading-[24px] mb-7'>
+            <button
+              className='text-[#005FB8] text-[14px]  leading-[24px] mb-7'
+              onClick={() => {
+                show(true);
+              }}
+            >
               Esqueci minha senha
             </button>
 

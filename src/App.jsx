@@ -4,14 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchCourses } from './redux/modules/courses/actions';
 import { verifyAuthentication } from './redux/modules/auth/actions';
 
-import {
-  FluentProvider,
-  webDarkTheme,
-  webLightTheme,
-} from '@fluentui/react-components';
+import { FluentProvider, webLightTheme } from '@fluentui/react-components';
 import { Toaster } from 'react-hot-toast';
 
-import Navbar from './components/Navbar';
 import AdminRoutes from './routes/Admin';
 
 import UserAuthenticated from './routes/UserAuthenticated';
@@ -29,7 +24,6 @@ function App() {
 
   return (
     <FluentProvider theme={webLightTheme}>
-      {/* <Navbar /> */}
       {user && user.admin && <AdminRoutes />}
       {user && !user.admin && <UserAuthenticated user={user} />}
       {!user && <UserUnAuthenticated />}
