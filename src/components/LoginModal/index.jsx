@@ -1,77 +1,31 @@
-import { useState } from 'react';
-import useAuth from '../../hooks/useAuth';
-
 import {
   Button,
   Dialog,
-  DialogActions,
-  DialogBody,
-  DialogContent,
   DialogSurface,
-  DialogTitle,
-  DialogTrigger
+  DialogTrigger,
 } from '@fluentui/react-components';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { LoginSchema } from './loginSchema';
+
+import logo from '../../assets/auth-logo-black.svg';
+import closeIcon from '../../assets/closeIcon.svg';
+import LoginForm from './LoginForm';
 
 export default function LoginModal({ openLoginModal, setOpenLoginModal }) {
-  const { loginUser } = useAuth();
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors }
-  } = useForm({
-    resolver: zodResolver(LoginSchema)
-  });
-
-  const handleLogin = (formData) => {
-    loginUser(formData.email, formData.password);
-    setOpenLoginModal(false);
-  };
-
   return (
     <Dialog modalType='modal' open={openLoginModal}>
-      <DialogSurface>
-        <DialogBody>
-          <DialogTitle>Entre para acessar o curso</DialogTitle>
-          <DialogContent>
-            <form className='formLayout' onSubmit={handleSubmit}>
-              <label htmlFor='email'>E-mail</label>
-              <input
-                id='email'
-                type='email'
-                className='inputLayout'
-                {...register('email')}
-                placeholder='exemplo@mail.com'
-              />
-              <label htmlFor='password'>Senha</label>
-              <input
-                id='password'
-                type='password'
-                className='inputLayout'
-                {...register('password')}
-                placeholder='digite sua senha ..'
-              />
-              <p>Esqueceu sua senha?</p>
-            </form>
-          </DialogContent>
-          <DialogActions>
-            <DialogTrigger disableButtonEnhancement>
-              <Button
-                appearance='secondary'
-                onClick={() => setOpenLoginModal(false)}
-              >
-                Cancelar
-              </Button>
-            </DialogTrigger>
-
-            <Button appearance='primary' onClick={handleSubmit(handleLogin)}>
-              Confirmar
+      <DialogSurface className='!absolute !bottom-0 !rounded-tr-[24px] !rounded-tl-[24px] !rounded-bl-none  !rounded-br-none !outline-none !bg-[#efefef] !overflow-hidden'>
+        <div className='relative flex justify-center w-full mb-11'>
+          <img src={logo} alt='logo' />
+          <DialogTrigger disableButtonEnhancement>
+            <Button
+              appearance='secondary'
+              onClick={() => setOpenLoginModal(false)}
+              className='!border-none !bg-transparent !absolute !-right-10'
+            >
+              <img src={closeIcon} alt='close' className='bg-transparent w-4' />
             </Button>
-          </DialogActions>
-        </DialogBody>
+          </DialogTrigger>
+        </div>
+        <LoginForm />
       </DialogSurface>
     </Dialog>
   );

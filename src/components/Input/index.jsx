@@ -6,6 +6,7 @@ import {
 import { useState } from 'react';
 
 export default function Input({
+  theme,
   id,
   type,
   watch,
@@ -23,7 +24,11 @@ export default function Input({
   };
 
   return (
-    <div className='flex flex-col gap-[9px] text-white'>
+    <div
+      className={`flex flex-col gap-[9px] ${
+        theme === 'light' ? 'text-black' : 'text-white'
+      }`}
+    >
       <label htmlFor={id} className='text-[14px] leading-[20px]'>
         {label}
       </label>
@@ -32,14 +37,16 @@ export default function Input({
           value ? 'after:w-full' : 'after:w-0'
         } hover:after:w-full animation ${
           error && 'after:bg-red-500 after:w-full'
-        }`}
+        } ${theme === 'light' ? 'shadow-sm shadow-zinc-700/50' : ''}`}
       >
         <input
           type={viewPassword ? 'text' : type}
           {...register(id)}
           placeholder={placeholder}
           id={id}
-          className='w-full rounded-[4px] bg-white/5 px-3 py-[5px] leading-[20px] text-[14px] outline-none'
+          className={`w-full rounded-[4px]  px-3 py-[5px] leading-[20px] text-[14px] outline-none ${
+            theme === 'light' ? 'bg-white' : 'bg-white/5'
+          }`}
         />
 
         {error && (
@@ -55,13 +62,24 @@ export default function Input({
         {type === 'password' && (
           <button
             type='button'
-            className='absolute right-1 top-1 w-[26px] h-[22px] flex- justify-center items-center bg-white/5 rounded-[3px]'
+            className={`absolute right-1 top-1 w-[26px] h-[22px] flex- justify-center items-center bg-white/5 rounded-[3px]
+              
+                 ${theme === 'light' ? 'bg-[#F9F9F950]' : 'bg-white/5'}
+              `}
             onClick={toggleViewPassword}
           >
             {viewPassword ? (
-              <EyeOff16Regular className='text-white/80' />
+              <EyeOff16Regular
+                className={` ${
+                  theme === 'light' ? 'text-black/60' : 'text-white/80'
+                }`}
+              />
             ) : (
-              <Eye16Regular className='text-white/80' />
+              <Eye16Regular
+                className={` ${
+                  theme === 'light' ? 'text-black/60' : 'text-white/80'
+                }`}
+              />
             )}
           </button>
         )}

@@ -36,3 +36,17 @@
   background-size: cover;
   background-position: center;
 }
+
+/* RESET FLUENT UI DIALOG STYLES */
+.f15twtuk {
+  top: unset !important;
+}
+
+.fvgz9i8 {
+  max-width: 100% !important;
+}
+
+.f13qh94s {
+  display: flex !important;
+  flex-direction: column;
+}

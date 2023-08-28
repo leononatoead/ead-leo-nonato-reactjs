@@ -22,13 +22,10 @@ export default function Register() {
     register,
     watch,
     handleSubmit,
-    formState,
-    formState: { errors },
+    formState: { errors, dirtyFields },
   } = useForm({
     resolver: zodResolver(RegisterSchema),
   });
-
-  const { isDirty } = formState;
 
   const handleRegister = (formData) => {
     const verifyCPF = cpf.isValid(formData.cpf);
@@ -124,7 +121,11 @@ export default function Register() {
         />
       </form>
       <div className='p-[10px]'>
-        <ButtonSubmit form='registerForm' disabled={isDirty} />
+        <ButtonSubmit
+          form='registerForm'
+          disabled={Object.keys(dirtyFields).length !== 5}
+          text={'Cadastrar'}
+        />
       </div>
     </main>
   );
