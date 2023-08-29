@@ -50,3 +50,7 @@
   display: flex !important;
   flex-direction: column;
 }
+
+.popover {
+  left: unset !important;
+}

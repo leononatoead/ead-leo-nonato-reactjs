@@ -1,14 +1,27 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutUser } from '../redux/modules/auth/actions';
 import LoginModal from './LoginModal';
 
+import arrowLeft from '../assets/left-arrow.svg';
+import burger from '../assets/burger.svg';
+import {
+  Menu,
+  MenuItem,
+  MenuList,
+  MenuPopover,
+  MenuTrigger,
+} from '@fluentui/react-components';
+
 export default function Navbar() {
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const path = useLocation();
+  console.log(path);
 
   const [openLoginModal, setOpenLoginModal] = useState(false);
 
@@ -18,27 +31,65 @@ export default function Navbar() {
   };
 
   return (
-    <header className='w-full p-4 bg-sky-500 text-white font-bold flex gap-4 items-center justify-center'>
-      <Link to='/'> Página Inicial </Link>
+    <header className='w-full p-4 bg-white font-bold flex gap-4 items-center justify-center'>
+      <Menu className='!h-[44px]'>
+        <MenuTrigger disableButtonEnhancement>
+          <div className='flex items-center justify-center w-full'>
+            {path.pathname !== '/' && (
+              <Link to='/'>
+                <img src={arrowLeft} alt='back' />
+              </Link>
+            )}
+            <span className='block poppins text-[17px] leading-[22px] flex-1 text-center font-normal'>
+              {path.pathname === '/'
+                ? 'Início'
+                : path.pathname === '/profile'
+                ? 'Perfil'
+                : ''}
+            </span>
+            <button className=''>
+              <img src={burger} alt='menu' />
+            </button>
+          </div>
+        </MenuTrigger>
 
-      {!user && (
-        <>
-          <button onClick={() => setOpenLoginModal(true)}>Login</button>
-          <Link to='/register'> Cadastro </Link>
-        </>
-      )}
+        <MenuPopover className='!right-8 !top-2 popover !p-4'>
+          <MenuList className='!flex !flex-col !gap-4 !font-bold'>
+            {!user && (
+              <>
+                <button
+                  onClick={() => setOpenLoginModal(true)}
+                  className='w-full text-center'
+                >
+                  Login
+                </button>
+                <Link to='/register' className='w-full text-center'>
+                  Cadastro
+                </Link>
+              </>
+            )}
 
-      {user && (
-        <>
-          <Link to='/profile'> Perfil </Link>
-          {user.admin && (
-            <>
-              <Link to='/dashboard'> Dashboard </Link>
-            </>
-          )}
-          <button onClick={handleLogout}>Logout</button>
-        </>
-      )}
+            {user && (
+              <>
+                <Link to='/profile' className='w-full text-center'>
+                  Perfil
+                </Link>
+                {user.admin && (
+                  <>
+                    <Link to='/dashboard' className='w-full text-center'>
+                      Dashboard
+                    </Link>
+                  </>
+                )}
+                <button onClick={handleLogout} className='w-full text-center'>
+                  Logout
+                </button>
+              </>
+            )}
+          </MenuList>
+        </MenuPopover>
+      </Menu>
+
       <LoginModal
         openLoginModal={openLoginModal}
         setOpenLoginModal={setOpenLoginModal}
