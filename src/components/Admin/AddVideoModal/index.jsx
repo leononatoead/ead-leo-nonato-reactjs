@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { AddVideoSchema } from './editVideoSchema';
+import { AddVideoSchema } from './addVideoSchema';
 
-import useVideo from '../../hooks/useVideo';
+import useVideo from '../../../hooks/useVideo';
 
 import {
   Button,
@@ -19,30 +19,21 @@ import {
   ProgressBar,
 } from '@fluentui/react-components';
 
-export default function EditVideoModal({
-  courseId,
-  oldVideoData,
-  openEditModal,
-  setOpenEditModal,
+export default function AddVideoModal({
+  id,
+  openVideoModal,
+  setOpenVideoModal,
 }) {
-  const [video, setVideo] = useState(null);
+  const [video, setVideo] = useState();
   const [file, setFile] = useState();
 
-  const [files, setFiles] = useState(oldVideoData.assets);
+  const [files, setFiles] = useState([]);
 
   const [fileName, setFileName] = useState();
   const [fileURL, setFileURL] = useState();
   const [fileType, setFileType] = useState('file');
 
-  // console.log(oldVideoData);
-
-  const {
-    updateVideo,
-    // editVideoChangingVideoFile,
-    // editVideoWithoutChangeVideo,
-    progress,
-    loading,
-  } = useVideo();
+  const { uploadVideo, progress, loading } = useVideo();
 
   const {
     register,
@@ -52,15 +43,13 @@ export default function EditVideoModal({
     resolver: zodResolver(AddVideoSchema),
   });
 
-  const handleEditVideo = (formData) => {
-    updateVideo(
-      courseId,
-      setOpenEditModal,
-      oldVideoData,
+  const handleAddVideo = (formData) => {
+    uploadVideo(
       { title: formData.title },
-      `courses/${courseId}/videos`,
-      files,
+      `courses/${id}/videos`,
       video,
+      files,
+      setOpenVideoModal,
     );
   };
 
@@ -96,13 +85,13 @@ export default function EditVideoModal({
   };
 
   return (
-    <Dialog modalType='modal' open={openEditModal}>
+    <Dialog modalType='modal' open={openVideoModal}>
       <DialogTrigger disableButtonEnhancement>
-        <Button onClick={() => setOpenEditModal(true)}>Editar</Button>
+        <Button onClick={() => setOpenVideoModal(true)}>Adicionar aula</Button>
       </DialogTrigger>
       <DialogSurface>
         <DialogBody>
-          <DialogTitle>Editar Video</DialogTitle>
+          <DialogTitle>Adicionar aula</DialogTitle>
           <DialogContent>
             {loading ? (
               <Field validationMessage='cadastrando ...' validationState='none'>
@@ -113,25 +102,31 @@ export default function EditVideoModal({
                 <form
                   className='formLayout'
                   id='videoForm'
-                  onSubmit={handleSubmit(handleEditVideo)}
+                  onSubmit={handleSubmit(handleAddVideo)}
                 >
+                  <div className='flex flex-col gap-2'>
+                    <label htmlFor={'video'}>Vídeo:</label>
+                    <input
+                      type='file'
+                      id='video'
+                      onChange={(e) => setVideo(e.target.files[0])}
+                      multiple={false}
+                      accept='video/*'
+                      title='Selecione um vídeo'
+                    />
+                  </div>
                   <div>
                     <label htmlFor={'title'}>Título:</label>
                     <input
                       type='text'
-                      onChange={(e) => setTitle(e.target.value)}
                       className='inputLayout'
+                      id='title'
                       {...register('title')}
-                      defaultValue={oldVideoData?.title}
                     />
                     {errors.title && (
                       <span className='errorText'>{errors.title.message}</span>
                     )}
                   </div>
-                  <input
-                    type='file'
-                    onChange={(e) => setVideo(e.target.files[0])}
-                  />
                 </form>
 
                 <h2 className='text-xl font-medium'>Material adicional</h2>
@@ -213,14 +208,14 @@ export default function EditVideoModal({
               <DialogTrigger disableButtonEnhancement>
                 <Button
                   appearance='secondary'
-                  onClick={() => setOpenEditModal(false)}
+                  onClick={() => setOpenVideoModal(false)}
                 >
                   Cancelar
                 </Button>
               </DialogTrigger>
 
               <Button appearance='primary' type='submit' form='videoForm'>
-                Salvar
+                Adicionar
               </Button>
             </DialogActions>
           )}

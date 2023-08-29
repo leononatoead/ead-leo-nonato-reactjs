@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AddCourseSchema } from './addCourseSchema';
 
-import useCourse from '../../hooks/useCourse';
+import useCourse from '../../../hooks/useCourse';
 
 import {
   Dialog,
@@ -17,7 +17,7 @@ import {
   Button,
   Select,
   ProgressBar,
-  Field
+  Field,
 } from '@fluentui/react-components';
 
 export default function AddCourse({ openCourseModal, setOpenCourseModal }) {
@@ -29,9 +29,9 @@ export default function AddCourse({ openCourseModal, setOpenCourseModal }) {
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
   } = useForm({
-    resolver: zodResolver(AddCourseSchema)
+    resolver: zodResolver(AddCourseSchema),
   });
 
   const handlAddCourse = async (formData) => {
@@ -81,7 +81,7 @@ export default function AddCourse({ openCourseModal, setOpenCourseModal }) {
                 appearance='underline'
                 defaultValue={true}
                 {...register('isFree', {
-                  setValueAs: (v) => (v === 'true' ? true : false)
+                  setValueAs: (v) => (v === 'true' ? true : false),
                 })}
               >
                 <option value={true}>Sim</option>
@@ -93,7 +93,7 @@ export default function AddCourse({ openCourseModal, setOpenCourseModal }) {
                 appearance='underline'
                 defaultValue={true}
                 {...register('needAuth', {
-                  setValueAs: (v) => (v === 'true' ? true : false)
+                  setValueAs: (v) => (v === 'true' ? true : false),
                 })}
               >
                 <option value={true}>Sim</option>

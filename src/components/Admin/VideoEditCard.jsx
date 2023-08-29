@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import EditVideoModal from './EditVideoModal';
-import useVideo from '../hooks/useVideo';
+import useVideo from '../../hooks/useVideo';
 
 export default function VideoEditCard({ id, video }) {
   const [openEditVideoModal, setOpenEditVideoModal] = useState(false);

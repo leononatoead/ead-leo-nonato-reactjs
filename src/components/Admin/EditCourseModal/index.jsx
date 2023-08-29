@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { EditCourseSchema } from './editCourseSchema';
 
-import useCourse from '../../hooks/useCourse';
+import useCourse from '../../../hooks/useCourse';
 
 import {
   Dialog,
@@ -17,13 +17,13 @@ import {
   Button,
   Select,
   ProgressBar,
-  Field
+  Field,
 } from '@fluentui/react-components';
 
 export default function EditCourse({
   course,
   openEditModal,
-  setOpenEditModal
+  setOpenEditModal,
 }) {
   const [imageFile, setImageFile] = useState();
 
@@ -31,15 +31,15 @@ export default function EditCourse({
     editCourseWithImage,
     editCourseWithoutImage,
     loading: loadImage,
-    progress
+    progress,
   } = useCourse();
 
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
   } = useForm({
-    resolver: zodResolver(EditCourseSchema)
+    resolver: zodResolver(EditCourseSchema),
   });
 
   const handlAddCourse = async (formData) => {
@@ -49,7 +49,7 @@ export default function EditCourse({
         formData,
         'courses',
         imageFile,
-        setOpenEditModal
+        setOpenEditModal,
       );
     } else {
       editCourseWithoutImage(course, formData, setOpenEditModal);
@@ -94,7 +94,7 @@ export default function EditCourse({
                 appearance='underline'
                 defaultValue={course?.isFree}
                 {...register('isFree', {
-                  setValueAs: (v) => (v === 'true' ? true : false)
+                  setValueAs: (v) => (v === 'true' ? true : false),
                 })}
               >
                 <option value={true}>Sim</option>
@@ -106,7 +106,7 @@ export default function EditCourse({
                 appearance='underline'
                 defaultValue={course?.needAuth}
                 {...register('needAuth', {
-                  setValueAs: (v) => (v === 'true' ? true : false)
+                  setValueAs: (v) => (v === 'true' ? true : false),
                 })}
               >
                 <option value={true}>Sim</option>

@@ -4,11 +4,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchVideos } from '../../redux/modules/courses/actions';
 
-import AddVideoModal from '../../components/AddVideoModal';
+import AddVideoModal from '../../components/Admin/AddVideoModal';
 
 import useCourse from '../../hooks/useCourse';
-import EditCourseModal from '../../components/EditCourseModal';
-import VideoEditCard from '../../components/VideoEditCard';
+import EditCourseModal from '../../components/Admin/EditCourseModal';
+import VideoEditCard from '../../components/Admin/VideoEditCard';
 
 export default function CourseDetails() {
   const { id } = useParams();

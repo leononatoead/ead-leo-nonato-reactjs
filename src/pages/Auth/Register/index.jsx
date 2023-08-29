@@ -6,9 +6,9 @@ import { RegisterSchema } from './registerSchema';
 import { cpf } from 'cpf-cnpj-validator';
 
 import useAuth from '../../../hooks/useAuth';
-import Input from '../../../components/Input';
+import Input from '../../../components/Global/Input';
 
-import ButtonSubmit from '../../../components/ButtonSubmit';
+import ButtonSubmit from '../../../components/Global/ButtonSubmit';
 import logo from '../../../assets/auth-logo.svg';
 
 import { useState } from 'react';

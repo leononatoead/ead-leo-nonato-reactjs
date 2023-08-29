@@ -2,14 +2,13 @@ import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { logoutUser } from '../redux/modules/auth/actions';
-import LoginModal from './LoginModal';
+import { logoutUser } from '../../redux/modules/auth/actions';
+import LoginModal from '../../components/Auth/LoginModal';
 
-import arrowLeft from '../assets/left-arrow.svg';
-import burger from '../assets/burger.svg';
+import arrowLeft from '../../assets/left-arrow.svg';
+import burger from '../../assets/burger.svg';
 import {
   Menu,
-  MenuItem,
   MenuList,
   MenuPopover,
   MenuTrigger,

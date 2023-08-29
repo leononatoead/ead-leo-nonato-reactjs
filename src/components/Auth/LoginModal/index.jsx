@@ -1,16 +1,11 @@
 import { useState } from 'react';
 
-import {
-  Button,
-  Dialog,
-  DialogSurface,
-  DialogTrigger,
-} from '@fluentui/react-components';
+import { Dialog, DialogSurface } from '@fluentui/react-components';
 
 import LoginForm from './LoginForm';
 
-import logo from '../../assets/auth-logo-black.svg';
-import closeIcon from '../../assets/closeIcon.svg';
+import logo from '../../../assets/auth-logo-black.svg';
+import closeIcon from '../../../assets/closeIcon.svg';
 import ResetPasswordForm from './ResetPasswordForm';
 
 export default function LoginModal({ openLoginModal, setOpenLoginModal }) {

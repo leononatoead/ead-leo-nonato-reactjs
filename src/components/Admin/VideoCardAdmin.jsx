@@ -4,7 +4,7 @@ import {
   shorthands,
   Caption1,
   tokens,
-  Text
+  Text,
 } from '@fluentui/react-components';
 import { Card, CardHeader, CardPreview } from '@fluentui/react-components';
 import { Link } from 'react-router-dom';
@@ -13,21 +13,21 @@ const useStyles = makeStyles({
   main: {
     ...shorthands.gap('16px'),
     display: 'flex',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
   },
 
   caption: {
-    color: tokens.colorNeutralForeground3
+    color: tokens.colorNeutralForeground3,
   },
 
   smallRadius: {
     ...shorthands.borderRadius(tokens.borderRadiusSmall),
     maxHeight: '200px',
-    objectFit: 'cover'
+    objectFit: 'cover',
   },
 
   grayBackground: {
-    backgroundColor: tokens.colorNeutralBackground3
+    backgroundColor: tokens.colorNeutralBackground3,
   },
 
   logoBadge: {
@@ -35,11 +35,11 @@ const useStyles = makeStyles({
     ...shorthands.borderRadius(tokens.borderRadiusSmall),
     backgroundColor: '#FFF',
     boxShadow:
-      '0px 1px 2px rgba(0, 0, 0, 0.14), 0px 0px 2px rgba(0, 0, 0, 0.12)'
-  }
+      '0px 1px 2px rgba(0, 0, 0, 0.14), 0px 0px 2px rgba(0, 0, 0, 0.12)',
+  },
 });
 
-export default function ProductCardAdmin({ cardData }) {
+export default function VideoCardAdmin({ cardData }) {
   const styles = useStyles();
 
   return (

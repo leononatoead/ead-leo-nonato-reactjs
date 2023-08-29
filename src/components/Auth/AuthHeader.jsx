@@ -1,4 +1,4 @@
-import logo from '../assets/auth-logo.svg';
+import logo from '../../assets/auth-logo.svg';
 
 export default function AuthHeader({ step }) {
   return (

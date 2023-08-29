@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import useAuth from '../../../hooks/useAuth';
 
 import { Link } from 'react-router-dom';
-import AuthHeader from '../../../components/AuthHeader';
+import AuthHeader from '../../../components/Auth/AuthHeader';
 
 export default function VerifyEmail() {
   const [timer, setTimer] = useState(60);

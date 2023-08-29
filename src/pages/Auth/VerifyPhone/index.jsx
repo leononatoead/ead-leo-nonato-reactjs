@@ -12,7 +12,7 @@ import PhoneInput from 'react-phone-input-2';
 import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
-import AuthHeader from '../../../components/AuthHeader';
+import AuthHeader from '../../../components/Auth/AuthHeader';
 
 export default function VerifyPhone() {
   const [loading, setLoading] = useState(false);

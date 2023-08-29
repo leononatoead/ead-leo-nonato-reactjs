@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { fetchVideos } from '../../redux/modules/courses/actions';
 import { useDispatch, useSelector } from 'react-redux';
 
-import Navbar from '../../components/Navbar';
+import Navbar from '../../components/Global/Navbar';
 import {
   Accordion,
   AccordionHeader,

@@ -1,4 +1,4 @@
-import useAuth from '../../hooks/useAuth';
+import useAuth from '../../../hooks/useAuth';
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -11,8 +11,8 @@ import {
   DialogTitle,
 } from '@fluentui/react-components';
 
-import Input from '../Input';
-import ButtonSubmit from '../ButtonSubmit';
+import Input from '../../Global/Input';
+import ButtonSubmit from '../../Global/ButtonSubmit';
 import { useState } from 'react';
 import { useEffect } from 'react';
 

@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 
-import Navbar from '../../components/Navbar';
+import Navbar from '../../components/Global/Navbar';
 
 import background from '../../assets/auth-background.png';
 import closeIcon from '../../assets/closeIcon.svg';
@@ -33,7 +33,7 @@ export default function Profile() {
 
   return (
     <main className='min-h-screen bg-[#efefef]'>
-      <Navbar title={Perfil} />
+      <Navbar title={'Perfil'} />
       <div>
         <img
           src={background}

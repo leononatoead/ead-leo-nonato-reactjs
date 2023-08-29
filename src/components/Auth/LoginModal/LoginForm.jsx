@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import useAuth from '../../hooks/useAuth';
+import useAuth from '../../../hooks/useAuth';
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -13,8 +13,8 @@ import {
   DialogTitle,
 } from '@fluentui/react-components';
 
-import Input from '../Input';
-import ButtonSubmit from '../ButtonSubmit';
+import Input from '../../Global/Input';
+import ButtonSubmit from '../../Global/ButtonSubmit';
 
 export default function LoginForm({ show }) {
   const { loginUser, loading } = useAuth();

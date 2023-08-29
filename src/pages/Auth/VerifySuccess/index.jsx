@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import AuthHeader from '../../../components/AuthHeader';
+import AuthHeader from '../../../components/Auth/AuthHeader';
 
 import { CheckmarkCircleRegular } from '@fluentui/react-icons';
 

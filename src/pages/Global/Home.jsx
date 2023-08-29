@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import Navbar from '../../components/Navbar';
-import LoginModal from '../../components/LoginModal';
-import ProductCard from '../../components/ProductCard';
+import Navbar from '../../components/Global/Navbar';
+import LoginModal from '../../components/Auth/LoginModal';
+import VideoCard from '../../components/Global/VideoCard';
 
 export default function Home() {
   const [openLoginModal, setOpenLoginModal] = useState(false);
@@ -22,7 +22,7 @@ export default function Home() {
         <ul className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6  px-6'>
           {courses.map((course) => (
             <li key={course.id}>
-              <ProductCard
+              <VideoCard
                 cardData={course}
                 setOpenLoginModal={setOpenLoginModal}
               />
