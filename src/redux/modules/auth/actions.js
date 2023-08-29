@@ -26,6 +26,7 @@ export const verifyAuthentication = () => (dispatch) => {
         email: user.email,
         emailVerified: user.emailVerified,
         phoneNumber: user.phoneNumber,
+        photoURL: user.photoURL,
         ...collectionData,
       };
       dispatch({ type: AUTH_USER, payload: userPayload });
