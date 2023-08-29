@@ -12,7 +12,7 @@ export default function Home() {
 
   return (
     <main className='h-screen'>
-      <Navbar />
+      <Navbar title={'Início'} />
       <LoginModal
         openLoginModal={openLoginModal}
         setOpenLoginModal={setOpenLoginModal}

@@ -33,7 +33,7 @@ export default function Profile() {
 
   return (
     <main className='min-h-screen bg-[#efefef]'>
-      <Navbar />
+      <Navbar title={Perfil} />
       <div>
         <img
           src={background}
@@ -41,18 +41,24 @@ export default function Profile() {
           className='rounded-br-[16px] rounded-bl-[16px] h-[120px] w-full object-cover'
         />
 
-        <div className='flex justify-center -mt-12 mb-4'>
+        <div className='relative flex justify-center -mt-12 mb-4'>
           {user?.photoURL ? (
             <img
               src={user?.photoURL}
               alt='avatar'
-              className='w-[95px] h-[95px] rounded-full border-4 border-[#001A68]'
+              className='w-[95px] h-[95px] rounded-full border-4 border-[#001A68] shadow-md shadow-black/40'
             />
           ) : (
-            <div className='w-[95px] h-[95px] rounded-full flex justify-center items-center bg-[#001A68] '>
+            <div className='w-[95px] h-[95px] rounded-full flex justify-center items-center bg-[#001A68] shadow-md shadow-black/40'>
               <img src={closeIcon} alt='avatar' className='w-8 invert-[100%]' />
             </div>
           )}
+
+          <img
+            src={pencil}
+            alt='pencil'
+            className='rounded-full w-[20px] h-[20px] object-cover bg-white absolute top-[70px] left-[210px] shadow-md shadow-black/40'
+          />
         </div>
 
         <h2 className='poppins text-[18px] font-bold leading-6 w-full text-center mb-1'>

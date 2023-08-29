@@ -15,13 +15,12 @@ import {
   MenuTrigger,
 } from '@fluentui/react-components';
 
-export default function Navbar() {
+export default function Navbar({ title }) {
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const path = useLocation();
-  console.log(path);
 
   const [openLoginModal, setOpenLoginModal] = useState(false);
 
@@ -41,11 +40,7 @@ export default function Navbar() {
               </Link>
             )}
             <span className='block poppins text-[17px] leading-[22px] flex-1 text-center font-normal'>
-              {path.pathname === '/'
-                ? 'Início'
-                : path.pathname === '/profile'
-                ? 'Perfil'
-                : ''}
+              {title}
             </span>
             <button className=''>
               <img src={burger} alt='menu' />
