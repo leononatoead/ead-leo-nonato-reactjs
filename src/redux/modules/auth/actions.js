@@ -2,7 +2,7 @@ import { database, auth } from '../../../firebase/config';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
 
-import { AUTH_USER, LOGOUT_USER } from './slice';
+import { AUTH_USER, UPDATE_IMAGE, LOGOUT_USER } from './slice';
 
 const getUserData = async (uid) => {
   try {
@@ -26,7 +26,7 @@ export const verifyAuthentication = () => (dispatch) => {
         email: user.email,
         emailVerified: user.emailVerified,
         phoneNumber: user.phoneNumber,
-        ...collectionData
+        ...collectionData,
       };
       dispatch({ type: AUTH_USER, payload: userPayload });
     } else {
@@ -40,6 +40,13 @@ export const logoutUser = () => async (dispatch) => {
 
   dispatch({
     type: LOGOUT_USER,
-    payload: null
+    payload: null,
+  });
+};
+
+export const updateProfileImage = (url) => async (dispatch) => {
+  dispatch({
+    type: UPDATE_IMAGE,
+    payload: url,
   });
 };

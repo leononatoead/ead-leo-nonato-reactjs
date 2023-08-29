@@ -29,7 +29,7 @@ export default function Navbar({ title }) {
   };
 
   return (
-    <header className='w-full p-4 bg-white font-bold flex gap-4 items-center justify-center'>
+    <header className='w-full px-4 py-2 bg-white font-bold flex gap-4 items-center justify-center'>
       <Menu className='!h-[44px]'>
         <MenuTrigger disableButtonEnhancement>
           <div className='flex items-center justify-center w-full'>

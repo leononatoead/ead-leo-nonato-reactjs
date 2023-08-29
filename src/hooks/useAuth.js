@@ -8,16 +8,20 @@ import {
   sendEmailVerification,
   sendPasswordResetEmail,
   updateProfile,
+  updatePassword,
   deleteUser,
 } from 'firebase/auth';
 
 import { toast } from 'react-hot-toast';
 import { doc, setDoc } from 'firebase/firestore';
+import { updateProfileImage } from '../redux/modules/auth/actions';
+import { useDispatch } from 'react-redux';
 
 const useAuth = () => {
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const actionCodeSettings = {
     url: `${import.meta.env.VITE_VERCEL_APP_URL}/verify-success`,
@@ -66,6 +70,18 @@ const useAuth = () => {
     }
   };
 
+  const verifyEmail = async () => {
+    setLoading(true);
+    try {
+      await sendEmailVerification(auth._currentUser, actionCodeSettings);
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const resetPassword = async (email, setSuccess) => {
     setLoading(true);
     try {
@@ -84,13 +100,33 @@ const useAuth = () => {
     }
   };
 
-  const verifyEmail = async () => {
+  const changePassword = async (newPassword, setSuccess) => {
     setLoading(true);
     try {
-      await sendEmailVerification(auth._currentUser, actionCodeSettings);
+      await updatePassword(auth.currentUser, newPassword);
+      setSuccess(true);
     } catch (error) {
-      console.log(error);
-      toast.error(error.message);
+      if (error.message.includes('equires-recent-login')) {
+        toast.error(
+          'A troca de senha necessita de um login recente, por favor ente novamente para altera-la.',
+        );
+      }
+      console.log(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const changeImage = async (url, setSuccess) => {
+    setLoading(true);
+
+    try {
+      await updateProfile(auth.currentUser, { photoURL: url });
+
+      dispatch(updateProfileImage(url));
+      setSuccess(true);
+    } catch (error) {
+      console.log(error.message);
     } finally {
       setLoading(false);
     }
@@ -99,8 +135,10 @@ const useAuth = () => {
   return {
     loginUser,
     registerUser,
-    resetPassword,
     verifyEmail,
+    resetPassword,
+    changePassword,
+    changeImage,
     loading,
   };
 };

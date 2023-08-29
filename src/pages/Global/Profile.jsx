@@ -1,35 +1,25 @@
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
+import useFormatPhone from '../../hooks/useFormatPhone';
+
+import { Avatar } from '@fluentui/react-components';
+
 import Navbar from '../../components/Global/Navbar';
+import ChangePassword from '../../components/Global/ChangePassword';
+import ChangeProfileImage from '../../components/Global/ChangeProfileImage';
 
 import background from '../../assets/auth-background.png';
-import closeIcon from '../../assets/closeIcon.svg';
+import edit from '../../assets/edit.svg';
 import pencil from '../../assets/pencil.svg';
 
 export default function Profile() {
   const { user } = useSelector((state) => state.auth);
 
-  function formatarTelefone(num) {
-    let phone = num.replace('+', '');
+  const [openEditPhotoModal, setOpenEditPhotoModal] = useState(false);
+  const [openEditPasswordModal, setOpenEditPasswordModal] = useState(false);
 
-    if (phone.startsWith('55')) {
-      phone = phone.substring(2);
-    }
-
-    if (phone.length === 11) {
-      return `(${phone.substring(0, 2)}) ${phone.substring(
-        2,
-        3,
-      )} ${phone.substring(3, 7)}-${phone.substring(7)}`;
-    } else if (phone.length === 10) {
-      return `(${phone.substring(0, 2)}) ${phone.substring(
-        2,
-        6,
-      )}-${phone.substring(6)}`;
-    } else {
-      return phone;
-    }
-  }
+  const { formatPhone } = useFormatPhone();
 
   return (
     <main className='min-h-screen bg-[#efefef]'>
@@ -37,28 +27,35 @@ export default function Profile() {
       <div>
         <img
           src={background}
-          alt=''
+          alt='background'
           className='rounded-br-[16px] rounded-bl-[16px] h-[120px] w-full object-cover'
         />
 
-        <div className='relative flex justify-center -mt-12 mb-4'>
-          {user?.photoURL ? (
-            <img
-              src={user?.photoURL}
-              alt='avatar'
-              className='w-[95px] h-[95px] rounded-full border-4 border-[#001A68] shadow-md shadow-black/40'
-            />
-          ) : (
-            <div className='w-[95px] h-[95px] rounded-full flex justify-center items-center bg-[#001A68] shadow-md shadow-black/40'>
-              <img src={closeIcon} alt='avatar' className='w-8 invert-[100%]' />
-            </div>
-          )}
+        <div className=' flex justify-center -mt-12 mb-4'>
+          <div className='relative'>
+            {user?.photoURL ? (
+              <Avatar
+                name={user?.name}
+                size={96}
+                className='border-4 border-[#001A68]'
+                image={{
+                  src: user?.photoURL,
+                }}
+                // image={{
+                //   src: 'https://avatars.githubusercontent.com/u/77733200?v=4',
+                // }}
+              />
+            ) : (
+              <Avatar name={user?.name} size={96} color='blue' />
+            )}
 
-          <img
-            src={pencil}
-            alt='pencil'
-            className='rounded-full w-[20px] h-[20px] object-cover bg-white absolute top-[70px] left-[210px] shadow-md shadow-black/40'
-          />
+            <button
+              className='absolute bg-white rounded-full w-[20px] h-[20px] top-16 right-0 shadow-md shadow-black/40 flex justify-center items-center'
+              onClick={() => setOpenEditPhotoModal(true)}
+            >
+              <img src={edit} alt='pencil' />
+            </button>
+          </div>
         </div>
 
         <h2 className='poppins text-[18px] font-bold leading-6 w-full text-center mb-1'>
@@ -74,7 +71,7 @@ export default function Profile() {
         <div className='flex flex-col'>
           <span className='text-[14px] leading-6'>CPF</span>
           <span
-            className={`w-full rounded-[4px]  px-3 py-[5px] leading-[20px] text-[14px] outline-none bg-white shadow-sm shadow-zinc-700/50`}
+            className={`w-full rounded-[4px]  px-3 py-[5px] leading-[20px] text-[14px] outline-none bg-white shadow-sm shadow-zinc-700/50 text-zinc-400`}
           >
             {user.cpf}
           </span>
@@ -82,7 +79,7 @@ export default function Profile() {
         <div className='flex flex-col'>
           <span className='text-[14px] leading-[20px]'>E-mail</span>
           <span
-            className={`w-full rounded-[4px]  px-3 py-[5px] leading-[20px] text-[14px] outline-none bg-white shadow-sm shadow-zinc-700/50`}
+            className={`w-full rounded-[4px] px-3 py-[5px] leading-[20px] text-[14px] outline-none bg-white shadow-sm shadow-zinc-700/50 text-zinc-400`}
           >
             {user.email}
           </span>
@@ -90,9 +87,9 @@ export default function Profile() {
         <div className='flex flex-col'>
           <span className='text-[14px] leading-[20px]'>Celular</span>
           <span
-            className={`w-full rounded-[4px]  px-3 py-[5px] leading-[20px] text-[14px] outline-none bg-white shadow-sm shadow-zinc-700/50`}
+            className={`w-full rounded-[4px]  px-3 py-[5px] leading-[20px] text-[14px] outline-none bg-white shadow-sm shadow-zinc-700/50 text-zinc-400`}
           >
-            {formatarTelefone(user?.phoneNumber)}
+            {formatPhone(user?.phoneNumber)}
           </span>
         </div>
         <div className='flex flex-col'>
@@ -101,12 +98,25 @@ export default function Profile() {
             className={`w-full rounded-[4px]  px-3 py-[5px] leading-[20px] text-[14px] outline-none bg-white shadow-sm shadow-zinc-700/50 relative`}
           >
             ********
-            <button className='absolute w-[32px] h-[28px] top-0 right-0 rounded-sm outline-none'>
+            <button
+              className='absolute w-[32px] h-[28px] top-0 right-0 rounded-sm outline-none'
+              onClick={() => setOpenEditPasswordModal(true)}
+            >
               <img src={pencil} alt='pencil' />
             </button>
           </span>
         </div>
       </div>
+
+      <ChangeProfileImage
+        openModal={openEditPhotoModal}
+        setOpenModal={setOpenEditPhotoModal}
+      />
+
+      <ChangePassword
+        openModal={openEditPasswordModal}
+        setOpenModal={setOpenEditPasswordModal}
+      />
     </main>
   );
 }
