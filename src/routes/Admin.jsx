@@ -20,6 +20,7 @@ export default function AdminRoutes() {
 
       <Route path='/profile' element={<Profile />} />
       <Route path='/dashboard' element={<Dashboard />}>
+        <Route path='/dashboard' element={<Courses />} />
         <Route path='courses' element={<Courses />} />
         <Route path='courses/:id' element={<CourseDetails />} />
       </Route>

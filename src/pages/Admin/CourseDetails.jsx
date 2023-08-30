@@ -51,11 +51,16 @@ export default function CourseDetails() {
 
   return (
     <main className='mainLayout'>
-      <h1 className='text-3xl text-sky-400 font-bold uppercase mb-2'>
+      <img
+        src={course?.imagePath}
+        alt='banner'
+        className='w-full rounded-md mb-4'
+      />
+      <h1 className='text-2xl leading-7 text-[#003E92] font-bold mb-2 w-full text-center'>
         {course?.name}
       </h1>
       <div className='flex justify-start gap-20 items-start mt-8'>
-        <div>
+        <div className='w-full'>
           <p className='mb-2'>
             <span className='font-bold'>Autor:</span> {course?.author}
           </p>
@@ -71,7 +76,7 @@ export default function CourseDetails() {
             {course?.isFree ? ' Sim' : ' Não'}
           </p>
 
-          <div className='w-full flex justify-between gap-4'>
+          <div className='w-full flex  items-center justify-center gap-4'>
             <EditCourseModal
               course={course}
               openEditModal={openEditCourseModal}
@@ -79,17 +84,18 @@ export default function CourseDetails() {
             />
             <button
               onClick={() => handleDeleteCourse(course)}
-              className='px-4 py-2 bg-red-500 rounded-md text-white font-bold'
+              className='px-4 py-[5px] bg-red-500 rounded-md text-white font-bold'
             >
               Deletar
             </button>
           </div>
         </div>
-        <img src={course?.imagePath} alt='banner' className='max-h-[200px]' />
       </div>
 
-      <h1 className='text-3xl text-sky-400 font-bold uppercase mb-2'>AULAS</h1>
-      <div className='w-full flex justify-end'>
+      <div className='w-full flex justify-between mt-10'>
+        <h1 className='text-xl text-[#003E92] font-bold uppercase mb-2'>
+          AULAS
+        </h1>
         <AddVideoModal
           id={id}
           openVideoModal={openVideoModal}

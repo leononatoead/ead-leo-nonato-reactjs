@@ -55,7 +55,7 @@ export default function LoginForm({ show }) {
             theme={'light'}
             type={'password'}
             label={'Senha'}
-            placeholder={'***********'}
+            placeholder={'********'}
             register={register}
             id={'password'}
             error={errors?.password?.message}

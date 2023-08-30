@@ -13,7 +13,7 @@ export default function VideoEditCard({ id, video }) {
 
   return (
     <li key={video.id} className='flex justify-between items-center'>
-      <span className='text-xl font-bold'>{video.title}</span>
+      <span className='text-xs font-bold'>{video.title}</span>
       <div className='flex gap-4'>
         <EditVideoModal
           courseId={id}
