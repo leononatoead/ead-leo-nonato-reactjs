@@ -6,6 +6,10 @@
   font-family: 'Inter', sans-serif;
 }
 
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
 .poppins {
   font-family: 'Poppins', sans-serif;
 }
@@ -61,4 +65,17 @@
 
 .f1hu3pq6 {
   margin: 0 !important;
+}
+
+::-webkit-scrollbar-track {
+  background: ccc;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #eee;
 }

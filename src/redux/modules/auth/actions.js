@@ -2,7 +2,12 @@ import { database, auth } from '../../../firebase/config';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
 
-import { AUTH_USER, UPDATE_IMAGE, LOGOUT_USER } from './slice';
+import {
+  AUTH_USER,
+  UPDATE_IMAGE,
+  LOGOUT_USER,
+  UPDATE_USER_COURSES,
+} from './slice';
 
 const getUserData = async (uid) => {
   try {
@@ -49,5 +54,12 @@ export const updateProfileImage = (url) => async (dispatch) => {
   dispatch({
     type: UPDATE_IMAGE,
     payload: url,
+  });
+};
+
+export const updtateUserCourses = (data) => async (dispatch) => {
+  dispatch({
+    type: UPDATE_USER_COURSES,
+    payload: data,
   });
 };

@@ -11,7 +11,7 @@ export default function Modal({
 }) {
   return (
     <Dialog modalType='modal' open={openModal}>
-      <DialogSurface className='!absolute !bottom-0 !rounded-tr-[24px] !rounded-tl-[24px] !rounded-bl-none  !rounded-br-none !outline-none !bg-[#efefef] !overflow-hidden'>
+      <DialogSurface className='!bottom-0 !rounded-tr-[24px] !rounded-tl-[24px] !rounded-bl-none  !rounded-br-none !outline-none !bg-[#efefef] !overflow-hidden'>
         <div className='relative flex justify-center w-full mb-6'>
           <p className='w-full text-center text-[#003E92] poppins text-[18px] font-bold'>
             {title}

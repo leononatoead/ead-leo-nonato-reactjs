@@ -96,17 +96,24 @@ export default function CourseDetails() {
         <h1 className='text-xl text-[#003E92] font-bold uppercase mb-2'>
           AULAS
         </h1>
-        <AddVideoModal
-          id={id}
-          openVideoModal={openVideoModal}
-          setOpenVideoModal={setOpenVideoModal}
-        />
+        <button
+          onClick={() => {
+            setOpenVideoModal(true);
+          }}
+        >
+          Adicionar aula
+        </button>
       </div>
       <ul className='flex flex-col gap-4 my-6'>
         {videoList?.map((video) => (
           <VideoEditCard id={id} video={video} key={video.id} />
         ))}
       </ul>
+      <AddVideoModal
+        id={id}
+        openVideoModal={openVideoModal}
+        setOpenVideoModal={setOpenVideoModal}
+      />
     </main>
   );
 }
