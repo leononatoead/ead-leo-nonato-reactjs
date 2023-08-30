@@ -21,7 +21,7 @@ export default function Course() {
     videoList: [],
     playerSize: 'full',
     isLocked: false,
-    freePeriod: 30,
+    // freePeriod: 30,
     timeLeft: 30,
   });
 
@@ -32,13 +32,16 @@ export default function Course() {
   const courses = useSelector((state) => state.courses.courses);
   const course = courses.find((course) => course.id === id);
 
-  const calculateViewTime = (createdAt) => {
-    const mili = 24 * 60 * 60 * 100;
-    const finalTime = new Date(createdAt + videoPlayer?.freePeriod * mili);
-    const today = Date.now();
-    const dif = Math.floor((finalTime - today) / mili);
-    return dif;
-  };
+  // const calculateViewTime = (createdAt) => {
+  //   const mili = 24 * 60 * 60 * 100;
+  //   const finalTime = new Date(createdAt + videoPlayer?.freePeriod * mili);
+  //   console.log(finalTime);
+  //   const today = Date.now();
+  //   console.log(today);
+  //   const dif = Math.floor((finalTime - today) / mili);
+  //   console.log(dif);
+  //   return dif;
+  // };
 
   useEffect(() => {
     const course = courses.find((course) => course.id === id);
@@ -46,11 +49,12 @@ export default function Course() {
     if (!course.videos) {
       dispatch(fetchVideos(id));
     } else {
-      setVideoPlayer({
+      setVideoPlayer((prev) => ({
+        ...prev,
         active: course?.videos[0],
         videoList: course?.videos,
-        freePeriod: 30,
-      });
+        // freePeriod: 30,
+      }));
     }
   }, [courses, id]);
 
@@ -58,26 +62,25 @@ export default function Course() {
     if (user.courses?.length > 0) {
       const findCourse = user.courses.find((course) => course.courseId === id);
 
-      if (findCourse) {
-        const time = calculateViewTime(findCourse.createdAt);
-
-        if (time === 0) {
-          setVideoPlayer((prev) => ({
-            ...prev,
-            isLocked: true,
-            timeLeft: time,
-          }));
-        } else {
-          setVideoPlayer((prev) => ({
-            ...prev,
-            isLocked: false,
-            timeLeft: time,
-          }));
-        }
-      } else {
-        const prev = [...user.courses];
-        addCourseToUser(user.uid, id, prev);
-      }
+      // if (findCourse) {
+      //   // const time = calculateViewTime(findCourse.createdAt);
+      //   // if (time === 0) {
+      //   //   setVideoPlayer((prev) => ({
+      //   //     ...prev,
+      //   //     isLocked: true,
+      //   //     timeLeft: time,
+      //   //   }));
+      //   // } else {
+      //   //   setVideoPlayer((prev) => ({
+      //   //     ...prev,
+      //   //     isLocked: false,
+      //   //     timeLeft: time,
+      //   //   }));
+      //   // }
+      // } else {
+      const prev = [...user.courses];
+      addCourseToUser(user.uid, id, prev);
+      // }
     } else {
       addCourseToUser(user.uid, id);
     }
@@ -90,13 +93,13 @@ export default function Course() {
         <h1>Nenhuma aula.</h1>
       ) : (
         <div className='flex flex-col flex-1'>
-          <div className='bg-red-500 text-white  text-center py-2'>
+          {/* <div className='bg-red-500 text-white text-center p-2'>
             Você tem {videoPlayer?.timeLeft} dias de conteúdo gratuito, após
             isso{' '}
             <Link to='/' className='font-medium border-b-white border-b-[1px]'>
               assine
             </Link>
-          </div>
+          </div> */}
           <VideoPlayer
             video={videoPlayer?.active}
             size={videoPlayer?.playerSize}
@@ -117,37 +120,6 @@ export default function Course() {
               </AccordionItem>
             </Accordion>
           </div>
-          {/* {videoSize !== 'full' && (
-            <ul className='p-8 flex flex-col gap-4'>
-              {videoList?.map((video) => (
-                <li
-                  key={video.id}
-                  onClick={() => handleSelectVideo(video.id)}
-                  className={`cursor-pointer font-bold ${
-                    activeVideo?.id === video.id && 'text-sky-400'
-                  }`}
-                >
-                  {video.title}
-                </li>
-              ))}
-            </ul>
-          )} */}
-          {/* <ul className='flex flex-col gap-4 mt-8'>
-            {activeVideo?.assets &&
-              activeVideo.assets.map((asset, index) => (
-                <li key={index} className='flex justify-between'>
-                  <span>{asset.fileName}</span>
-                  <a
-                    href={asset.fileURL}
-                    download
-                    target='_blank'
-                    className='text-sky-500 font-bold cursor-pointer'
-                  >
-                    Download
-                  </a>
-                </li>
-              ))}
-          </ul> */}
 
           <div className='bg-[#F3F3F3] flex-1'>
             <div className='flex items-center w-full bg-white mt-[-1px]'>
