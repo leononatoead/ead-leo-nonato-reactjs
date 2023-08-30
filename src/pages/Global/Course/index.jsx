@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { fetchVideos } from '../../../redux/modules/courses/actions';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -12,7 +12,7 @@ import {
 } from '@fluentui/react-components';
 
 import useUserData from '../../../hooks/useUserData';
-import VideoList from './videoList';
+import VideoList from './VideoList';
 import VideoPlayer from './VideoPlayer';
 
 export default function Course() {
