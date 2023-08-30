@@ -80,6 +80,10 @@ export default function Navbar({ title }) {
                 </button>
               </>
             )}
+
+            <Link to='/faq' className='w-full text-center'>
+              FAQ
+            </Link>
           </MenuList>
         </MenuPopover>
       </Menu>

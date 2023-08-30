@@ -7,6 +7,7 @@ import VerifyPhone from '../pages/Auth/VerifyPhone';
 import VerifyEmail from '../pages/Auth/VerifyEmail';
 import VerifySuccess from '../pages/Auth/VerifySuccess';
 import Profile from '../pages/Global/Profile';
+import FAQ from '../pages/Global/FAQ';
 
 export default function UserAuthenticatedRoutes({ user }) {
   return (
@@ -77,6 +78,7 @@ export default function UserAuthenticatedRoutes({ user }) {
       />
 
       <Route path='/profile' element={<Profile />} />
+      <Route path='/faq' element={<FAQ />} />
       <Route path='/course/:id' element={<Course />} />
       <Route path='/newsletter' element={<Newsletter />} />
     </Routes>

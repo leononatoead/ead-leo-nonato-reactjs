@@ -8,9 +8,11 @@
     { "src": "/verify-success", "dest": "/" },
     { "src": "/change-password-success", "dest": "/" },
     { "src": "/profile", "dest": "/" },
-    { "src": "/courses", "dest": "/" },
-    { "src": "/course/:id", "dest": "/" },
+    { "src": "/dashboard", "dest": "/" },
     { "src": "/course", "dest": "/" },
-    { "src": "/newsletter", "dest": "/" }
+    { "src": "/course/:id", "dest": "/" },
+    { "src": "/courses", "dest": "/" },
+    { "src": "/newsletter", "dest": "/" },
+    { "src": "/faq", "dest": "/" }
   ]
 }

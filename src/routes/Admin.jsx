@@ -8,6 +8,7 @@ import Dashboard from '../pages/Admin/Dashboard';
 import Courses from '../pages/Admin/Courses';
 import CourseDetails from '../pages/Admin/CourseDetails';
 import Profile from '../pages/Global/Profile';
+import FAQ from '../pages/Global/FAQ';
 
 export default function AdminRoutes() {
   return (
@@ -15,6 +16,7 @@ export default function AdminRoutes() {
       <Route path='/' element={<Home />} />
       <Route path='/course/:id' element={<Course />} />
       <Route path='/newsletter' element={<Newsletter />} />
+      <Route path='/faq' element={<FAQ />} />
 
       <Route path='/profile' element={<Profile />} />
       <Route path='/dashboard' element={<Dashboard />}>
