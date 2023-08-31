@@ -60,7 +60,7 @@ export default function Course() {
 
   useEffect(() => {
     if (user.courses?.length > 0) {
-      const findCourse = user.courses.find((course) => course.courseId === id);
+      // const findCourse = user.courses.find((course) => course.courseId === id);
 
       // if (findCourse) {
       //   // const time = calculateViewTime(findCourse.createdAt);

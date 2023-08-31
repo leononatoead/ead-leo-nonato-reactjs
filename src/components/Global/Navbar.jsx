@@ -3,7 +3,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutUser } from '../../redux/modules/auth/actions';
-import LoginModal from '../../components/Auth/LoginModal';
+import LoginModal from '../Auth/LoginModal';
 
 import arrowLeft from '../../assets/left-arrow.svg';
 import burger from '../../assets/burger.svg';
@@ -37,9 +37,16 @@ export default function Navbar({ title }) {
               <img src={arrowLeft} alt='back' />
             </Link>
           )}
-          <span className='block poppins text-[17px] leading-[22px] flex-1 text-center font-normal'>
-            {title}
-          </span>
+          {path.pathname === '/' ? (
+            <span className='block poppins text-[18px] leading-6 flex-1 text-left font-bold poppins'>
+              Léo Nonato
+            </span>
+          ) : (
+            <span className='block poppins text-[17px] leading-[22px] flex-1 text-center font-normal'>
+              {title}
+            </span>
+          )}
+
           <MenuTrigger disableButtonEnhancement>
             <button className=''>
               <img src={burger} alt='menu' />

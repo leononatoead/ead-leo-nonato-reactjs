@@ -9,7 +9,7 @@ import {
   limit,
   onSnapshot,
   orderBy,
-  query
+  query,
 } from 'firebase/firestore';
 
 export const fetchCourses = createAsyncThunk(
@@ -18,7 +18,7 @@ export const fetchCourses = createAsyncThunk(
     const collectionRef = collection(database, 'courses');
 
     try {
-      const q = query(collectionRef, orderBy('createdAt', 'asc'), limit(10));
+      const q = query(collectionRef, orderBy('createdAt', 'asc'));
 
       return new Promise((resolve, reject) => {
         onSnapshot(
@@ -27,19 +27,19 @@ export const fetchCourses = createAsyncThunk(
             const data = querySnapshot.docs.map((doc) => ({
               id: doc.id,
               ...doc.data(),
-              createdAt: doc.data().createdAt.toMillis()
+              createdAt: doc.data().createdAt.toMillis(),
             }));
             resolve(data);
           },
           (error) => {
             reject(error);
-          }
+          },
         );
       });
     } catch (error) {
       console.log(error.message);
     }
-  }
+  },
 );
 
 export const fetchVideos = createAsyncThunk(
@@ -55,57 +55,57 @@ export const fetchVideos = createAsyncThunk(
       const videos = querySnapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
-        createdAt: doc.data().createdAt.toMillis()
+        createdAt: doc.data().createdAt.toMillis(),
       }));
 
       return {
         id: courseId,
-        videos: videos
+        videos: videos,
       };
     } catch (error) {
       console.log(error.message);
     }
-  }
+  },
 );
 
 export const addCourse = (courseData) => {
   return {
     type: 'courses/addCourse',
-    payload: courseData
+    payload: courseData,
   };
 };
 
 export const editCourse = (courseData) => {
   return {
     type: 'courses/editCourse',
-    payload: courseData
+    payload: courseData,
   };
 };
 
 export const delCourse = (courseId) => {
   return {
     type: 'courses/delCourse',
-    payload: courseId
+    payload: courseId,
   };
 };
 
 export const addVideo = (videoData) => {
   return {
     type: 'courses/addVideo',
-    payload: videoData
+    payload: videoData,
   };
 };
 
 export const editVideo = (videoData) => {
   return {
     type: 'courses/editVideo',
-    payload: videoData
+    payload: videoData,
   };
 };
 
 export const delVideo = (videoData) => {
   return {
     type: 'courses/delVideo',
-    payload: videoData
+    payload: videoData,
   };
 };

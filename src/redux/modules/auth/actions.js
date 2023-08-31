@@ -32,6 +32,7 @@ export const verifyAuthentication = () => (dispatch) => {
         emailVerified: user.emailVerified,
         phoneNumber: user.phoneNumber,
         photoURL: user.photoURL,
+        isPremium: false,
         ...collectionData,
       };
       dispatch({ type: AUTH_USER, payload: userPayload });

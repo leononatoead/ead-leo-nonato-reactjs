@@ -7,12 +7,14 @@
     { "src": "/verify-email", "dest": "/" },
     { "src": "/verify-success", "dest": "/" },
     { "src": "/change-password-success", "dest": "/" },
-    { "src": "/profile", "dest": "/" },
-    { "src": "/dashboard", "dest": "/" },
     { "src": "/course", "dest": "/" },
-    { "src": "/course/:id", "dest": "/" },
     { "src": "/courses", "dest": "/" },
+    { "src": "/profile", "dest": "/" },
     { "src": "/newsletter", "dest": "/" },
-    { "src": "/faq", "dest": "/" }
+    { "src": "/newsletter/:id", "dest": "/" },
+    { "src": "/dashboard", "dest": "/" },
+    { "src": "/dashboard/courses", "dest": "/" },
+    { "src": "/dashboard/courses/:id", "dest": "/" },
+    { "src": "/dashboard/faq", "dest": "/" }
   ]
 }
