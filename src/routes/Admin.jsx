@@ -10,8 +10,6 @@ import CourseDetails from '../pages/Admin/CourseDetails';
 import Profile from '../pages/Global/Profile';
 import FAQ from '../pages/Global/FAQ';
 
-import VerifySucess from '../pages/Auth/VerifySuccess';
-
 export default function AdminRoutes() {
   return (
     <Routes>
@@ -19,8 +17,6 @@ export default function AdminRoutes() {
       <Route path='/course/:id' element={<Course />} />
       <Route path='/newsletter' element={<Newsletter />} />
       <Route path='/faq' element={<FAQ />} />
-
-      <Route path='/test' element={<VerifySucess />} />
 
       <Route path='/profile' element={<Profile />} />
       <Route path='/dashboard' element={<Dashboard />}>
