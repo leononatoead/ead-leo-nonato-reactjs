@@ -25,7 +25,7 @@ export default function Home() {
   const paidCourses = courses?.filter((course) => !course.isFree);
 
   return (
-    <main className='min-h-screen bg-[#f0f0f0]'>
+    <main className='h-screen overflow-y-auto bg-[#f0f0f0]'>
       <Navbar title={'Início'} />
       <div className='w-full bg-white flex px-4 py-[6px]'>
         <SearchBar />
@@ -35,7 +35,10 @@ export default function Home() {
           <img src={starIcon} alt='star' className='w-4' />
           <span className='text-xs'>
             Tenha acesso ilimitado a todo o conteúdo e cresça como investidor.{' '}
-            <Link className='text-[#005FB8]'> Se torne um membro</Link>
+            <Link to='/' className='text-[#005FB8]'>
+              {' '}
+              Se torne um membro
+            </Link>
           </span>
         </div>
       )}
@@ -114,7 +117,7 @@ export default function Home() {
             {freeCourses.map((course) => (
               <SwiperSlide key={course.id}>
                 <VideoCard
-                  cardData={course}
+                  courseData={course}
                   setOpenLoginModal={setOpenLoginModal}
                 />
               </SwiperSlide>
@@ -142,7 +145,7 @@ export default function Home() {
             {paidCourses.map((course) => (
               <SwiperSlide key={course.id}>
                 <VideoCard
-                  cardData={course}
+                  courseData={course}
                   setOpenLoginModal={setOpenLoginModal}
                 />
               </SwiperSlide>
