@@ -9,6 +9,7 @@ import {
   deleteObject,
   listAll,
 } from 'firebase/storage';
+
 import {
   Timestamp,
   addDoc,
@@ -20,7 +21,7 @@ import {
 } from 'firebase/firestore';
 import { database, storage } from '../firebase/config';
 
-import { toast } from 'react-hot-toast';
+import { useToast } from '@chakra-ui/react';
 import { useDispatch } from 'react-redux';
 import {
   addCourse,
@@ -33,6 +34,7 @@ const useCourse = () => {
   const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
+  const toast = useToast();
 
   const addNewCourse = (
     courseData,
@@ -43,7 +45,12 @@ const useCourse = () => {
     setLoading(true);
 
     if (imageFile === null) {
-      toast.error('Envie uma imagem!');
+      toast({
+        description: 'Envie uma imagem!',
+        status: 'error',
+        duration: '3000',
+        isClosable: true,
+      });
       return;
     }
 
@@ -64,23 +71,43 @@ const useCourse = () => {
         setProgress(progressStatus);
         switch (snapshot.state) {
           case 'paused':
-            toast.promise('Envio pausado');
+            toast({
+              description: 'Envio pausado!',
+              status: 'info',
+              duration: '3000',
+              isClosable: true,
+            });
             break;
           default:
-            // toast.loading('Enviando ...');
             break;
         }
       },
       (error) => {
         switch (error.code) {
           case 'storage/unauthorized':
-            toast.error('O usuário não tem autorização para acessar o objeto.');
+            toast({
+              description:
+                'O usuário não tem autorização para acessar o objeto.',
+              status: 'error',
+              duration: '3000',
+              isClosable: true,
+            });
             break;
           case 'storage/canceled':
-            toast.error('O usuário cancelou o upload');
+            toast({
+              description: 'O usuário cancelou o upload',
+              status: 'error',
+              duration: '3000',
+              isClosable: true,
+            });
             break;
           default:
-            toast.error('Ocorreu um erro, tente novamente.');
+            toast({
+              description: 'Ocorreu um erro, tente novamente.',
+              status: 'error',
+              duration: '3000',
+              isClosable: true,
+            });
             break;
         }
       },
@@ -108,10 +135,19 @@ const useCourse = () => {
             }),
           );
 
-          toast.success('Curso criado com sucesso!');
+          toast({
+            description: 'Curso adicionado com sucesso',
+            status: 'success',
+            duration: '3000',
+            isClosable: true,
+          });
         } catch (error) {
-          toast.error(error.message);
-          console.log(error);
+          toast({
+            description: error.message,
+            status: 'error',
+            duration: '3000',
+            isClosable: true,
+          });
         } finally {
           setOpenCourseModal(false);
           setLoading(false);
@@ -130,7 +166,12 @@ const useCourse = () => {
     setLoading(true);
 
     if (imageFile === null) {
-      toast.error('Envie um arquivo!');
+      toast({
+        description: 'Envie uma imagem!',
+        status: 'error',
+        duration: '3000',
+        isClosable: true,
+      });
       return;
     }
 
@@ -150,23 +191,43 @@ const useCourse = () => {
         setProgress(progressStatus);
         switch (snapshot.state) {
           case 'paused':
-            toast.promise('Envio pausado');
+            toast({
+              description: 'Envio pausado',
+              status: 'info',
+              duration: '3000',
+              isClosable: true,
+            });
             break;
           default:
-            // toast.loading('Enviando ...');
             break;
         }
       },
       (error) => {
         switch (error.code) {
           case 'storage/unauthorized':
-            toast.error('O usuário não tem autorização para acessar o objeto.');
+            toast({
+              description:
+                'O usuário não tem autorização para acessar o objeto.',
+              status: 'error',
+              duration: '3000',
+              isClosable: true,
+            });
             break;
           case 'storage/canceled':
-            toast.error('O usuário cancelou o upload');
+            toast({
+              description: 'O usuário cancelou o upload',
+              status: 'error',
+              duration: '3000',
+              isClosable: true,
+            });
             break;
           default:
-            toast.error('Ocorreu um erro, tente novamente.');
+            toast({
+              description: 'Ocorreu um erro, tente novamente.',
+              status: 'error',
+              duration: '3000',
+              isClosable: true,
+            });
             break;
         }
       },
@@ -196,10 +257,19 @@ const useCourse = () => {
             }),
           );
 
-          toast.success('Curso editado com sucesso!');
+          toast({
+            description: 'Curso alterado com sucesso!',
+            status: 'success',
+            duration: '3000',
+            isClosable: true,
+          });
         } catch (error) {
-          toast.error(error.message);
-          console.log(error);
+          toast({
+            description: error.message,
+            status: 'error',
+            duration: '3000',
+            isClosable: true,
+          });
         } finally {
           setOpenEditModal(false);
           setLoading(false);
@@ -225,10 +295,19 @@ const useCourse = () => {
         }),
       );
 
-      toast.success('Curso editado com sucesso!');
+      toast({
+        description: 'Curso alterado com sucesso!',
+        status: 'success',
+        duration: '3000',
+        isClosable: true,
+      });
     } catch (error) {
-      console.log(error);
-      toast.error(error.message);
+      toast({
+        description: error.message,
+        status: 'error',
+        duration: '3000',
+        isClosable: true,
+      });
     } finally {
       setOpenEditModal(false);
       setLoading(false);
@@ -280,10 +359,20 @@ const useCourse = () => {
       await Promise.all(deleteVideoSubcollectionPromises);
 
       dispatch(delCourse(courseData.id));
-      toast.success('Curso removido com sucesso.');
+
+      toast({
+        description: 'Curso removido com sucesso.',
+        status: 'success',
+        duration: '3000',
+        isClosable: true,
+      });
     } catch (error) {
-      console.log(error);
-      toast.error(error.message);
+      toast({
+        description: error.message,
+        status: 'error',
+        duration: '3000',
+        isClosable: true,
+      });
     } finally {
       setLoading(false);
     }

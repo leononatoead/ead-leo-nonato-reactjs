@@ -1,6 +1,9 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { auth, database } from '../firebase/config';
+import { updateProfileImage } from '../redux/modules/auth/actions';
+import { useToast } from '@chakra-ui/react';
 
 import {
   createUserWithEmailAndPassword,
@@ -12,16 +15,14 @@ import {
   deleteUser,
 } from 'firebase/auth';
 
-import { toast } from 'react-hot-toast';
 import { doc, setDoc } from 'firebase/firestore';
-import { updateProfileImage } from '../redux/modules/auth/actions';
-import { useDispatch } from 'react-redux';
 
 const useAuth = () => {
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const toast = useToast();
 
   const actionCodeSettings = {
     url: `${import.meta.env.VITE_VERCEL_APP_URL}/verify-success`,
@@ -33,7 +34,12 @@ const useAuth = () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
     } catch (error) {
-      toast.error(error.message);
+      toast({
+        description: error.message,
+        status: 'error',
+        duration: '3000',
+        isClosable: true,
+      });
       navigate('/');
     } finally {
       setLoading(false);
@@ -64,7 +70,12 @@ const useAuth = () => {
 
       navigate('/verify-phone');
     } catch (error) {
-      toast.error(error.message);
+      toast({
+        description: error.message,
+        status: 'error',
+        duration: '3000',
+        isClosable: true,
+      });
     } finally {
       setLoading(false);
     }
@@ -75,8 +86,12 @@ const useAuth = () => {
     try {
       await sendEmailVerification(auth._currentUser, actionCodeSettings);
     } catch (error) {
-      console.log(error);
-      toast.error(error.message);
+      toast({
+        description: error.message,
+        status: 'error',
+        duration: '3000',
+        isClosable: true,
+      });
     } finally {
       setLoading(false);
     }
@@ -93,7 +108,12 @@ const useAuth = () => {
       await sendPasswordResetEmail(auth, email, actionCodeSettings);
       setSuccess(true);
     } catch (error) {
-      toast.error(error.message);
+      toast({
+        description: error.message,
+        status: 'error',
+        duration: '3000',
+        isClosable: true,
+      });
       setSuccess(false);
     } finally {
       setLoading(false);
@@ -107,11 +127,21 @@ const useAuth = () => {
       setSuccess(true);
     } catch (error) {
       if (error.message.includes('equires-recent-login')) {
-        toast.error(
-          'A troca de senha necessita de um login recente, por favor ente novamente para altera-la.',
-        );
+        toast({
+          description:
+            'A troca de senha necessita de um login recente, por favor ente novamente para altera-la.',
+          status: 'error',
+          duration: '3000',
+          isClosable: true,
+        });
+      } else {
+        toast({
+          description: error.message,
+          status: 'error',
+          duration: '3000',
+          isClosable: true,
+        });
       }
-      console.log(error.message);
     } finally {
       setLoading(false);
     }
@@ -126,7 +156,12 @@ const useAuth = () => {
       dispatch(updateProfileImage(url));
       setSuccess(true);
     } catch (error) {
-      console.log(error.message);
+      toast({
+        description: error.message,
+        status: 'error',
+        duration: '3000',
+        isClosable: true,
+      });
     } finally {
       setLoading(false);
     }

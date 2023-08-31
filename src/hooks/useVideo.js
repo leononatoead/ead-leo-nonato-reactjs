@@ -24,13 +24,14 @@ import {
   updateDoc,
 } from '@firebase/firestore';
 
-import { toast } from 'react-hot-toast';
+import { useToast } from '@chakra-ui/react';
 
 const useVideo = () => {
   const [progress, setProgress] = useState(0);
   const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
+  const toast = useToast();
 
   const uploadVideo = async (
     videoData,
@@ -42,7 +43,12 @@ const useVideo = () => {
     setLoading(true);
 
     if (videoFile === null) {
-      toast.error('Envie um arquivo de vídeo!');
+      toast({
+        description: 'Envie um arquivo de vídeo!',
+        status: 'error',
+        duration: '3000',
+        isClosable: true,
+      });
       return;
     }
 
@@ -64,24 +70,43 @@ const useVideo = () => {
           (snapshot) => {
             switch (snapshot.state) {
               case 'paused':
-                toast.promise('Envio pausado');
+                toast({
+                  description: 'Envio pausado',
+                  status: 'info',
+                  duration: '3000',
+                  isClosable: true,
+                });
                 break;
               default:
                 break;
             }
           },
-          (e) => {
-            switch (e.code) {
+          (error) => {
+            switch (error.code) {
               case 'storage/unauthorized':
-                toast.error(
-                  'O usuário não tem autorização para acessar o objeto.',
-                );
+                toast({
+                  description:
+                    'O usuário não tem autorização para acessar o objeto.',
+                  status: 'error',
+                  duration: '3000',
+                  isClosable: true,
+                });
                 break;
               case 'storage/canceled':
-                toast.error('O usuário cancelou o upload');
+                toast({
+                  description: 'O usuário cancelou o upload',
+                  status: 'error',
+                  duration: '3000',
+                  isClosable: true,
+                });
                 break;
               default:
-                toast.error('Ocorreu um erro, tente novamente.');
+                toast({
+                  description: 'Ocorreu um erro, tente novamente.',
+                  status: 'error',
+                  duration: '3000',
+                  isClosable: true,
+                });
                 break;
             }
           },
@@ -98,8 +123,12 @@ const useVideo = () => {
               };
               assets.push(fileObject);
             } catch (error) {
-              console.log(error);
-              toast.error(error.message);
+              toast({
+                description: error.message,
+                status: 'error',
+                duration: '3000',
+                isClosable: true,
+              });
             }
           },
         );
@@ -122,22 +151,43 @@ const useVideo = () => {
         setProgress(progressStatus);
         switch (snapshot.state) {
           case 'paused':
-            toast.promise('Envio pausado');
+            toast({
+              description: 'Envio pausado',
+              status: 'info',
+              duration: '3000',
+              isClosable: true,
+            });
             break;
           default:
             break;
         }
       },
-      (e) => {
-        switch (e.code) {
+      (error) => {
+        switch (error.code) {
           case 'storage/unauthorized':
-            toast.error('O usuário não tem autorização para acessar o objeto.');
+            toast({
+              description:
+                'O usuário não tem autorização para acessar o objeto.',
+              status: 'error',
+              duration: '3000',
+              isClosable: true,
+            });
             break;
           case 'storage/canceled':
-            toast.error('O usuário cancelou o upload');
+            toast({
+              description: 'O usuário cancelou o upload',
+              status: 'error',
+              duration: '3000',
+              isClosable: true,
+            });
             break;
           default:
-            toast.error('Ocorreu um erro, tente novamente.');
+            toast({
+              description: 'Ocorreu um erro, tente novamente.',
+              status: 'error',
+              duration: '3000',
+              isClosable: true,
+            });
             break;
         }
       },
@@ -168,10 +218,19 @@ const useVideo = () => {
             }),
           );
 
-          toast.success('Aula adicionada com sucesso!');
+          toast({
+            description: 'Aula adicionada com sucesso!',
+            status: 'success',
+            duration: '3000',
+            isClosable: true,
+          });
         } catch (error) {
-          console.log(error);
-          toast.error(error.message);
+          toast({
+            description: error.message,
+            status: 'error',
+            duration: '3000',
+            isClosable: true,
+          });
         } finally {
           setOpenVideoModal(false);
           setLoading(false);
@@ -197,24 +256,43 @@ const useVideo = () => {
           (snapshot) => {
             switch (snapshot.state) {
               case 'paused':
-                toast.promise('Envio pausado');
+                toast({
+                  description: 'Envio pausado',
+                  status: 'info',
+                  duration: '3000',
+                  isClosable: true,
+                });
                 break;
               default:
                 break;
             }
           },
-          (e) => {
-            switch (e.code) {
+          (error) => {
+            switch (error.code) {
               case 'storage/unauthorized':
-                toast.error(
-                  'O usuário não tem autorização para acessar o objeto.',
-                );
+                toast({
+                  description:
+                    'O usuário não tem autorização para acessar o objeto.',
+                  status: 'error',
+                  duration: '3000',
+                  isClosable: true,
+                });
                 break;
               case 'storage/canceled':
-                toast.error('O usuário cancelou o upload');
+                toast({
+                  description: 'O usuário cancelou o upload',
+                  status: 'error',
+                  duration: '3000',
+                  isClosable: true,
+                });
                 break;
               default:
-                toast.error('Ocorreu um erro, tente novamente.');
+                toast({
+                  description: 'Ocorreu um erro, tente novamente.',
+                  status: 'error',
+                  duration: '3000',
+                  isClosable: true,
+                });
                 break;
             }
           },
@@ -232,7 +310,12 @@ const useVideo = () => {
               resolve(fileObject);
             } catch (error) {
               reject(error);
-              toast.error(error.message);
+              toast({
+                description: error.message,
+                status: 'error',
+                duration: '3000',
+                isClosable: true,
+              });
             }
           },
         );
@@ -275,7 +358,12 @@ const useVideo = () => {
           setProgress(progressStatus);
           switch (snapshot.state) {
             case 'paused':
-              toast.promise('Envio pausado');
+              toast({
+                description: 'Envio pausado',
+                status: 'info',
+                duration: '3000',
+                isClosable: true,
+              });
               break;
             default:
               break;
@@ -284,15 +372,29 @@ const useVideo = () => {
         (error) => {
           switch (error.code) {
             case 'storage/unauthorized':
-              toast.error(
-                'O usuário não tem autorização para acessar o objeto.',
-              );
+              toast({
+                description:
+                  'O usuário não tem autorização para acessar o objeto.',
+                status: 'error',
+                duration: '3000',
+                isClosable: true,
+              });
               break;
             case 'storage/canceled':
-              toast.error('O usuário cancelou o upload');
+              toast({
+                description: 'O usuário cancelou o upload',
+                status: 'error',
+                duration: '3000',
+                isClosable: true,
+              });
               break;
             default:
-              toast.error('Ocorreu um erro, tente novamente.');
+              toast({
+                description: 'Ocorreu um erro, tente novamente.',
+                status: 'error',
+                duration: '3000',
+                isClosable: true,
+              });
               break;
           }
         },
@@ -326,10 +428,19 @@ const useVideo = () => {
               }),
             );
 
-            toast.success('Video editado com sucesso!');
+            toast({
+              description: 'Video alterado com sucesso!',
+              status: 'success',
+              duration: '3000',
+              isClosable: true,
+            });
           } catch (error) {
-            toast.error(error.message);
-            console.log(error);
+            toast({
+              description: error.message,
+              status: 'error',
+              duration: '3000',
+              isClosable: true,
+            });
           } finally {
             setOpenEditModal(false);
             setLoading(false);
@@ -358,10 +469,19 @@ const useVideo = () => {
           }),
         );
 
-        toast.success('Video editado com sucesso!');
+        toast({
+          description: 'Video alterado com sucesso!',
+          status: 'success',
+          duration: '3000',
+          isClosable: true,
+        });
       } catch (error) {
-        console.log(error);
-        toast.error(error.message);
+        toast({
+          description: error.message,
+          status: 'error',
+          duration: '3000',
+          isClosable: true,
+        });
       } finally {
         setOpenEditModal(false);
         setLoading(false);
@@ -387,7 +507,12 @@ const useVideo = () => {
 
       dispatch(delVideo({ courseId, videoId }));
     } catch (error) {
-      toast.error(error.message);
+      toast({
+        description: error.message,
+        status: 'error',
+        duration: '3000',
+        isClosable: true,
+      });
     } finally {
       setLoading(false);
     }
