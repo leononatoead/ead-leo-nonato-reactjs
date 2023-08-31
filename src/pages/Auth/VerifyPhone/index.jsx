@@ -136,7 +136,7 @@ export default function VerifyPhone() {
         <Flex flexDirection='column' pb={6} className='!flex-grow'>
           <AuthHeader step={2} />
           <Flex flexDirection='column' px={4} py={1} gap={2}>
-            <Heading className='!font-bold !font-poppins !text-large !leading-6 text-primary-500 poppins'>
+            <Heading className='!font-bold !font-poppins !text-large !leading-6 text-primary-600 poppins'>
               Informe o código
             </Heading>
             <Text className='!font-medium !text-base !text-black !leading-5'>
@@ -182,7 +182,7 @@ export default function VerifyPhone() {
         <Flex flexDirection='column' pb={6} className='!flex-grow'>
           <AuthHeader step={1} />
           <Flex flexDirection='column' px={4} py={1} gap={2}>
-            <Heading className='!font-bold !font-poppins !text-large !leading-6 text-primary-500 poppins'>
+            <Heading className='!font-bold !font-poppins !text-large !leading-6 text-primary-600 poppins'>
               Verificação necessária
             </Heading>
             <Text className='!font-medium !text-base !text-black !leading-5'>

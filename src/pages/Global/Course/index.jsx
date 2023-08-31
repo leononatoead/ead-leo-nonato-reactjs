@@ -123,7 +123,7 @@ export default function Course() {
 
           <div className='bg-[#F3F3F3] flex-1'>
             <div className='flex items-center w-full bg-white mt-[-1px]'>
-              <span className='px-3 py-2 cursor-pointer border-b-2 border-primary-500'>
+              <span className='px-3 py-2 cursor-pointer border-b-2 border-primary-600'>
                 Materiais
               </span>
               <span className='px-3 py-2 cursor-pointer'>Capítulos</span>

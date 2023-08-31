@@ -37,7 +37,7 @@ export default function VerifyEmail() {
       <AuthHeader step={3} />
 
       <Box className='mt-6 mb-8 flex flex-col gap-2 px-4'>
-        <Heading className='!font-bold !font-poppins !text-large !leading-6 text-primary-500'>
+        <Heading className='!font-bold !font-poppins !text-large !leading-6 text-primary-600'>
           Verifique seu e-mail
         </Heading>
         <Text className='!font-medium !text-base !text-black !leading-5'>

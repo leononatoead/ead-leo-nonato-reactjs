@@ -35,7 +35,7 @@ export default function Home() {
           <img src={starIcon} alt='star' className='w-4' />
           <span className='text-xs'>
             Tenha acesso ilimitado a todo o conteúdo e cresça como investidor.{' '}
-            <Link to='/' className='text-primary-500'>
+            <Link to='/' className='text-primary-600'>
               {' '}
               Se torne um membro
             </Link>

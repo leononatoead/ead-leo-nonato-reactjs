@@ -86,7 +86,7 @@ export default function Register() {
           fontSize={'18px'}
           fontWeight={'bold'}
           lineHeight={'24px'}
-          className='!font-poppins text-primary-500'
+          className='!font-poppins text-primary-600'
           mb='2px'
         >
           Preparado para fazer um salário mínimo por dia?
@@ -96,7 +96,7 @@ export default function Register() {
           fontSize={'14px'}
           fontWeight={'500'}
           lineHeight={'20px'}
-          className='!font-inter text-primary-500'
+          className='!font-inter text-primary-600'
         >
           Cadastre para obter acesso aos conteúdos que mudarão sua vida.
         </Text>

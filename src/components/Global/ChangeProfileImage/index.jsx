@@ -1,21 +1,18 @@
 import { useState } from 'react';
 
-import useAuth from '../../../hooks/useAuth';
-
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { changeProfileImageSchema } from './changeProfileImageSchema';
 
-import {
-  DialogActions,
-  DialogBody,
-  DialogContent,
-} from '@fluentui/react-components';
-import { CheckmarkCircleRegular } from '@fluentui/react-icons';
+import useAuth from '../../../hooks/useAuth';
 
-import Modal from '../Modal';
+import ModalComponent from '../ModalComponent';
 import Input from '../Input';
 import ButtonSubmit from '../ButtonSubmit';
+
+import { ModalBody, ModalFooter, Text } from '@chakra-ui/react';
+
+import { IoIosCheckmarkCircleOutline } from 'react-icons/io';
 
 export default function ChangeProfileImage({ openModal, setOpenModal }) {
   const { changeImage, loading } = useAuth();
@@ -43,36 +40,40 @@ export default function ChangeProfileImage({ openModal, setOpenModal }) {
   };
 
   return (
-    <Modal
+    <ModalComponent
       title={success ? '' : 'Alterar Imagem'}
       openModal={openModal}
       setOpenModal={setOpenModal}
       handleCloseModal={handleCloseModal}
     >
       {success ? (
-        <div className='w-full'>
-          <div className='flex flex-col items-center justify-center'>
-            <CheckmarkCircleRegular
-              className='text-[#89D185] mb-6'
-              fontSize={80}
+        <>
+          <ModalBody p={0} mb={8} className='flex flex-col items-center'>
+            <IoIosCheckmarkCircleOutline
+              className='text-green-200 mb-6'
+              size={80}
             />
-          </div>
-          <p className='w-full text-center text-[#003E92] poppins text-large font-bold leading-6 mb-12'>
-            Imagem de perfil alterada!
-          </p>
-          <DialogActions>
+            <Text className='w-full text-center text-primary-400 poppins text-large font-bold leading-6 '>
+              Imagem de perfil alterada!
+            </Text>
+          </ModalBody>
+          <ModalFooter p={0} className='flex flex-col' px={'10px'}>
             <button
-              className='w-full disabled:bg-white/30 bg-primary-500 rounded-[4px] px-3 py-[5px] text-white text-base leading-[20px]'
+              className='w-full disabled:bg-gray-900/30 bg-primary-400 rounded-[4px] px-3 py-[5px] text-white text-base leading-[20px]'
               onClick={handleCloseModal}
             >
               Voltar
             </button>
-          </DialogActions>
-        </div>
+          </ModalFooter>
+        </>
       ) : (
-        <form id='changeProfileImageForm' onSubmit={handleSubmit(handleChange)}>
-          <DialogBody>
-            <DialogContent className='flex flex-col gap-4 '>
+        <>
+          <ModalBody p={0} mb={9}>
+            <form
+              id='changeProfileImageForm'
+              onSubmit={handleSubmit(handleChange)}
+              className='px-4'
+            >
               <Input
                 theme={'light'}
                 type={'text'}
@@ -83,18 +84,18 @@ export default function ChangeProfileImage({ openModal, setOpenModal }) {
                 error={errors?.url?.message}
                 watch={watch}
               />
-            </DialogContent>
-            <DialogActions>
-              <ButtonSubmit
-                form='changeProfileImageForm'
-                disabled={false}
-                text={'Alterar'}
-                loading={loading}
-              />
-            </DialogActions>
-          </DialogBody>
-        </form>
+            </form>
+          </ModalBody>
+          <ModalFooter p={0} className='flex flex-col' px={'10px'}>
+            <ButtonSubmit
+              form='changeProfileImageForm'
+              disabled={false}
+              text={'Alterar'}
+              loading={loading}
+            />
+          </ModalFooter>
+        </>
       )}
-    </Modal>
+    </ModalComponent>
   );
 }

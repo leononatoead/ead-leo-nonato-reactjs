@@ -9,13 +9,15 @@ export default {
       xl: '1440px',
     },
     fontSize: {
+      small: '12px',
       base: '14px',
       large: '18px',
       xlarge: '24px',
     },
     colors: {
       'primary-400': '#005FB8',
-      'primary-500': '#001A68',
+      'primary-500': '#003e92',
+      'primary-600': '#001A68',
       cian: '#60cdff',
       'green-200': '#89D185',
       'green-300': '#45AE36',

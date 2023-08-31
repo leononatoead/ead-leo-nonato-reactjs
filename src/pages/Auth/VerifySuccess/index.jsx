@@ -13,7 +13,7 @@ export default function VerifySucess() {
       <Box px={4} mt={1}>
         <CheckmarkCircleRegular className='text-green-200 mb-6' fontSize={80} />
         <Heading
-          className='!font-bold !font-poppins !text-large !leading-6 text-primary-500'
+          className='!font-bold !font-poppins !text-large !leading-6 text-primary-600'
           mb={2}
         >
           Cadastro validado!

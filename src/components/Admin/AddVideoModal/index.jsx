@@ -13,7 +13,7 @@ import {
   Field,
   ProgressBar,
 } from '@fluentui/react-components';
-import Modal from '../../Global/Modal';
+import ModalComponent from '../../Global/ModalComponent';
 import Input from '../../Global/Input';
 import ButtonSubmit from '../../Global/ButtonSubmit';
 
@@ -109,7 +109,7 @@ export default function AddVideoModal({
   };
 
   return (
-    <Modal
+    <ModalComponent
       title={'Adicionar Video'}
       openModal={openVideoModal}
       setOpenModal={setOpenVideoModal}
@@ -257,7 +257,7 @@ export default function AddVideoModal({
                   </div>
                 )}
                 <button
-                  className='w-full disabled:bg-white/30 bg-white rounded-[4px] px-3 py-[5px] text-primary-500 border-[1px] border-primary-500 text-base leading-[20px] mt-2'
+                  className='w-full disabled:bg-white/30 bg-white rounded-[4px] px-3 py-[5px] text-primary-600 border-[1px] border-primary-600 text-base leading-[20px] mt-2'
                   type='submit'
                   form='fileForm'
                 >
@@ -280,6 +280,6 @@ export default function AddVideoModal({
           </DialogActions>
         )}
       </DialogBody>
-    </Modal>
+    </ModalComponent>
   );
 }
