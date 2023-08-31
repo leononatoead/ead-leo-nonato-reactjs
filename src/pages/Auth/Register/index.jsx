@@ -9,10 +9,14 @@ import useAuth from '../../../hooks/useAuth';
 import Input from '../../../components/Global/Input';
 
 import ButtonSubmit from '../../../components/Global/ButtonSubmit';
-import logo from '../../../assets/auth-logo.svg';
 
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+
+import { Box, Heading, Image, Text } from '@chakra-ui/react';
+
+import logo from '../../../assets/auth-logo-black.svg';
+import background from '../../../assets/bg-light.png';
 
 export default function Register() {
   const { registerUser } = useAuth();
@@ -46,36 +50,65 @@ export default function Register() {
   };
 
   return (
-    <main className='min-h-screen auth-background py-6'>
-      <Link to='/' className='w-full flex justify-center pt-4 pb-8'>
-        <img src={logo} alt='logo' />
-      </Link>
+    <Box
+      w='100%'
+      color='white'
+      borderBottom={'1px'}
+      borderBottomColor={'primary-600'}
+      className='relative bg-gray-200'
+    >
+      <Box
+        w='100%'
+        h='160px'
+        borderRadius={'0 0 16px 16px'}
+        className='relative'
+      >
+        <Image src={background} alt='background' />
+        <Link
+          to='/'
+          className='absolute top-8 w-full flex justify-center pt-4 pb-8'
+        >
+          <Image src={logo} alt='logo' />
+        </Link>
+      </Box>
 
-      <div className='px-4'>
+      <Box marginTop={'-40px'} px={4} className='rounded-lg  overflow-hidden'>
         <video
           src='https://www.youtube.com/watch?v=paNdkV9RcSs'
           autoPlay
           controls
-          className='rounded-[4px] w-full h-56 border-b-gray-600 border-b-2'
+          className='rounded-lg w-full h-56 border-b-gray-900 border-b-2 overflow-hidden'
         />
-      </div>
+      </Box>
 
-      <div className='my-6 flex flex-col gap-2 px-4'>
-        <h2 className='font-bold text-[18px] leading-[24px] text-white poppins'>
+      <Box px={4} mt={'24px'} mb={'16px'}>
+        <Heading
+          fontSize={'18px'}
+          fontWeight={'bold'}
+          lineHeight={'24px'}
+          className='!font-poppins text-primary-500'
+          mb='2px'
+        >
           Preparado para fazer um salário mínimo por dia?
-        </h2>
+        </Heading>
 
-        <h3 className='font-medium text-[14px] leading-[20px] text-white'>
+        <Text
+          fontSize={'14px'}
+          fontWeight={'500'}
+          lineHeight={'20px'}
+          className='!font-inter text-primary-500'
+        >
           Cadastre para obter acesso aos conteúdos que mudarão sua vida.
-        </h3>
-      </div>
+        </Text>
+      </Box>
 
       <form
         onSubmit={handleSubmit(handleRegister)}
-        className='flex flex-col px-5 gap-6'
+        className='flex flex-col px-5 gap-4'
         id='registerForm'
       >
         <Input
+          theme={'light'}
           type={'text'}
           label={'Nome completo'}
           placeholder={'Digite aqui'}
@@ -85,6 +118,7 @@ export default function Register() {
           watch={watch}
         />
         <Input
+          theme={'light'}
           type={'text'}
           label={'CPF'}
           placeholder={'Digite aqui'}
@@ -94,6 +128,7 @@ export default function Register() {
           watch={watch}
         />
         <Input
+          theme={'light'}
           type={'email'}
           label={'E-mail'}
           placeholder={'Digite aqui'}
@@ -103,31 +138,34 @@ export default function Register() {
           watch={watch}
         />
         <Input
+          theme={'light'}
           type={'password'}
           label={'Senha'}
-          placeholder={'Digite aqui'}
+          placeholder={'********'}
           register={register}
           id={'password'}
           error={errors?.password?.message}
           watch={watch}
         />
         <Input
+          theme={'light'}
           type={'password'}
           label={'Confirme sua senha'}
-          placeholder={'Digite aqui'}
+          placeholder={'********'}
           register={register}
           id={'confirmPassword'}
           error={errors?.confirmPassword?.message}
           watch={watch}
         />
       </form>
-      <div className='p-[10px]'>
+      <Box p={'10px'}>
         <ButtonSubmit
+          theme={'light'}
           form='registerForm'
           disabled={Object.keys(dirtyFields).length !== 5}
           text={'Cadastrar'}
         />
-      </div>
-    </main>
+      </Box>
+    </Box>
   );
 }

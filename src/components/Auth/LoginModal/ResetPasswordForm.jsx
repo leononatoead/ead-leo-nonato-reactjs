@@ -59,11 +59,11 @@ export default function ResetPasswordForm({ show }) {
       <form id='resetForm' onSubmit={handleSubmit(handleReset)}>
         <DialogBody>
           <DialogTitle>
-            <p className='w-full text-center text-[#003E92] poppins text-[18px] font-bold'>
+            <p className='w-full text-center text-[#003E92] poppins text-large font-bold'>
               Esqueci minha senha
             </p>
 
-            <p className='text-[14px] font-medium leading-5 text-center mt-4'>
+            <p className='text-base font-medium leading-5 text-center mt-4'>
               Digite o e-mail que você utiliza na plataforma e enviaremos um
               link para redefinir sua senha
             </p>
@@ -98,19 +98,19 @@ export default function ResetPasswordForm({ show }) {
     return (
       <DialogBody>
         <DialogTitle>
-          <p className='w-full text-center text-[#003E92] poppins text-[18px] font-bold'>
+          <p className='w-full text-center text-[#003E92] poppins text-large font-bold'>
             E-mail enviado!
           </p>
 
-          <p className='text-[14px] font-medium leading-5 text-center mt-4'>
+          <p className='text-base font-medium leading-5 text-center mt-4'>
             Verifique sua caixa de entrada no e-mail para redefinir sua senha
           </p>
         </DialogTitle>
         <DialogContent>
-          <p className='text-[14px] font-medium leading-5 mt-5 mb-7'>
+          <p className='text-base font-medium leading-5 mt-5 mb-7'>
             Não recebeu?{' '}
             <button
-              className='text-[#005FB8]'
+              className='text-primary-500'
               onClick={handleSendAgain}
               disabled={timer > 0}
             >
@@ -120,7 +120,7 @@ export default function ResetPasswordForm({ show }) {
         </DialogContent>
         <DialogActions className='!flex !flex-col'>
           <button
-            className='w-full disabled:bg-white/30 bg-[#005FB8] rounded-[4px] px-3 py-[5px] text-white text-[14px] leading-[20px]'
+            className='w-full disabled:bg-white/30 bg-primary-500 rounded-[4px] px-3 py-[5px] text-white text-base leading-[20px]'
             onClick={() => show(false)}
           >
             OK

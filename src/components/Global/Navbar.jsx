@@ -38,7 +38,7 @@ export default function Navbar({ title }) {
             </Link>
           )}
           {path.pathname === '/' ? (
-            <span className='block poppins text-[18px] leading-6 flex-1 text-left font-bold poppins'>
+            <span className='block poppins text-large leading-6 flex-1 text-left font-bold poppins'>
               Léo Nonato
             </span>
           ) : (
@@ -55,7 +55,7 @@ export default function Navbar({ title }) {
         </div>
 
         <MenuPopover className='!p-4'>
-          <MenuList className='!flex !flex-col !gap-4 !font-bold'>
+          <MenuList className='!flex !flex-col !gap-4 !font-bold  !outline-none'>
             {!user && (
               <>
                 <button

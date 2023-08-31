@@ -221,7 +221,7 @@ export default function AddVideoModal({
                       name={'assetName'}
                       placeholder='Digite aqui'
                       onChange={handleInputChange}
-                      className={`w-full rounded-[4px]  px-3 py-[5px] leading-[20px] text-[14px] outline-none  bg-white `}
+                      className={`w-full rounded-[4px]  px-3 py-[5px] leading-[20px] text-base outline-none  bg-white `}
                     />
                   </div>
                 </div>
@@ -251,13 +251,13 @@ export default function AddVideoModal({
                         value={newVideo?.assetURL}
                         placeholder='https://exemplo.com.br'
                         onChange={handleInputChange}
-                        className={`w-full rounded-[4px]  px-3 py-[5px] leading-[20px] text-[14px] outline-none  bg-white `}
+                        className={`w-full rounded-[4px]  px-3 py-[5px] leading-[20px] text-base outline-none  bg-white `}
                       />
                     </div>
                   </div>
                 )}
                 <button
-                  className='w-full disabled:bg-white/30 bg-white rounded-[4px] px-3 py-[5px] text-[#005FB8] border-[1px] border-[#005FB8] text-[14px] leading-[20px] mt-2'
+                  className='w-full disabled:bg-white/30 bg-white rounded-[4px] px-3 py-[5px] text-primary-500 border-[1px] border-primary-500 text-base leading-[20px] mt-2'
                   type='submit'
                   form='fileForm'
                 >

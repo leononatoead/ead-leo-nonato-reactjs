@@ -37,16 +37,16 @@ export default function VerifyEmail() {
       <AuthHeader step={3} />
 
       <div className='mt-6 mb-8 flex flex-col gap-2 px-4'>
-        <h2 className='font-bold text-[18px] leading-[24px] text-white poppins'>
+        <h2 className='font-bold text-large leading-[24px] text-white poppins'>
           Verifique seu e-mail
         </h2>
-        <h3 className='font-medium text-[14px] leading-[20px] text-white'>
+        <h3 className='font-medium text-base leading-[20px] text-white'>
           Clique no link enviado para seu e-mail de cadastro {user?.email}
         </h3>
       </div>
       <div className='flex-1 flex flex-col justify-between px-4 '>
         <div>
-          <p className='text-[14px] text-white'>
+          <p className='text-base text-white'>
             Não recebeu?{' '}
             <button
               className='text-[#60CDFF]'
@@ -61,7 +61,7 @@ export default function VerifyEmail() {
         <div className='px-[10px] flex'>
           <Link
             to='/verify-success'
-            className='w-full bg-white/30 rounded-[4px] px-3 py-[5px] text-white text-[14px] leading-[20px] text-center'
+            className='w-full bg-white/30 rounded-[4px] px-3 py-[5px] text-white text-base leading-[20px] text-center'
           >
             Continuar
           </Link>

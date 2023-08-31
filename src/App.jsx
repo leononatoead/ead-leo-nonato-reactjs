@@ -7,6 +7,8 @@ import { verifyAuthentication } from './redux/modules/auth/actions';
 import { FluentProvider, webLightTheme } from '@fluentui/react-components';
 import { Toaster } from 'react-hot-toast';
 
+import { ChakraProvider, extendTheme } from '@chakra-ui/react';
+
 import AdminRoutes from './routes/Admin';
 
 import UserAuthenticated from './routes/UserAuthenticated';
@@ -23,13 +25,15 @@ function App() {
   }, []);
 
   return (
-    <FluentProvider theme={webLightTheme}>
-      {user && user.admin && <AdminRoutes />}
-      {user && !user.admin && <UserAuthenticated user={user} />}
-      {!user && <UserUnAuthenticated />}
+    <ChakraProvider>
+      <FluentProvider theme={webLightTheme}>
+        {user && user.admin && <AdminRoutes />}
+        {user && !user.admin && <UserAuthenticated user={user} />}
+        {!user && <UserUnAuthenticated />}
 
-      <Toaster toastOptions={{ duration: 4000 }} />
-    </FluentProvider>
+        <Toaster toastOptions={{ duration: 4000 }} />
+      </FluentProvider>
+    </ChakraProvider>
   );
 }
 

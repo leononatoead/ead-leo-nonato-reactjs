@@ -115,10 +115,10 @@ export default function VerifyPhone() {
         <div className='flex flex-col flex-1 '>
           <AuthHeader step={2} />
           <div className='mt-6 mb-8 flex flex-col gap-2 px-4'>
-            <h2 className='font-bold text-[18px] leading-[24px] text-white poppins'>
+            <h2 className='font-bold text-large leading-[24px] text-white poppins'>
               Informe o código
             </h2>
-            <h3 className='font-medium text-[14px] leading-[20px] text-white'>
+            <h3 className='font-medium text-base leading-[20px] text-white'>
               Digite o código de 6 dígitos enviado para seu telefone.
             </h3>
           </div>
@@ -137,7 +137,7 @@ export default function VerifyPhone() {
 
           <div className='flex-1 flex flex-col justify-between px-4 '>
             <div>
-              <p className='text-[14px] text-white'>
+              <p className='text-base text-white'>
                 Não recebeu?{' '}
                 <button
                   className='text-[#60CDFF]'
@@ -151,7 +151,7 @@ export default function VerifyPhone() {
 
             <div className='px-[10px]'>
               <button
-                className='w-full bg-[#005FB8] disabled:bg-white/30 rounded-[4px] px-3 py-[5px] text-white text-[14px] leading-[20px]'
+                className='w-full bg-primary-500 disabled:bg-white/30 rounded-[4px] px-3 py-[5px] text-white text-base leading-[20px]'
                 onClick={handleUpdatePhoneNumber}
                 disabled={verificationCode.length === 6 ? false : true}
               >
@@ -164,10 +164,10 @@ export default function VerifyPhone() {
         <div className='flex flex-col flex-1 '>
           <AuthHeader step={1} />
           <div className='mt-6 mb-8 flex flex-col gap-2 px-4'>
-            <h2 className='font-bold text-[18px] leading-[24px] text-white poppins'>
+            <h2 className='font-bold text-large leading-[24px] text-white poppins'>
               Verificação necessária
             </h2>
-            <h3 className='font-medium text-[14px] leading-[20px] text-white'>
+            <h3 className='font-medium text-base leading-[20px] text-white'>
               Precisamos verificar seus dados pessoais. Informe seu celular para
               receber o código.
             </h3>
@@ -187,7 +187,7 @@ export default function VerifyPhone() {
             </div>
             <div className='px-[10px]'>
               <button
-                className='w-full bg-[#005FB8] disabled:bg-white/30 rounded-[4px] px-3 py-[5px] text-white text-[14px] leading-[20px]'
+                className='w-full bg-primary-500 disabled:bg-white/30 rounded-[4px] px-3 py-[5px] text-white text-base leading-[20px]'
                 onClick={verifyPhone}
                 disabled={phone ? false : true}
               >

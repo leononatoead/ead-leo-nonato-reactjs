@@ -36,7 +36,7 @@ export default function LoginForm({ show }) {
     <form id='loginForm' onSubmit={handleSubmit(handleLogin)}>
       <DialogBody>
         <DialogTitle>
-          <p className='w-full text-center text-[#003E92] poppins text-[18px] font-bold'>
+          <p className='w-full text-center text-[#003E92] poppins text-large font-bold'>
             Acessar sua conta
           </p>
         </DialogTitle>
@@ -65,7 +65,7 @@ export default function LoginForm({ show }) {
           <div className='-mt-4 mb-8'>
             <button
               type='button'
-              className='text-[#005FB8] text-[14px]  leading-[24px] mb-7'
+              className='text-primary-500 text-base  leading-[24px] mb-7'
               onClick={() => {
                 show(true);
               }}
@@ -73,9 +73,9 @@ export default function LoginForm({ show }) {
               Esqueci minha senha
             </button>
 
-            <p className='text-[14px] font-medium leading-[20px]'>
+            <p className='text-base font-medium leading-[20px]'>
               Não tem uma conta?{' '}
-              <Link to='/register' className='text-[#005FB8]'>
+              <Link to='/register' className='text-primary-500'>
                 Cadastre-se agora
               </Link>
             </p>

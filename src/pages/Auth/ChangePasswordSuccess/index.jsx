@@ -15,10 +15,10 @@ export default function ChangePasswordSuccess() {
 
       <div className='mt-6 mb-8 flex flex-col gap-2 px-4'>
         <CheckmarkCircleRegular className='text-[#89D185] mb-6' fontSize={80} />
-        <h2 className='font-bold text-[18px] leading-[24px] text-white poppins'>
+        <h2 className='font-bold text-large leading-[24px] text-white poppins'>
           Senha alterada!
         </h2>
-        <h3 className='font-medium text-[14px] leading-[20px] text-white mb-6'>
+        <h3 className='font-medium text-base leading-[20px] text-white mb-6'>
           Agora você já pode retornar à plataforma e fazer o login com sua nova
           senha.
         </h3>
@@ -28,7 +28,7 @@ export default function ChangePasswordSuccess() {
         <div className='px-[10px] flex flex-col gap-4'>
           <Link
             to='/'
-            className='w-full bg-[#005fb8] rounded-[4px] px-3 py-[5px] text-white text-[14px] leading-[20px] text-center'
+            className='w-full bg-primary-500 rounded-[4px] px-3 py-[5px] text-white text-base leading-[20px] text-center'
           >
             Retornar à plataforma
           </Link>

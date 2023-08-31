@@ -58,7 +58,7 @@ export default function Profile() {
           </div>
         </div>
 
-        <h2 className='poppins text-[18px] font-bold leading-6 w-full text-center mb-1'>
+        <h2 className='poppins text-large font-bold leading-6 w-full text-center mb-1'>
           {user.name}
         </h2>
         <span className='block w-full text-center mb-5'>Assinante</span>
@@ -69,33 +69,33 @@ export default function Profile() {
           Dados pessoais
         </h2>
         <div className='flex flex-col'>
-          <span className='text-[14px] leading-6'>CPF</span>
+          <span className='text-base leading-6'>CPF</span>
           <span
-            className={`w-full rounded-[4px]  px-3 py-[5px] leading-[20px] text-[14px] outline-none bg-white shadow-sm shadow-zinc-700/50 text-zinc-400`}
+            className={`w-full rounded-[4px]  px-3 py-[5px] leading-[20px] text-base outline-none bg-white shadow-sm shadow-zinc-700/50 text-zinc-400`}
           >
             {user.cpf}
           </span>
         </div>
         <div className='flex flex-col'>
-          <span className='text-[14px] leading-[20px]'>E-mail</span>
+          <span className='text-base leading-[20px]'>E-mail</span>
           <span
-            className={`w-full rounded-[4px] px-3 py-[5px] leading-[20px] text-[14px] outline-none bg-white shadow-sm shadow-zinc-700/50 text-zinc-400`}
+            className={`w-full rounded-[4px] px-3 py-[5px] leading-[20px] text-base outline-none bg-white shadow-sm shadow-zinc-700/50 text-zinc-400`}
           >
             {user.email}
           </span>
         </div>
         <div className='flex flex-col'>
-          <span className='text-[14px] leading-[20px]'>Celular</span>
+          <span className='text-base leading-[20px]'>Celular</span>
           <span
-            className={`w-full rounded-[4px]  px-3 py-[5px] leading-[20px] text-[14px] outline-none bg-white shadow-sm shadow-zinc-700/50 text-zinc-400`}
+            className={`w-full rounded-[4px]  px-3 py-[5px] leading-[20px] text-base outline-none bg-white shadow-sm shadow-zinc-700/50 text-zinc-400`}
           >
             {formatPhone(user?.phoneNumber)}
           </span>
         </div>
         <div className='flex flex-col'>
-          <span className='text-[14px] leading-[20px]'>Senha</span>
+          <span className='text-base leading-[20px]'>Senha</span>
           <span
-            className={`w-full rounded-[4px]  px-3 py-[5px] leading-[20px] text-[14px] outline-none bg-white shadow-sm shadow-zinc-700/50 relative`}
+            className={`w-full rounded-[4px]  px-3 py-[5px] leading-[20px] text-base outline-none bg-white shadow-sm shadow-zinc-700/50 relative`}
           >
             ********
             <button

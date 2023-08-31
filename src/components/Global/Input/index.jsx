@@ -29,24 +29,24 @@ export default function Input({
         theme === 'light' ? 'text-black' : 'text-white'
       }`}
     >
-      <label htmlFor={id} className='text-[14px] leading-[20px]'>
+      <label htmlFor={id} className='text-base leading-[20px]'>
         {label}
       </label>
       <div
-        className={`relative w-full rounded-[4px] overflow-hidden after:content-[''] after:absolute after:h-[2px] after:bg-[#60cdff] after:left-1/2 after:bottom-0 after:-translate-x-1/2 ${
+        className={`relative w-full rounded-[4px] overflow-hidden after:content-[''] after:absolute after:h-[2px] after:bg-cian  after:left-1/2 after:bottom-0 after:-translate-x-1/2 ${
           value ? 'after:w-full' : 'after:w-0'
         } hover:after:w-full animation ${
           error && 'after:bg-red-500 after:w-full'
-        } ${theme === 'light' ? 'shadow-sm shadow-zinc-700/50' : ''}`}
+        } ${theme === 'light' ? 'shadow-sm shadow-gray-900/50' : ''}`}
       >
         <input
           type={viewPassword ? 'text' : type}
           {...register(id)}
           placeholder={placeholder}
           id={id}
-          className={`w-full rounded-[4px]  px-3 py-[5px] leading-[20px] text-[14px] outline-none ${
+          className={`w-full rounded-[4px]  px-3 py-[5px] leading-[20px] text-base outline-none ${
             theme === 'light' ? 'bg-white' : 'bg-white/5'
-          }`}
+          } placeholder:text-gray-900`}
           autoComplete='false'
         />
 

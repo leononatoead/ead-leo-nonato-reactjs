@@ -57,12 +57,12 @@ export default function ChangeProfileImage({ openModal, setOpenModal }) {
               fontSize={80}
             />
           </div>
-          <p className='w-full text-center text-[#003E92] poppins text-[18px] font-bold leading-6 mb-12'>
+          <p className='w-full text-center text-[#003E92] poppins text-large font-bold leading-6 mb-12'>
             Imagem de perfil alterada!
           </p>
           <DialogActions>
             <button
-              className='w-full disabled:bg-white/30 bg-[#005FB8] rounded-[4px] px-3 py-[5px] text-white text-[14px] leading-[20px]'
+              className='w-full disabled:bg-white/30 bg-primary-500 rounded-[4px] px-3 py-[5px] text-white text-base leading-[20px]'
               onClick={handleCloseModal}
             >
               Voltar

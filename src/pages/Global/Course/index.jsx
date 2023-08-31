@@ -110,7 +110,7 @@ export default function Course() {
             <Accordion collapsible className='accordion'>
               <AccordionItem value='1'>
                 <AccordionHeader expandIconPosition='end'>
-                  <span className='!text-[14px] !font-medium'>
+                  <span className='!text-base !font-medium'>
                     {videoPlayer?.active?.title}
                   </span>
                 </AccordionHeader>
@@ -123,7 +123,7 @@ export default function Course() {
 
           <div className='bg-[#F3F3F3] flex-1'>
             <div className='flex items-center w-full bg-white mt-[-1px]'>
-              <span className='px-3 py-2 cursor-pointer border-b-2 border-[#005fb8]'>
+              <span className='px-3 py-2 cursor-pointer border-b-2 border-primary-500'>
                 Materiais
               </span>
               <span className='px-3 py-2 cursor-pointer'>Capítulos</span>

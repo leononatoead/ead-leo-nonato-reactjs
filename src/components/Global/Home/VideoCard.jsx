@@ -27,9 +27,7 @@ export default function VideoCard({ courseData, setOpenLoginModal }) {
 
             <CardHeader
               className='!items-start !-ml-2'
-              header={
-                <p className='text-[14px] leading-5'>{courseData.name}</p>
-              }
+              header={<p className='text-base leading-5'>{courseData.name}</p>}
             />
           </Card>
         </Link>
@@ -60,9 +58,7 @@ export default function VideoCard({ courseData, setOpenLoginModal }) {
 
             <CardHeader
               className='!items-start !-ml-2'
-              header={
-                <p className='text-[14px] leading-5'>{courseData.name}</p>
-              }
+              header={<p className='text-base leading-5'>{courseData.name}</p>}
             />
           </Card>
         </Link>
@@ -94,7 +90,7 @@ export default function VideoCard({ courseData, setOpenLoginModal }) {
 
           <CardHeader
             className='!items-start !-ml-2'
-            header={<p className='text-[14px] leading-5'>{courseData.name}</p>}
+            header={<p className='text-base leading-5'>{courseData.name}</p>}
           />
         </Card>
       )}
