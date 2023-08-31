@@ -5,7 +5,7 @@ import Navbar from '../../components/Global/Navbar';
 export default function Dashboard() {
   return (
     <main className='min-h-screen'>
-      <Navbar />
+      <Navbar title={'Dashboard'} />
       <Outlet />
     </main>
   );

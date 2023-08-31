@@ -2,27 +2,34 @@ import { useState } from 'react';
 
 import upArrow from '../../../assets/up-arrow.svg';
 import next from '../../../assets/next.svg';
+import { useLocation, useNavigate } from 'react-router';
 
 export default function VideoList({ list, active, setVideoPlayer }) {
   const [listOptions, setListOptions] = useState({
     isHidden: true,
   });
 
+  const { pathname } = useLocation();
+
+  const navigate = useNavigate();
+
   const handleSelectVideo = (id) => {
     const newActive = list.find((video) => video.id === id);
     setVideoPlayer((prev) => ({ ...prev, active: newActive }));
+
+    const path = pathname.split('/');
+
+    navigate(`/course/${path[2]}/${id}`);
   };
 
   const videoIndex = list.findIndex((value) => value.id === active.id);
   const nextVideo = list[videoIndex + 1];
 
-  // const filter = list?.map((video) => video.section);
-
-  // const sections = new Set(filter);
-  // const sectionArr = [...sections];
-
   const handlePlayNext = () => {
     setVideoPlayer((prev) => ({ ...prev, active: nextVideo }));
+    const path = pathname.split('/');
+
+    navigate(`/course/${path[2]}/${nextVideo.id}`);
   };
 
   const handleOpenList = () => {
@@ -64,16 +71,6 @@ export default function VideoList({ list, active, setVideoPlayer }) {
           listOptions.isHidden && 'hidden'
         }`}
       >
-        {/* {sectionArr.map((section, i) => (
-          <li key={i}>
-            <p>{section}</p>
-            <ul>
-              {videoList2.map(
-                (video) => video.section === section && <li>{video.title}</li>,
-              )}
-            </ul>
-          </li>
-        ))} */}
         {list?.map((video) => (
           <li
             key={video.id}

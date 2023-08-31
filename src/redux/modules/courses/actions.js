@@ -109,3 +109,10 @@ export const delVideo = (videoData) => {
     payload: videoData,
   };
 };
+
+export const selectLesson = (videoData) => {
+  return {
+    type: 'courses/selectLesson',
+    payload: videoData,
+  };
+};

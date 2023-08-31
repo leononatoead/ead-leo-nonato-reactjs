@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 
 import Home from '../pages/Global/Home';
 import Course from '../pages/Global/Course';
+import CourseWatch from '../pages/Global/CourseWatch';
 import Newsletter from '../pages/Global/Newsletter';
 
 import Dashboard from '../pages/Admin/Dashboard';
@@ -15,6 +16,7 @@ export default function AdminRoutes() {
     <Routes>
       <Route path='/' element={<Home />} />
       <Route path='/course/:id' element={<Course />} />
+      <Route path='/course/:id/:id' element={<CourseWatch />} />
       <Route path='/newsletter' element={<Newsletter />} />
       <Route path='/faq' element={<FAQ />} />
 
