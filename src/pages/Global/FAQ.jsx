@@ -1,11 +1,15 @@
+import Navbar from '../../components/Global/Navbar';
+
 import {
   Accordion,
-  AccordionHeader,
   AccordionItem,
+  AccordionButton,
   AccordionPanel,
-} from '@fluentui/react-components';
+  AccordionIcon,
+  Box,
+  Heading,
+} from '@chakra-ui/react';
 
-import Navbar from '../../components/Global/Navbar';
 import background from '../../assets/auth-background.png';
 
 export default function FAQ() {
@@ -31,35 +35,41 @@ export default function FAQ() {
   ];
 
   return (
-    <main className='min-h-screen bg-[#efefef]'>
+    <Box className='min-h-screen bg-gray-200'>
       <Navbar title={'FAQ'} />
-      <div>
+      <Box>
         <img
           src={background}
           alt='background'
           className='rounded-br-[16px] rounded-bl-[16px] h-[120px] w-full object-cover'
         />
-      </div>
-      <div className='px-4'>
-        <Accordion collapsible className=' !-mt-8 '>
-          {questions.map((question) => (
+      </Box>
+      <Box className='px-4' mt={-4}>
+        <Accordion className='flex flex-col' gap={1}>
+          {questions.map((question, i) => (
             <AccordionItem
-              value={question.id}
-              className='!border-[1px] !rounded-md !shadow-sm'
+              key={i}
+              className='!border-[1px] !rounded-md !shadow-sm overflow-hidden'
             >
-              <AccordionHeader
-                expandIconPosition='end'
-                className='!bg-white !rounded-[3px] !overflow-hidden'
-              >
-                <h3 className='!px-[6px] py-4'>{question.question}</h3>
-              </AccordionHeader>
-              <AccordionPanel className='!bg-zinc-100'>
-                <p className='p-4 text-xs'>{question.answer}</p>
+              <AccordionButton px={4} py={3} className='!bg-white'>
+                <Box
+                  as='span'
+                  flex='1'
+                  textAlign='left'
+                  className='!text-base !leading-5 '
+                >
+                  {question.question}
+                </Box>
+                <AccordionIcon />
+              </AccordionButton>
+
+              <AccordionPanel className='!bg-zinc-100' px={4} py={'7px'}>
+                {question.answer}
               </AccordionPanel>
             </AccordionItem>
           ))}
         </Accordion>
-      </div>
-    </main>
+      </Box>
+    </Box>
   );
 }
