@@ -74,8 +74,8 @@ export default function VerifyPhone() {
         verificationCode,
       );
 
-      const res = await updatePhoneNumber(user, phoneCredential);
-      console.log(res);
+      await updatePhoneNumber(user, phoneCredential);
+
       navigate('/verify-email');
     } catch (error) {
       if (error.message === 'auth/account-exists-with-different-credential') {

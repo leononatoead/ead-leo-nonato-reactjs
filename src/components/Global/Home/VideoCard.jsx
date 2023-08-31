@@ -8,9 +8,6 @@ import lock from '../../../assets/lock.png';
 export default function VideoCard({ courseData, setOpenLoginModal }) {
   const { user } = useSelector((state) => state.auth);
 
-  console.log(courseData);
-  console.log(user);
-
   return (
     <>
       {user && courseData.isFree && (
