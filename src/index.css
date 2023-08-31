@@ -47,6 +47,10 @@ input[type='number']::-webkit-inner-spin-button {
   background-color: #eee;
 }
 
+/* RESET MENU STYLE */
+.css-r6z5ec {
+  z-index: 10 !important;
+}
 /* RESET FLUENT UI DIALOG STYLES */
 /* .f15twtuk {
   top: unset !important;

@@ -1,11 +1,11 @@
 import React from 'react';
-import { Link, Outlet } from 'react-router-dom';
-import DashboardNavbar from '../../components/Admin/DashboardNavbar';
+import { Outlet } from 'react-router-dom';
+import Navbar from '../../components/Global/Navbar';
 
 export default function Dashboard() {
   return (
     <main className='min-h-screen'>
-      <DashboardNavbar />
+      <Navbar />
       <Outlet />
     </main>
   );
