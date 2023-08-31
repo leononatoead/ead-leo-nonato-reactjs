@@ -3,15 +3,14 @@ import { useSelector } from 'react-redux';
 
 import useFormatPhone from '../../hooks/useFormatPhone';
 
-import { Avatar } from '@fluentui/react-components';
-
 import Navbar from '../../components/Global/Navbar';
 import ChangePassword from '../../components/Global/ChangePassword';
 import ChangeProfileImage from '../../components/Global/ChangeProfileImage';
 
+import { Box, Image, Avatar, Heading, Flex, Text } from '@chakra-ui/react';
+
 import background from '../../assets/auth-background.png';
-import edit from '../../assets/edit.svg';
-import pencil from '../../assets/pencil.svg';
+import { BiPencil } from 'react-icons/bi';
 
 export default function Profile() {
   const { user } = useSelector((state) => state.auth);
@@ -22,91 +21,90 @@ export default function Profile() {
   const { formatPhone } = useFormatPhone();
 
   return (
-    <main className='min-h-screen bg-[#efefef]'>
+    <Box className='min-h-screen bg-gray-200'>
       <Navbar title={'Perfil'} />
-      <div>
-        <img
+      <Box>
+        <Image
           src={background}
           alt='background'
           className='rounded-br-[16px] rounded-bl-[16px] h-[120px] w-full object-cover'
         />
 
-        <div className=' flex justify-center -mt-12 mb-4'>
-          <div className='relative'>
-            {user?.photoURL ? (
-              <Avatar
-                name={user?.name}
-                size={96}
-                className='border-4 border-[#001A68]'
-                image={{
-                  src: user?.photoURL,
-                }}
-                // image={{
-                //   src: 'https://avatars.githubusercontent.com/u/77733200?v=4',
-                // }}
-              />
-            ) : (
-              <Avatar name={user?.name} size={96} color='blue' />
-            )}
+        <Box className='flex justify-center -mt-12 mb-4'>
+          <Box className='relative'>
+            <Avatar
+              name={user?.name}
+              src={user?.photoURL}
+              size={'xl'}
+              className='border-4 !border-primary-500 !bg-primary-500 !text-white'
+            />
 
             <button
               className='absolute bg-white rounded-full w-[20px] h-[20px] top-16 right-0 shadow-md shadow-black/40 flex justify-center items-center'
               onClick={() => setOpenEditPhotoModal(true)}
             >
-              <img src={edit} alt='pencil' />
+              <BiPencil />
             </button>
-          </div>
-        </div>
+          </Box>
+        </Box>
 
-        <h2 className='poppins text-large font-bold leading-6 w-full text-center mb-1'>
+        <Heading className='!font-poppins !text-large !font-bold leading-6 w-full text-center mb-1'>
           {user.name}
-        </h2>
-        <span className='block w-full text-center mb-5'>Assinante</span>
-      </div>
+        </Heading>
+        <Text className='w-full text-center mb-5'>Assinante</Text>
+      </Box>
 
-      <div className='flex flex-col gap-4 px-5'>
-        <h2 className='font-semibold leading-6 poppins text-base'>
+      <Flex flexDirection='column' gap={4} px={5}>
+        <Heading className='!font-semibold !leading-6 !font-poppins !text-normal'>
           Dados pessoais
-        </h2>
-        <div className='flex flex-col'>
-          <span className='text-base leading-6'>CPF</span>
-          <span
-            className={`w-full rounded-[4px]  px-3 py-[5px] leading-[20px] text-base outline-none bg-white shadow-sm shadow-zinc-700/50 text-zinc-400`}
+        </Heading>
+        <Flex flexDirection='column' gap={1}>
+          <Text className='text-base leading-6'>CPF</Text>
+          <Text
+            className='w-full rounded-[4px]  leading-5 text-base outline-none bg-white shadow-sm  shadow-gray-900/50 text-gray-400'
+            px={3}
+            py={'5px'}
           >
             {user.cpf}
-          </span>
-        </div>
-        <div className='flex flex-col'>
-          <span className='text-base leading-[20px]'>E-mail</span>
-          <span
-            className={`w-full rounded-[4px] px-3 py-[5px] leading-[20px] text-base outline-none bg-white shadow-sm shadow-zinc-700/50 text-zinc-400`}
+          </Text>
+        </Flex>
+        <Flex flexDirection='column' gap={1}>
+          <Text className='text-base leading-[20px]'>E-mail</Text>
+          <Text
+            className='w-full rounded-[4px]  leading-5 text-base outline-none bg-white shadow-sm  shadow-gray-900/50 text-gray-400'
+            px={3}
+            py={'5px'}
           >
             {user.email}
-          </span>
-        </div>
-        <div className='flex flex-col'>
-          <span className='text-base leading-[20px]'>Celular</span>
-          <span
-            className={`w-full rounded-[4px]  px-3 py-[5px] leading-[20px] text-base outline-none bg-white shadow-sm shadow-zinc-700/50 text-zinc-400`}
+          </Text>
+        </Flex>
+        <Flex flexDirection='column' gap={1}>
+          <Text className='text-base leading-[20px]'>Celular</Text>
+          <Text
+            className='w-full rounded-[4px]  leading-5 text-base outline-none bg-white shadow-sm  shadow-gray-900/50 text-gray-400'
+            px={3}
+            py={'5px'}
           >
             {formatPhone(user?.phoneNumber)}
-          </span>
-        </div>
-        <div className='flex flex-col'>
-          <span className='text-base leading-[20px]'>Senha</span>
-          <span
-            className={`w-full rounded-[4px]  px-3 py-[5px] leading-[20px] text-base outline-none bg-white shadow-sm shadow-zinc-700/50 relative`}
+          </Text>
+        </Flex>
+        <Flex flexDirection='column' gap={1}>
+          <Text className='text-base leading-[20px]'>Senha</Text>
+          <Text
+            className='w-full rounded-[4px]  leading-5 text-base outline-none bg-white shadow-sm  shadow-gray-900/50 text-gray-400'
+            px={3}
+            py={'5px'}
           >
             ********
             <button
               className='absolute w-[32px] h-[28px] top-0 right-0 rounded-sm outline-none'
               onClick={() => setOpenEditPasswordModal(true)}
             >
-              <img src={pencil} alt='pencil' />
+              <BiPencil className='text-gray-400' />
             </button>
-          </span>
-        </div>
-      </div>
+          </Text>
+        </Flex>
+      </Flex>
 
       <ChangeProfileImage
         openModal={openEditPhotoModal}
@@ -117,6 +115,6 @@ export default function Profile() {
         openModal={openEditPasswordModal}
         setOpenModal={setOpenEditPasswordModal}
       />
-    </main>
+    </Box>
   );
 }
