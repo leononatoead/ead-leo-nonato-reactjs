@@ -6,6 +6,8 @@ import useAuth from '../../../hooks/useAuth';
 import { Link } from 'react-router-dom';
 import AuthHeader from '../../../components/Auth/AuthHeader';
 
+import { Box, Flex, Heading, Text } from '@chakra-ui/react';
+
 export default function VerifyEmail() {
   const [timer, setTimer] = useState(60);
 
@@ -31,42 +33,36 @@ export default function VerifyEmail() {
   }, [timer]);
 
   return (
-    <main className='min-h-screen auth-background py-6 flex flex-col'>
-      <div id='recaptcha-container'></div>
-
+    <Flex flexDirection={'column'} className='min-h-screen bg-gray-200'>
       <AuthHeader step={3} />
 
-      <div className='mt-6 mb-8 flex flex-col gap-2 px-4'>
-        <h2 className='font-bold text-large leading-[24px] text-white poppins'>
+      <Box className='mt-6 mb-8 flex flex-col gap-2 px-4'>
+        <Heading className='!font-bold !font-poppins !text-large !leading-6 text-primary-500'>
           Verifique seu e-mail
-        </h2>
-        <h3 className='font-medium text-base leading-[20px] text-white'>
+        </Heading>
+        <Text className='!font-medium !text-base !text-black !leading-5'>
           Clique no link enviado para seu e-mail de cadastro {user?.email}
-        </h3>
-      </div>
-      <div className='flex-1 flex flex-col justify-between px-4 '>
-        <div>
-          <p className='text-base text-white'>
-            Não recebeu?{' '}
-            <button
-              className='text-[#60CDFF]'
-              onClick={handleVerify}
-              disabled={timer > 0}
-            >
-              {timer > 0 ? `Reenviar em ${timer}s` : 'Reenviar código'}
-            </button>
-          </p>
-        </div>
-
-        <div className='px-[10px] flex'>
-          <Link
-            to='/verify-success'
-            className='w-full bg-white/30 rounded-[4px] px-3 py-[5px] text-white text-base leading-[20px] text-center'
+        </Text>
+        <Text className='!text-base text-black !font-medium !leading-5 mt-4'>
+          Não recebeu?{' '}
+          <button
+            className='text-primary-400/80'
+            onClick={handleVerify}
+            disabled={timer > 0}
           >
-            Continuar
-          </Link>
-        </div>
-      </div>
-    </main>
+            {timer > 0 ? `Reenviar em ${timer}s` : 'Reenviar código'}
+          </button>
+        </Text>
+      </Box>
+
+      <Box className='flex items-end !flex-1' px={'10px'} py={6}>
+        <Link
+          to='/verify-success'
+          className='w-full bg-primary-400 rounded-[4px] px-3 py-[5px] text-white text-base leading-[20px] text-center'
+        >
+          Continuar
+        </Link>
+      </Box>
+    </Flex>
   );
 }

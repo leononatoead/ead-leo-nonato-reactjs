@@ -9,10 +9,11 @@ import {
 import OtpInput from 'otp-input-react';
 import PhoneInput from 'react-phone-input-2';
 
-import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
 import AuthHeader from '../../../components/Auth/AuthHeader';
+import { Flex, Heading, Text, Box } from '@chakra-ui/react';
+import { useToast } from '@chakra-ui/react';
 
 export default function VerifyPhone() {
   const [loading, setLoading] = useState(false);
@@ -22,6 +23,7 @@ export default function VerifyPhone() {
   const [verificationId, setVerificationId] = useState('');
   const [verificationCode, setVerificationCode] = useState('');
 
+  const toast = useToast();
   const navigate = useNavigate();
 
   const onCaptchaVerify = () => {
@@ -57,9 +59,20 @@ export default function VerifyPhone() {
       );
       setVerificationId(id);
       setLoading(false);
-      toast.success('Código enviado por SMS');
+
+      toast({
+        description: 'Código enviado por SMS',
+        status: 'success',
+        duration: '3000',
+        isClosable: true,
+      });
     } catch (error) {
-      toast.error('Error sending verification code:', error);
+      toast({
+        description: 'Erro ao enviar código de verificação, tente novamente.',
+        status: 'error',
+        duration: '3000',
+        isClosable: true,
+      });
       setLoading(false);
     }
   };
@@ -79,11 +92,19 @@ export default function VerifyPhone() {
       navigate('/verify-email');
     } catch (error) {
       if (error.message === 'auth/account-exists-with-different-credential') {
-        `
-      toast.error('Telefone já cadastrado por outro usuário');
-      `;
+        toast({
+          description: 'Telefone já cadastrado por outro usuário',
+          status: 'error',
+          duration: '3000',
+          isClosable: true,
+        });
       } else {
-        toast.error('Ocorreu um erro, tente novamente');
+        toast({
+          description: 'Ocorreu um erro, tente novamente',
+          status: 'error',
+          duration: '3000',
+          isClosable: true,
+        });
       }
     } finally {
       setLoading(false);
@@ -108,72 +129,70 @@ export default function VerifyPhone() {
   }, [verificationId]);
 
   return (
-    <main className='min-h-screen auth-background py-6 flex flex-col'>
+    <Flex flexDirection={'column'} className='min-h-screen bg-gray-200'>
       <div id='recaptcha-container'></div>
 
       {verificationId ? (
-        <div className='flex flex-col flex-1 '>
+        <Flex flexDirection='column' pb={6} className='!flex-grow'>
           <AuthHeader step={2} />
-          <div className='mt-6 mb-8 flex flex-col gap-2 px-4'>
-            <h2 className='font-bold text-large leading-[24px] text-white poppins'>
+          <Flex flexDirection='column' px={4} py={1} gap={2}>
+            <Heading className='!font-bold !font-poppins !text-large !leading-6 text-primary-500 poppins'>
               Informe o código
-            </h2>
-            <h3 className='font-medium text-base leading-[20px] text-white'>
+            </Heading>
+            <Text className='!font-medium !text-base !text-black !leading-5'>
               Digite o código de 6 dígitos enviado para seu telefone.
-            </h3>
-          </div>
+            </Text>
+          </Flex>
 
-          <div className='px-10 mb-6'>
-            <OtpInput
-              OTPLength={6}
-              otpType='number'
-              disabled={false}
-              autoFocus
-              className='flex justify-between gap-2 opt-container poppins'
-              value={verificationCode}
-              onChange={setVerificationCode}
-            />
-          </div>
-
-          <div className='flex-1 flex flex-col justify-between px-4 '>
-            <div>
-              <p className='text-base text-white'>
-                Não recebeu?{' '}
-                <button
-                  className='text-[#60CDFF]'
-                  onClick={handleReSendCode}
-                  disabled={timer > 0}
-                >
-                  {timer > 0 ? `Reenviar em ${timer}s` : 'Reenviar código'}
-                </button>
-              </p>
-            </div>
-
-            <div className='px-[10px]'>
+          <Box px={4} className='!flex-grow' pt={6}>
+            <Flex justify={'center'} mb={'28px'}>
+              <OtpInput
+                OTPLength={6}
+                otpType='number'
+                disabled={false}
+                autoFocus
+                className='flex justify-between gap-2 opt-container font-poppins'
+                value={verificationCode}
+                onChange={setVerificationCode}
+              />
+            </Flex>
+            <Text className='!font-medium !text-base !text-black !leading-5'>
+              Não recebeu?{' '}
               <button
-                className='w-full bg-primary-500 disabled:bg-white/30 rounded-[4px] px-3 py-[5px] text-white text-base leading-[20px]'
-                onClick={handleUpdatePhoneNumber}
-                disabled={verificationCode.length === 6 ? false : true}
+                className='text-[#60CDFF]'
+                onClick={handleReSendCode}
+                disabled={timer > 0}
               >
-                {loading ? 'Carregando' : 'Validar'}
+                {timer > 0 ? `Reenviar em ${timer}s` : 'Reenviar código'}
               </button>
-            </div>
-          </div>
-        </div>
+            </Text>
+          </Box>
+
+          <Box px={'10px'}>
+            <button
+              className='w-full bg-primary-400 disabled:bg-gray-400 rounded-[4px] px-3 py-[5px] text-white text-base leading-[20px]'
+              onClick={handleUpdatePhoneNumber}
+              disabled={verificationCode.length === 6 ? false : true}
+            >
+              {loading ? 'Carregando' : 'Validar'}
+            </button>
+          </Box>
+        </Flex>
       ) : (
-        <div className='flex flex-col flex-1 '>
+        <Flex flexDirection='column' pb={6} className='!flex-grow'>
           <AuthHeader step={1} />
-          <div className='mt-6 mb-8 flex flex-col gap-2 px-4'>
-            <h2 className='font-bold text-large leading-[24px] text-white poppins'>
+          <Flex flexDirection='column' px={4} py={1} gap={2}>
+            <Heading className='!font-bold !font-poppins !text-large !leading-6 text-primary-500 poppins'>
               Verificação necessária
-            </h2>
-            <h3 className='font-medium text-base leading-[20px] text-white'>
+            </Heading>
+            <Text className='!font-medium !text-base !text-black !leading-5'>
               Precisamos verificar seus dados pessoais. Informe seu celular para
               receber o código.
-            </h3>
-          </div>
-          <div className='flex-1 flex flex-col justify-between px-4'>
-            <div
+            </Text>
+          </Flex>
+
+          <Box px={4} className='!flex-grow' pt={6}>
+            <Box
               className={`relative w-full rounded-[4px] overflow-hidden after:content-[''] after:absolute after:h-[2px] after:bg-[#60cdff] after:left-1/2 after:bottom-0 after:-translate-x-1/2 ${
                 phone ? 'after:w-full' : 'after:w-0'
               } hover:after:w-full animation`}
@@ -184,19 +203,20 @@ export default function VerifyPhone() {
                 onChange={setPhone}
                 className='[&>*:first-child]:hidden phoneInput'
               />
-            </div>
-            <div className='px-[10px]'>
-              <button
-                className='w-full bg-primary-500 disabled:bg-white/30 rounded-[4px] px-3 py-[5px] text-white text-base leading-[20px]'
-                onClick={verifyPhone}
-                disabled={phone ? false : true}
-              >
-                {loading ? 'Carregando' : 'Enviar código SMS'}
-              </button>
-            </div>
-          </div>
-        </div>
+            </Box>
+          </Box>
+
+          <Box px={'10px'}>
+            <button
+              className='w-full bg-primary-400 disabled:bg-gray-400 rounded-[4px] px-3 py-[5px] text-white text-base leading-[20px]'
+              onClick={verifyPhone}
+              disabled={phone ? false : true}
+            >
+              {loading ? 'Carregando' : 'Enviar código'}
+            </button>
+          </Box>
+        </Flex>
       )}
-    </main>
+    </Flex>
   );
 }

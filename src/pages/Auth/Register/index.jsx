@@ -54,7 +54,7 @@ export default function Register() {
       w='100%'
       color='white'
       borderBottom={'1px'}
-      borderBottomColor={'primary-600'}
+      borderBottomColor={'primary-400'}
       className='relative bg-gray-200'
     >
       <Box

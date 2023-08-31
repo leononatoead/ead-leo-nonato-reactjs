@@ -14,14 +14,18 @@ export default {
       xlarge: '24px',
     },
     colors: {
+      'primary-400': '#005FB8',
       'primary-500': '#001A68',
-      'primary-600': '#005FB8',
       cian: '#60cdff',
+      'green-200': '#89D185',
+      'green-300': '#45AE36',
       'gray-100': '#FCFCFC',
       'gray-200': '#F3F3F3',
+      'gray-400': '#bfbfbf',
       'gray-900': '#4F4F4F',
       white: '#FFFFFF',
       black: '#000000',
+      transparent: '#00000000',
     },
     extend: {
       fontFamily: {
