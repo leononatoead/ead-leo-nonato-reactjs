@@ -88,7 +88,7 @@ export default function Profile() {
             {formatPhone(user?.phoneNumber)}
           </Text>
         </Flex>
-        <Flex flexDirection='column' gap={1}>
+        <Flex flexDirection='column' gap={1} className='relative'>
           <Text className='text-base leading-[20px]'>Senha</Text>
           <Text
             className='w-full rounded-[4px]  leading-5 text-base outline-none bg-white shadow-sm  shadow-gray-900/50 text-gray-400'
@@ -97,7 +97,7 @@ export default function Profile() {
           >
             ********
             <button
-              className='absolute w-[32px] h-[28px] top-0 right-0 rounded-sm outline-none'
+              className='absolute w-[32px] h-[28px] top-6 right-0 rounded-sm outline-none'
               onClick={() => setOpenEditPasswordModal(true)}
             >
               <BiPencil className='text-gray-400' />
