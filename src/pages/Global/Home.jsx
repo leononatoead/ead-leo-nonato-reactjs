@@ -10,6 +10,7 @@ import LoginModal from '../../components/Auth/LoginModal';
 import VideoCard from '../../components/Global/Home/VideoCard';
 import SearchBar from '../../components/Global/Home/SearchBar';
 import Banner from '../../components/Global/Home/Banner';
+import Footer from '../../components/Global/Footer';
 
 import { Box, Heading } from '@chakra-ui/react';
 
@@ -119,6 +120,7 @@ export default function Home() {
           </Link>
         </Box>
       </section>
+      <Footer />
       <LoginModal
         openLoginModal={openLoginModal}
         setOpenLoginModal={setOpenLoginModal}
