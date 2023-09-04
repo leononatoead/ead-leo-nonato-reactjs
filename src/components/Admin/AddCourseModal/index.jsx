@@ -6,29 +6,27 @@ import { AddCourseSchema } from './addCourseSchema';
 
 import useCourse from '../../../hooks/useCourse';
 
+import ModalComponent from '../../Global/ModalComponent';
 import {
-  Dialog,
-  DialogTrigger,
-  DialogSurface,
-  DialogTitle,
-  DialogBody,
-  DialogActions,
-  DialogContent,
-  Button,
+  Box,
+  ModalBody,
+  ModalFooter,
+  Progress,
   Select,
-  ProgressBar,
-  Field,
-} from '@fluentui/react-components';
+} from '@chakra-ui/react';
+import Input from '../../Global/Input';
+import ButtonSubmit from '../../Global/ButtonSubmit';
 
 export default function AddCourse({ openCourseModal, setOpenCourseModal }) {
   const [imageFile, setImageFile] = useState();
   const [error, setError] = useState();
 
-  const { addNewCourse, loading: loadImage, progress } = useCourse();
+  const { addNewCourse, loading } = useCourse();
 
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(AddCourseSchema),
@@ -43,116 +41,124 @@ export default function AddCourse({ openCourseModal, setOpenCourseModal }) {
     }
   };
 
+  const handleCloseModal = () => {
+    setOpenCourseModal(false);
+  };
+
   return (
-    <Dialog modalType='modal' open={openCourseModal}>
-      <DialogTrigger disableButtonEnhancement>
-        <Button onClick={() => setOpenCourseModal(true)}>
-          Cadastrar curso
-        </Button>
-      </DialogTrigger>
-      <DialogSurface>
-        <DialogBody>
-          <DialogTitle>Novo Curso</DialogTitle>
-          <DialogContent>
-            <form className='formLayout'>
-              <label htmlFor={'name'}>Nome do curso</label>
+    <ModalComponent
+      title={'Novo curso'}
+      openModal={openCourseModal}
+      setOpenModal={setOpenCourseModal}
+      handleCloseModal={handleCloseModal}
+    >
+      <ModalBody py={0} px={4}>
+        {loading ? (
+          <Box className='w-full'>
+            <Progress size='xs' isIndeterminate />
+          </Box>
+        ) : (
+          <>
+            <form
+              id='addCourseForm'
+              className='flex flex-col gap-[6px]'
+              onSubmit={handleSubmit(handlAddCourse)}
+            >
+              <label
+                htmlFor={'image'}
+                className='text-base leading-5 mb-[3px] block'
+              >
+                Imagem
+              </label>
               <input
-                id='name'
-                type='text'
-                {...register('name')}
-                className='inputLayout'
+                id='image'
+                type='file'
+                className='w-full outline-none text-base'
+                onChange={(e) => setImageFile(e.target.files[0])}
               />
-              {errors.name && (
-                <span className='errorText'>{errors.name.message}</span>
-              )}
-              <label htmlFor={'description'}>Descrição</label>
-              <input
-                id='description'
-                type='text'
-                {...register('description')}
-                className='inputLayout'
+              <span className='errorText'>{error}</span>
+              <Input
+                theme={'light'}
+                type={'text'}
+                label={'Nome'}
+                placeholder={'Digite aqui'}
+                register={register}
+                id={'name'}
+                error={errors?.name?.message}
+                watch={watch}
               />
-              {errors.description && (
-                <span className='errorText'>{errors.description.message}</span>
-              )}
-              <label htmlFor={'isFree'}>Gratuido?</label>
+              <Input
+                theme={'light'}
+                type={'text'}
+                label={'Descrição'}
+                placeholder={'Digite aqui'}
+                register={register}
+                id={'description'}
+                error={errors?.description?.message}
+                watch={watch}
+              />
+
+              <Input
+                theme={'light'}
+                type={'text'}
+                label={'Autor'}
+                placeholder={'Digite aqui'}
+                register={register}
+                id={'author'}
+                error={errors?.author?.message}
+                watch={watch}
+              />
+
+              <label
+                htmlFor={'isFree'}
+                className='text-base leading-5 mb-[3px] block'
+              >
+                Grátis
+              </label>
               <Select
                 id='isFree'
-                appearance='underline'
                 defaultValue={true}
                 {...register('isFree', {
                   setValueAs: (v) => (v === 'true' ? true : false),
                 })}
+                bg='white'
+                borderColor='transparent'
+                className='!outline-none shadow-sm shadow-gray-900/50 !h-[30px] !text-base !px-3 !text-black'
               >
                 <option value={true}>Sim</option>
                 <option value={false}>Não</option>
               </Select>
-              <label htmlFor={'needAuth'}>Precisa de cadastro?</label>
+              <label
+                htmlFor={'needAuth'}
+                className='text-base leading-5 mb-[3px] block'
+              >
+                Requer cadastro
+              </label>
               <Select
                 id='needAuth'
-                appearance='underline'
                 defaultValue={true}
                 {...register('needAuth', {
                   setValueAs: (v) => (v === 'true' ? true : false),
                 })}
+                bg='white'
+                borderColor='transparent'
+                className='!outline-none shadow-sm shadow-gray-900/50 !h-[30px] !text-base !px-3 !text-black'
               >
                 <option value={true}>Sim</option>
                 <option value={false}>Não</option>
               </Select>
-              <label htmlFor={'author'}>Autor</label>
-              <input
-                id='author'
-                type='text'
-                {...register('author')}
-                className='inputLayout'
-              />
-              {errors.Autor && (
-                <span className='errorText'>{errors.Autor.message}</span>
-              )}
-              {progress > 0 && progress < 100 ? (
-                <Field
-                  validationMessage='carregando ...'
-                  validationState='none'
-                >
-                  <ProgressBar />
-                </Field>
-              ) : (
-                <>
-                  <label htmlFor={'image'}>Imagem</label>
-                  <input
-                    id='image'
-                    type='file'
-                    className='w-full border-b-[1px]p-2 outline-none'
-                    onChange={(e) => setImageFile(e.target.files[0])}
-                  />
-                  <span className='errorText'>{error}</span>
-                </>
-              )}
             </form>
-          </DialogContent>
-          {loadImage ? (
-            ''
-          ) : (
-            <DialogActions>
-              <DialogTrigger disableButtonEnhancement>
-                <Button
-                  appearance='secondary'
-                  onClick={() => setOpenCourseModal(false)}
-                >
-                  Cancelar
-                </Button>
-              </DialogTrigger>
-
-              <Button
-                appearance='primary'
-                onClick={handleSubmit(handlAddCourse)}
-              >
-                Adicionar
-              </Button>
-            </DialogActions>
-          )}
-        </DialogBody>
-      </DialogSurface>
-    </Dialog>
+            <ModalFooter p={0} mt={4}>
+              <ButtonSubmit
+                form='addCourseForm'
+                disabled={false}
+                text={'Adicionar'}
+                loading={loading}
+              />
+            </ModalFooter>
+          </>
+        )}
+      </ModalBody>
+    </ModalComponent>
   );
 }

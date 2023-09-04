@@ -1,7 +1,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
-import { Search20Regular } from '@fluentui/react-icons';
+import { IoIosSearch } from 'react-icons/io';
 
 export default function SearchBar() {
   const { register, handleSubmit } = useForm();
@@ -12,16 +12,16 @@ export default function SearchBar() {
 
   return (
     <form className='w-full relative' onSubmit={handleSubmit(handleSearch)}>
-      <Search20Regular
-        color='#808080'
-        className='absolute top-2 left-2'
+      <IoIosSearch
+        className='absolute top-2 left-2 text-gray-800'
+        size={20}
         onClick={handleSubmit(handleSearch)}
       />
       <input
         type='text'
         {...register('search')}
-        placeholder='Pesquise aqui'
-        className='bg-[#f0f0f0] w-full pl-9 pr-4 h-9 rounded-xl outline-none'
+        placeholder='Pesquisar'
+        className='bg-gray-150 w-full pl-9 pr-4 h-9 rounded-xl outline-none placeholder:text-gray-700'
       />
     </form>
   );

@@ -15,12 +15,7 @@ export default function VideoEditCard({ id, video }) {
     <li key={video.id} className='flex justify-between items-center'>
       <span className='text-xs font-bold'>{video.title}</span>
       <div className='flex gap-4'>
-        <EditVideoModal
-          courseId={id}
-          oldVideoData={video}
-          openEditModal={openEditVideoModal}
-          setOpenEditModal={setOpenEditVideoModal}
-        />
+        <button onClick={() => setOpenEditVideoModal(true)}>Editar</button>
         <button
           onClick={() =>
             handleDeleteVideo(video.id, video.storageRef, video.assets)
@@ -30,6 +25,12 @@ export default function VideoEditCard({ id, video }) {
           Deletar
         </button>
       </div>
+      <EditVideoModal
+        courseId={id}
+        oldVideoData={video}
+        openEditModal={openEditVideoModal}
+        setOpenEditModal={setOpenEditVideoModal}
+      />
     </li>
   );
 }

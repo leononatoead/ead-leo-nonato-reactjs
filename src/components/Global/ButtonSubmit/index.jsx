@@ -1,4 +1,4 @@
-import { Spinner } from '@fluentui/react-components';
+import { Spinner } from '@chakra-ui/react';
 
 export default function ButtonSubmit({ disabled, form, text, loading }) {
   return (
@@ -8,7 +8,7 @@ export default function ButtonSubmit({ disabled, form, text, loading }) {
       form={form}
       disabled={disabled}
     >
-      {loading ? <Spinner appearance='inverted' size='tiny' /> : text}
+      {loading ? <Spinner color='white' size='sm' /> : text}
     </button>
   );
 }

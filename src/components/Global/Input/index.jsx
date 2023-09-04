@@ -1,9 +1,12 @@
-import {
-  Eye16Regular,
-  EyeOff16Regular,
-  Warning20Filled,
-} from '@fluentui/react-icons';
 import { useState } from 'react';
+
+import { Box } from '@chakra-ui/react';
+
+import {
+  AiOutlineEye,
+  AiOutlineEyeInvisible,
+  AiOutlineWarning,
+} from 'react-icons/ai';
 
 export default function Input({
   theme,
@@ -14,6 +17,7 @@ export default function Input({
   placeholder,
   label,
   error,
+  defaultValue,
 }) {
   const value = watch(id);
 
@@ -24,15 +28,15 @@ export default function Input({
   };
 
   return (
-    <div
+    <Box
       className={`flex flex-col gap-[9px] ${
         theme === 'light' ? 'text-black' : 'text-white'
       }`}
     >
-      <label htmlFor={id} className='text-base leading-[20px]'>
+      <label htmlFor={id} className='text-base leading-5'>
         {label}
       </label>
-      <div
+      <Box
         className={`relative w-full rounded-[4px] overflow-hidden after:content-[''] after:absolute after:h-[2px] after:bg-cian  after:left-1/2 after:bottom-0 after:-translate-x-1/2 ${
           value ? 'after:w-full' : 'after:w-0'
         } hover:after:w-full animation ${
@@ -44,39 +48,40 @@ export default function Input({
           {...register(id)}
           placeholder={placeholder}
           id={id}
-          className={`w-full rounded-[4px]  px-3 py-[5px] leading-[20px] text-base outline-none ${
+          className={`w-full rounded-[4px]  px-3 py-[5px] leading-5 text-base outline-none ${
             theme === 'light' ? 'bg-white' : 'bg-white/5'
           } placeholder:text-gray-900`}
           autoComplete='false'
+          defaultValue={defaultValue}
         />
 
         {error && (
-          <div
+          <Box
             className={`absolute ${
               type === 'password' ? 'right-9' : 'right-1'
             } top-1 text-red-500`}
           >
-            <Warning20Filled />
-          </div>
+            <AiOutlineWarning size={20} className='text-red-500' />
+          </Box>
         )}
 
         {type === 'password' && (
           <button
             type='button'
-            className={`absolute right-1 top-1 w-[26px] h-[22px] flex- justify-center items-center bg-white/5 rounded-[3px]
+            className={`absolute right-1 top-1 w-[26px] h-[22px] flex justify-center items-center rounded-[3px]
               
-                 ${theme === 'light' ? 'bg-[#F9F9F950]' : 'bg-white/5'}
+                 ${theme === 'light' ? 'bg-gray-150' : 'bg-white/5'}
               `}
             onClick={toggleViewPassword}
           >
             {viewPassword ? (
-              <EyeOff16Regular
+              <AiOutlineEye
                 className={` ${
                   theme === 'light' ? 'text-black/60' : 'text-white/80'
                 }`}
               />
             ) : (
-              <Eye16Regular
+              <AiOutlineEyeInvisible
                 className={` ${
                   theme === 'light' ? 'text-black/60' : 'text-white/80'
                 }`}
@@ -84,8 +89,8 @@ export default function Input({
             )}
           </button>
         )}
-      </div>
-      <span className='text-xs text-red-500'>{error && error}</span>
-    </div>
+      </Box>
+      <span className='text-small text-red-500 -mt-1'>{error && error}</span>
+    </Box>
   );
 }

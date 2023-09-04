@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Card, CardHeader, CardPreview } from '@fluentui/react-components';
+// import { Card, CardHeader, CardPreview } from '@fluentui/react-components';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
@@ -10,7 +10,7 @@ export default function VideoCard({ courseData, setOpenLoginModal }) {
 
   return (
     <>
-      {user && courseData.isFree && (
+      {/* {user && courseData.isFree && (
         <Link to={`/course/${courseData.id}`}>
           <Card
             className={
@@ -93,7 +93,7 @@ export default function VideoCard({ courseData, setOpenLoginModal }) {
             header={<p className='text-base leading-5'>{courseData.name}</p>}
           />
         </Card>
-      )}
+      )} */}
     </>
   );
 }

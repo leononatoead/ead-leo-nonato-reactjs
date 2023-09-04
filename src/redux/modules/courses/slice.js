@@ -77,13 +77,22 @@ const courseReducer = createSlice({
       );
 
       const removeOldVideoData = findCourseById.videos.map((video) => {
-        if (video.id === updatedVideo.id) {
-          return updatedVideo;
-        } else {
-          return video;
-        }
-      });
+        if (video.section === updatedVideo.section) {
+          const update = {
+            ...video,
+            videos: video.videos.map((v) => {
+              if (v.id === updatedVideo.id) {
+                return updatedVideo;
+              } else {
+                return v;
+              }
+            }),
+          };
 
+          return update;
+        }
+        return video;
+      });
       const updateCourseVideos = {
         ...findCourseById,
         videos: removeOldVideoData,

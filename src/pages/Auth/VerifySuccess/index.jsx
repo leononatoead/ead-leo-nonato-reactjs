@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 import AuthHeader from '../../../components/Auth/AuthHeader';
 
-import { CheckmarkCircleRegular } from '@fluentui/react-icons';
+import { AiOutlineCheckCircle } from 'react-icons/ai';
 import { Box, Flex, Heading, Text } from '@chakra-ui/react';
 
 export default function VerifySucess() {
@@ -11,7 +11,7 @@ export default function VerifySucess() {
       <AuthHeader step={4} />
 
       <Box px={4} mt={1}>
-        <CheckmarkCircleRegular className='text-green-200 mb-6' fontSize={80} />
+        <AiOutlineCheckCircle className='text-[#89D185] mb-6' />
         <Heading
           className='!font-bold !font-poppins !text-large !leading-6 text-primary-600'
           mb={2}

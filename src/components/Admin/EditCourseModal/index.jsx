@@ -7,18 +7,16 @@ import { EditCourseSchema } from './editCourseSchema';
 import useCourse from '../../../hooks/useCourse';
 
 import {
-  Dialog,
-  DialogTrigger,
-  DialogSurface,
-  DialogTitle,
-  DialogBody,
-  DialogActions,
-  DialogContent,
-  Button,
+  Box,
+  ModalBody,
+  ModalFooter,
+  Progress,
   Select,
-  ProgressBar,
-  Field,
-} from '@fluentui/react-components';
+} from '@chakra-ui/react';
+
+import ModalComponent from '../../Global/ModalComponent';
+import ButtonSubmit from '../../Global/ButtonSubmit';
+import Input from '../../Global/Input';
 
 export default function EditCourse({
   course,
@@ -27,16 +25,12 @@ export default function EditCourse({
 }) {
   const [imageFile, setImageFile] = useState();
 
-  const {
-    editCourseWithImage,
-    editCourseWithoutImage,
-    loading: loadImage,
-    progress,
-  } = useCourse();
+  const { editCourseWithImage, editCourseWithoutImage, loading } = useCourse();
 
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(EditCourseSchema),
@@ -56,116 +50,127 @@ export default function EditCourse({
     }
   };
 
+  const handleCloseModal = () => {
+    setOpenEditModal(false);
+  };
+
   return (
-    <Dialog modalType='modal' open={openEditModal}>
-      <DialogTrigger disableButtonEnhancement>
-        <Button onClick={() => setOpenEditModal(true)}>Editar</Button>
-      </DialogTrigger>
-      <DialogSurface>
-        <DialogBody>
-          <DialogTitle>Editar Curso</DialogTitle>
-          <DialogContent>
-            <form className='formLayout'>
-              <label htmlFor={'name'}>Nome do curso</label>
+    <ModalComponent
+      title={'Editar curso'}
+      openModal={openEditModal}
+      setOpenModal={setOpenEditModal}
+      handleCloseModal={handleCloseModal}
+    >
+      <ModalBody py={0} px={4}>
+        {loading ? (
+          <Box className='w-full'>
+            <Progress size='xs' isIndeterminate />
+          </Box>
+        ) : (
+          <>
+            <form
+              id='editCourseForm'
+              onSubmit={handleSubmit(handlAddCourse)}
+              className='flex flex-col gap-[6px]'
+            >
+              <label
+                htmlFor={'image'}
+                className='text-base leading-5 mb-[3px] block'
+              >
+                Imagem
+              </label>
               <input
-                id='name'
-                type='text'
-                {...register('name')}
-                className='inputLayout'
-                defaultValue={course?.name}
+                id='image'
+                type='file'
+                className='w-full outline-none text-base'
+                onChange={(e) => setImageFile(e.target.files[0])}
               />
-              {errors.name && (
-                <span className='errorText'>{errors.name.message}</span>
-              )}
-              <label htmlFor={'description'}>Descrição</label>
-              <input
-                id='description'
-                type='text'
-                {...register('description')}
-                className='inputLayout'
-                defaultValue={course?.description}
+
+              <Input
+                theme={'light'}
+                type={'text'}
+                label={'Nome do curso'}
+                placeholder={'Digite aqui'}
+                register={register}
+                id={'name'}
+                error={errors?.name?.message}
+                watch={watch}
+                defaultValue={course.name}
               />
-              {errors.description && (
-                <span className='errorText'>{errors.description.message}</span>
-              )}
-              <label htmlFor={'isFree'}>Gratuido?</label>
+              <Input
+                theme={'light'}
+                type={'text'}
+                label={'Descrição'}
+                placeholder={'Digite aqui'}
+                register={register}
+                id={'description'}
+                error={errors?.description?.message}
+                watch={watch}
+                defaultValue={course.description}
+              />
+              <Input
+                theme={'light'}
+                type={'text'}
+                label={'Autor'}
+                placeholder={'Digite aqui'}
+                register={register}
+                id={'author'}
+                error={errors?.author?.message}
+                watch={watch}
+                defaultValue={course.author}
+              />
+
+              <label
+                htmlFor={'isFree'}
+                className='text-base leading-5 mb-[3px] block'
+              >
+                Grátis
+              </label>
               <Select
                 id='isFree'
-                appearance='underline'
                 defaultValue={course?.isFree}
                 {...register('isFree', {
                   setValueAs: (v) => (v === 'true' ? true : false),
                 })}
+                bg='white'
+                borderColor='transparent'
+                className='!outline-none shadow-sm shadow-gray-900/50 !h-[30px] !text-base !px-3 !text-black'
               >
                 <option value={true}>Sim</option>
                 <option value={false}>Não</option>
               </Select>
-              <label htmlFor={'needAuth'}>Precisa de cadastro?</label>
+              <label
+                htmlFor={'needAuth'}
+                className='text-base leading-5 mb-[3px] block'
+              >
+                Requer Cadastro
+              </label>
               <Select
                 id='needAuth'
-                appearance='underline'
                 defaultValue={course?.needAuth}
                 {...register('needAuth', {
                   setValueAs: (v) => (v === 'true' ? true : false),
                 })}
+                bg='white'
+                borderColor='transparent'
+                className='!outline-none shadow-sm shadow-gray-900/50 !h-[30px] !text-base !px-3 !text-black'
               >
                 <option value={true}>Sim</option>
                 <option value={false}>Não</option>
               </Select>
-              <label htmlFor={'author'}>Autor</label>
-              <input
-                id='author'
-                type='text'
-                defaultValue={course?.author}
-                {...register('author')}
-                className='inputLayout'
-              />
-              {errors.Autor && (
-                <span className='errorText'>{errors.Autor.message}</span>
-              )}
-              {progress > 0 && progress < 100 ? (
-                <Field
-                  validationMessage='carregando ...'
-                  validationState='none'
-                >
-                  <ProgressBar />
-                </Field>
-              ) : (
-                <>
-                  <label htmlFor={'image'}>Imagem</label>
-                  <input
-                    id='image'
-                    type='file'
-                    className='w-full border-b-[1px]p-2 outline-none'
-                    onChange={(e) => setImageFile(e.target.files[0])}
-                  />
-                </>
-              )}
             </form>
-          </DialogContent>
-          {loadImage ? (
-            ''
-          ) : (
-            <DialogActions>
-              <DialogTrigger disableButtonEnhancement>
-                <Button
-                  appearance='secondary'
-                  onClick={() => setOpenEditModal(false)}
-                >
-                  Cancelar
-                </Button>
-              </DialogTrigger>
 
-              <Button
-                appearance='primary'
-                onClick={handleSubmit(handlAddCourse)}
-              >
-                Alterar
-              </Button>
-            </DialogActions>
-          )}
-        </DialogBody>
-      </DialogSurface>
-    </Dialog>
+            <ModalFooter p={0} mt={4}>
+              <ButtonSubmit
+                form='editCourseForm'
+                disabled={false}
+                text={'Alterar'}
+                loading={loading}
+              />
+            </ModalFooter>
+          </>
+        )}
+      </ModalBody>
+    </ModalComponent>
   );
 }

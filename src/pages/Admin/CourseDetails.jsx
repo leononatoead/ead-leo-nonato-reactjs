@@ -13,12 +13,11 @@ import VideoEditCard from '../../components/Admin/VideoEditCard';
 export default function CourseDetails() {
   const { id } = useParams();
 
-  const [course, setCourse] = useState();
-  const [videoList, setVideoList] = useState();
   const [openEditCourseModal, setOpenEditCourseModal] = useState(false);
   const [openVideoModal, setOpenVideoModal] = useState(false);
 
   const courses = useSelector((state) => state.courses.courses);
+  const course = courses.find((course) => course.id === id);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -31,19 +30,8 @@ export default function CourseDetails() {
   };
 
   useEffect(() => {
-    const course = courses.find((course) => course.id === id);
-
     if (course && !course.videos) {
       dispatch(fetchVideos(id));
-    }
-  }, [courses, id]);
-
-  useEffect(() => {
-    const course = courses.find((course) => course.id === id);
-    setCourse(course);
-
-    if (course && course.videos) {
-      setVideoList(course?.videos);
     }
   }, [courses, id]);
 
@@ -75,11 +63,12 @@ export default function CourseDetails() {
           </p>
 
           <div className='w-full flex  items-center justify-center gap-4'>
-            <EditCourseModal
-              course={course}
-              openEditModal={openEditCourseModal}
-              setOpenEditModal={setOpenEditCourseModal}
-            />
+            <button
+              onClick={() => setOpenEditCourseModal(true)}
+              className='px-4 py-[5px] bg-primary-500 rounded-md text-white font-bold'
+            >
+              Editar
+            </button>
             <button
               onClick={() => handleDeleteCourse(course)}
               className='px-4 py-[5px] bg-red-500 rounded-md text-white font-bold'
@@ -102,15 +91,32 @@ export default function CourseDetails() {
           Adicionar aula
         </button>
       </div>
-      <ul className='flex flex-col gap-4 my-6'>
-        {videoList?.map((video) => (
-          <VideoEditCard id={id} video={video} key={video.id} />
-        ))}
-      </ul>
+
+      {course.videos && (
+        <ul className='flex flex-col'>
+          {course.videos.map((section) => (
+            <li key={section.section}>
+              <h2>{section.section}</h2>
+
+              <ul>
+                {section.videos.map((video) => (
+                  <VideoEditCard id={course.id} key={video.id} video={video} />
+                ))}
+              </ul>
+            </li>
+          ))}
+        </ul>
+      )}
+
       <AddVideoModal
         id={id}
         openVideoModal={openVideoModal}
         setOpenVideoModal={setOpenVideoModal}
+      />
+      <EditCourseModal
+        course={course}
+        openEditModal={openEditCourseModal}
+        setOpenEditModal={setOpenEditCourseModal}
       />
     </main>
   );
