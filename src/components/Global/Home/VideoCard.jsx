@@ -1,11 +1,14 @@
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { Card, CardBody, CardFooter, Image } from '@chakra-ui/react';
+import PremiumContent from '../PremiumContent';
 
 import { BiLockAlt } from 'react-icons/bi';
 
 export default function VideoCard({ courseData, setOpenLoginModal }) {
+  const [openPremiumModal, setOpenPremiumModal] = useState(false);
   const { user } = useSelector((state) => state.auth);
 
   return (
@@ -87,7 +90,7 @@ export default function VideoCard({ courseData, setOpenLoginModal }) {
           p={0}
           bg={'transparent'}
           className='!rounded-sm !overflow-hidden !shadow-none !w-40'
-          // onClick={() => setOpenLoginModal(true)}
+          onClick={() => setOpenPremiumModal(true)}
         >
           <CardBody p={0}>
             <Image
@@ -105,6 +108,8 @@ export default function VideoCard({ courseData, setOpenLoginModal }) {
           </CardFooter>
         </Card>
       )}
+
+      <PremiumContent open={openPremiumModal} close={setOpenPremiumModal} />
     </>
   );
 }

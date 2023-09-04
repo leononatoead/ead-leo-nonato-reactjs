@@ -32,6 +32,10 @@ export default function Course() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const handleWatch = () => {
+    navigate(`/course/${id}/${course?.videos[0]?.videos[0]?.id}`);
+  };
+
   useEffect(() => {
     const course = courses.find((course) => course.id === id);
 
@@ -71,12 +75,12 @@ export default function Course() {
         >
           {course.name}
         </Heading>
-        <Link
-          to={`/course/${id}/${course.videos[0].videos[0].id}`}
+        <span
+          onClick={handleWatch}
           className='w-full bg-primary-400 rounded-[4px] px-3 py-[5px] text-white text-base leading-[20px] text-center'
         >
           Assistir
-        </Link>
+        </span>
       </Box>
 
       <Box py={4} px={4} bg={'white'} className='!flex-grow'>

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logoutUser } from '../../redux/modules/auth/actions';
 import LoginModal from '../Auth/LoginModal';
 import {
+  Box,
   IconButton,
   Menu,
   MenuButton,
@@ -49,22 +50,25 @@ export default function Navbar({ title }) {
         </span>
       )}
 
-      {path.pathname === '/' && (
+      {path.pathname === '/' ? (
         <Menu>
           <MenuButton
             as={IconButton}
             aria-label='Options'
             icon={<GiHamburgerMenu />}
             variant='outline'
-            className='!border-none !bg-transparent'
+            className='!border-none !bg-transparent !outline-none'
           />
-          <MenuList>
+          <MenuList className='!border-none !shadow-lg'>
             {!user && (
               <>
-                <MenuItem onClick={() => setOpenLoginModal(true)}>
+                <MenuItem
+                  className='!outline-none !border-none focus:!bg-white'
+                  onClick={() => setOpenLoginModal(true)}
+                >
                   <span className='!w-full !text-center'>Login</span>
                 </MenuItem>
-                <MenuItem>
+                <MenuItem className='!outline-none !border-none focus:!bg-white'>
                   <Link to='/register' className='w-full text-center'>
                     Cadastro
                   </Link>
@@ -74,26 +78,29 @@ export default function Navbar({ title }) {
 
             {user && (
               <>
-                <MenuItem>
+                <MenuItem className='!outline-none !border-none focus:!bg-white'>
                   <Link to='/profile' className='w-full text-center'>
                     Perfil
                   </Link>
                 </MenuItem>
                 {user.admin && (
                   <>
-                    <MenuItem>
+                    <MenuItem className='!outline-none !border-none focus:!bg-white'>
                       <Link to='/dashboard' className='w-full text-center'>
                         Dashboard
                       </Link>
                     </MenuItem>
                   </>
                 )}
-                <MenuItem onClick={handleLogout}>
+                <MenuItem
+                  className='!outline-none !border-none focus:!bg-white'
+                  onClick={handleLogout}
+                >
                   <span className='w-full text-center'>Sair</span>
                 </MenuItem>
               </>
             )}
-            <MenuItem>
+            <MenuItem className='!outline-none !border-none focus:!bg-white'>
               <Link to='/faq' className='w-full text-center'>
                 FAQ
               </Link>
@@ -105,6 +112,8 @@ export default function Navbar({ title }) {
             setOpenLoginModal={setOpenLoginModal}
           />
         </Menu>
+      ) : (
+        <Box className='p-4'></Box>
       )}
     </header>
   );
