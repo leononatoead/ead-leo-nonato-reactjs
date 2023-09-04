@@ -1,8 +1,7 @@
 import { useState } from 'react';
 
-import upArrow from '../../../assets/up-arrow.svg';
-import next from '../../../assets/next.svg';
 import { useLocation, useNavigate } from 'react-router';
+import { RiArrowUpSLine, RiPlayFill } from 'react-icons/ri';
 
 export default function VideoList({ list, active, setVideoPlayer }) {
   const [listOptions, setListOptions] = useState({
@@ -42,24 +41,23 @@ export default function VideoList({ list, active, setVideoPlayer }) {
         !listOptions?.isHidden && ' h-[50vh]'
       }`}
     >
-      <div className='bg-[#EBEBEB] h-[92px] px-4 py-8  gap-11 flex items-center justify-between '>
+      <div className='bg-gray-200 h-[92px] px-4 py-8  gap-11 flex items-center justify-between '>
         <div>
           <p className='font-semibold text-[17px] leading-[22px]'>
             Reproduzindo {videoIndex + 1} de {list.length}
           </p>
-          <p className='text-[12px] leading-4 text-[#616161]'>
+          <p className='text-small leading-4 text-gray-800'>
             {nextVideo && `Próximo: ${nextVideo?.title}`}
           </p>
         </div>
         <div className='flex gap-5'>
           {nextVideo && (
             <button onClick={handlePlayNext}>
-              <img src={next} alt='next' />
+              <RiPlayFill alt='next' />
             </button>
           )}
           <button onClick={handleOpenList}>
-            <img
-              src={upArrow}
+            <RiArrowUpSLine
               alt='view-all'
               className={` ${!listOptions.isHidden && 'rotate-180'}`}
             />

@@ -11,7 +11,7 @@ export default function VerifySucess() {
       <AuthHeader step={4} />
 
       <Box px={4} mt={1}>
-        <AiOutlineCheckCircle className='text-[#89D185] mb-6' />
+        <AiOutlineCheckCircle size={80} className='text-[#89D185] mb-6' />
         <Heading
           className='!font-bold !font-poppins !text-large !leading-6 text-primary-600'
           mb={2}

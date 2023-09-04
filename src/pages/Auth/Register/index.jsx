@@ -16,7 +16,7 @@ import { Link } from 'react-router-dom';
 import { Box, Heading, Image, Text } from '@chakra-ui/react';
 
 import logo from '../../../assets/auth-logo-black.svg';
-import background from '../../../assets/bg-light.png';
+import background from '../../../assets/auth-bg.jpeg';
 
 export default function Register() {
   const { registerUser } = useAuth();
@@ -55,15 +55,14 @@ export default function Register() {
       color='white'
       borderBottom={'1px'}
       borderBottomColor={'primary-400'}
-      className='relative bg-gray-200'
+      className='relative bg-gray-200 min-h-screen'
     >
       <Box
         w='100%'
         h='160px'
         borderRadius={'0 0 16px 16px'}
-        className='relative'
+        className='relative overflow-hidden auth-bg '
       >
-        <Image src={background} alt='background' />
         <Link
           to='/'
           className='absolute top-8 w-full flex justify-center pt-4 pb-8'

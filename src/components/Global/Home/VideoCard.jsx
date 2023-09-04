@@ -1,99 +1,110 @@
-import * as React from 'react';
-// import { Card, CardHeader, CardPreview } from '@fluentui/react-components';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import lock from '../../../assets/lock.png';
+import { Card, CardBody, CardFooter, Image } from '@chakra-ui/react';
+
+import { BiLockAlt } from 'react-icons/bi';
 
 export default function VideoCard({ courseData, setOpenLoginModal }) {
   const { user } = useSelector((state) => state.auth);
 
   return (
     <>
-      {/* {user && courseData.isFree && (
-        <Link to={`/course/${courseData.id}`}>
-          <Card
-            className={
-              '!rounded-t-lg !rounded-b-none !shadow-none !pb-[6px] !bg-transparent !gap-[6px]'
-            }
-          >
-            <CardPreview>
-              <img
-                className={'!w-full !h-[108px] object-cover'}
-                src={courseData.imagePath}
-                alt='Presentation Preview'
-              />
-            </CardPreview>
-
-            <CardHeader
-              className='!items-start !-ml-2'
-              header={<p className='text-base leading-5'>{courseData.name}</p>}
-            />
-          </Card>
-        </Link>
-      )}
-
-      {user && !user.isPremium && !courseData.isFree && (
-        <Link to={`/`}>
-          <Card
-            className={
-              '!rounded-t-lg !rounded-b-none !shadow-none !pb-[6px] !bg-transparent !gap-[6px]'
-            }
-          >
-            <CardPreview
-              logo={
-                <img
-                  src={lock}
-                  alt='locked-content'
-                  className='bg-white p-2 rounded-sm'
-                />
-              }
-            >
-              <img
-                src={courseData.imagePath}
-                alt='Presentation Preview'
-                className={'!w-full !h-[108px] object-cover'}
-              />
-            </CardPreview>
-
-            <CardHeader
-              className='!items-start !-ml-2'
-              header={<p className='text-base leading-5'>{courseData.name}</p>}
-            />
-          </Card>
-        </Link>
-      )}
-
       {!user && (
         <Card
-          className={
-            '!rounded-t-lg !rounded-b-none !shadow-none !pb-[6px] !bg-transparent !gap-[6px]'
-          }
+          p={0}
+          bg={'transparent'}
+          className='!rounded-sm !overflow-hidden !shadow-none !w-40'
           onClick={() => setOpenLoginModal(true)}
         >
-          <CardPreview
-            className={'styles.grayBackground'}
-            logo={
-              <img
-                src={lock}
-                alt='locked-content'
-                className='bg-white p-2 rounded-sm'
-              />
-            }
-          >
-            <img
+          <CardBody p={0}>
+            <Image
               src={courseData.imagePath}
-              alt='Presentation Preview'
-              className={'!w-full !h-[108px] object-cover'}
+              className='!rounded-sm object-cover'
+              width={160}
+              height={100}
             />
-          </CardPreview>
-
-          <CardHeader
-            className='!items-start !-ml-2'
-            header={<p className='text-base leading-5'>{courseData.name}</p>}
-          />
+          </CardBody>
+          <CardFooter p={0} mt={2} className='flex justify-between items-start'>
+            <span className='text-base text-primary-600 !font-medium leading-[18px]'>
+              {courseData.name}
+            </span>
+            <BiLockAlt className='text-primary-600' />
+          </CardFooter>
         </Card>
-      )} */}
+      )}
+
+      {user && courseData.isFree && (
+        <Link to={`/course/${courseData.id}`}>
+          <Card
+            p={0}
+            bg={'transparent'}
+            className='!rounded-sm !overflow-hidden !shadow-none !w-40'
+          >
+            <CardBody p={0}>
+              <Image
+                src={courseData.imagePath}
+                className='!rounded-sm object-cover'
+                width={160}
+                height={100}
+              />
+            </CardBody>
+            <CardFooter p={0} mt={2}>
+              <span className='text-base text-primary-600 !font-medium leading-[18px]'>
+                {courseData.name}
+              </span>
+            </CardFooter>
+          </Card>
+        </Link>
+      )}
+
+      {user && !courseData.isFree && user.isPremium && (
+        <Link to={`/course/${courseData.id}`}>
+          <Card
+            p={0}
+            bg={'transparent'}
+            className='!rounded-sm !overflow-hidden !shadow-none !w-40'
+          >
+            <CardBody p={0}>
+              <Image
+                src={courseData.imagePath}
+                className='!rounded-sm object-cover'
+                width={160}
+                height={100}
+              />
+            </CardBody>
+            <CardFooter p={0} mt={2}>
+              <span className='text-base text-primary-600 !font-medium leading-[18px]'>
+                {courseData.name}
+              </span>
+            </CardFooter>
+          </Card>
+        </Link>
+      )}
+
+      {user && !courseData.isFree && !user.isPremium && (
+        <Card
+          p={0}
+          bg={'transparent'}
+          className='!rounded-sm !overflow-hidden !shadow-none !w-40'
+          // onClick={() => setOpenLoginModal(true)}
+        >
+          <CardBody p={0}>
+            <Image
+              src={courseData.imagePath}
+              className='!rounded-sm object-cover'
+              width={160}
+              height={100}
+            />
+          </CardBody>
+          <CardFooter p={0} mt={2} className='flex justify-between items-start'>
+            <span className='text-base text-primary-600 !font-medium leading-[18px]'>
+              {courseData.name}
+            </span>
+            <BiLockAlt className='text-primary-600' />
+          </CardFooter>
+        </Card>
+      )}
     </>
   );
 }

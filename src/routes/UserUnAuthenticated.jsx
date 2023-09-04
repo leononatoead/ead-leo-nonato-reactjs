@@ -5,6 +5,8 @@ import Register from '../pages/Auth/Register';
 import ChangePasswordSuccess from '../pages/Auth/ChangePasswordSuccess';
 import FAQ from '../pages/Global/FAQ';
 
+import VerifySuccess from '../pages/Auth/VerifySuccess';
+
 export default function UserUnAuthenticatedRoutes() {
   return (
     <Routes>

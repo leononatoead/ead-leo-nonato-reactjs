@@ -1,5 +1,6 @@
+import { RiCloseFill } from 'react-icons/ri';
 import logo from '../../assets/auth-logo-black.svg';
-import closeIcon from '../../assets/closeIcon.svg';
+
 import {
   Modal,
   ModalContent,
@@ -30,7 +31,7 @@ export default function ModalComponent({
               onClick={handleCloseModal}
               className='border-none bg-transparent absolute right-4 outline-none'
             >
-              <Image src={closeIcon} alt='close' className='w-4' />
+              <RiCloseFill alt='close' className='w-4' />
             </button>
           </Box>
         ) : (
@@ -42,7 +43,7 @@ export default function ModalComponent({
               onClick={handleCloseModal}
               className='border-none bg-transparent absolute right-4 outline-none'
             >
-              <Image src={closeIcon} alt='close' className='w-4' />
+              <RiCloseFill alt='close' className='w-4' />
             </button>
           </Box>
         )}

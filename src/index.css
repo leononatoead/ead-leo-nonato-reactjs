@@ -20,12 +20,21 @@ input[type='number']::-webkit-inner-spin-button {
   transition: width 0.3s ease-in-out;
 }
 
+.auth-bg {
+  background: linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.8) 0%,
+      rgba(255, 255, 255, 0.8) 100%
+    ),
+    url('./assets/auth-bg.jpeg'), lightgray 50% / cover no-repeat;
+}
+
 .phoneInput input {
   @apply w-full rounded-[4px] bg-white px-3 py-[5px] leading-[20px] text-base text-black outline-none;
 }
 
 .opt-container input:focus {
-  @apply !border-[#60CDFF];
+  @apply !border-cian;
 }
 
 .opt-container input {
@@ -51,28 +60,3 @@ input[type='number']::-webkit-inner-spin-button {
 .css-r6z5ec {
   z-index: 10 !important;
 }
-/* RESET FLUENT UI DIALOG STYLES */
-/* .f15twtuk {
-  top: unset !important;
-}
-
-.fvgz9i8 {
-  max-width: 100% !important;
-}
-
-.f13qh94s {
-  display: flex !important;
-  flex-direction: column;
-}
-
-.accordion .f1ewtqcl {
-  padding: 0 !important;
-  min-height: 20px !important;
-  max-height: 20px !important;
-  margin-top: 6px !important;
-  margin-bottom: 10px !important;
-}
-
-.f1hu3pq6 {
-  margin: 0 !important;
-} */
