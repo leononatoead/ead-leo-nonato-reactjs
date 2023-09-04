@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import {
   fetchVideos,
   selectLesson,
@@ -14,8 +14,13 @@ import {
   AccordionButton,
   AccordionPanel,
   AccordionIcon,
+  Image,
+  Avatar,
 } from '@chakra-ui/react';
-import { Box } from '@chakra-ui/layout';
+
+import { Box, Heading } from '@chakra-ui/layout';
+
+import background from '../../../assets/auth-background.png';
 
 export default function Course() {
   const { id } = useParams();
@@ -35,36 +40,83 @@ export default function Course() {
     }
   }, []);
 
-  const handleSelectLesson = (video) => {
-    dispatch(selectLesson(video));
-    navigate(`/course/${id}/${video.id}`);
-  };
-
   return (
     <Box className='min-h-screen bg-gray-200 flex flex-col'>
-      <Navbar title={course?.name} />
+      <Navbar title='Curso' />
 
-      <Accordion allowToggle>
-        {course &&
-          course?.videos?.map((section, i) => (
-            <AccordionItem key={i}>
-              <AccordionButton>
-                <Box as='span' flex='1' textAlign='left'>
-                  {section.section}
-                </Box>
-                <AccordionIcon />
-              </AccordionButton>
+      <Box className='!h-[118px] rounded-b-2xl overflow-hidden'>
+        <Image
+          src={background}
+          alt='logo'
+          className='w-full !object-cover !h-[118px]'
+        />
+      </Box>
 
-              <AccordionPanel pb={4}>
-                {section.videos.map((video) => (
-                  <li key={video.id} onClick={() => handleSelectLesson(video)}>
-                    {video.title}
-                  </li>
-                ))}
-              </AccordionPanel>
-            </AccordionItem>
-          ))}
-      </Accordion>
+      <Box
+        px={6}
+        pb={4}
+        mt={'-51px'}
+        className='flex items-center justify-center flex-col'
+      >
+        <Avatar
+          size='xl'
+          bg='blue.500'
+          name={course.name}
+          src={course.imagePath}
+        />
+        <Heading
+          className='!text-large !font-poppins !font-bold !leading-6'
+          mb={8}
+          mt={6}
+        >
+          {course.name}
+        </Heading>
+        <Link
+          to={`/course/${id}/${course.videos[0].videos[0].id}`}
+          className='w-full bg-primary-400 rounded-[4px] px-3 py-[5px] text-white text-base leading-[20px] text-center'
+        >
+          Assistir
+        </Link>
+      </Box>
+
+      <Box py={4} px={4} bg={'white'} className='!flex-grow'>
+        <Heading className='!font-poppins !text-normal !leading-6 !font-medium'>
+          Conteúdo
+        </Heading>
+        <Accordion allowToggle>
+          {course &&
+            course?.videos?.map((section, i) => (
+              <AccordionItem
+                key={i}
+                className='!border-t-0 !border-b-[1px] !border-gray-200 '
+              >
+                <AccordionButton px={0} py={4} className='hover:!bg-white'>
+                  <Box
+                    as='span'
+                    flex='1'
+                    textAlign='left'
+                    className='!text-base !font-medium !leading-5'
+                  >
+                    {section.section}
+                  </Box>
+                  <AccordionIcon />
+                </AccordionButton>
+
+                <AccordionPanel pb={4} className='flex flex-col gap-6 '>
+                  {section.videos.map((video) => (
+                    <Link
+                      to={`/course/${id}/${video.id}`}
+                      key={video.id}
+                      className='font-semibold text-small leading-4'
+                    >
+                      {video.title}
+                    </Link>
+                  ))}
+                </AccordionPanel>
+              </AccordionItem>
+            ))}
+        </Accordion>
+      </Box>
     </Box>
   );
 }

@@ -49,61 +49,63 @@ export default function Navbar({ title }) {
         </span>
       )}
 
-      <Menu>
-        <MenuButton
-          as={IconButton}
-          aria-label='Options'
-          icon={<GiHamburgerMenu />}
-          variant='outline'
-          className='!border-none !bg-transparent'
-        />
-        <MenuList>
-          {!user && (
-            <>
-              <MenuItem onClick={() => setOpenLoginModal(true)}>
-                <span className='!w-full !text-center'>Login</span>
-              </MenuItem>
-              <MenuItem>
-                <Link to='/register' className='w-full text-center'>
-                  Cadastro
-                </Link>
-              </MenuItem>
-            </>
-          )}
+      {path.pathname === '/' && (
+        <Menu>
+          <MenuButton
+            as={IconButton}
+            aria-label='Options'
+            icon={<GiHamburgerMenu />}
+            variant='outline'
+            className='!border-none !bg-transparent'
+          />
+          <MenuList>
+            {!user && (
+              <>
+                <MenuItem onClick={() => setOpenLoginModal(true)}>
+                  <span className='!w-full !text-center'>Login</span>
+                </MenuItem>
+                <MenuItem>
+                  <Link to='/register' className='w-full text-center'>
+                    Cadastro
+                  </Link>
+                </MenuItem>
+              </>
+            )}
 
-          {user && (
-            <>
-              <MenuItem>
-                <Link to='/profile' className='w-full text-center'>
-                  Perfil
-                </Link>
-              </MenuItem>
-              {user.admin && (
-                <>
-                  <MenuItem>
-                    <Link to='/dashboard' className='w-full text-center'>
-                      Dashboard
-                    </Link>
-                  </MenuItem>
-                </>
-              )}
-              <MenuItem onClick={handleLogout}>
-                <span className='w-full text-center'>Sair</span>
-              </MenuItem>
-            </>
-          )}
-          <MenuItem>
-            <Link to='/faq' className='w-full text-center'>
-              FAQ
-            </Link>
-          </MenuItem>
-        </MenuList>
+            {user && (
+              <>
+                <MenuItem>
+                  <Link to='/profile' className='w-full text-center'>
+                    Perfil
+                  </Link>
+                </MenuItem>
+                {user.admin && (
+                  <>
+                    <MenuItem>
+                      <Link to='/dashboard' className='w-full text-center'>
+                        Dashboard
+                      </Link>
+                    </MenuItem>
+                  </>
+                )}
+                <MenuItem onClick={handleLogout}>
+                  <span className='w-full text-center'>Sair</span>
+                </MenuItem>
+              </>
+            )}
+            <MenuItem>
+              <Link to='/faq' className='w-full text-center'>
+                FAQ
+              </Link>
+            </MenuItem>
+          </MenuList>
 
-        <LoginModal
-          openLoginModal={openLoginModal}
-          setOpenLoginModal={setOpenLoginModal}
-        />
-      </Menu>
+          <LoginModal
+            openLoginModal={openLoginModal}
+            setOpenLoginModal={setOpenLoginModal}
+          />
+        </Menu>
+      )}
     </header>
   );
 }
