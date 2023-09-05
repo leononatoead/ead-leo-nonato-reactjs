@@ -5,7 +5,5 @@ export const AddCourseSchema = z.object({
   description: z
     .string()
     .min(1, 'A descrição precisa ter pelo menos x caracteres.'),
-  isFree: z.boolean(),
-  needAuth: z.boolean(),
-  author: z.string().min(2, 'Digite um nome válido.')
+  author: z.string().min(2, 'Digite um nome válido.'),
 });
