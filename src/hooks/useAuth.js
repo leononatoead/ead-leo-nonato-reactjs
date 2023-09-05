@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { auth, database } from '../firebase/config';
+import { auth, database, storage } from '../firebase/config';
 import { updateProfileImage } from '../redux/modules/auth/actions';
 import { useToast } from '@chakra-ui/react';
 
@@ -15,7 +15,14 @@ import {
   deleteUser,
 } from 'firebase/auth';
 
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, setDoc, updateDoc } from 'firebase/firestore';
+import {
+  deleteObject,
+  getDownloadURL,
+  ref,
+  uploadBytesResumable,
+} from 'firebase/storage';
+import { v4 } from 'uuid';
 
 const useAuth = () => {
   const [loading, setLoading] = useState(false);
@@ -147,14 +154,95 @@ const useAuth = () => {
     }
   };
 
-  const changeImage = async (url, setSuccess) => {
+  const changeImage = async (image, setSuccess, user) => {
     setLoading(true);
 
-    try {
-      await updateProfile(auth.currentUser, { photoURL: url });
+    if (user.profileImageRef) {
+      const fileRef = ref(storage, user.profileImageRef);
+      await deleteObject(fileRef);
+    }
 
-      dispatch(updateProfileImage(url));
-      setSuccess(true);
+    try {
+      const firestoreFileName = `profileImages/${Date.now()}${v4()}`;
+      const storageRef = ref(storage, firestoreFileName);
+      const uploadTask = uploadBytesResumable(storageRef, image);
+
+      uploadTask.on(
+        'state_changed',
+        (snapshot) => {
+          const progressStatus =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+
+          switch (snapshot.state) {
+            case 'paused':
+              toast({
+                description: 'Envio pausado',
+                status: 'info',
+                duration: '3000',
+                isClosable: true,
+              });
+              break;
+            default:
+              break;
+          }
+        },
+        (error) => {
+          switch (error.code) {
+            case 'storage/unauthorized':
+              toast({
+                description:
+                  'O usuário não tem autorização para acessar o objeto.',
+                status: 'error',
+                duration: '3000',
+                isClosable: true,
+              });
+              break;
+            case 'storage/canceled':
+              toast({
+                description: 'O usuário cancelou o upload',
+                status: 'error',
+                duration: '3000',
+                isClosable: true,
+              });
+              break;
+            default:
+              toast({
+                description: 'Ocorreu um erro, tente novamente.',
+                status: 'error',
+                duration: '3000',
+                isClosable: true,
+              });
+              break;
+          }
+        },
+        async () => {
+          try {
+            const fileURL = await getDownloadURL(uploadTask.snapshot.ref);
+
+            await updateProfile(auth.currentUser, { photoURL: fileURL });
+
+            const userRef = doc(database, 'users', user.uid);
+            await updateDoc(userRef, { profileImageRef: fileURL });
+
+            const data = {
+              photoURL: fileURL,
+              profileImageRef: fileURL,
+            };
+
+            dispatch(updateProfileImage(data));
+            setSuccess(true);
+          } catch (error) {
+            toast({
+              description: error.message,
+              status: 'error',
+              duration: '3000',
+              isClosable: true,
+            });
+          } finally {
+            setLoading(false);
+          }
+        },
+      );
     } catch (error) {
       toast({
         description: error.message,
@@ -162,8 +250,6 @@ const useAuth = () => {
         duration: '3000',
         isClosable: true,
       });
-    } finally {
-      setLoading(false);
     }
   };
 

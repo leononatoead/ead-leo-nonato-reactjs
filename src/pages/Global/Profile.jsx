@@ -109,6 +109,7 @@ export default function Profile() {
       <ChangeProfileImage
         openModal={openEditPhotoModal}
         setOpenModal={setOpenEditPhotoModal}
+        user={user}
       />
 
       <ChangePassword

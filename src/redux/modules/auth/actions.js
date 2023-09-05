@@ -1,6 +1,7 @@
 import { database, auth } from '../../../firebase/config';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
+import api from '../../../api/axios';
 
 import {
   AUTH_USER,
@@ -25,6 +26,16 @@ export const verifyAuthentication = () => (dispatch) => {
     if (user) {
       const collectionData = await getUserData(user.uid);
 
+      // const data = {
+      //   api_key: import.meta.env.VITE_VERCEL_API_TOKEN,
+      //   metadata: {
+      //     chave: 'valor',
+      //   },
+      // };
+
+      // const payment = await api.get(`/customers`, { params: data });
+      // console.log(payment);
+
       const userPayload = {
         uid: user.uid,
         name: user.displayName,
@@ -32,6 +43,7 @@ export const verifyAuthentication = () => (dispatch) => {
         emailVerified: user.emailVerified,
         phoneNumber: user.phoneNumber,
         photoURL: user.photoURL,
+        profileImageRef: user.profileImageRef,
         isPremium: false,
         ...collectionData,
       };

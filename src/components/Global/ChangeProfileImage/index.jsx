@@ -1,42 +1,27 @@
 import { useState } from 'react';
 
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { changeProfileImageSchema } from './changeProfileImageSchema';
-
 import useAuth from '../../../hooks/useAuth';
 
 import ModalComponent from '../ModalComponent';
-import Input from '../Input';
 import ButtonSubmit from '../ButtonSubmit';
 
 import { ModalBody, ModalFooter, Text } from '@chakra-ui/react';
-
 import { IoIosCheckmarkCircleOutline } from 'react-icons/io';
 
-export default function ChangeProfileImage({ openModal, setOpenModal }) {
+export default function ChangeProfileImage({ openModal, setOpenModal, user }) {
   const { changeImage, loading } = useAuth();
 
+  const [image, setImage] = useState(null);
   const [success, setSuccess] = useState(false);
 
-  const {
-    register,
-    handleSubmit,
-    watch,
-    reset,
-    formState: { errors },
-  } = useForm({
-    resolver: zodResolver(changeProfileImageSchema),
-  });
-
-  const handleChange = (formData) => {
-    changeImage(formData.url, setSuccess);
+  const handleChange = (e) => {
+    e.preventDefault();
+    changeImage(image, setSuccess, user);
   };
 
   const handleCloseModal = () => {
     setOpenModal(false);
     setSuccess(false);
-    reset({ url: '' });
   };
 
   return (
@@ -71,18 +56,20 @@ export default function ChangeProfileImage({ openModal, setOpenModal }) {
           <ModalBody p={0} mb={9}>
             <form
               id='changeProfileImageForm'
-              onSubmit={handleSubmit(handleChange)}
+              onSubmit={handleChange}
               className='px-4'
             >
-              <Input
-                theme={'light'}
-                type={'text'}
-                label={'URL'}
-                placeholder={'https://exemplo.com.br/'}
-                register={register}
-                id={'url'}
-                error={errors?.url?.message}
-                watch={watch}
+              <label
+                htmlFor={'videoFile'}
+                className='text-base leading-5 mb-[3px] block'
+              >
+                Selecionar imagem
+              </label>
+
+              <input
+                type='file'
+                onChange={(e) => setImage(e.target.files[0])}
+                className='w-full outline-none text-base'
               />
             </form>
           </ModalBody>

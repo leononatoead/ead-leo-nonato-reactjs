@@ -14,7 +14,7 @@ const authReducer = (state = initialState, action) => {
     case LOGOUT_USER:
       return { user: action.payload };
     case UPDATE_IMAGE:
-      return { user: { ...state.user, photoURL: action.payload } };
+      return { user: { ...state.user, ...action.payload } };
     case UPDATE_USER_COURSES:
       return { user: { ...state.user, courses: action.payload } };
     default:
