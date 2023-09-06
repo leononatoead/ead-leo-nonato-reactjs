@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
 import useVideo from '../../../hooks/useVideo';
@@ -12,19 +12,23 @@ import { AddVideoSchema } from './editVideoSchema';
 import ButtonSubmit from '../../../components/Global/ButtonSubmit';
 import Input from '../../../components/Global/Input';
 
-import { Box, Heading, Radio, RadioGroup } from '@chakra-ui/react';
+import { Box, Flex, Heading, Radio, RadioGroup } from '@chakra-ui/react';
+import ConfirmModal from '../../../components/Global/ConfirmModal';
 
-export default function EditVideo() {
+export default function EditLesson() {
   const { pathname } = useLocation();
   const pathParams = pathname.split('/');
 
+  const courseId = pathParams[3];
+  const id = pathParams[5];
+
   const { videos } = useSelector((state) => state.courses);
-  const oldVideoData = videos?.find((video) => video.id === pathParams[5]);
+  const oldVideoData = videos?.find((video) => video.id === id);
 
   const [editVideo, setEditVideo] = useState({
     videoURL: '',
     videoFile: null,
-    assetsList: oldVideoData.assets,
+    assetsList: oldVideoData?.assets || [],
     questionsList: [],
     assetFile: null,
     assetName: '',
@@ -32,9 +36,12 @@ export default function EditVideo() {
     assetType: 'file',
   });
 
-  const { updateVideo, loading } = useVideo();
+  const [openConfirmModal, setOpenConfirmModal] = useState();
+
+  const { updateVideo, deleteVideo, loading } = useVideo();
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -117,6 +124,17 @@ export default function EditVideo() {
     setEditVideo((prev) => ({ ...prev, assetsList: removeSelected }));
   };
 
+  const handleDeleteVideo = () => {
+    deleteVideo(
+      courseId,
+      oldVideoData.id,
+      oldVideoData.storageRef,
+      oldVideoData.assets,
+    );
+
+    navigate(-1);
+  };
+
   return (
     <Box
       px={4}
@@ -125,11 +143,7 @@ export default function EditVideo() {
       gap={2}
     >
       <Box className='flex-1'>
-        <form
-          id='editVideoForm'
-          onSubmit={handleSubmit(handleEditVideo)}
-          className=''
-        >
+        <form id='editLessonForm' onSubmit={handleSubmit(handleEditVideo)}>
           <label
             htmlFor={'videoFile'}
             className='text-base leading-5 mb-[3px] block'
@@ -242,7 +256,7 @@ export default function EditVideo() {
                   name={'assetName'}
                   placeholder='Digite aqui'
                   onChange={handleInputChange}
-                  className={`w-full rounded-[4px]  px-3 py-[5px] leading-[20px] text-base outline-none  bg-white `}
+                  className={`w-full rounded-[4px]  px-3 py-[5px] leading-5 text-base outline-none  bg-white `}
                 />
               </div>
             </>
@@ -284,7 +298,7 @@ export default function EditVideo() {
                   value={editVideo?.assetURL}
                   placeholder='https://exemplo.com.br'
                   onChange={handleInputChange}
-                  className={`w-full rounded-[4px]  px-3 py-[5px] leading-[20px] text-base outline-none  bg-white `}
+                  className={`w-full rounded-[4px]  px-3 py-[5px] leading-5 text-base outline-none  bg-white `}
                 />
               </div>
             </div>
@@ -292,7 +306,7 @@ export default function EditVideo() {
             'questions'
           )}
           <button
-            className='w-full bg-white rounded-[4px] px-3 py-[5px] text-primary-600 border-[1px] border-primary-600 text-base leading-[20px] mt-2'
+            className='w-full bg-white rounded-[4px] px-3 py-[5px] text-primary-600 border-[1px] border-primary-600 text-base leading-5 mt-2'
             type='submit'
             form='fileForm'
           >
@@ -300,12 +314,21 @@ export default function EditVideo() {
           </button>
         </form>
       </Box>
-      <ButtonSubmit
-        form='editVideoForm'
-        disabled={false}
-        text={'Confirmar'}
-        loading={loading}
-      />
+
+      <Flex flexDirection={'column'} gap={2}>
+        <ButtonSubmit
+          form='editLessonForm'
+          disabled={false}
+          text={'Alterar'}
+          loading={loading}
+        />
+
+        <ConfirmModal
+          deleteFunction={handleDeleteVideo}
+          open={openConfirmModal}
+          setOpen={setOpenConfirmModal}
+        />
+      </Flex>
     </Box>
   );
 }

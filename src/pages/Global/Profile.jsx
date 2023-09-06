@@ -69,7 +69,7 @@ export default function Profile() {
           </Text>
         </Flex>
         <Flex flexDirection='column' gap={1}>
-          <Text className='text-base leading-[20px]'>E-mail</Text>
+          <Text className='text-base leading-5'>E-mail</Text>
           <Text
             className='w-full rounded-[4px]  leading-5 text-base outline-none bg-white shadow-sm  shadow-gray-900/50 text-gray-400'
             px={3}
@@ -79,7 +79,7 @@ export default function Profile() {
           </Text>
         </Flex>
         <Flex flexDirection='column' gap={1}>
-          <Text className='text-base leading-[20px]'>Celular</Text>
+          <Text className='text-base leading-5'>Celular</Text>
           <Text
             className='w-full rounded-[4px]  leading-5 text-base outline-none bg-white shadow-sm  shadow-gray-900/50 text-gray-400'
             px={3}
@@ -89,7 +89,7 @@ export default function Profile() {
           </Text>
         </Flex>
         <Flex flexDirection='column' gap={1} className='relative'>
-          <Text className='text-base leading-[20px]'>Senha</Text>
+          <Text className='text-base leading-5'>Senha</Text>
           <Text
             className='w-full rounded-[4px]  leading-5 text-base outline-none bg-white shadow-sm  shadow-gray-900/50 text-gray-400'
             px={3}

@@ -77,7 +77,7 @@ export default function Course() {
         </Heading>
         <span
           onClick={handleWatch}
-          className='w-full bg-primary-400 rounded-[4px] px-3 py-[5px] text-white text-base leading-[20px] text-center'
+          className='w-full bg-primary-400 rounded-[4px] px-3 py-[5px] text-white text-base leading-5 text-center'
         >
           Assistir
         </span>

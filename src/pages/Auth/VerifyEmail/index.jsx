@@ -58,7 +58,7 @@ export default function VerifyEmail() {
       <Box className='flex items-end !flex-1' px={'10px'} py={6}>
         <Link
           to='/verify-success'
-          className='w-full bg-primary-400 rounded-[4px] px-3 py-[5px] text-white text-base leading-[20px] text-center'
+          className='w-full bg-primary-400 rounded-[4px] px-3 py-[5px] text-white text-base leading-5 text-center'
         >
           Continuar
         </Link>

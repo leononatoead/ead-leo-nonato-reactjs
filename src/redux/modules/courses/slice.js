@@ -44,16 +44,38 @@ const courseReducer = createSlice({
     },
     addVideo: (state, action) => {
       const newVideo = action.payload;
-      const courses = [...state.courses];
+      const courses = JSON.parse(JSON.stringify([...state.courses]));
 
-      const findCourseById = courses.find(
-        (course) => course.id === newVideo.courseRef,
+      const course = courses.find((course) => course.id === newVideo.courseRef);
+
+      const section = course.videos.find(
+        (section) => section.section === newVideo.section,
       );
 
+      let videoList = [];
+      if (section) {
+        const removeOld = course.videos.filter(
+          (section) => section.section !== newVideo.section,
+        );
+        const updated = [
+          ...removeOld,
+          { ...section, videos: [...section.videos, newVideo] },
+        ];
+        videoList = updated;
+      } else {
+        videoList = [
+          ...course.videos,
+          { section: newVideo.section, videos: [newVideo] },
+        ];
+      }
+
       const updateCourseVideos = {
-        ...findCourseById,
-        videos: [...findCourseById.videos, newVideo],
+        ...course,
+        videos: videoList,
       };
+
+      console.log(course.videos);
+      console.log(updateCourseVideos);
 
       const updatedCourseList = courses.map((course) => {
         if (course.id === newVideo.courseRef) {
@@ -72,11 +94,11 @@ const courseReducer = createSlice({
       const courses = JSON.parse(JSON.stringify([...state.courses]));
       const updatedVideo = { ...action.payload };
 
-      const findCourseById = courses.find(
+      const course = courses.find(
         (course) => course.id === updatedVideo.courseRef,
       );
 
-      const removeOldVideoData = findCourseById.videos.map((video) => {
+      const removeOldVideoData = course.videos.map((video) => {
         if (video.section === updatedVideo.section) {
           const update = {
             ...video,
@@ -93,8 +115,9 @@ const courseReducer = createSlice({
         }
         return video;
       });
+
       const updateCourseVideos = {
-        ...findCourseById,
+        ...course,
         videos: removeOldVideoData,
       };
 
@@ -116,17 +139,21 @@ const courseReducer = createSlice({
 
       const courses = JSON.parse(JSON.stringify([...state.courses]));
 
-      const findCourseById = courses.find(
+      const course = courses.find(
         (course) => course.id === removedVideo.courseId,
       );
 
-      const filterVideos = findCourseById.videos.filter(
-        (video) => video.id !== removedVideo.videoId,
-      );
+      const updatedVideoList = [];
+      for (let section of course.videos) {
+        const videos = section.videos.filter(
+          (video) => video.id !== removedVideo.videoId,
+        );
+        updatedVideoList.push({ ...section, videos });
+      }
 
       const updateCourseVideos = {
-        ...findCourseById,
-        videos: filterVideos,
+        ...course,
+        videos: updatedVideoList,
       };
 
       const updatedCourseList = courses.map((course) => {
@@ -154,7 +181,7 @@ const courseReducer = createSlice({
       .addCase(fetchVideos.fulfilled, (state, action) => {
         const courses = JSON.parse(JSON.stringify([...state.courses]));
 
-        const findCourseById = courses.find(
+        const course = courses.find(
           (course) => course.id === action.payload.id,
         );
 
@@ -177,7 +204,7 @@ const courseReducer = createSlice({
         });
 
         const addVideosToCourse = {
-          ...findCourseById,
+          ...course,
           videos: sectionsArr,
         };
 

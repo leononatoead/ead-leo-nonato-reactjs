@@ -170,7 +170,7 @@ export default function VerifyPhone() {
 
           <Box px={'10px'}>
             <button
-              className='w-full bg-primary-400 disabled:bg-gray-400 rounded-[4px] px-3 py-[5px] text-white text-base leading-[20px]'
+              className='w-full bg-primary-400 disabled:bg-gray-400 rounded-[4px] px-3 py-[5px] text-white text-base leading-5'
               onClick={handleUpdatePhoneNumber}
               disabled={verificationCode.length === 6 ? false : true}
             >
@@ -208,7 +208,7 @@ export default function VerifyPhone() {
 
           <Box px={'10px'}>
             <button
-              className='w-full bg-primary-400 disabled:bg-gray-400 rounded-[4px] px-3 py-[5px] text-white text-base leading-[20px]'
+              className='w-full bg-primary-400 disabled:bg-gray-400 rounded-[4px] px-3 py-[5px] text-white text-base leading-5'
               onClick={verifyPhone}
               disabled={phone ? false : true}
             >

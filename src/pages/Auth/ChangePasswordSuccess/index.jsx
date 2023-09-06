@@ -32,7 +32,7 @@ export default function ChangePasswordSuccess() {
       >
         <Link
           to='/'
-          className='w-full bg-primary-400 rounded-[4px] px-3 py-[5px] text-white text-base leading-[20px] text-center'
+          className='w-full bg-primary-400 rounded-[4px] px-3 py-[5px] text-white text-base leading-5 text-center'
         >
           Retornar à plataforma
         </Link>

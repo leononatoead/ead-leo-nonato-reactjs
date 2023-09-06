@@ -38,7 +38,6 @@ const useVideo = () => {
     docCollection,
     videoFile,
     assetsList,
-    setOpenVideoModal,
   ) => {
     setLoading(true);
 
@@ -49,6 +48,7 @@ const useVideo = () => {
         duration: '3000',
         isClosable: true,
       });
+      setLoading(false);
       return;
     }
 
@@ -232,7 +232,6 @@ const useVideo = () => {
             isClosable: true,
           });
         } finally {
-          setOpenVideoModal(false);
           setLoading(false);
         }
       },

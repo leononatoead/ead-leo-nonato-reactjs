@@ -161,7 +161,6 @@ const useCourse = () => {
     updatedCourseData,
     docCollection,
     imageFile,
-    setOpenEditModal,
   ) => {
     setLoading(true);
 
@@ -271,18 +270,13 @@ const useCourse = () => {
             isClosable: true,
           });
         } finally {
-          setOpenEditModal(false);
           setLoading(false);
         }
       },
     );
   };
 
-  const editCourseWithoutImage = async (
-    oldCourseData,
-    updatedCourseData,
-    setOpenEditModal,
-  ) => {
+  const editCourseWithoutImage = async (oldCourseData, updatedCourseData) => {
     setLoading(true);
     try {
       const courseRef = doc(database, 'courses', oldCourseData.id);
@@ -309,7 +303,6 @@ const useCourse = () => {
         isClosable: true,
       });
     } finally {
-      setOpenEditModal(false);
       setLoading(false);
     }
   };

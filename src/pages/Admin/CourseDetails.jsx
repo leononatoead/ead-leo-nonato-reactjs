@@ -1,9 +1,8 @@
 import { useEffect } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchVideos } from '../../redux/modules/courses/actions';
-import useCourse from '../../hooks/useCourse';
 
 import {
   Box,
@@ -27,14 +26,6 @@ export default function CourseDetails() {
   const course = courses.find((course) => course.id === id);
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const { deleteCourse } = useCourse();
-
-  const handleDeleteCourse = (course) => {
-    deleteCourse(course);
-    navigate('/dashboard/courses');
-  };
 
   useEffect(() => {
     if (course && !course.videos) {
@@ -75,16 +66,10 @@ export default function CourseDetails() {
 
           <Link
             to={`/dashboard/courses/${id}/edit`}
-            className='flex justify-center items-center gap-3 bg-primary-400 rounded-[4px] px-3 py-[5px] text-white text-base leading-[20px]'
+            className='flex justify-center items-center gap-3 bg-primary-400 rounded-[4px] px-3 py-[5px] text-white text-base leading-5'
           >
             <BiEdit size={18} /> Editar
           </Link>
-          {/* <button
-              onClick={() => handleDeleteCourse(course)}
-              className='px-4 py-[5px] bg-red-500 rounded-md text-white font-bold'
-            >
-              Deletar
-            </button> */}
         </Box>
       </Box>
 
@@ -94,8 +79,8 @@ export default function CourseDetails() {
             Aulas
           </Heading>
           <Link
-            to={'id'}
-            className='flex justify-center items-center gap-3 bg-primary-400 rounded-[4px] px-3 py-[5px] text-white text-base leading-[20px]'
+            to={'new'}
+            className='flex justify-center items-center gap-3 bg-primary-400 rounded-[4px] px-3 py-[5px] text-white text-base leading-5'
           >
             <MdAddCircleOutline size={18} /> Nova aula
           </Link>

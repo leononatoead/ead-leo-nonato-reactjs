@@ -11,7 +11,7 @@ import ButtonSubmit from '../../../components/Global/ButtonSubmit';
 
 import { Box, Switch } from '@chakra-ui/react';
 
-export default function NewCourse({ openCourseModal, setOpenCourseModal }) {
+export default function NewCourse() {
   const [isFree, setIsFree] = useState(false);
   const [needAuth, setNeedAuth] = useState(true);
   const [imageFile, setImageFile] = useState();
@@ -40,7 +40,7 @@ export default function NewCourse({ openCourseModal, setOpenCourseModal }) {
     const data = { ...formData, isFree, needAuth };
 
     if (imageFile) {
-      addNewCourse(data, 'courses', imageFile, setOpenCourseModal);
+      addNewCourse(data, 'courses', imageFile);
     } else {
       setError('Envie uma imagem!');
     }

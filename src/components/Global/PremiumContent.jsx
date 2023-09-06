@@ -32,7 +32,7 @@ export default function PremiumContent({ open, close }) {
 
           <Link
             to=''
-            className='w-full text-center bg-primary-400 rounded-[4px] px-3 py-[5px] text-white text-base leading-[20px]'
+            className='w-full text-center bg-primary-400 rounded-[4px] px-3 py-[5px] text-white text-base leading-5'
           >
             Assine já
           </Link>

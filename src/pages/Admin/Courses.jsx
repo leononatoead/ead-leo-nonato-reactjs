@@ -14,7 +14,7 @@ export default function Courses() {
       <Box className='w-full flex justify-end'>
         <Link
           to='/dashboard/courses/new'
-          className='flex items-center gap-3 bg-primary-400 rounded-[4px] px-3 py-[5px] text-white text-base leading-[20px]'
+          className='flex items-center gap-3 bg-primary-400 rounded-[4px] px-3 py-[5px] text-white text-base leading-5'
         >
           <MdAddCircleOutline size={20} />{' '}
           <span className='font-bold'> Novo curso</span>

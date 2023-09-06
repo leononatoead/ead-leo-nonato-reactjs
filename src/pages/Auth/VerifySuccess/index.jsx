@@ -33,12 +33,12 @@ export default function VerifySucess() {
         pb={6}
         gap={4}
       >
-        <button className='w-full bg-green-300 rounded-[4px] px-3 py-[5px] text-white text-base leading-[20px] text-center border-[1px] border-green-300 '>
+        <button className='w-full bg-green-300 rounded-[4px] px-3 py-[5px] text-white text-base leading-5 text-center border-[1px] border-green-300 '>
           Ir para o WhatsApp
         </button>
         <Link
           to='/'
-          className='w-full bg-white rounded-[4px] px-3 py-[5px] text-primary-400 text-base leading-[20px] text-center border-[1px] border-primary-400'
+          className='w-full bg-white rounded-[4px] px-3 py-[5px] text-primary-400 text-base leading-5 text-center border-[1px] border-primary-400'
         >
           Acessar plataforma
         </Link>
