@@ -74,9 +74,6 @@ const courseReducer = createSlice({
         videos: videoList,
       };
 
-      console.log(course.videos);
-      console.log(updateCourseVideos);
-
       const updatedCourseList = courses.map((course) => {
         if (course.id === newVideo.courseRef) {
           return updateCourseVideos;
