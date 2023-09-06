@@ -9,7 +9,7 @@ import useCourse from '../../../hooks/useCourse';
 import Input from '../../../components/Global/Input';
 import ButtonSubmit from '../../../components/Global/ButtonSubmit';
 
-import { Box, Select, Switch } from '@chakra-ui/react';
+import { Box, Switch } from '@chakra-ui/react';
 
 export default function NewCourse({ openCourseModal, setOpenCourseModal }) {
   const [isFree, setIsFree] = useState(false);
@@ -119,33 +119,6 @@ export default function NewCourse({ openCourseModal, setOpenCourseModal }) {
             onChange={() => handleSwitch('needAuth')}
           />
         </Box>
-        {/* <Select
-          id='isFree'
-          defaultValue={true}
-          {...register('isFree', {
-            setValueAs: (v) => (v === 'true' ? true : false),
-          })}
-          bg='white'
-          borderColor='transparent'
-          className='!outline-none shadow-sm shadow-gray-900/50 !h-[30px] !text-base !px-3 !text-black'
-        >
-          <option value={true}>Sim</option>
-          <option value={false}>Não</option>
-        </Select> */}
-
-        {/* <Select
-          id='needAuth'
-          defaultValue={true}
-          {...register('needAuth', {
-            setValueAs: (v) => (v === 'true' ? true : false),
-          })}
-          bg='white'
-          borderColor='transparent'
-          className='!outline-none shadow-sm shadow-gray-900/50 !h-[30px] !text-base !px-3 !text-black'
-        >
-          <option value={true}>Sim</option>
-          <option value={false}>Não</option>
-        </Select> */}
       </form>
       <ButtonSubmit
         form='addCourseForm'

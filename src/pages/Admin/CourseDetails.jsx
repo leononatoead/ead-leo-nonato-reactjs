@@ -5,9 +5,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchVideos } from '../../redux/modules/courses/actions';
 import useCourse from '../../hooks/useCourse';
 
-import VideoEditCard from '../../components/Admin/VideoEditCard';
-
-import { Box, Image, Heading, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Image,
+  Heading,
+  Text,
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionIcon,
+  AccordionPanel,
+} from '@chakra-ui/react';
 
 import { BiEdit } from 'react-icons/bi';
 import { MdAddCircleOutline } from 'react-icons/md';
@@ -35,7 +43,7 @@ export default function CourseDetails() {
   }, [courses, id]);
 
   return (
-    <Box className='min-h-screen pb-6'>
+    <Box className='min-h-[calc(100vh-40px)] pb-6'>
       <Image
         src={course?.imagePath}
         alt='banner'
@@ -66,7 +74,7 @@ export default function CourseDetails() {
           </Text>
 
           <Link
-            to={'id'}
+            to={`/dashboard/courses/${id}/edit`}
             className='flex justify-center items-center gap-3 bg-primary-400 rounded-[4px] px-3 py-[5px] text-white text-base leading-[20px]'
           >
             <BiEdit size={18} /> Editar
@@ -80,33 +88,52 @@ export default function CourseDetails() {
         </Box>
       </Box>
 
-      <Box className='w-full flex justify-between mt-10 px-4'>
-        <Heading className='!text-large !leading-7 !text-primary-500 !font-bold  !text-center !font-poppins'>
-          Aulas
-        </Heading>
-        <Link
-          to={'id'}
-          className='flex justify-center items-center gap-3 bg-primary-400 rounded-[4px] px-3 py-[5px] text-white text-base leading-[20px]'
-        >
-          <MdAddCircleOutline size={18} /> Nova aula
-        </Link>
-      </Box>
-      {/* TODO: AJUSTAR LISTA DE VIDEOS */}
-      {course.videos && (
-        <ul className='flex flex-col'>
-          {course.videos.map((section) => (
-            <li key={section.section}>
-              <h2>{section.section}</h2>
+      <Box px={4} bg={'white'} className='!flex-grow' mt={8}>
+        <Box className='w-full flex justify-between' mb={4}>
+          <Heading className='!text-large !leading-7 !text-primary-500 !font-bold  !text-center !font-poppins'>
+            Aulas
+          </Heading>
+          <Link
+            to={'id'}
+            className='flex justify-center items-center gap-3 bg-primary-400 rounded-[4px] px-3 py-[5px] text-white text-base leading-[20px]'
+          >
+            <MdAddCircleOutline size={18} /> Nova aula
+          </Link>
+        </Box>
+        <Accordion allowToggle>
+          {course &&
+            course?.videos?.map((section, i) => (
+              <AccordionItem
+                key={i}
+                className='!border-t-0 !border-b-[1px] !border-gray-200 '
+              >
+                <AccordionButton px={0} py={4} className='hover:!bg-white'>
+                  <Box
+                    as='span'
+                    flex='1'
+                    textAlign='left'
+                    className='!text-base !font-medium !leading-5'
+                  >
+                    {section.section}
+                  </Box>
+                  <AccordionIcon />
+                </AccordionButton>
 
-              <ul>
-                {section.videos.map((video) => (
-                  <VideoEditCard id={course.id} key={video.id} video={video} />
-                ))}
-              </ul>
-            </li>
-          ))}
-        </ul>
-      )}
+                <AccordionPanel pb={4} className='flex flex-col gap-6 '>
+                  {section.videos.map((video) => (
+                    <Link
+                      to={`/dashboard/courses/${id}/edit/${video.id}`}
+                      key={video.id}
+                      className='font-semibold text-small leading-4 flex items-center justify-between'
+                    >
+                      <span> {video.title}</span> <BiEdit size={18} />
+                    </Link>
+                  ))}
+                </AccordionPanel>
+              </AccordionItem>
+            ))}
+        </Accordion>
+      </Box>
     </Box>
   );
 }

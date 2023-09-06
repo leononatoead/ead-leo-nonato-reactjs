@@ -325,7 +325,6 @@ const useVideo = () => {
 
   const updateVideo = async (
     courseId,
-    setOpenEditModal,
     oldVideoData,
     updatedVideoData,
     docCollection,
@@ -442,7 +441,6 @@ const useVideo = () => {
               isClosable: true,
             });
           } finally {
-            setOpenEditModal(false);
             setLoading(false);
           }
         },
@@ -483,7 +481,6 @@ const useVideo = () => {
           isClosable: true,
         });
       } finally {
-        setOpenEditModal(false);
         setLoading(false);
       }
     }

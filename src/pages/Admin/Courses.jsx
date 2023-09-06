@@ -10,7 +10,7 @@ export default function Courses() {
   const { courses } = useSelector((state) => state.courses);
 
   return (
-    <Box className='min-h-screen px-4 py-6'>
+    <Box className='min-h-[calc(100vh-40px)] px-4 py-6'>
       <Box className='w-full flex justify-end'>
         <Link
           to='/dashboard/courses/new'

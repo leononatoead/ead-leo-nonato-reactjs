@@ -6,9 +6,9 @@ import { AddVideoSchema } from './addVideoSchema';
 
 import useVideo from '../../../hooks/useVideo';
 
-import ModalComponent from '../../Global/ModalComponent';
-import Input from '../../Global/Input';
-import ButtonSubmit from '../../Global/ButtonSubmit';
+import ModalComponent from '../../../components/Global/ModalComponent';
+import Input from '../../../components/Global/Input';
+import ButtonSubmit from '../../../components/Global/ButtonSubmit';
 
 import {
   Box,
@@ -20,11 +20,7 @@ import {
   RadioGroup,
 } from '@chakra-ui/react';
 
-export default function AddVideoModal({
-  id,
-  openVideoModal,
-  setOpenVideoModal,
-}) {
+export default function AddVideo({ id, openVideoModal, setOpenVideoModal }) {
   const [newVideo, setNewVideo] = useState({
     videoURL: '',
     videoFile: null,

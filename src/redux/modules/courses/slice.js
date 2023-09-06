@@ -189,9 +189,18 @@ const courseReducer = createSlice({
           }
         });
 
+        let allVideos = [];
+
+        if (state.videos) {
+          allVideos = [...state.videos, action.payload.videos];
+        } else {
+          allVideos = [...action.payload.videos];
+        }
+
         return {
           ...state,
           courses: updatedCourseList,
+          videos: allVideos,
         };
       });
   },

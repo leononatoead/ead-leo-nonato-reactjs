@@ -9,6 +9,7 @@ import Dashboard from '../pages/Admin/Dashboard';
 import Courses from '../pages/Admin/Courses';
 import CourseDetails from '../pages/Admin/CourseDetails';
 import NewCourse from '../pages/Admin/NewCourse';
+import EditVideo from '../pages/Admin/EditVideo';
 import Profile from '../pages/Global/Profile';
 import FAQ from '../pages/Global/FAQ';
 
@@ -28,7 +29,7 @@ export default function AdminRoutes() {
         <Route path='courses/new' element={<NewCourse />} />
         <Route path='courses/:id' element={<CourseDetails />} />
         <Route path='courses/:id/edit' element={<CourseDetails />} />
-        <Route path='courses/:id/edit/:id' element={<CourseDetails />} />
+        <Route path='courses/:id/edit/:id' element={<EditVideo />} />
       </Route>
     </Routes>
   );
