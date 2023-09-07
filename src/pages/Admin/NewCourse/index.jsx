@@ -50,19 +50,24 @@ export default function NewCourse() {
     <Box className='min-h-[calc(100vh-40px)] px-4 py-6 flex flex-col'>
       <form
         id='addCourseForm'
-        className='flex flex-col gap-[6px] flex-grow'
         onSubmit={handleSubmit(handlAddCourse)}
+        className='flex flex-col gap-[10px] flex-grow'
       >
-        <label htmlFor={'image'} className='text-base leading-5 mb-[3px] block'>
-          Imagem
-        </label>
-        <input
-          id='image'
-          type='file'
-          className='w-full outline-none text-base'
-          onChange={(e) => setImageFile(e.target.files[0])}
-        />
-        <span className='errorText'>{error}</span>
+        <Box className='mb-4'>
+          <label
+            htmlFor={'image'}
+            className='text-base leading-5 !mb-[9px] block'
+          >
+            Imagem
+          </label>
+          <input
+            id='image'
+            type='file'
+            className='w-full outline-none text-base'
+            onChange={(e) => setImageFile(e.target.files[0])}
+          />
+          <span className='errorText'>{error}</span>
+        </Box>
         <Input
           theme={'light'}
           type={'text'}
@@ -83,7 +88,6 @@ export default function NewCourse() {
           error={errors?.description?.message}
           watch={watch}
         />
-
         <Input
           theme={'light'}
           type={'text'}
@@ -94,30 +98,21 @@ export default function NewCourse() {
           error={errors?.author?.message}
           watch={watch}
         />
-
-        <Box className='flex justify-start items-center gap-4'>
-          <label
-            htmlFor={'isFree'}
-            className='text-base leading-5 mb-[3px] block'
-          >
+        <Box className='flex justify-start items-center gap-4 mb-[5px]'>
+          <Switch id='isFree' onChange={() => handleSwitch('isFree')} />
+          <label htmlFor={'isFree'} className='text-base leading-5'>
             Grátis
           </label>
-
-          <Switch id='isFree' onChange={() => handleSwitch('isFree')} />
         </Box>
         <Box className='flex justify-start items-center gap-4'>
-          <label
-            htmlFor={'needAuth'}
-            className='text-base leading-5 mb-[3px] block'
-          >
-            Requer cadastro
-          </label>
-
           <Switch
             id='needAuth'
             defaultChecked
             onChange={() => handleSwitch('needAuth')}
           />
+          <label htmlFor={'needAuth'} className='text-base leading-5'>
+            Requer cadastro
+          </label>
         </Box>
       </form>
       <ButtonSubmit

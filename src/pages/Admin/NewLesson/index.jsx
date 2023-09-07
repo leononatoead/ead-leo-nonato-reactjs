@@ -130,22 +130,23 @@ export default function NewLesson() {
     >
       <Box className='flex-1'>
         <form id='newLessonForm' onSubmit={handleSubmit(handleAddVideo)}>
-          <label
-            htmlFor={'videoFile'}
-            className='text-base leading-5 mb-[3px] block'
-          >
-            Vídeo
-          </label>
-          <input
-            type='file'
-            name='videoFile'
-            onChange={handleInputFileChange}
-            multiple={false}
-            accept='video/*'
-            title='Selecione um vídeo'
-            className='w-full outline-none text-base'
-          />
-
+          <Box className='mb-4'>
+            <label
+              htmlFor={'videoFile'}
+              className='text-base leading-5 mb-[9px] block'
+            >
+              Vídeo
+            </label>
+            <input
+              type='file'
+              name='videoFile'
+              onChange={handleInputFileChange}
+              multiple={false}
+              accept='video/*'
+              title='Selecione um vídeo'
+              className='w-full outline-none text-base'
+            />
+          </Box>
           <Input
             theme={'light'}
             type={'text'}
@@ -177,7 +178,6 @@ export default function NewLesson() {
             watch={watch}
           />
         </form>
-
         <Heading
           mt={4}
           mb={2}
@@ -224,7 +224,7 @@ export default function NewLesson() {
             <>
               <label
                 htmlFor={'assetName'}
-                className='text-base leading-5 mb-[3px] block'
+                className='text-base leading-5 mb-[9px] block'
               >
                 Nome
               </label>
@@ -248,7 +248,7 @@ export default function NewLesson() {
             <div className='flex flex-col gap-2'>
               <label
                 htmlFor={'assetFile'}
-                className='text-base leading-5 mb-[3px] block'
+                className='text-base leading-5 mb-[9px] block'
               >
                 Arquivo
               </label>
@@ -266,7 +266,7 @@ export default function NewLesson() {
             <div>
               <label
                 htmlFor={'assetURL'}
-                className='text-base leading-5 mb-[3px] block'
+                className='text-base leading-5 mb-[9px] block'
               >
                 URL
               </label>
@@ -289,7 +289,7 @@ export default function NewLesson() {
             'questions'
           )}
           <button
-            className='w-full disabled:bg-white/30 bg-white rounded-[4px] px-3 py-[5px] text-primary-600 border-[1px] border-primary-600 text-base leading-5 mt-2'
+            className='w-full bg-white rounded-[4px] px-3 py-[5px] text-primary-600 border-[1px] border-primary-600 text-base leading-5 mt-2'
             type='submit'
             form='fileForm'
           >

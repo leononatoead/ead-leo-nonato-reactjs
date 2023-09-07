@@ -66,18 +66,22 @@ export default function EditCourse() {
       <form
         id='editCourseForm'
         onSubmit={handleSubmit(handleEditCourse)}
-        className='flex flex-col gap-[6px] flex-grow'
+        className='flex flex-col gap-[10px] flex-grow'
       >
-        <label htmlFor={'image'} className='text-base leading-5 mb-[3px] block'>
-          Imagem
-        </label>
-        <input
-          id='image'
-          type='file'
-          className='w-full outline-none text-base'
-          onChange={(e) => setImageFile(e.target.files[0])}
-        />
-
+        <Box className='mb-4'>
+          <label
+            htmlFor={'image'}
+            className='text-base leading-5 !mb-[9px] block'
+          >
+            Imagem
+          </label>
+          <input
+            id='image'
+            type='file'
+            className='w-full outline-none text-base'
+            onChange={(e) => setImageFile(e.target.files[0])}
+          />
+        </Box>
         <Input
           theme={'light'}
           type={'text'}
@@ -111,33 +115,23 @@ export default function EditCourse() {
           watch={watch}
           defaultValue={course.author}
         />
-
-        <Box className='flex justify-start items-center gap-4'>
-          <label
-            htmlFor={'isFree'}
-            className='text-base leading-5 mb-[3px] block'
-          >
+        <Box className='flex justify-start items-center gap-4 mb-[5px]'>
+          <Switch id='isFree' onChange={() => handleSwitch('isFree')} />
+          <label htmlFor={'isFree'} className='text-base leading-5'>
             Grátis
           </label>
-
-          <Switch id='isFree' onChange={() => handleSwitch('isFree')} />
         </Box>
-        <Box className='flex justify-start items-center gap-4'>
-          <label
-            htmlFor={'needAuth'}
-            className='text-base leading-5 mb-[3px] block'
-          >
-            Requer cadastro
-          </label>
-
+        <Box className='flex justify-start items-center gap-4 '>
           <Switch
             id='needAuth'
             defaultChecked
             onChange={() => handleSwitch('needAuth')}
           />
+          <label htmlFor={'needAuth'} className='text-base leading-5'>
+            Requer cadastro
+          </label>
         </Box>
       </form>
-
       <Flex flexDirection={'column'} gap={2}>
         <ButtonSubmit
           form='editCourseForm'
@@ -145,7 +139,6 @@ export default function EditCourse() {
           text={'Alterar'}
           loading={loading}
         />
-
         <ConfirmModal
           deleteFunction={handleDeleteCourse}
           open={openConfirmModal}

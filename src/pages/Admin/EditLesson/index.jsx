@@ -144,22 +144,23 @@ export default function EditLesson() {
     >
       <Box className='flex-1'>
         <form id='editLessonForm' onSubmit={handleSubmit(handleEditVideo)}>
-          <label
-            htmlFor={'videoFile'}
-            className='text-base leading-5 mb-[3px] block'
-          >
-            Alterar vídeo
-          </label>
-          <input
-            type='file'
-            name='videoFile'
-            onChange={handleInputFileChange}
-            multiple={false}
-            accept='video/*'
-            title='Selecione um vídeo'
-            className='w-full outline-none text-base'
-          />
-
+          <Box className='mb-4'>
+            <label
+              htmlFor={'videoFile'}
+              className='text-base leading-5 mb-[9px] block'
+            >
+              Alterar vídeo
+            </label>
+            <input
+              type='file'
+              name='videoFile'
+              onChange={handleInputFileChange}
+              multiple={false}
+              accept='video/*'
+              title='Selecione um vídeo'
+              className='w-full outline-none text-base'
+            />
+          </Box>
           <Input
             theme={'light'}
             type={'text'}
@@ -194,7 +195,6 @@ export default function EditLesson() {
             defaultValue={oldVideoData?.section}
           />
         </form>
-
         <Heading
           mt={4}
           mb={2}
@@ -241,7 +241,7 @@ export default function EditLesson() {
             <>
               <label
                 htmlFor={'assetName'}
-                className='text-base leading-5 mb-[3px] block'
+                className='text-base leading-5 mb-[9px] block'
               >
                 Nome
               </label>
@@ -265,7 +265,7 @@ export default function EditLesson() {
             <div className='flex flex-col gap-2'>
               <label
                 htmlFor={'assetFile'}
-                className='text-base leading-5 mb-[3px] block'
+                className='text-base leading-5 mb-[9px] block'
               >
                 Arquivo
               </label>
@@ -283,7 +283,7 @@ export default function EditLesson() {
             <div>
               <label
                 htmlFor={'assetURL'}
-                className='text-base leading-5 mb-[3px] block'
+                className='text-base leading-5 mb-[9px] block'
               >
                 URL
               </label>
