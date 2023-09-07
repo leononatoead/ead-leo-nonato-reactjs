@@ -1,11 +1,12 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
 import Home from '../pages/Global/Home';
 import Register from '../pages/Auth/Register';
 import ChangePasswordSuccess from '../pages/Auth/ChangePasswordSuccess';
 import FAQ from '../pages/Global/FAQ';
-
-import VerifySuccess from '../pages/Auth/VerifySuccess';
+import Course from '../pages/Global/Course';
+import Newsletter from '../pages/Global/Newsletter';
+import CourseWatch from '../pages/Global/CourseWatch';
 
 export default function UserUnAuthenticatedRoutes() {
   return (
@@ -14,10 +15,14 @@ export default function UserUnAuthenticatedRoutes() {
       <Route path='/register' element={<Register />} />
       <Route path='/faq' element={<FAQ />} />
 
+      <Route path='/course/:id' element={<Course />} />
+      <Route path='/course/:id/:id' element={<CourseWatch />} />
+      <Route path='/newsletter' element={<Newsletter />} />
       <Route
         path='/change-password-success'
         element={<ChangePasswordSuccess />}
       />
+      <Route path='/*' element={<Navigate to='/' />} />
     </Routes>
   );
 }

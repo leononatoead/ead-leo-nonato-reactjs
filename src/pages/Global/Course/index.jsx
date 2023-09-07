@@ -1,12 +1,13 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import {
+  fetchCourses,
   fetchVideos,
-  selectLesson,
 } from '../../../redux/modules/courses/actions';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Navbar from '../../../components/Global/Navbar';
+import PremiumContent from '../../../components/Global/PremiumContent';
 
 import {
   Accordion,
@@ -23,11 +24,12 @@ import { Box, Heading } from '@chakra-ui/layout';
 import background from '../../../assets/auth-background.png';
 
 export default function Course() {
+  const [course, setCourse] = useState();
+  const [locked, setLocked] = useState(null);
   const { id } = useParams();
-  const { user } = useSelector((state) => state.auth);
 
-  const courses = useSelector((state) => state.courses.courses);
-  const course = courses.find((course) => course.id === id);
+  const { user } = useSelector((state) => state.auth);
+  const { courses } = useSelector((state) => state.courses);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -37,12 +39,27 @@ export default function Course() {
   };
 
   useEffect(() => {
-    const course = courses.find((course) => course.id === id);
-
-    if (!course.videos) {
-      dispatch(fetchVideos(id));
+    if (!courses) {
+      dispatch(fetchCourses());
     }
-  }, []);
+
+    if (courses) {
+      const findCourse = courses?.find((course) => course.id === id);
+      if (!findCourse.videos) {
+        dispatch(fetchVideos(id));
+      }
+      setCourse(findCourse);
+    }
+
+    if (!user) {
+      setLocked(true);
+    }
+    if (user && course?.isPremium) {
+      if (!user.courses.includes(id)) {
+        setLocked(true);
+      }
+    }
+  }, [courses]);
 
   return (
     <Box className='min-h-screen bg-gray-200 flex flex-col'>
@@ -65,15 +82,15 @@ export default function Course() {
         <Avatar
           size='xl'
           bg='blue.500'
-          name={course.name}
-          src={course.imagePath}
+          name={course?.name}
+          src={course?.imagePath}
         />
         <Heading
           className='!text-large !font-poppins !font-bold !leading-6'
           mb={8}
           mt={6}
         >
-          {course.name}
+          {course?.name}
         </Heading>
         <span
           onClick={handleWatch}
@@ -121,6 +138,14 @@ export default function Course() {
             ))}
         </Accordion>
       </Box>
+      <PremiumContent
+        open={locked}
+        close={setLocked}
+        title={'Conteúdo disponível para assinantes'}
+        text={'Tenha acesso total a este curso assinando a plataforma'}
+        btnText={'Assine já'}
+        closeBtn={false}
+      />
     </Box>
   );
 }

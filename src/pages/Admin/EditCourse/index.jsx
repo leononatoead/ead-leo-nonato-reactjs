@@ -8,28 +8,28 @@ import { EditCourseSchema } from './editCourseSchema';
 
 import useCourse from '../../../hooks/useCourse';
 
-import ButtonSubmit from '../../../components/Global/ButtonSubmit';
 import Input from '../../../components/Global/Input';
-
-import { Box, Flex, Switch } from '@chakra-ui/react';
+import ButtonSubmit from '../../../components/Global/ButtonSubmit';
 import ConfirmModal from '../../../components/Global/ConfirmModal';
+
+import { Box, Flex, Switch, Text } from '@chakra-ui/react';
 
 export default function EditCourse() {
   const { pathname } = useLocation();
   const pathParams = pathname.split('/');
   const id = pathParams[3];
   const { courses } = useSelector((state) => state.courses);
-
   const course = courses.find((course) => course.id === id);
-
-  const [imageFile, setImageFile] = useState();
-  const [isFree, setIsFree] = useState(course.isFree);
-  const [needAuth, setNeedAuth] = useState(course.needAuth);
-  const [openConfirmModal, setOpenConfirmModal] = useState();
-
   const { editCourseWithImage, editCourseWithoutImage, deleteCourse, loading } =
     useCourse();
   const navigate = useNavigate();
+
+  const [imageFile, setImageFile] = useState();
+
+  const [isPremium, setIsPremium] = useState(course?.isPremium);
+  const [isHidden, setIsHidden] = useState(course?.isHidden);
+  const [needAuth, setNeedAuth] = useState(course?.needAuth);
+  const [openConfirmModal, setOpenConfirmModal] = useState();
 
   const {
     register,
@@ -41,13 +41,17 @@ export default function EditCourse() {
   });
 
   const handleSwitch = (type) => {
-    if (type === 'isFree') {
-      setIsFree((prev) => !prev);
-    } else setNeedAuth((prev) => !prev);
+    if (type === 'isPremium') {
+      setIsPremium((prev) => !prev);
+    } else if (type === 'needAuth') {
+      setNeedAuth((prev) => !prev);
+    } else if (type === 'isHidden') {
+      setIsHidden((prev) => !prev);
+    }
   };
 
   const handleEditCourse = async (formData) => {
-    const data = { ...formData, isFree, needAuth };
+    const data = { ...formData, isPremium, needAuth, isHidden };
 
     if (imageFile) {
       editCourseWithImage(course, data, 'courses', imageFile);
@@ -68,7 +72,7 @@ export default function EditCourse() {
         onSubmit={handleSubmit(handleEditCourse)}
         className='flex flex-col gap-[10px] flex-grow'
       >
-        <Box className='mb-4'>
+        <Box className='mb-[6px]'>
           <label
             htmlFor={'image'}
             className='text-base leading-5 !mb-[9px] block'
@@ -115,21 +119,70 @@ export default function EditCourse() {
           watch={watch}
           defaultValue={course.author}
         />
-        <Box className='flex justify-start items-center gap-4 mb-[5px]'>
-          <Switch id='isFree' onChange={() => handleSwitch('isFree')} />
-          <label htmlFor={'isFree'} className='text-base leading-5'>
-            Grátis
-          </label>
+        {isPremium && (
+          <>
+            <Input
+              theme={'light'}
+              type={'text'}
+              label={'Referência de pagamento'}
+              placeholder={'Digite aqui'}
+              register={register}
+              id={'paymentRef'}
+              error={errors?.paymentRef?.message}
+              watch={watch}
+            />
+            <Input
+              theme={'light'}
+              type={'text'}
+              label={'Checkout de pagamento (URL)'}
+              placeholder={'Digite aqui'}
+              register={register}
+              id={'paymentURL'}
+              error={errors?.paymentURL?.message}
+              watch={watch}
+            />
+          </>
+        )}
+        <Box className='flex justify-start items-center gap-4' mb={'5px'}>
+          <Text className='font-bold text-primary-600 text-base'>
+            Curso pago:
+          </Text>
+          <Box className='flex justify-start items-center gap-4'>
+            <Switch id='isPremium' onChange={() => handleSwitch('isPremium')} />
+            <label htmlFor={'isPremium'} className='text-base leading-5'>
+              {isPremium ? 'Sim' : 'Não'}
+            </label>
+          </Box>
         </Box>
-        <Box className='flex justify-start items-center gap-4 '>
-          <Switch
-            id='needAuth'
-            defaultChecked
-            onChange={() => handleSwitch('needAuth')}
-          />
-          <label htmlFor={'needAuth'} className='text-base leading-5'>
-            Requer cadastro
-          </label>
+        <Box className='flex justify-start items-center gap-4' mb={'5px'}>
+          <Text className='font-bold text-primary-600 text-base'>
+            Requer Cadastro:
+          </Text>
+          <Box className='flex justify-start items-center gap-4'>
+            <Switch
+              id='needAuth'
+              defaultChecked
+              onChange={() => handleSwitch('needAuth')}
+            />
+            <label htmlFor={'needAuth'} className='text-base leading-5'>
+              {needAuth ? 'Sim' : 'Não'}
+            </label>
+          </Box>
+        </Box>
+        <Box className='flex justify-start items-center gap-4' mb={4}>
+          <Text className='font-bold text-primary-600 text-base'>
+            Visibilidade:
+          </Text>
+          <Box className='flex justify-start items-center gap-4'>
+            <Switch
+              id='isHidden'
+              defaultChecked
+              onChange={() => handleSwitch('isHidden')}
+            />
+            <label htmlFor={'isHidden'} className='text-base leading-5'>
+              {isHidden ? 'Privado' : 'Público'}
+            </label>
+          </Box>
         </Box>
       </form>
       <Flex flexDirection={'column'} gap={2}>

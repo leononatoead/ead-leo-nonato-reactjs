@@ -1,14 +1,22 @@
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import { fetchVideos } from '../../../redux/modules/courses/actions';
+import { useLocation, useNavigate } from 'react-router-dom';
+import {
+  fetchCourses,
+  fetchVideos,
+} from '../../../redux/modules/courses/actions';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Navbar from '../../../components/Global/Navbar';
 
 import VideoList from './VideoList';
 import VideoPlayer from './VideoPlayer';
+import PremiumContent from '../../../components/Global/PremiumContent';
 
 export default function CourseWatch() {
+  const { pathname } = useLocation();
+  const { user } = useSelector((state) => state.auth);
+  const { courses } = useSelector((state) => state.courses);
+
   const [videoPlayer, setVideoPlayer] = useState({
     active: {},
     videoList: [],
@@ -18,32 +26,54 @@ export default function CourseWatch() {
     timeLeft: 30,
   });
 
-  const { pathname } = useLocation();
-  const { courses } = useSelector((state) => state.courses);
+  const [locked, setLocked] = useState(null);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const id = pathname.split('/');
+    const pathParams = pathname.split('/');
+    const id = pathParams[2];
+    const videoId = pathParams[3];
 
-    const course = courses.find((course) => course.id === id[2]);
+    if (!courses) {
+      dispatch(fetchCourses());
+      return;
+    } else if (courses) {
+      const findCourse = courses?.find((course) => course.id === id);
 
-    if (!course.videos) {
-      dispatch(fetchVideos(id[2]));
-    } else {
-      const section = course.videos.find((video) =>
-        video.videos.find((video) => video.id === id[3]),
-      );
+      if (!findCourse.videos) {
+        dispatch(fetchVideos(id));
+      } else {
+        const section = findCourse.videos.find((video) =>
+          video.videos.find((video) => video.id === videoId),
+        );
 
-      const video = section.videos.find((video) => video.id === id[3]);
+        if (!section) {
+          navigate('/');
+          return;
+        }
 
-      setVideoPlayer((prev) => ({
-        ...prev,
-        active: video,
-        videoList: section.videos,
-        sectionName: section.section,
-      }));
+        const video = section.videos.find((video) => video.id === videoId);
+
+        setVideoPlayer((prev) => ({
+          ...prev,
+          active: video,
+          videoList: section.videos,
+          sectionName: section.section,
+        }));
+      }
     }
+
+    if (!user) {
+      setLocked(true);
+    }
+
+    // if (user && videoPlayer.active?.isPremium) {
+    //   if (!user.courses.includes(id)) {
+    //     setLocked(true);
+    //   }
+    // }
   }, [courses]);
 
   return (
@@ -67,6 +97,14 @@ export default function CourseWatch() {
           />
         </div>
       )}
+      <PremiumContent
+        open={locked}
+        close={setLocked}
+        title={'Conteúdo disponível para assinantes'}
+        text={'Tenha acesso total a este curso assinando a plataforma'}
+        btnText={'Assine já'}
+        closeBtn={false}
+      />
     </main>
   );
 }

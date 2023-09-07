@@ -161,7 +161,7 @@ export default function Register() {
         <ButtonSubmit
           theme={'light'}
           form='registerForm'
-          disabled={Object.keys(dirtyFields).length !== 5}
+          disabled={Object.keys(dirtyFields).length !== 5 || loading}
           text={'Cadastrar'}
         />
       </Box>

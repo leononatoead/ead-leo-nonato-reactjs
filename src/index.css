@@ -39,7 +39,7 @@ input[type='number']::-webkit-inner-spin-button {
 }
 
 .opt-container input {
-  @apply !mr-0 !w-[40px] !h-[48px] outline-none  border-2 rounded-[4px] font-bold text-white text-[28px] !leading-[36px] !pt-1 caret-transparent;
+  @apply !mr-0 !w-[40px] !h-[48px] outline-none  border-2 rounded-[4px] font-bold text-primary-400 text-[28px] !leading-[36px] !pt-1 caret-transparent;
 }
 
 /* RESET SCROLLBAR */

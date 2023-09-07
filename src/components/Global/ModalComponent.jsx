@@ -16,6 +16,7 @@ export default function ModalComponent({
   title,
   children,
   header = null,
+  hasCloseButton = true,
 }) {
   return (
     <Modal isOpen={openModal} my={0}>
@@ -27,24 +28,28 @@ export default function ModalComponent({
         {header ? (
           <Box className='relative flex justify-center w-full mb-11'>
             <Image src={logo} alt='logo' />
-            <button
-              onClick={handleCloseModal}
-              className='border-none bg-transparent absolute right-4 outline-none'
-            >
-              <RiCloseFill alt='close' className='w-4' />
-            </button>
+            {hasCloseButton && (
+              <button
+                onClick={handleCloseModal}
+                className='border-none bg-transparent absolute right-4 outline-none'
+              >
+                <RiCloseFill alt='close' className='w-4' />
+              </button>
+            )}
           </Box>
         ) : (
           <Box className='relative flex justify-center w-full mb-7'>
             <Text className='w-full text-center text-primary-500 text-large font-bold'>
               {title}
             </Text>
-            <button
-              onClick={handleCloseModal}
-              className='border-none bg-transparent absolute right-4 outline-none'
-            >
-              <RiCloseFill alt='close' className='w-4' />
-            </button>
+            {hasCloseButton && (
+              <button
+                onClick={handleCloseModal}
+                className='border-none bg-transparent absolute right-4 outline-none'
+              >
+                <RiCloseFill alt='close' className='w-4' />
+              </button>
+            )}
           </Box>
         )}
         <>{children}</>
