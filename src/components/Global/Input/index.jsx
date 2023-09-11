@@ -43,17 +43,43 @@ export default function Input({
           error && 'after:bg-red-500 after:w-full'
         } ${theme === 'light' ? 'shadow-sm shadow-gray-900/50' : ''}`}
       >
-        <input
-          type={viewPassword ? 'text' : type}
-          {...register(id)}
-          placeholder={placeholder}
-          id={id}
-          className={`w-full rounded-[4px]  px-3 py-[5px] leading-5 text-base outline-none ${
-            theme === 'light' ? 'bg-white' : 'bg-white/5'
-          } placeholder:text-gray-900`}
-          autoComplete='false'
-          defaultValue={defaultValue}
-        />
+        {type === 'textarea' ? (
+          <textarea
+            {...register(id)}
+            placeholder={placeholder}
+            id={id}
+            className={`w-full rounded-[4px]  px-3 py-[5px] leading-5 text-base outline-none ${
+              theme === 'light' ? 'bg-white' : 'bg-white/5'
+            } placeholder:text-gray-900 resize-none`}
+            rows={10}
+            autoComplete='false'
+            defaultValue={defaultValue}
+          ></textarea>
+        ) : type === 'number' ? (
+          <input
+            type={viewPassword ? 'text' : type}
+            {...register(id, { valueAsNumber: true })}
+            placeholder={placeholder}
+            id={id}
+            className={`w-full rounded-[4px]  px-3 py-[5px] leading-5 text-base outline-none ${
+              theme === 'light' ? 'bg-white' : 'bg-white/5'
+            } placeholder:text-gray-900`}
+            autoComplete='false'
+            defaultValue={defaultValue}
+          />
+        ) : (
+          <input
+            type={viewPassword ? 'text' : type}
+            {...register(id)}
+            placeholder={placeholder}
+            id={id}
+            className={`w-full rounded-[4px]  px-3 py-[5px] leading-5 text-base outline-none ${
+              theme === 'light' ? 'bg-white' : 'bg-white/5'
+            } placeholder:text-gray-900`}
+            autoComplete='false'
+            defaultValue={defaultValue}
+          />
+        )}
 
         {error && (
           <Box

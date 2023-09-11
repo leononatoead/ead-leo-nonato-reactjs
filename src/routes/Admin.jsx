@@ -7,12 +7,14 @@ import Newsletter from '../pages/Global/Newsletter';
 
 import Dashboard from '../pages/Admin/Dashboard';
 import Courses from '../pages/Admin/Courses';
-import CourseDetails from '../pages/Admin/CourseDetails';
-import NewCourse from '../pages/Admin/NewCourse';
-import NewLesson from '../pages/Admin/NewLesson';
-import EditLesson from '../pages/Admin/EditLesson';
-import EditCourse from '../pages/Admin/EditCourse';
-import DashboardFAQ from '../pages/Admin/DashboardFAQ';
+import CourseDetails from '../pages/Admin/Courses/CourseDetails';
+import NewCourse from '../pages/Admin/Courses/NewCourse';
+import NewLesson from '../pages/Admin/Courses/NewLesson';
+import EditLesson from '../pages/Admin/Courses/EditLesson';
+import EditCourse from '../pages/Admin/Courses/EditCourse';
+import DashboardFAQ from '../pages/Admin/FAQ';
+import NewQuestion from '../pages/Admin/FAQ/NewQuestion';
+import EditQuestion from '../pages/Admin/FAQ/EditQuestion';
 import Profile from '../pages/Global/Profile';
 import FAQ from '../pages/Global/FAQ';
 
@@ -35,6 +37,8 @@ export default function AdminRoutes() {
         <Route path='courses/:id/edit' element={<EditCourse />} />
         <Route path='courses/:id/edit/:id' element={<EditLesson />} />
         <Route path='faq' element={<DashboardFAQ />} />
+        <Route path='faq/new' element={<NewQuestion />} />
+        <Route path='faq/edit/:id' element={<EditQuestion />} />
       </Route>
     </Routes>
   );

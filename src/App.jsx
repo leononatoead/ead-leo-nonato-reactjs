@@ -10,12 +10,13 @@ import AdminRoutes from './routes/Admin';
 import UserAuthenticated from './routes/UserAuthenticated';
 import UserUnAuthenticated from './routes/UserUnAuthenticated';
 import useAuth from './hooks/useAuth';
+import Loading from './pages/Loading';
 
 function App() {
-  const dispatch = useDispatch();
-
-  const user = useSelector((state) => state.auth.user);
   const { authUser, loadingAuth } = useAuth();
+  const user = useSelector((state) => state.auth.user);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchCourses());
@@ -25,7 +26,7 @@ function App() {
   return (
     <ChakraProvider>
       {loadingAuth ? (
-        'loadingAuth'
+        <Loading />
       ) : (
         <>
           {!loadingAuth && user ? (

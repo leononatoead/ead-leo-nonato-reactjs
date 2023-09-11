@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 
-import VideoCardAdmin from '../../components/Admin/VideoCardAdmin';
+import VideoCardAdmin from '../../../components/Admin/VideoCardAdmin';
 
 import { Box } from '@chakra-ui/react';
 import { MdAddCircleOutline } from 'react-icons/md';
@@ -12,10 +12,7 @@ export default function Courses() {
   return (
     <Box className='main-container'>
       <Box className='w-full flex justify-end'>
-        <Link
-          to='/dashboard/courses/new'
-          className='flex items-center gap-3 bg-primary-400 rounded-[4px] px-3 py-[5px] text-white text-base leading-5'
-        >
+        <Link to='/dashboard/courses/new' className='add-btn'>
           <MdAddCircleOutline size={20} />{' '}
           <span className='font-bold'> Novo curso</span>
         </Link>

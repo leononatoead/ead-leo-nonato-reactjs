@@ -3,7 +3,6 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { database } from '../../../firebase/config';
 
 import {
-  addDoc,
   collection,
   getDocs,
   limit,

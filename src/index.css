@@ -73,3 +73,7 @@ input[type='number']::-webkit-inner-spin-button {
 .main-container {
   @apply min-h-[calc(100vh-48px)] px-4 py-6;
 }
+
+.add-btn {
+  @apply flex items-center gap-3 bg-primary-400 rounded-[4px] px-3 py-[5px] text-white text-base leading-5;
+}

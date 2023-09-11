@@ -1,7 +1,5 @@
-import { database, auth } from '../../../firebase/config';
-import { onAuthStateChanged, signOut } from 'firebase/auth';
-import { doc, getDoc } from 'firebase/firestore';
-import api from '../../../api/axios';
+import { auth } from '../../../firebase/config';
+import { signOut } from 'firebase/auth';
 
 import {
   AUTH_USER,
@@ -9,17 +7,6 @@ import {
   LOGOUT_USER,
   UPDATE_USER_COURSES,
 } from './slice';
-
-const getUserData = async (uid) => {
-  try {
-    const collectionRef = doc(database, `users/${uid}`);
-    const res = await getDoc(collectionRef);
-
-    return res.data();
-  } catch (e) {
-    console.log(e.message);
-  }
-};
 
 export const verifyAuthentication = (user) => (dispatch) => {
   if (user) {

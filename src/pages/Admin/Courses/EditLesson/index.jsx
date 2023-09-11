@@ -1,33 +1,34 @@
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { AddVideoSchema } from './addVideoSchema';
-
-import useVideo from '../../../hooks/useVideo';
-
-import Input from '../../../components/Global/Input';
-import ButtonSubmit from '../../../components/Global/ButtonSubmit';
-
-import { Box, Heading, Radio, RadioGroup } from '@chakra-ui/react';
-import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
-import { fetchVideos } from '../../../redux/modules/courses/actions';
+import useVideo from '../../../../hooks/useVideo';
+import { fetchVideos } from '../../../../redux/modules/courses/actions';
 
-export default function NewLesson() {
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { AddVideoSchema } from './editVideoSchema';
+
+import ButtonSubmit from '../../../../components/Global/ButtonSubmit';
+import Input from '../../../../components/Global/Input';
+import ConfirmModal from '../../../../components/Global/ConfirmModal';
+
+import { Box, Flex, Heading, Radio, RadioGroup } from '@chakra-ui/react';
+
+export default function EditLesson() {
   const { pathname } = useLocation();
   const pathParams = pathname.split('/');
-  const id = pathParams[3];
 
-  const { courses } = useSelector((state) => state.courses);
-  const course = courses.find((course) => course.id === id);
-  const dispatch = useDispatch();
+  const courseId = pathParams[3];
+  const id = pathParams[5];
 
-  const [newVideo, setNewVideo] = useState({
+  const { videos } = useSelector((state) => state.courses);
+  const oldVideoData = videos?.find((video) => video.id === id);
+
+  const [editVideo, setEditVideo] = useState({
     videoURL: '',
     videoFile: null,
-    assetsList: [],
+    assetsList: oldVideoData?.assets || [],
     questionsList: [],
     assetFile: null,
     assetName: '',
@@ -35,55 +36,67 @@ export default function NewLesson() {
     assetType: 'file',
   });
 
-  const { uploadVideo, loading } = useVideo();
+  const [openConfirmModal, setOpenConfirmModal] = useState();
+
+  const { updateVideo, deleteVideo, loading } = useVideo();
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
     watch,
+    formState: { errors },
   } = useForm({
     resolver: zodResolver(AddVideoSchema),
   });
 
-  const handleAddVideo = (formData) => {
-    uploadVideo(
+  const handleEditVideo = (formData) => {
+    updateVideo(
+      pathParams[3],
+      oldVideoData,
       {
         title: formData.title,
-        section: formData.section,
         description: formData.description,
         // questions: formData.questionsList || null,
       },
-      `courses/${id}/videos`,
-      newVideo.videoFile,
-      newVideo.assetsList,
+      `courses/${pathParams[3]}/videos`,
+      editVideo.assetsList,
+      editVideo.videoFile,
     );
   };
+
+  useEffect(() => {
+    if (!videos) {
+      dispatch(fetchVideos(pathParams[3]));
+    }
+  }, [videos]);
 
   const handleAddFile = (e) => {
     e.preventDefault();
 
-    if (!newVideo?.assetName) return;
+    if (!editVideo?.assetName) return;
 
-    if (newVideo?.assetURL) {
+    if (editVideo?.assetURL) {
       const data = {
-        fileName: newVideo?.assetName,
-        fileURL: newVideo?.assetURL,
+        fileName: editVideo?.assetName,
+        fileURL: editVideo?.assetURL,
       };
 
-      setNewVideo((prev) => ({
+      setEditVideo((prev) => ({
         ...prev,
         assetsList: [...prev.assetsList, data],
         assetName: '',
         assetURL: '',
       }));
-    } else if (newVideo?.assetFile) {
+    } else if (editVideo?.assetFile) {
       const data = {
-        fileName: newVideo?.assetName,
-        file: newVideo?.assetFile,
+        fileName: editVideo?.assetName,
+        file: editVideo?.assetFile,
       };
 
-      setNewVideo((prev) => ({
+      setEditVideo((prev) => ({
         ...prev,
         assetsList: [...prev.assetsList, data],
         assetName: '',
@@ -92,45 +105,46 @@ export default function NewLesson() {
     }
   };
 
-  // const handleAddQuestions = (e) => {
-  //   e.preventDefault();
-
-  // };
+  const handleInputFileChange = (e) => {
+    setEditVideo((prev) => ({ ...prev, [e.target.name]: e.target.files[0] }));
+  };
 
   const handleInputChange = (e) => {
-    setNewVideo((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    setEditVideo((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const handleSelectType = (e) => {
-    setNewVideo((prev) => ({ ...prev, assetType: e.target.value }));
-  };
-
-  const handleInputFileChange = (e) => {
-    setNewVideo((prev) => ({ ...prev, [e.target.name]: e.target.files[0] }));
+    setEditVideo((prev) => ({ ...prev, assetType: e.target.value }));
   };
 
   const handleRemoveFile = (index) => {
-    const removeSelected = newVideo.assetsList.filter((file, i) => i !== index);
-
-    setNewVideo((prev) => ({ ...prev, assetsList: removeSelected }));
+    const removeSelected = editVideo.assetsList.filter(
+      (file, i) => i !== index,
+    );
+    setEditVideo((prev) => ({ ...prev, assetsList: removeSelected }));
   };
 
-  useEffect(() => {
-    if (course && !course.videos) {
-      dispatch(fetchVideos(id));
-    }
-  }, [courses, id]);
+  const handleDeleteVideo = () => {
+    deleteVideo(
+      courseId,
+      oldVideoData.id,
+      oldVideoData.storageRef,
+      oldVideoData.assets,
+    );
+
+    navigate(-1);
+  };
 
   return (
     <Box className='main-container !flex !flex-col'>
       <Box className='flex-1'>
-        <form id='newLessonForm' onSubmit={handleSubmit(handleAddVideo)}>
+        <form id='editLessonForm' onSubmit={handleSubmit(handleEditVideo)}>
           <Box className='mb-4'>
             <label
               htmlFor={'videoFile'}
               className='text-base leading-5 mb-[9px] block'
             >
-              Vídeo
+              Alterar vídeo
             </label>
             <input
               type='file'
@@ -144,16 +158,6 @@ export default function NewLesson() {
           </Box>
           <Input
             theme={'light'}
-            type={'section'}
-            label={'Seção'}
-            placeholder={'Digite aqui'}
-            register={register}
-            id={'section'}
-            error={errors?.section?.message}
-            watch={watch}
-          />
-          <Input
-            theme={'light'}
             type={'text'}
             label={'Título'}
             placeholder={'Digite aqui'}
@@ -161,6 +165,7 @@ export default function NewLesson() {
             id={'title'}
             error={errors?.title?.message}
             watch={watch}
+            defaultValue={oldVideoData?.title}
           />
           <Input
             theme={'light'}
@@ -171,6 +176,18 @@ export default function NewLesson() {
             id={'description'}
             error={errors?.description?.message}
             watch={watch}
+            defaultValue={oldVideoData?.description}
+          />
+          <Input
+            theme={'light'}
+            type={'section'}
+            label={'Seção'}
+            placeholder={'Digite aqui'}
+            register={register}
+            id={'section'}
+            error={errors?.section?.message}
+            watch={watch}
+            defaultValue={oldVideoData?.section}
           />
         </form>
         <Heading
@@ -180,9 +197,9 @@ export default function NewLesson() {
         >
           Material adicional
         </Heading>
-        {newVideo?.assetType !== 'questions' ? (
+        {editVideo?.assetType !== 'questions' ? (
           <ul>
-            {newVideo?.assetsList.map((file, index) => (
+            {editVideo?.assetsList.map((file, index) => (
               <li key={index} className='flex justify-between'>
                 <span>{file.fileName}</span>
                 <button
@@ -199,23 +216,23 @@ export default function NewLesson() {
         )}
 
         <RadioGroup
-          defaultValue={newVideo.assetType}
+          defaultValue={editVideo.assetType}
           className='flex items-center justify-start gap-4'
           mb={2}
         >
-          <Radio value='file' onChange={handleSelectType} size={'sm'}>
+          <Radio value='file' size={'sm'} onChange={handleSelectType}>
             Arquivo
           </Radio>
-          <Radio value='url' onChange={handleSelectType} size={'sm'}>
+          <Radio value='url' size={'sm'} onChange={handleSelectType}>
             Link
           </Radio>
-          <Radio value='questions' onChange={handleSelectType} size={'sm'}>
+          <Radio value='questions' size={'sm'} onChange={handleSelectType}>
             Questionário
           </Radio>
         </RadioGroup>
 
         <form onSubmit={handleAddFile} id='fileForm'>
-          {newVideo?.assetType !== 'questions' && (
+          {editVideo?.assetType !== 'questions' && (
             <>
               <label
                 htmlFor={'assetName'}
@@ -225,12 +242,12 @@ export default function NewLesson() {
               </label>
               <div
                 className={`my-2 relative w-full rounded-[4px] overflow-hidden after:content-[''] after:absolute after:h-[2px] after:bg-cian after:left-1/2 after:bottom-0 after:-translate-x-1/2 ${
-                  newVideo?.assetName ? 'after:w-full' : 'after:w-0'
+                  editVideo?.assetName ? 'after:w-full' : 'after:w-0'
                 } hover:after:w-full animation shadow-sm shadow-zinc-700/50`}
               >
                 <input
                   type='text'
-                  value={newVideo?.assetName}
+                  value={editVideo?.assetName}
                   name={'assetName'}
                   placeholder='Digite aqui'
                   onChange={handleInputChange}
@@ -239,7 +256,7 @@ export default function NewLesson() {
               </div>
             </>
           )}
-          {newVideo?.assetType === 'file' ? (
+          {editVideo?.assetType === 'file' ? (
             <div className='flex flex-col gap-2'>
               <label
                 htmlFor={'assetFile'}
@@ -257,7 +274,7 @@ export default function NewLesson() {
                 className='w-full outline-none text-base'
               />
             </div>
-          ) : newVideo?.assetType === 'url' ? (
+          ) : editVideo?.assetType === 'url' ? (
             <div>
               <label
                 htmlFor={'assetURL'}
@@ -267,13 +284,13 @@ export default function NewLesson() {
               </label>
               <div
                 className={`relative w-full rounded-[4px] overflow-hidden after:content-[''] after:absolute after:h-[2px] after:bg-cian after:left-1/2 after:bottom-0 after:-translate-x-1/2 ${
-                  newVideo?.assetURL ? 'after:w-full' : 'after:w-0'
+                  editVideo?.assetURL ? 'after:w-full' : 'after:w-0'
                 } hover:after:w-full animation shadow-sm shadow-zinc-700/50`}
               >
                 <input
                   type='text'
                   name={'assetURL'}
-                  value={newVideo?.assetURL}
+                  value={editVideo?.assetURL}
                   placeholder='https://exemplo.com.br'
                   onChange={handleInputChange}
                   className={`w-full rounded-[4px]  px-3 py-[5px] leading-5 text-base outline-none  bg-white `}
@@ -293,12 +310,20 @@ export default function NewLesson() {
         </form>
       </Box>
 
-      <ButtonSubmit
-        form='newLessonForm'
-        disabled={false}
-        text={'Confirmar'}
-        loading={loading}
-      />
+      <Flex flexDirection={'column'} gap={2}>
+        <ButtonSubmit
+          form='editLessonForm'
+          disabled={false}
+          text={'Alterar'}
+          loading={loading}
+        />
+
+        <ConfirmModal
+          deleteFunction={handleDeleteVideo}
+          open={openConfirmModal}
+          setOpen={setOpenConfirmModal}
+        />
+      </Flex>
     </Box>
   );
 }

@@ -1,35 +1,23 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { EditCourseSchema } from './editCourseSchema';
+import { AddCourseSchema } from './addCourseSchema';
 
-import useCourse from '../../../hooks/useCourse';
+import useCourse from '../../../../hooks/useCourse';
 
-import Input from '../../../components/Global/Input';
-import ButtonSubmit from '../../../components/Global/ButtonSubmit';
-import ConfirmModal from '../../../components/Global/ConfirmModal';
+import Input from '../../../../components/Global/Input';
+import ButtonSubmit from '../../../../components/Global/ButtonSubmit';
 
-import { Box, Flex, Switch, Text } from '@chakra-ui/react';
+import { Box, Switch, Text } from '@chakra-ui/react';
 
-export default function EditCourse() {
-  const { pathname } = useLocation();
-  const pathParams = pathname.split('/');
-  const id = pathParams[3];
-  const { courses } = useSelector((state) => state.courses);
-  const course = courses.find((course) => course.id === id);
-  const { editCourseWithImage, editCourseWithoutImage, deleteCourse, loading } =
-    useCourse();
-  const navigate = useNavigate();
-
+export default function NewCourse() {
+  const [isPremium, setIsPremium] = useState(false);
+  const [needAuth, setNeedAuth] = useState(true);
+  const [isHidden, setIsHidden] = useState(false);
   const [imageFile, setImageFile] = useState();
-
-  const [isPremium, setIsPremium] = useState(course?.isPremium);
-  const [isHidden, setIsHidden] = useState(course?.isHidden);
-  const [needAuth, setNeedAuth] = useState(course?.needAuth);
-  const [openConfirmModal, setOpenConfirmModal] = useState();
+  const [error, setError] = useState();
+  const { addNewCourse, loading } = useCourse();
 
   const {
     register,
@@ -37,7 +25,7 @@ export default function EditCourse() {
     watch,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(EditCourseSchema),
+    resolver: zodResolver(AddCourseSchema),
   });
 
   const handleSwitch = (type) => {
@@ -50,26 +38,23 @@ export default function EditCourse() {
     }
   };
 
-  const handleEditCourse = async (formData) => {
+  const handlAddCourse = async (formData) => {
+    setError(null);
+
     const data = { ...formData, isPremium, needAuth, isHidden };
 
     if (imageFile) {
-      editCourseWithImage(course, data, 'courses', imageFile);
+      addNewCourse(data, 'courses', imageFile);
     } else {
-      editCourseWithoutImage(course, formData);
+      setError('Envie uma imagem!');
     }
-  };
-
-  const handleDeleteCourse = () => {
-    deleteCourse(course);
-    navigate('/dashboard/courses');
   };
 
   return (
     <Box className='main-container flex flex-col'>
       <form
-        id='editCourseForm'
-        onSubmit={handleSubmit(handleEditCourse)}
+        id='addCourseForm'
+        onSubmit={handleSubmit(handlAddCourse)}
         className='flex flex-col gap-[10px] flex-grow'
       >
         <Box className='mb-[6px]'>
@@ -85,17 +70,17 @@ export default function EditCourse() {
             className='w-full outline-none text-base'
             onChange={(e) => setImageFile(e.target.files[0])}
           />
+          <span className='errorText'>{error}</span>
         </Box>
         <Input
           theme={'light'}
           type={'text'}
-          label={'Nome do curso'}
+          label={'Nome'}
           placeholder={'Digite aqui'}
           register={register}
           id={'name'}
           error={errors?.name?.message}
           watch={watch}
-          defaultValue={course.name}
         />
         <Input
           theme={'light'}
@@ -106,7 +91,6 @@ export default function EditCourse() {
           id={'description'}
           error={errors?.description?.message}
           watch={watch}
-          defaultValue={course.description}
         />
         <Input
           theme={'light'}
@@ -117,7 +101,6 @@ export default function EditCourse() {
           id={'author'}
           error={errors?.author?.message}
           watch={watch}
-          defaultValue={course.author}
         />
         {isPremium && (
           <>
@@ -185,19 +168,12 @@ export default function EditCourse() {
           </Box>
         </Box>
       </form>
-      <Flex flexDirection={'column'} gap={2}>
-        <ButtonSubmit
-          form='editCourseForm'
-          disabled={false}
-          text={'Alterar'}
-          loading={loading}
-        />
-        <ConfirmModal
-          deleteFunction={handleDeleteCourse}
-          open={openConfirmModal}
-          setOpen={setOpenConfirmModal}
-        />
-      </Flex>
+      <ButtonSubmit
+        form='addCourseForm'
+        disabled={loading ? true : false}
+        text={'Adicionar'}
+        loading={loading}
+      />
     </Box>
   );
 }

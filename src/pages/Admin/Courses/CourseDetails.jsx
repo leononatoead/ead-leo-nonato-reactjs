@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchVideos } from '../../redux/modules/courses/actions';
+import { fetchVideos } from '../../../redux/modules/courses/actions';
 
 import {
   Box,
