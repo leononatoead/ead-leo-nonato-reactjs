@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 
 import Home from '../pages/Global/Home';
-// import Course from '../pages/Global/Course';
+import Course from '../pages/Global/Course';
 import Newsletter from '../pages/Global/Newsletter';
 import VerifyPhone from '../pages/Auth/VerifyPhone';
 import VerifyEmail from '../pages/Auth/VerifyEmail';
@@ -9,7 +9,6 @@ import VerifySuccess from '../pages/Auth/VerifySuccess';
 import Profile from '../pages/Global/Profile';
 import FAQ from '../pages/Global/FAQ';
 import CourseWatch from '../pages/Global/CourseWatch';
-import Course from '../pages/Global/Course';
 
 export default function UserAuthenticatedRoutes({ user }) {
   return (

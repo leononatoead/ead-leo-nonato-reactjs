@@ -12,6 +12,7 @@ import NewCourse from '../pages/Admin/NewCourse';
 import NewLesson from '../pages/Admin/NewLesson';
 import EditLesson from '../pages/Admin/EditLesson';
 import EditCourse from '../pages/Admin/EditCourse';
+import DashboardFAQ from '../pages/Admin/DashboardFAQ';
 import Profile from '../pages/Global/Profile';
 import FAQ from '../pages/Global/FAQ';
 
@@ -33,6 +34,7 @@ export default function AdminRoutes() {
         <Route path='courses/:id/new' element={<NewLesson />} />
         <Route path='courses/:id/edit' element={<EditCourse />} />
         <Route path='courses/:id/edit/:id' element={<EditLesson />} />
+        <Route path='faq' element={<DashboardFAQ />} />
       </Route>
     </Routes>
   );

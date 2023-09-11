@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCourses } from './redux/modules/courses/actions';
-import { verifyAuthentication } from './redux/modules/auth/actions';
 
 import { ChakraProvider } from '@chakra-ui/react';
 
@@ -10,22 +9,36 @@ import AdminRoutes from './routes/Admin';
 
 import UserAuthenticated from './routes/UserAuthenticated';
 import UserUnAuthenticated from './routes/UserUnAuthenticated';
+import useAuth from './hooks/useAuth';
 
 function App() {
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.auth.user);
+  const { authUser, loadingAuth } = useAuth();
 
   useEffect(() => {
     dispatch(fetchCourses());
-    dispatch(verifyAuthentication());
+    authUser();
   }, []);
 
   return (
     <ChakraProvider>
-      {user && user.admin && <AdminRoutes />}
-      {user && !user.admin && <UserAuthenticated user={user} />}
-      {!user && <UserUnAuthenticated />}
+      {loadingAuth ? (
+        'loadingAuth'
+      ) : (
+        <>
+          {!loadingAuth && user ? (
+            user.admin ? (
+              <AdminRoutes />
+            ) : (
+              <UserAuthenticated user={user} />
+            )
+          ) : (
+            <UserUnAuthenticated />
+          )}
+        </>
+      )}
     </ChakraProvider>
   );
 }

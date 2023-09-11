@@ -71,5 +71,5 @@ input[type='number']::-webkit-inner-spin-button {
 /* DASHBOARD */
 
 .main-container {
-  @apply min-h-[calc(100vh-40px)] px-4 py-6;
+  @apply min-h-[calc(100vh-48px)] px-4 py-6;
 }

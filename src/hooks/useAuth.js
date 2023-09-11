@@ -2,7 +2,10 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { auth, database, storage } from '../firebase/config';
-import { updateProfileImage } from '../redux/modules/auth/actions';
+import {
+  updateProfileImage,
+  verifyAuthentication,
+} from '../redux/modules/auth/actions';
 import { useToast } from '@chakra-ui/react';
 
 import {
@@ -13,9 +16,10 @@ import {
   updateProfile,
   updatePassword,
   deleteUser,
+  onAuthStateChanged,
 } from 'firebase/auth';
 
-import { doc, setDoc, updateDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import {
   deleteObject,
   getDownloadURL,
@@ -25,6 +29,7 @@ import {
 import { v4 } from 'uuid';
 
 const useAuth = () => {
+  const [loadingAuth, setLoadingAuth] = useState(true);
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
@@ -34,6 +39,45 @@ const useAuth = () => {
   const actionCodeSettings = {
     url: `${import.meta.env.VITE_VERCEL_APP_URL}/verify-success`,
     locale: 'pt-br',
+  };
+
+  const getUserData = async (uid) => {
+    try {
+      const collectionRef = doc(database, `users/${uid}`);
+      const res = await getDoc(collectionRef);
+
+      return res.data();
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+
+  const authUser = () => {
+    setLoadingAuth(true);
+
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const collectionData = await getUserData(user.uid);
+
+        const userPayload = {
+          uid: user.uid,
+          name: user.displayName,
+          email: user.email,
+          emailVerified: user.emailVerified,
+          phoneNumber: user.phoneNumber,
+          photoURL: user.photoURL,
+          profileImageRef: user.profileImageRef,
+          isPremium: false,
+          ...collectionData,
+        };
+
+        dispatch(verifyAuthentication(userPayload));
+        setLoadingAuth(false);
+      } else {
+        dispatch(verifyAuthentication(null));
+        setLoadingAuth(false);
+      }
+    });
   };
 
   const loginUser = async (email, password) => {
@@ -254,12 +298,14 @@ const useAuth = () => {
   };
 
   return {
+    authUser,
     loginUser,
     registerUser,
     verifyEmail,
     resetPassword,
     changePassword,
     changeImage,
+    loadingAuth,
     loading,
   };
 };

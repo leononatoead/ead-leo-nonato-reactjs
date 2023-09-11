@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -139,7 +139,52 @@ export default function Navbar({ title }) {
           />
         </Menu>
       ) : (
-        <Box className='p-4'></Box>
+        path.pathname.includes('dashboard') && (
+          <Menu>
+            <MenuButton
+              as={IconButton}
+              aria-label='Options'
+              icon={<GiHamburgerMenu />}
+              variant='outline'
+              className='!border-none !bg-transparent !outline-none'
+            />
+            <MenuList className='!border-none !shadow-lg'>
+              <MenuItem className='!outline-none !border-none focus:!bg-white'>
+                <Link to='/dashboard/courses' className='w-full text-center'>
+                  Cursos
+                </Link>
+              </MenuItem>
+              <MenuItem className='!outline-none !border-none focus:!bg-white'>
+                <Link to='/dashboard/newsletter' className='w-full text-center'>
+                  Newsletter
+                </Link>
+              </MenuItem>
+              <MenuItem className='!outline-none !border-none focus:!bg-white'>
+                <Link
+                  to='/dashboard/notifications'
+                  className='w-full text-center'
+                >
+                  Anúncios
+                </Link>
+              </MenuItem>
+              <MenuItem className='!outline-none !border-none focus:!bg-white'>
+                <Link to='/dashboard/forms' className='w-full text-center'>
+                  Formulários
+                </Link>
+              </MenuItem>
+              <MenuItem className='!outline-none !border-none focus:!bg-white'>
+                <Link to='/dashboard/students' className='w-full text-center'>
+                  Alunos
+                </Link>
+              </MenuItem>
+              <MenuItem className='!outline-none !border-none focus:!bg-white'>
+                <Link to='/dashboard/faq' className='w-full text-center'>
+                  FAQ
+                </Link>
+              </MenuItem>
+            </MenuList>
+          </Menu>
+        )
       )}
     </header>
   );

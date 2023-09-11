@@ -21,37 +21,12 @@ const getUserData = async (uid) => {
   }
 };
 
-export const verifyAuthentication = () => (dispatch) => {
-  onAuthStateChanged(auth, async (user) => {
-    if (user) {
-      const collectionData = await getUserData(user.uid);
-
-      // const data = {
-      //   api_key: import.meta.env.VITE_VERCEL_API_TOKEN,
-      //   metadata: {
-      //     chave: 'valor',
-      //   },
-      // };
-
-      // const payment = await api.get(`/customers`, { params: data });
-      // console.log(payment);
-
-      const userPayload = {
-        uid: user.uid,
-        name: user.displayName,
-        email: user.email,
-        emailVerified: user.emailVerified,
-        phoneNumber: user.phoneNumber,
-        photoURL: user.photoURL,
-        profileImageRef: user.profileImageRef,
-        isPremium: false,
-        ...collectionData,
-      };
-      dispatch({ type: AUTH_USER, payload: userPayload });
-    } else {
-      dispatch({ type: AUTH_USER, payload: null });
-    }
-  });
+export const verifyAuthentication = (user) => (dispatch) => {
+  if (user) {
+    dispatch({ type: AUTH_USER, payload: user });
+  } else {
+    dispatch({ type: AUTH_USER, payload: null });
+  }
 };
 
 export const logoutUser = () => async (dispatch) => {
