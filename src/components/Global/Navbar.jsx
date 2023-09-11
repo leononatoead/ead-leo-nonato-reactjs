@@ -25,6 +25,32 @@ export default function Navbar({ title }) {
 
   const [openLoginModal, setOpenLoginModal] = useState(false);
 
+  const handleBackBtn = () => {
+    const URL = path.pathname;
+
+    const URLParamsArray = URL.split('/');
+
+    let removeBlank = URLParamsArray.filter((value) => value !== '');
+
+    removeBlank.pop();
+
+    if (removeBlank.includes('edit')) {
+      removeBlank.pop();
+    }
+
+    if (removeBlank.includes('course') && removeBlank.length === 1) {
+      removeBlank.pop();
+    }
+
+    if (removeBlank.length > 0) {
+      const newURL = removeBlank.join('/');
+      const path = `/${newURL}`;
+      navigate(path);
+    } else {
+      navigate('/');
+    }
+  };
+
   const handleLogout = () => {
     dispatch(logoutUser());
     navigate('/');
@@ -33,16 +59,16 @@ export default function Navbar({ title }) {
   return (
     <header className='w-full px-4 py-1 bg-white font-bold flex gap-4 items-center justify-center'>
       {path.pathname !== '/' && (
-        <Link to={-1}>
+        <button onClick={handleBackBtn}>
           <RiArrowLeftSLine size={30} />
-        </Link>
+        </button>
       )}
       {path.pathname === '/' ? (
         <Link
           to='/'
           className='block font-poppins text-large leading-6 flex-1 text-left font-bold poppins'
         >
-          Léo Nonato
+          Leo Nonato
         </Link>
       ) : (
         <span className='block font-poppins text-[17px] leading-[22px] flex-1 text-center font-normal'>

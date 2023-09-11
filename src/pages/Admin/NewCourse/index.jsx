@@ -51,7 +51,7 @@ export default function NewCourse() {
   };
 
   return (
-    <Box className='min-h-[calc(100vh-40px)] px-4 py-6 flex flex-col'>
+    <Box className='main-container flex flex-col'>
       <form
         id='addCourseForm'
         onSubmit={handleSubmit(handlAddCourse)}

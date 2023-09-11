@@ -141,8 +141,8 @@ export default function Course() {
       <PremiumContent
         open={locked}
         close={setLocked}
-        title={'Conteúdo disponível para assinantes'}
-        text={'Tenha acesso total a este curso assinando a plataforma'}
+        title={'Curso disponível para assinantes'}
+        text={'Desbloqueie esse e muitos outros benefícios assinando'}
         btnText={'Assine já'}
         closeBtn={false}
       />

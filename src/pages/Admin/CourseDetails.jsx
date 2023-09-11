@@ -34,7 +34,7 @@ export default function CourseDetails() {
   }, [courses, id]);
 
   return (
-    <Box className='min-h-[calc(100vh-40px)] pb-6'>
+    <Box className='main-container !px-0 !pt-0'>
       <Image
         src={course?.imagePath}
         alt='banner'

@@ -4,6 +4,8 @@
 @tailwind components;
 @tailwind utilities;
 
+/* GLOBAL */
+
 * {
   font-family: 'Inter', sans-serif;
   outline: none !important;
@@ -13,12 +15,10 @@ input[type='number']::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
 
+/* AUTH */
+
 .auth-header-bg {
   background-image: url('./assets/bg-light.png');
-}
-
-.animation::after {
-  transition: width 0.3s ease-in-out;
 }
 
 .auth-bg {
@@ -60,4 +60,16 @@ input[type='number']::-webkit-inner-spin-button {
 /* RESET MENU STYLE */
 .css-r6z5ec {
   z-index: 10 !important;
+}
+
+/* INPUT */
+
+.animation::after {
+  transition: width 0.3s ease-in-out;
+}
+
+/* DASHBOARD */
+
+.main-container {
+  @apply min-h-[calc(100vh-40px)] px-4 py-6;
 }

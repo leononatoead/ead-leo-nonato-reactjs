@@ -10,7 +10,7 @@ export default function VideoCardAdmin({ cardData }) {
       <Card rounded={'2xl'} border={0}>
         <CardBody p={0} rounded={'2xl'} className='!h-[200px] overflow-hidden'>
           <Image
-            className='!h-[200px] overflow-hidden object-cover'
+            className='!h-[200px] overflow-hidden object-cover !w-full'
             src={cardData.imagePath}
             alt='Presentation Preview'
             rounded={'2xl'}

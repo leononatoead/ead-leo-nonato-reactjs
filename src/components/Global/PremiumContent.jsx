@@ -47,7 +47,7 @@ export default function PremiumContent({
           </Link>
 
           <Link to='/' className='w-full text-center mt-4'>
-            Início
+            Voltar
           </Link>
         </Flex>
       </ModalBody>

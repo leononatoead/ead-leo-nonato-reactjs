@@ -136,12 +136,7 @@ export default function EditLesson() {
   };
 
   return (
-    <Box
-      px={4}
-      py={6}
-      className='min-h-[calc(100vh-40px)] !flex !flex-col'
-      gap={2}
-    >
+    <Box className='main-container !flex !flex-col'>
       <Box className='flex-1'>
         <form id='editLessonForm' onSubmit={handleSubmit(handleEditVideo)}>
           <Box className='mb-4'>

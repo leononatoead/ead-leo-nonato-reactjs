@@ -122,12 +122,7 @@ export default function NewLesson() {
   }, [courses, id]);
 
   return (
-    <Box
-      px={4}
-      py={6}
-      gap={2}
-      className='min-h-[calc(100vh-40px)] !flex !flex-col'
-    >
+    <Box className='main-container !flex !flex-col'>
       <Box className='flex-1'>
         <form id='newLessonForm' onSubmit={handleSubmit(handleAddVideo)}>
           <Box className='mb-4'>
@@ -149,6 +144,16 @@ export default function NewLesson() {
           </Box>
           <Input
             theme={'light'}
+            type={'section'}
+            label={'Seção'}
+            placeholder={'Digite aqui'}
+            register={register}
+            id={'section'}
+            error={errors?.section?.message}
+            watch={watch}
+          />
+          <Input
+            theme={'light'}
             type={'text'}
             label={'Título'}
             placeholder={'Digite aqui'}
@@ -165,16 +170,6 @@ export default function NewLesson() {
             register={register}
             id={'description'}
             error={errors?.description?.message}
-            watch={watch}
-          />
-          <Input
-            theme={'light'}
-            type={'section'}
-            label={'Seção'}
-            placeholder={'Digite aqui'}
-            register={register}
-            id={'section'}
-            error={errors?.section?.message}
             watch={watch}
           />
         </form>
