@@ -36,6 +36,10 @@ export default function AdminRoutes() {
         <Route path='courses/:id/new' element={<NewLesson />} />
         <Route path='courses/:id/edit' element={<EditCourse />} />
         <Route path='courses/:id/edit/:id' element={<EditLesson />} />
+        {/* <Route path='newsletter' element={<Newsletter />} /> */}
+        {/* <Route path='announcement' element={<Announcement />} /> */}
+        {/* <Route path='forms' element={<Forms />} /> */}
+        {/* <Route path='users' element={<Users />} /> */}
         <Route path='faq' element={<DashboardFAQ />} />
         <Route path='faq/new' element={<NewQuestion />} />
         <Route path='faq/edit/:id' element={<EditQuestion />} />

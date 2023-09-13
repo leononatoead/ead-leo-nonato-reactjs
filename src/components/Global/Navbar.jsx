@@ -15,6 +15,22 @@ import {
 
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { RiArrowLeftSLine } from 'react-icons/ri';
+import {
+  IoHelpSharp,
+  IoLogOutOutline,
+  IoLogInOutline,
+  IoPersonCircleOutline,
+} from 'react-icons/io5';
+import { BiBook } from 'react-icons/bi';
+import {
+  MdOutlineNotificationsNone,
+  MdOutlineSpaceDashboard,
+} from 'react-icons/md';
+import { BsPersonAdd } from 'react-icons/bs';
+import { SiReacthookform } from 'react-icons/si';
+import { FiUsers } from 'react-icons/fi';
+import { AiOutlinePaperClip } from 'react-icons/ai';
+import { PiTelevisionSimpleBold } from 'react-icons/pi';
 
 export default function Navbar({ title }) {
   const user = useSelector((state) => state.auth.user);
@@ -83,19 +99,34 @@ export default function Navbar({ title }) {
             aria-label='Options'
             icon={<GiHamburgerMenu />}
             variant='outline'
-            className='!border-none !bg-transparent !outline-none'
+            className='!border-none !bg-transparent !outline-none !min-w-max'
           />
-          <MenuList className='!border-none !shadow-lg'>
+          <MenuList
+            className='!flex !flex-col !justify-center !items-start !gap-[5px] !border-none !min-w-max !-translate-y-2 !shadow-lg'
+            px={3}
+            py={2}
+          >
             {!user && (
               <>
                 <MenuItem
                   className='!outline-none !border-none focus:!bg-white'
+                  px={'6px'}
+                  py={'3px'}
                   onClick={() => setOpenLoginModal(true)}
                 >
-                  <span className='!w-full !text-center'>Login</span>
+                  <IoLogInOutline size={20} />
+                  <span className='font-normal leading-[14px] ml-3'>Login</span>
                 </MenuItem>
-                <MenuItem className='!outline-none !border-none focus:!bg-white'>
-                  <Link to='/register' className='w-full text-center'>
+                <MenuItem
+                  px={'6px'}
+                  py={'3px'}
+                  className='!outline-none !border-none focus:!bg-white'
+                >
+                  <BsPersonAdd size={20} />
+                  <Link
+                    to='/register'
+                    className='font-normal leading-[14px] ml-3'
+                  >
                     Cadastro
                   </Link>
                 </MenuItem>
@@ -104,33 +135,75 @@ export default function Navbar({ title }) {
 
             {user && (
               <>
-                <MenuItem className='!outline-none !border-none focus:!bg-white'>
-                  <Link to='/profile' className='w-full text-center'>
-                    Perfil
-                  </Link>
-                </MenuItem>
                 {user.admin && (
                   <>
-                    <MenuItem className='!outline-none !border-none focus:!bg-white'>
-                      <Link to='/dashboard' className='w-full text-center'>
-                        Dashboard
+                    <MenuItem
+                      px={'6px'}
+                      py={'3px'}
+                      className='!outline-none !border-none focus:!bg-white'
+                    >
+                      <MdOutlineSpaceDashboard size={20} />
+                      <Link
+                        to='/dashboard'
+                        className='font-normal leading-[14px] ml-3'
+                      >
+                        Painel
                       </Link>
                     </MenuItem>
                   </>
                 )}
+
                 <MenuItem
+                  px={'6px'}
+                  py={'3px'}
                   className='!outline-none !border-none focus:!bg-white'
-                  onClick={handleLogout}
                 >
-                  <span className='w-full text-center'>Sair</span>
+                  <BiBook size={20} />
+                  <Link
+                    to='/my-courses'
+                    className='font-normal leading-[14px] ml-3'
+                  >
+                    Meus Cursos
+                  </Link>
+                </MenuItem>
+
+                <MenuItem
+                  px={'6px'}
+                  py={'3px'}
+                  className='!outline-none !border-none focus:!bg-white'
+                >
+                  <IoPersonCircleOutline size={20} />
+                  <Link
+                    to='/profile'
+                    className='font-normal leading-[14px] ml-3'
+                  >
+                    Perfil
+                  </Link>
                 </MenuItem>
               </>
             )}
-            <MenuItem className='!outline-none !border-none focus:!bg-white'>
-              <Link to='/faq' className='w-full text-center'>
+
+            <MenuItem
+              px={'6px'}
+              py={'3px'}
+              className='!outline-none !border-none focus:!bg-white'
+            >
+              <IoHelpSharp size={20} />
+              <Link to='/faq' className='font-normal leading-[14px] ml-3'>
                 FAQ
               </Link>
             </MenuItem>
+            {user && (
+              <MenuItem
+                className='!outline-none !border-none focus:!bg-white'
+                px={'6px'}
+                py={'3px'}
+                onClick={handleLogout}
+              >
+                <IoLogOutOutline size={20} />
+                <span className='font-normal leading-[14px] ml-3'>Sair</span>
+              </MenuItem>
+            )}
           </MenuList>
 
           <LoginModal
@@ -148,37 +221,87 @@ export default function Navbar({ title }) {
               variant='outline'
               className='!border-none !bg-transparent !outline-none'
             />
-            <MenuList className='!border-none !shadow-lg'>
-              <MenuItem className='!outline-none !border-none focus:!bg-white'>
-                <Link to='/dashboard/courses' className='w-full text-center'>
+            <MenuList
+              className='!flex !flex-col !justify-center !items-start !gap-[5px] !border-none !min-w-max !-translate-y-2 !shadow-lg'
+              px={3}
+              py={2}
+            >
+              <MenuItem
+                px={'6px'}
+                py={'3px'}
+                className='!outline-none !border-none focus:!bg-white'
+              >
+                <PiTelevisionSimpleBold size={20} />
+                <Link
+                  to='/dashboard/courses'
+                  className='font-normal leading-[14px] ml-3'
+                >
                   Cursos
                 </Link>
               </MenuItem>
-              <MenuItem className='!outline-none !border-none focus:!bg-white'>
-                <Link to='/dashboard/newsletter' className='w-full text-center'>
+              <MenuItem
+                px={'6px'}
+                py={'3px'}
+                className='!outline-none !border-none focus:!bg-white'
+              >
+                <AiOutlinePaperClip size={20} />
+                <Link
+                  to='/dashboard/newsletter'
+                  className='font-normal leading-[14px] ml-3'
+                >
                   Newsletter
                 </Link>
               </MenuItem>
-              <MenuItem className='!outline-none !border-none focus:!bg-white'>
+              <MenuItem
+                px={'6px'}
+                py={'3px'}
+                className='!outline-none !border-none focus:!bg-white'
+              >
+                <MdOutlineNotificationsNone size={20} />
                 <Link
                   to='/dashboard/notifications'
-                  className='w-full text-center'
+                  className='font-normal leading-[14px] ml-3'
                 >
                   Anúncios
                 </Link>
               </MenuItem>
-              <MenuItem className='!outline-none !border-none focus:!bg-white'>
-                <Link to='/dashboard/forms' className='w-full text-center'>
+              <MenuItem
+                px={'6px'}
+                py={'3px'}
+                className='!outline-none !border-none focus:!bg-white'
+              >
+                <SiReacthookform size={20} />
+                <Link
+                  to='/dashboard/forms'
+                  className='font-normal leading-[14px] ml-3'
+                >
                   Formulários
                 </Link>
               </MenuItem>
-              <MenuItem className='!outline-none !border-none focus:!bg-white'>
-                <Link to='/dashboard/students' className='w-full text-center'>
-                  Alunos
+              <MenuItem
+                px={'6px'}
+                py={'3px'}
+                className='!outline-none !border-none focus:!bg-white'
+              >
+                <FiUsers size={20} />
+                <Link
+                  to='/dashboard/students'
+                  className='font-normal leading-[14px] ml-3'
+                >
+                  Usuários
                 </Link>
               </MenuItem>
-              <MenuItem className='!outline-none !border-none focus:!bg-white'>
-                <Link to='/dashboard/faq' className='w-full text-center'>
+              <MenuItem
+                px={'6px'}
+                py={'3px'}
+                className='!outline-none !border-none focus:!bg-white'
+              >
+                <IoHelpSharp size={20} />
+
+                <Link
+                  to='/dashboard/faq'
+                  className='font-normal leading-[14px] ml-3'
+                >
                   FAQ
                 </Link>
               </MenuItem>
