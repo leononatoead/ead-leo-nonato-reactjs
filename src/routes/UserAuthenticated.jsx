@@ -80,6 +80,7 @@ export default function UserAuthenticatedRoutes({ user }) {
 
       <Route path='/profile' element={<Profile />} />
       <Route path='/faq' element={<FAQ />} />
+      {/* <Route path='/my-courses' element={<MyCourses />} /> */}
       <Route path='/course/:id' element={<Course />} />
       <Route path='/course/:id/:id' element={<CourseWatch />} />
       <Route path='/newsletter' element={<Newsletter />} />

@@ -17,6 +17,9 @@ import NewQuestion from '../pages/Admin/FAQ/NewQuestion';
 import EditQuestion from '../pages/Admin/FAQ/EditQuestion';
 import Profile from '../pages/Global/Profile';
 import FAQ from '../pages/Global/FAQ';
+import Forms from '../pages/Admin/Forms';
+import NewForm from '../pages/Admin/Forms/NewForm';
+import EditForm from '../pages/Admin/Forms/EditForm';
 
 export default function AdminRoutes() {
   return (
@@ -28,6 +31,7 @@ export default function AdminRoutes() {
       <Route path='/faq' element={<FAQ />} />
 
       <Route path='/profile' element={<Profile />} />
+      {/* <Route path='/my-courses' element={<MyCourses />} /> */}
       <Route path='/dashboard' element={<Dashboard />}>
         <Route path='/dashboard' element={<Courses />} />
         <Route path='courses' element={<Courses />} />
@@ -38,7 +42,9 @@ export default function AdminRoutes() {
         <Route path='courses/:id/edit/:id' element={<EditLesson />} />
         {/* <Route path='newsletter' element={<Newsletter />} /> */}
         {/* <Route path='announcement' element={<Announcement />} /> */}
-        {/* <Route path='forms' element={<Forms />} /> */}
+        <Route path='forms' element={<Forms />} />
+        <Route path='forms/new' element={<NewForm />} />
+        <Route path='forms/edit/:id' element={<EditForm />} />
         {/* <Route path='users' element={<Users />} /> */}
         <Route path='faq' element={<DashboardFAQ />} />
         <Route path='faq/new' element={<NewQuestion />} />

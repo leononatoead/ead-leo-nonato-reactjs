@@ -75,8 +75,8 @@ export default function Navbar({ title }) {
   return (
     <header className='w-full px-4 py-1 bg-white font-bold flex gap-4 items-center justify-center'>
       {path.pathname !== '/' && (
-        <button onClick={handleBackBtn}>
-          <RiArrowLeftSLine size={30} />
+        <button onClick={handleBackBtn} className='-ml-2'>
+          <RiArrowLeftSLine size={25} />
         </button>
       )}
       {path.pathname === '/' ? (
@@ -219,7 +219,7 @@ export default function Navbar({ title }) {
               aria-label='Options'
               icon={<GiHamburgerMenu />}
               variant='outline'
-              className='!border-none !bg-transparent !outline-none'
+              className='!border-none !bg-transparent !outline-none !min-w-max'
             />
             <MenuList
               className='!flex !flex-col !justify-center !items-start !gap-[5px] !border-none !min-w-max !-translate-y-2 !shadow-lg'
