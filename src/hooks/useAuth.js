@@ -121,12 +121,21 @@ const useAuth = () => {
 
       navigate('/verify-phone');
     } catch (error) {
-      toast({
-        description: error.message,
-        status: 'error',
-        duration: '3000',
-        isClosable: true,
-      });
+      if (error.message.includes('email-already-in-use')) {
+        toast({
+          description: 'E-mail já cadastrado.',
+          status: 'error',
+          duration: '3000',
+          isClosable: true,
+        });
+      } else {
+        toast({
+          description: error.message,
+          status: 'error',
+          duration: '3000',
+          isClosable: true,
+        });
+      }
     } finally {
       setLoading(false);
     }
