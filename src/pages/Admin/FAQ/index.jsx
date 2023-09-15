@@ -40,7 +40,7 @@ export default function DashboardFAQ() {
           questions.map((question, i) => (
             <AccordionItem
               key={i}
-              className='!border-t-0 !border-b-[1px] !border-gray-200 '
+              className='!border-t-0 !border-b-[1px] !border-gray-200 bg-white rounded-md px-4 mb-1'
             >
               <AccordionButton px={0} py={4} className='hover:!bg-white'>
                 <Box

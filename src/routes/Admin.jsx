@@ -4,6 +4,7 @@ import Home from '../pages/Global/Home';
 import Course from '../pages/Global/Course';
 import CourseWatch from '../pages/Global/CourseWatch';
 import Newsletter from '../pages/Global/Newsletter';
+import NewsletterPost from '../pages/Global/Newsletter/NewsletterPost';
 
 import Dashboard from '../pages/Admin/Dashboard';
 import Courses from '../pages/Admin/Courses';
@@ -22,6 +23,7 @@ import NewForm from '../pages/Admin/Forms/NewForm';
 import EditForm from '../pages/Admin/Forms/EditForm';
 import Posts from '../pages/Admin/Posts';
 import NewPost from '../pages/Admin/Posts/NewPost';
+import EditPost from '../pages/Admin/Posts/EditPost';
 
 export default function AdminRoutes() {
   return (
@@ -30,6 +32,7 @@ export default function AdminRoutes() {
       <Route path='/course/:id' element={<Course />} />
       <Route path='/course/:id/:id' element={<CourseWatch />} />
       <Route path='/newsletter' element={<Newsletter />} />
+      <Route path='/newsletter/post/:id' element={<NewsletterPost />} />
       <Route path='/faq' element={<FAQ />} />
 
       <Route path='/profile' element={<Profile />} />
@@ -44,6 +47,7 @@ export default function AdminRoutes() {
         <Route path='courses/:id/edit/:id' element={<EditLesson />} />
         <Route path='posts' element={<Posts />} />
         <Route path='posts/new' element={<NewPost />} />
+        <Route path='posts/edit/:id' element={<EditPost />} />
         {/* <Route path='announcement' element={<Announcement />} /> */}
         <Route path='forms' element={<Forms />} />
         <Route path='forms/new' element={<NewForm />} />

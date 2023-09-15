@@ -52,7 +52,7 @@ export default function Forms() {
           {forms.map((form) => (
             <li
               key={form.id}
-              className='rounded-md border-[1px] border-gray-150 p-2 flex flex-col gap-4 shadow-sm'
+              className='rounded-md border-[1px] border-gray-150 p-2 flex flex-col gap-4 shadow-sm bg-white'
             >
               <Link
                 to={`/dashboard/forms/edit/${form.id}`}
