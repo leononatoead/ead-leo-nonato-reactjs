@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchPost, fetchPosts } from './actions';
+import { fetchMorePosts, fetchPost, fetchPosts } from './actions';
 
 const postsReducer = createSlice({
   name: 'posts',
@@ -39,7 +39,15 @@ const postsReducer = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchPosts.fulfilled, (state, action) => {
-        return { ...state, posts: action.payload };
+        return {
+          ...state,
+          posts: action.payload,
+        };
+      })
+      .addCase(fetchMorePosts.fulfilled, (state, action) => {
+        const posts = JSON.parse(JSON.stringify([...state.posts]));
+
+        return { ...state, posts: [...posts, ...action.payload] };
       })
       .addCase(fetchPost.fulfilled, (state, action) => {
         return { ...state, currentPost: action.payload };

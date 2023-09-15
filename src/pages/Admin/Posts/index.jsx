@@ -1,7 +1,10 @@
 import { useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchPosts } from '../../../redux/modules/posts/actions';
+import {
+  fetchMorePosts,
+  fetchPosts,
+} from '../../../redux/modules/posts/actions';
 
 import { Link } from 'react-router-dom';
 
@@ -14,6 +17,12 @@ export default function Posts() {
   const { posts } = useSelector((state) => state.posts);
 
   const dispatch = useDispatch();
+
+  const handleLoadMore = () => {
+    const id = posts[posts.length - 1].id;
+
+    dispatch(fetchMorePosts(id));
+  };
 
   useEffect(() => {
     if (!posts) {
@@ -37,6 +46,13 @@ export default function Posts() {
           ))}
         </ul>
       )}
+
+      <button
+        onClick={handleLoadMore}
+        className='w-full bg-primary-400 px-4 py-2 mt-2 text-white font-bold rounded-md'
+      >
+        proxima page
+      </button>
     </Box>
   );
 }
