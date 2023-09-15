@@ -20,6 +20,8 @@ import FAQ from '../pages/Global/FAQ';
 import Forms from '../pages/Admin/Forms';
 import NewForm from '../pages/Admin/Forms/NewForm';
 import EditForm from '../pages/Admin/Forms/EditForm';
+import Posts from '../pages/Admin/Posts';
+import NewPost from '../pages/Admin/Posts/NewPost';
 
 export default function AdminRoutes() {
   return (
@@ -40,7 +42,8 @@ export default function AdminRoutes() {
         <Route path='courses/:id/new' element={<NewLesson />} />
         <Route path='courses/:id/edit' element={<EditCourse />} />
         <Route path='courses/:id/edit/:id' element={<EditLesson />} />
-        {/* <Route path='newsletter' element={<Newsletter />} /> */}
+        <Route path='posts' element={<Posts />} />
+        <Route path='posts/new' element={<NewPost />} />
         {/* <Route path='announcement' element={<Announcement />} /> */}
         <Route path='forms' element={<Forms />} />
         <Route path='forms/new' element={<NewForm />} />

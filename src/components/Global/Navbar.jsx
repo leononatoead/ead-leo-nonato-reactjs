@@ -246,7 +246,7 @@ export default function Navbar({ title }) {
               >
                 <AiOutlinePaperClip size={20} />
                 <Link
-                  to='/dashboard/newsletter'
+                  to='/dashboard/posts'
                   className='font-normal leading-[14px] ml-3'
                 >
                   Newsletter
