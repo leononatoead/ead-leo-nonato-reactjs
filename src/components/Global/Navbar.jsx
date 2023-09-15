@@ -57,6 +57,14 @@ export default function Navbar({ title }) {
       removeBlank.pop();
     }
 
+    if (removeBlank.includes('posts') && removeBlank.length === 2) {
+      removeBlank.pop();
+    }
+
+    if (removeBlank.includes('post') && removeBlank.length === 2) {
+      removeBlank.pop();
+    }
+
     if (removeBlank.length > 0) {
       const newURL = removeBlank.join('/');
       const path = `/${newURL}`;

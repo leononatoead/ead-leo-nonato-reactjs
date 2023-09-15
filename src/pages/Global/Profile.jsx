@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import useFormatPhone from '../../hooks/useFormatPhone';
+import useFormatPhone from '../../hooks/useFormat';
 
 import Navbar from '../../components/Global/Navbar';
 import ChangePassword from '../../components/Global/ChangePassword';

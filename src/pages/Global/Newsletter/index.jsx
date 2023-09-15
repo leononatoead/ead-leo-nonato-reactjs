@@ -1,5 +1,10 @@
-import React from 'react';
+import Navbar from '../../../components/Global/Navbar';
+import { Box } from '@chakra-ui/react';
 
 export default function Newsletter() {
-  return <div>index</div>;
+  return (
+    <Box>
+      <Navbar title='Newsletter' />
+    </Box>
+  );
 }

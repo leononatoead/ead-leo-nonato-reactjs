@@ -1,5 +1,5 @@
-const useFormatPhone = () => {
-  function formatPhone(num) {
+const useFormat = () => {
+  const formatPhone = (num) => {
     let phone = num.replace('+', '');
 
     if (phone.startsWith('55')) {
@@ -19,9 +19,19 @@ const useFormatPhone = () => {
     } else {
       return phone;
     }
-  }
+  };
 
-  return { formatPhone };
+  const formatDate = (milli) => {
+    const date = new Date(milli);
+
+    const day = date.getDate();
+    const month = date.toLocaleDateString('pt-BR', { month: 'long' });
+    const year = date.getFullYear();
+
+    return `${day} de ${month} de ${year}`;
+  };
+
+  return { formatPhone, formatDate };
 };
 
-export default useFormatPhone;
+export default useFormat;
