@@ -28,9 +28,7 @@ import {
   MdOutlineSpaceDashboard,
 } from 'react-icons/md';
 import { BsPersonAdd } from 'react-icons/bs';
-import { SiReacthookform } from 'react-icons/si';
 import { FiUsers } from 'react-icons/fi';
-import { AiOutlinePaperClip } from 'react-icons/ai';
 import { PiTelevisionSimpleBold } from 'react-icons/pi';
 
 export default function Navbar({ title }) {
@@ -199,17 +197,13 @@ export default function Navbar({ title }) {
             </MenuItem>
             {user && (
               <MenuItem
-                className='!outline-none !border-none focus:!bg-white'
+                className='!outline-none !border-none focus:!bg-white font-normal leading-[14px] flex items-center gap-3'
                 px={'6px'}
                 py={'3px'}
+                onClick={handleLogout}
               >
-                <button
-                  onClick={handleLogout}
-                  className='font-normal leading-[14px] flex items-center gap-3'
-                >
-                  <IoLogOutOutline size={20} />
-                  <span>Sair</span>
-                </button>
+                <IoLogOutOutline size={20} />
+                <span>Sair</span>
               </MenuItem>
             )}
           </MenuList>

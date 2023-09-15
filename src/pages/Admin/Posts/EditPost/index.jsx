@@ -1,12 +1,16 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchPosts } from '../../../../redux/modules/posts/actions';
 import usePosts from '../../../../hooks/usePosts';
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { PostSchema } from './PostSchema';
+import { PostSchema } from '../NewPost/PostSchema';
 
 import { Editor } from 'react-draft-wysiwyg';
-import { EditorState, convertToRaw } from 'draft-js';
+import { EditorState, convertFromRaw, convertToRaw } from 'draft-js';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 import Input from '../../../../components/Global/Input';
@@ -14,7 +18,11 @@ import ButtonSubmit from '../../../../components/Global/ButtonSubmit';
 
 import { Box } from '@chakra-ui/react';
 
-export default function NewPost() {
+export default function EditPost() {
+  const { id } = useParams();
+  const { posts } = useSelector((state) => state.posts);
+  const post = posts?.find((post) => post.id === id);
+
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const handleEditorChange = (newEditorState) => {
     setEditorState(newEditorState);
@@ -28,26 +36,41 @@ export default function NewPost() {
     formState: { errors },
   } = useForm({ resolver: zodResolver(PostSchema) });
 
-  const { addPost, loading } = usePosts();
+  const { updatePost, loading } = usePosts();
+  const dispatch = useDispatch();
 
-  const handleAddPost = (formData) => {
+  const handleEditPost = (formData) => {
     const contentState = editorState.getCurrentContent();
     const contentRaw = convertToRaw(contentState);
     const contentStr = JSON.stringify(contentRaw);
 
     const data = { ...formData, postContent: contentStr };
-    addPost(data);
+    updatePost(id, data);
 
     setEditorState(EditorState.createEmpty());
     reset({ category: '', thumb: '', title: '', author: '' });
   };
+
+  useEffect(() => {
+    if (post) {
+      const contentRaw = JSON.parse(post?.postContent);
+      const contentState = convertFromRaw(contentRaw);
+      setEditorState(EditorState.createWithContent(contentState));
+    }
+  }, [post]);
+
+  useEffect(() => {
+    if (!posts) {
+      dispatch(fetchPosts());
+    }
+  }, []);
 
   return (
     <Box className='main-container flex flex-col bg-gray-200'>
       <form
         id='newPostForm'
         className='flex flex-col gap-[10px] pb-[10px]'
-        onSubmit={handleSubmit(handleAddPost)}
+        onSubmit={handleSubmit(handleEditPost)}
       >
         <Input
           theme={'light'}
@@ -58,6 +81,7 @@ export default function NewPost() {
           id={'category'}
           error={errors?.category?.message}
           watch={watch}
+          defaultValue={post?.category}
         />
         <Input
           theme={'light'}
@@ -68,6 +92,7 @@ export default function NewPost() {
           id={'thumb'}
           error={errors?.thumb?.message}
           watch={watch}
+          defaultValue={post?.thumb}
         />
         <Input
           theme={'light'}
@@ -78,6 +103,7 @@ export default function NewPost() {
           id={'title'}
           error={errors?.title?.message}
           watch={watch}
+          defaultValue={post?.title}
         />
         <Input
           theme={'light'}
@@ -88,6 +114,7 @@ export default function NewPost() {
           id={'author'}
           error={errors?.author?.message}
           watch={watch}
+          defaultValue={post?.author}
         />
       </form>
       <Box className='rounded-md overflow-hidden flex flex-col flex-grow pb-4'>
@@ -171,7 +198,7 @@ export default function NewPost() {
       <ButtonSubmit
         form='newPostForm'
         disabled={loading}
-        text={'Adicionar Post'}
+        text={'Editar Post'}
         loading={loading}
       />
     </Box>

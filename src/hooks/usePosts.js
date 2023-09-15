@@ -13,7 +13,7 @@ import {
 } from 'firebase/firestore';
 
 import { useToast } from '@chakra-ui/react';
-// import { delPost, editPost, newPost } from '../redux/modules/posts/actions';
+import { delPost, editPost, newPost } from '../redux/modules/posts/actions';
 
 const usePosts = () => {
   const [loading, setLoading] = useState(false);
@@ -35,10 +35,10 @@ const usePosts = () => {
         createdAt: Timestamp.now().toMillis(),
       };
 
-      // dispatch(newPost(data));
+      dispatch(newPost(data));
 
       toast({
-        description: 'Postulário adicionado com sucesso!',
+        description: 'Post adicionado com sucesso!',
         status: 'success',
         duration: '3000',
         isClosable: true,
@@ -64,10 +64,10 @@ const usePosts = () => {
 
       const data = { id, ...post };
 
-      // dispatch(editPost(data));
+      dispatch(editPost(data));
 
       toast({
-        description: 'Postulário atualizado com sucesso!',
+        description: 'Post atualizado com sucesso!',
         status: 'success',
         duration: '3000',
         isClosable: true,
@@ -90,10 +90,10 @@ const usePosts = () => {
       const postRef = doc(database, `posts`, id);
       await deleteDoc(postRef);
 
-      // dispatch(delPost(id));
+      dispatch(delPost(id));
 
       toast({
-        description: 'Postulário removido com sucesso!',
+        description: 'Post removido com sucesso!',
         status: 'success',
         duration: '3000',
         isClosable: true,
