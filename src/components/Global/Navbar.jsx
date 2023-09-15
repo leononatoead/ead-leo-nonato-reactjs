@@ -21,8 +21,9 @@ import {
   IoLogInOutline,
   IoPersonCircleOutline,
 } from 'react-icons/io5';
-import { BiBook } from 'react-icons/bi';
+import { BiBook, BiNews } from 'react-icons/bi';
 import {
+  MdContentPaste,
   MdOutlineNotificationsNone,
   MdOutlineSpaceDashboard,
 } from 'react-icons/md';
@@ -122,11 +123,11 @@ export default function Navbar({ title }) {
                   py={'3px'}
                   className='!outline-none !border-none focus:!bg-white'
                 >
-                  <BsPersonAdd size={20} />
                   <Link
                     to='/register'
-                    className='font-normal leading-[14px] ml-3'
+                    className='font-normal leading-[14px] flex items-center gap-3'
                   >
+                    <BsPersonAdd size={20} />
                     Cadastro
                   </Link>
                 </MenuItem>
@@ -142,11 +143,11 @@ export default function Navbar({ title }) {
                       py={'3px'}
                       className='!outline-none !border-none focus:!bg-white'
                     >
-                      <MdOutlineSpaceDashboard size={20} />
                       <Link
                         to='/dashboard'
-                        className='font-normal leading-[14px] ml-3'
+                        className='font-normal leading-[14px] flex items-center gap-3'
                       >
+                        <MdOutlineSpaceDashboard size={20} />
                         Painel
                       </Link>
                     </MenuItem>
@@ -158,11 +159,11 @@ export default function Navbar({ title }) {
                   py={'3px'}
                   className='!outline-none !border-none focus:!bg-white'
                 >
-                  <BiBook size={20} />
                   <Link
                     to='/my-courses'
-                    className='font-normal leading-[14px] ml-3'
+                    className='font-normal leading-[14px] flex items-center gap-3'
                   >
+                    <BiBook size={20} />
                     Meus Cursos
                   </Link>
                 </MenuItem>
@@ -172,11 +173,11 @@ export default function Navbar({ title }) {
                   py={'3px'}
                   className='!outline-none !border-none focus:!bg-white'
                 >
-                  <IoPersonCircleOutline size={20} />
                   <Link
                     to='/profile'
-                    className='font-normal leading-[14px] ml-3'
+                    className='font-normal leading-[14px] flex items-center gap-3'
                   >
+                    <IoPersonCircleOutline size={20} />
                     Perfil
                   </Link>
                 </MenuItem>
@@ -188,8 +189,11 @@ export default function Navbar({ title }) {
               py={'3px'}
               className='!outline-none !border-none focus:!bg-white'
             >
-              <IoHelpSharp size={20} />
-              <Link to='/faq' className='font-normal leading-[14px] ml-3'>
+              <Link
+                to='/faq'
+                className='font-normal leading-[14px] flex items-center gap-3'
+              >
+                <IoHelpSharp size={20} />
                 FAQ
               </Link>
             </MenuItem>
@@ -198,10 +202,14 @@ export default function Navbar({ title }) {
                 className='!outline-none !border-none focus:!bg-white'
                 px={'6px'}
                 py={'3px'}
-                onClick={handleLogout}
               >
-                <IoLogOutOutline size={20} />
-                <span className='font-normal leading-[14px] ml-3'>Sair</span>
+                <button
+                  onClick={handleLogout}
+                  className='font-normal leading-[14px] flex items-center gap-3'
+                >
+                  <IoLogOutOutline size={20} />
+                  <span>Sair</span>
+                </button>
               </MenuItem>
             )}
           </MenuList>
@@ -231,11 +239,11 @@ export default function Navbar({ title }) {
                 py={'3px'}
                 className='!outline-none !border-none focus:!bg-white'
               >
-                <PiTelevisionSimpleBold size={20} />
                 <Link
                   to='/dashboard/courses'
-                  className='font-normal leading-[14px] ml-3'
+                  className='font-normal leading-[14px] flex items-center gap-3'
                 >
+                  <PiTelevisionSimpleBold size={20} />
                   Cursos
                 </Link>
               </MenuItem>
@@ -244,11 +252,11 @@ export default function Navbar({ title }) {
                 py={'3px'}
                 className='!outline-none !border-none focus:!bg-white'
               >
-                <AiOutlinePaperClip size={20} />
                 <Link
                   to='/dashboard/posts'
-                  className='font-normal leading-[14px] ml-3'
+                  className='font-normal leading-[14px] flex items-center gap-3'
                 >
+                  <BiNews size={20} />
                   Newsletter
                 </Link>
               </MenuItem>
@@ -257,11 +265,11 @@ export default function Navbar({ title }) {
                 py={'3px'}
                 className='!outline-none !border-none focus:!bg-white'
               >
-                <MdOutlineNotificationsNone size={20} />
                 <Link
                   to='/dashboard/notifications'
-                  className='font-normal leading-[14px] ml-3'
+                  className='font-normal leading-[14px] flex items-center gap-3'
                 >
+                  <MdOutlineNotificationsNone size={20} />
                   Anúncios
                 </Link>
               </MenuItem>
@@ -270,7 +278,7 @@ export default function Navbar({ title }) {
                 py={'3px'}
                 className='!outline-none !border-none focus:!bg-white'
               >
-                <SiReacthookform size={20} />
+                <MdContentPaste size={20} />
                 <Link
                   to='/dashboard/forms'
                   className='font-normal leading-[14px] ml-3'
