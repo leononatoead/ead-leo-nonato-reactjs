@@ -1,36 +1,30 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchMorePosts, fetchPost, fetchPosts } from './actions';
+import { fetchMorePosts, fetchPost, fetchPosts, delPost } from './actions';
 
 const postsReducer = createSlice({
   name: 'posts',
   initialState: {},
   reducers: {
     newPost: (state, action) => {
-      const posts = JSON.parse(JSON.stringify([...state.posts]));
-      const pages = JSON.parse(JSON.stringify([...state.pages]));
-      console.log(pages);
+      const oldPosts = JSON.parse(JSON.stringify([...state.posts]));
+      let posts = [action.payload, ...oldPosts];
+      posts.pop();
 
-      let post = action.payload;
+      let pagination = [];
+      let currentPage = null;
 
-      const updatedPages = pages.map((page) => {
-        let posts = [...page.posts];
-        posts.unshift(post);
-
-        if (page.page === pages.length + 1) {
-          return { page: pages.length + 2, posts: [post] };
-        } else {
-          posts.pop();
-          post = page.posts[9];
-
-          return { ...page, posts };
+      posts.forEach((post, index) => {
+        if (index % 10 === 0) {
+          currentPage = { page: Math.floor(index / 10) + 1, posts: [] };
+          pagination.push(currentPage);
         }
+        currentPage.posts.push(post);
       });
 
-      console.log(updatedPages);
       return {
         ...state,
-        posts: [...posts, action.payload],
-        pages: updatedPages,
+        posts: [...posts],
+        pages: [pagination[0]],
       };
     },
     setCurrentPost: (state, action) => {
@@ -49,17 +43,31 @@ const postsReducer = createSlice({
 
       return { ...state, posts: updatePosts };
     },
-    delPost: (state, action) => {
-      const posts = JSON.parse(JSON.stringify([...state.posts]));
-      const filterPosts = posts.filter((post) => post.id !== action.payload);
+    // delPost: (state, action) => {
+    //   console.log(action.payload);
+    //   const posts = JSON.parse(JSON.stringify([...state.posts]));
+    //   const removePost = posts.filter((post) => post.id !== action.payload);
+    //   const newPosts = [...removePost, action.payload.post];
 
-      return {
-        ...state,
-        posts: filterPosts,
-      };
-    },
+    //   let pagination = [];
+    //   let currentPage = null;
+
+    //   filterPosts.forEach((post, index) => {
+    //     if (index % 10 === 0) {
+    //       currentPage = { page: Math.floor(index / 10) + 1, posts: [] };
+    //       pagination.push(currentPage);
+    //     }
+    //     currentPage.posts.push(post);
+    //   });
+
+    //   console.log(pagination);
+    //   return {
+    //     ...state,
+    //     posts: filterPosts,
+    //     pages: pagination,
+    //   };
+    // },
     changePage: (state, action) => {
-      console.log(action.payload);
       return {
         ...state,
         currentPage: action.payload,
@@ -78,19 +86,53 @@ const postsReducer = createSlice({
         };
       })
       .addCase(fetchMorePosts.fulfilled, (state, action) => {
-        const posts = JSON.parse(JSON.stringify([...state.posts]));
+        const oldPosts = JSON.parse(JSON.stringify([...state.posts]));
         const pages = JSON.parse(JSON.stringify([...state.pages]));
-        const page = { page: pages.length + 1, posts: action.payload };
+        const posts = [...oldPosts, ...action.payload];
+
+        let pagination = [];
+        let currentPage = null;
+
+        posts.forEach((post, index) => {
+          if (index % 10 === 0) {
+            currentPage = { page: Math.floor(index / 10) + 1, posts: [] };
+            pagination.push(currentPage);
+          }
+          currentPage.posts.push(post);
+        });
 
         return {
           ...state,
-          posts: [...posts, ...action.payload],
-          pages: [...pages, page],
-          currentPage: pages.length + 1,
+          posts: [...posts],
+          pages: pagination,
+          currentPage: pages[pages.length - 1].page + 1,
         };
       })
       .addCase(fetchPost.fulfilled, (state, action) => {
         return { ...state, currentPost: action.payload };
+      })
+      .addCase(delPost.fulfilled, (state, action) => {
+        const posts = JSON.parse(JSON.stringify([...state.posts]));
+        const removePost = posts.filter(
+          (post) => post.id !== action.payload.id,
+        );
+        const newPosts = [...removePost, action.payload.post];
+
+        let pagination = [];
+        let currentPage = null;
+        newPosts.forEach((post, index) => {
+          if (index % 10 === 0) {
+            currentPage = { page: Math.floor(index / 10) + 1, posts: [] };
+            pagination.push(currentPage);
+          }
+          currentPage.posts.push(post);
+        });
+
+        return {
+          ...state,
+          posts: newPosts,
+          pages: pagination,
+        };
       });
   },
 });

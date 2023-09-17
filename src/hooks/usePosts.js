@@ -85,12 +85,12 @@ const usePosts = () => {
     }
   };
 
-  const deletePost = async (id) => {
+  const deletePost = async (delId, lastPostId) => {
     try {
-      const postRef = doc(database, `posts`, id);
+      const postRef = doc(database, `posts`, delId);
       await deleteDoc(postRef);
 
-      dispatch(delPost(id));
+      dispatch(delPost({ delId, lastPostId }));
 
       toast({
         description: 'Post removido com sucesso!',

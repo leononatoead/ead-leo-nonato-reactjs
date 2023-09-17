@@ -113,7 +113,7 @@ export default function Home() {
           </Heading>
 
           <Link
-            to='/'
+            to='/newsletter'
             className='font-poppins text-small leading-[18px] text-primary-400/80'
           >
             Ver todos

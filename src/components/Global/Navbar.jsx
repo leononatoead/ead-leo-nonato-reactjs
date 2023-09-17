@@ -58,7 +58,9 @@ export default function Navbar({ title }) {
     }
 
     if (removeBlank.includes('post') && removeBlank.length === 2) {
-      removeBlank.pop();
+      // removeBlank.pop();
+      navigate(-1);
+      return;
     }
 
     if (removeBlank.length > 0) {

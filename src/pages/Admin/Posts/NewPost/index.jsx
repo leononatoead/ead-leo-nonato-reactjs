@@ -17,8 +17,7 @@ import { Box } from '@chakra-ui/react';
 import { fetchPosts } from '../../../../redux/modules/posts/actions';
 
 export default function NewPost() {
-  const { posts, pages } = useSelector((state) => state.posts);
-  console.log(pages);
+  const { posts } = useSelector((state) => state.posts);
 
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const handleEditorChange = (newEditorState) => {
@@ -44,8 +43,8 @@ export default function NewPost() {
     const data = { ...formData, postContent: contentStr };
     addPost(data);
 
-    // setEditorState(EditorState.createEmpty());
-    // reset({ category: '', thumb: '', title: '', author: '' });
+    setEditorState(EditorState.createEmpty());
+    reset({ category: '', thumb: '', title: '', author: '' });
   };
 
   useEffect(() => {

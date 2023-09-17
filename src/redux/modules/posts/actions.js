@@ -103,6 +103,47 @@ export const fetchPost = createAsyncThunk('posts/fetchPost', async (id) => {
   }
 });
 
+export const delPost = createAsyncThunk('posts/delPost', async (data) => {
+  const collectionRef = collection(database, 'posts');
+  const lastPost = doc(database, 'posts', data.lastPostId);
+
+  try {
+    const lastPostSnapshot = await getDoc(lastPost);
+
+    const q = query(
+      collectionRef,
+      orderBy('createdAt', 'desc'),
+      startAfter(lastPostSnapshot),
+      limit(1),
+    );
+
+    return new Promise((resolve, reject) => {
+      onSnapshot(
+        q,
+        (querySnapshot) => {
+          const post = querySnapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+            createdAt: doc.data().createdAt.toMillis(),
+          }));
+
+          const delData = {
+            id: data.delId,
+            post: post[0],
+          };
+
+          resolve(delData);
+        },
+        (error) => {
+          reject(error);
+        },
+      );
+    });
+  } catch (error) {
+    console.log(error.message);
+  }
+});
+
 export const newPost = (data) => async (dispatch) => {
   dispatch({
     type: 'posts/newPost',
@@ -124,12 +165,12 @@ export const editPost = (data) => async (dispatch) => {
   });
 };
 
-export const delPost = (data) => async (dispatch) => {
-  dispatch({
-    type: 'posts/delPost',
-    payload: data,
-  });
-};
+// export const delPost = (data) => async (dispatch) => {
+//   dispatch({
+//     type: 'posts/delPost',
+//     payload: data,
+//   });
+// };
 
 export const changePage = (page) => async (dispatch) => {
   dispatch({
