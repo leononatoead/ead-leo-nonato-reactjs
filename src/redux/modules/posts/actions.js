@@ -130,3 +130,10 @@ export const delPost = (data) => async (dispatch) => {
     payload: data,
   });
 };
+
+export const changePage = (page) => async (dispatch) => {
+  dispatch({
+    type: 'posts/changePage',
+    payload: page,
+  });
+};

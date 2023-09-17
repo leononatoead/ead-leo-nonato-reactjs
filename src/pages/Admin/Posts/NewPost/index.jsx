@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import usePosts from '../../../../hooks/usePosts';
 
 import { useForm } from 'react-hook-form';
@@ -13,8 +14,12 @@ import Input from '../../../../components/Global/Input';
 import ButtonSubmit from '../../../../components/Global/ButtonSubmit';
 
 import { Box } from '@chakra-ui/react';
+import { fetchPosts } from '../../../../redux/modules/posts/actions';
 
 export default function NewPost() {
+  const { posts, pages } = useSelector((state) => state.posts);
+  console.log(pages);
+
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const handleEditorChange = (newEditorState) => {
     setEditorState(newEditorState);
@@ -29,6 +34,7 @@ export default function NewPost() {
   } = useForm({ resolver: zodResolver(PostSchema) });
 
   const { addPost, loading } = usePosts();
+  const dispatch = useDispatch();
 
   const handleAddPost = (formData) => {
     const contentState = editorState.getCurrentContent();
@@ -38,10 +44,15 @@ export default function NewPost() {
     const data = { ...formData, postContent: contentStr };
     addPost(data);
 
-    setEditorState(EditorState.createEmpty());
-    reset({ category: '', thumb: '', title: '', author: '' });
+    // setEditorState(EditorState.createEmpty());
+    // reset({ category: '', thumb: '', title: '', author: '' });
   };
 
+  useEffect(() => {
+    if (!posts) {
+      dispatch(fetchPosts());
+    }
+  }, []);
   return (
     <Box className='main-container flex flex-col bg-gray-200'>
       <form
