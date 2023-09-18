@@ -64,7 +64,7 @@ export default function NewsletterPost() {
         <Image
           src={currentPost?.thumb}
           alt='thumbnail'
-          className='h-52 w-full object-cover rounded-lg mb-4'
+          className='h-52 w-full object-cover rounded-2xl mb-4'
         />
         <Editor
           editorState={editorState}

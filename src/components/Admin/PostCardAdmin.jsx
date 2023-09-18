@@ -20,7 +20,7 @@ export default function PostCardAdmin({ post }) {
         h={'104px'}
         className='rounded-sm object-cover'
       />
-      <Box className='flex flex-col justify-start min-h-full overflow-hidden'>
+      <Box className='flex flex-col justify-start min-h-full overflow-hidden w-full'>
         <Box className='flex-grow'>
           <Heading className='!text-base !font-poppins !font-semibold !leading-5 !text-primary-600 max-h-16 break-title -mt-1'>
             {post.title}
