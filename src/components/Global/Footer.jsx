@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 export default function Footer() {
   return (
-    <Box className='!flex !flex-col !items-center !justify-center py-16 gap-[40px]'>
+    <Box className='!flex !flex-col !items-center !justify-center pt-24 pb-8 gap-[40px]'>
       <Box className='!text-gray-300 !flex !items-center !justify-center gap-7 !text-normal'>
         <Link to='https://twitter.com/leononatotrade'>
           <FaTwitter size={16} />

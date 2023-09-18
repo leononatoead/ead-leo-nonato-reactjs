@@ -1,6 +1,8 @@
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchPosts } from '../../redux/modules/posts/actions';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -13,15 +15,25 @@ import Banner from '../../components/Global/Home/Banner';
 import Footer from '../../components/Global/Footer';
 
 import { Box, Heading } from '@chakra-ui/react';
+import PostCard from '../../components/Global/Home/PostCard';
 
 export default function Home() {
   const [openLoginModal, setOpenLoginModal] = useState(false);
 
   const courses = useSelector((state) => state.courses.courses);
+  const { pages } = useSelector((state) => state.posts);
   const { user } = useSelector((state) => state.auth);
 
   const freeCourses = courses?.filter((course) => course.isFree);
   const paidCourses = courses?.filter((course) => !course.isFree);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!pages) {
+      dispatch(fetchPosts());
+    }
+  }, []);
 
   return (
     <main className='h-screen overflow-y-auto bg-[#f0f0f0]'>
@@ -53,61 +65,65 @@ export default function Home() {
         </SwiperSlide>
       </Swiper>
 
-      <section className='px-4'>
-        <Box className='flex justify-between items-center pt-4 pb-5'>
-          <Heading className='!font-poppins !text-large !leading-6 !font-semibold  !text-primary-600'>
-            Cursos gratuitos
-          </Heading>
+      <section>
+        <Box className='px-4'>
+          <Box className='flex justify-between items-center pt-4 pb-5'>
+            <Heading className='!font-poppins !text-large !leading-6 !font-semibold  !text-primary-600'>
+              Cursos gratuitos
+            </Heading>
+          </Box>
+
+          {freeCourses && (
+            <Swiper
+              spaceBetween={16}
+              slidesPerView={1.5}
+              className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6'
+            >
+              {freeCourses.map((course) => (
+                <SwiperSlide key={course.id} className='!w-40'>
+                  <VideoCard
+                    courseData={course}
+                    setOpenLoginModal={setOpenLoginModal}
+                  />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          )}
         </Box>
 
-        {freeCourses && (
-          <Swiper
-            spaceBetween={16}
-            slidesPerView={1.5}
-            className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6'
-          >
-            {freeCourses.map((course) => (
-              <SwiperSlide key={course.id} className='!w-40'>
-                <VideoCard
-                  courseData={course}
-                  setOpenLoginModal={setOpenLoginModal}
-                />
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        )}
+        <Box className='px-4'>
+          <Box className='flex justify-between items-center pt-4 pb-5'>
+            <Heading className='!font-poppins !text-large !leading-6 !font-semibold  !text-primary-600 '>
+              Cursos pagos
+            </Heading>
 
-        <Box className='flex justify-between items-center pt-4 pb-5'>
-          <Heading className='!font-poppins !text-large !leading-6 !font-semibold  !text-primary-600 '>
-            Cursos pagos
-          </Heading>
+            <Link
+              to='/'
+              className='font-poppins text-small leading-[18px] text-primary-400/80'
+            >
+              Ver todos
+            </Link>
+          </Box>
 
-          <Link
-            to='/'
-            className='font-poppins text-small leading-[18px] text-primary-400/80'
-          >
-            Ver todos
-          </Link>
+          {paidCourses && (
+            <Swiper
+              spaceBetween={16}
+              slidesPerView={1.5}
+              className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6'
+            >
+              {paidCourses.map((course) => (
+                <SwiperSlide key={course.id} className='!w-40'>
+                  <VideoCard
+                    courseData={course}
+                    setOpenLoginModal={setOpenLoginModal}
+                  />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          )}
         </Box>
 
-        {paidCourses && (
-          <Swiper
-            spaceBetween={16}
-            slidesPerView={1.5}
-            className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6'
-          >
-            {paidCourses.map((course) => (
-              <SwiperSlide key={course.id} className='!w-40'>
-                <VideoCard
-                  courseData={course}
-                  setOpenLoginModal={setOpenLoginModal}
-                />
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        )}
-
-        <Box className='flex justify-between items-center pt-4 pb-5'>
+        <Box className='flex justify-between items-center pt-4 pb-5 px-4'>
           <Heading className='!font-poppins !text-large !leading-6 !font-semibold  !text-primary-600 '>
             Newsletter
           </Heading>
@@ -119,6 +135,33 @@ export default function Home() {
             Ver todos
           </Link>
         </Box>
+
+        {pages && (
+          <Swiper spaceBetween={1} slidesPerView={1.1} className='pl-4 pb-4'>
+            {pages[0].posts.map((post, index) => {
+              if (index > 5) {
+                return (
+                  <SwiperSlide key={post.id} className='!min-w-[170px]'>
+                    <PostCard post={post} />
+                  </SwiperSlide>
+                );
+              }
+            })}
+          </Swiper>
+        )}
+        {pages && (
+          <Swiper spaceBetween={1} slidesPerView={1.1} className='pl-4'>
+            {pages[0].posts.map((post, index) => {
+              if (index <= 5) {
+                return (
+                  <SwiperSlide key={post.id} className='!min-w-[170px]'>
+                    <PostCard post={post} />
+                  </SwiperSlide>
+                );
+              }
+            })}
+          </Swiper>
+        )}
       </section>
       <Footer />
       <LoginModal
