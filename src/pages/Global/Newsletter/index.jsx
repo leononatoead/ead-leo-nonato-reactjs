@@ -13,14 +13,8 @@ export default function Newsletter() {
   const page = pages?.find((page) => page.page === currentPage);
 
   const dispatch = useDispatch();
-  // const selectedCategory = 'Todos';
-  // const categories = [
-  //   'Todos',
-  //   'Ações',
-  //   'Finanças',
-  //   'Trade',
-  //   'Fundos de Investimento',
-  // ];
+  const selectedCategory = 'Todos';
+  const categories = ['Todos', 'Ações', 'Dólar', 'Fundos', 'Investimentos'];
 
   useEffect(() => {
     if (!pages) {
@@ -34,12 +28,20 @@ export default function Newsletter() {
       {/* TODO: SEARCHBAR DE POSTS */}
 
       {/* TODO: SLIDER DE CATEGORIAS */}
-      {/* <Swiper spaceBetween={'2px'} slidesPerView={3.5} className='pl-4 pt-5'>
+      {/* <Swiper
+        spaceBetween={'4px'}
+        slidesPerView={3.5}
+        className='pl-4 pt-5'
+        freeMode={true}
+      >
         {categories?.map((category, index) => {
           return (
-            <SwiperSlide key={index}>
+            <SwiperSlide
+              key={index}
+              className={`${index === categories.length - 1 && 'mr-10'} w-auto`}
+            >
               <Text
-                className={`px-4 w-max py-2 rounded-full text-center border-[1px] whitespace-nowrap ${
+                className={`w-auto px-4 py-2 rounded-full text-center border-[1px] whitespace-nowrap ${
                   selectedCategory === category
                     ? 'bg-primary-400 border-primary-400 text-white'
                     : 'bg-white border-gray-100 font-medium'

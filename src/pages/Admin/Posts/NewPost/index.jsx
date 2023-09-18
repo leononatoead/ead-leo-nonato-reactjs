@@ -59,21 +59,38 @@ export default function NewPost() {
         className='flex flex-col gap-[10px] pb-[10px]'
         onSubmit={handleSubmit(handleAddPost)}
       >
-        <Input
-          theme={'light'}
-          type={'text'}
-          label={'Categoria'}
-          placeholder={'Digite aqui'}
-          register={register}
-          id={'category'}
-          error={errors?.category?.message}
-          watch={watch}
-        />
+        <Box>
+          <label
+            htmlFor={'category'}
+            className='text-base leading-5 mb-[9px] block'
+          >
+            Tipo
+          </label>
+          <select
+            id='category'
+            {...register('category')}
+            className={`w-full rounded-[4px] px-3 py-[5px] leading-5 text-base outline-none bg-white placeholder:text-gray-900 shadow-sm shadow-gray-900/50`}
+          >
+            <option value='Ações'>Ações</option>
+            <option value='Dólar'>Dólar</option>
+            <option value='Fundos'>Fundos</option>
+            <option value='Investimentos'>Investimentos</option>
+          </select>
+          {errors?.category?.message ? (
+            <span className='text-small text-red-500 -mt-1'>
+              {errors?.category?.message}
+            </span>
+          ) : (
+            errors?.placeholder?.message && (
+              <span className='text-small text-transparent -mt-1'>a</span>
+            )
+          )}
+        </Box>
         <Input
           theme={'light'}
           type={'text'}
           label={'Thumbnail'}
-          placeholder={'Digite aqui'}
+          placeholder={'https://www.exemplo.com.br/image'}
           register={register}
           id={'thumb'}
           error={errors?.thumb?.message}

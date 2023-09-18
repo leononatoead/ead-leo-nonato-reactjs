@@ -41,32 +41,19 @@ const postsReducer = createSlice({
         }
       });
 
-      return { ...state, posts: updatePosts };
+      let pagination = [];
+      let currentPage = null;
+
+      updatePosts.forEach((post, index) => {
+        if (index % 10 === 0) {
+          currentPage = { page: Math.floor(index / 10) + 1, posts: [] };
+          pagination.push(currentPage);
+        }
+        currentPage.posts.push(post);
+      });
+
+      return { ...state, posts: updatePosts, pages: pagination };
     },
-    // delPost: (state, action) => {
-    //   console.log(action.payload);
-    //   const posts = JSON.parse(JSON.stringify([...state.posts]));
-    //   const removePost = posts.filter((post) => post.id !== action.payload);
-    //   const newPosts = [...removePost, action.payload.post];
-
-    //   let pagination = [];
-    //   let currentPage = null;
-
-    //   filterPosts.forEach((post, index) => {
-    //     if (index % 10 === 0) {
-    //       currentPage = { page: Math.floor(index / 10) + 1, posts: [] };
-    //       pagination.push(currentPage);
-    //     }
-    //     currentPage.posts.push(post);
-    //   });
-
-    //   console.log(pagination);
-    //   return {
-    //     ...state,
-    //     posts: filterPosts,
-    //     pages: pagination,
-    //   };
-    // },
     changePage: (state, action) => {
       return {
         ...state,
