@@ -111,6 +111,19 @@ export default function Navbar({ title }) {
             px={3}
             py={2}
           >
+            <MenuItem
+              px={'6px'}
+              py={'3px'}
+              className='!outline-none !border-none focus:!bg-white'
+            >
+              <Link
+                to='/newsletter'
+                className='font-normal leading-[14px] flex items-center gap-3'
+              >
+                <BiNews size={20} />
+                Newsletter
+              </Link>
+            </MenuItem>
             {!user && (
               <>
                 <MenuItem

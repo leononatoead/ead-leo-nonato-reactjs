@@ -66,6 +66,7 @@ export default function Input({
             } placeholder:text-gray-900`}
             autoComplete='false'
             defaultValue={defaultValue}
+            step='any'
           />
         ) : (
           <input

@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 
 import Home from '../pages/Global/Home';
+import HomeCourses from '../pages/Global/Courses';
 import Course from '../pages/Global/Course';
 import Newsletter from '../pages/Global/Newsletter';
 import VerifyPhone from '../pages/Auth/VerifyPhone';
@@ -80,9 +81,10 @@ export default function UserAuthenticatedRoutes({ user }) {
 
       <Route path='/profile' element={<Profile />} />
       <Route path='/faq' element={<FAQ />} />
-      {/* <Route path='/my-courses' element={<MyCourses />} /> */}
+      <Route path='/courses' element={<HomeCourses />} />
       <Route path='/course/:id' element={<Course />} />
       <Route path='/course/:id/:id' element={<CourseWatch />} />
+      {/* <Route path='/my-courses' element={<MyCourses />} /> */}
       <Route path='/newsletter' element={<Newsletter />} />
     </Routes>
   );

@@ -1,54 +1,69 @@
+import { Link } from 'react-router-dom';
+
 import ModalComponent from './ModalComponent';
 
-import premium from '../../assets/premium.png';
 import { Image } from '@chakra-ui/image';
 import { ModalBody } from '@chakra-ui/modal';
 import { Flex, Heading, Text } from '@chakra-ui/layout';
-import { Link } from 'react-router-dom';
 
-export default function PremiumContent({
-  open,
-  close,
-  title,
-  text,
-  btnText,
-  closeBtn,
-  checkoutUrl,
-}) {
+import { BiCartAdd } from 'react-icons/bi';
+
+export default function PremiumContent({ open, close, courseData }) {
   const handleCloseModal = () => {
     close(false);
   };
 
+  console.log(courseData);
   return (
     <ModalComponent
       openModal={open}
       setOpenModal={close}
       handleCloseModal={handleCloseModal}
-      hasCloseButton={closeBtn}
+      hasCloseButton={true}
     >
       <ModalBody>
         <Flex flexDirection={'column'} justify={'center'} align={'center'}>
-          <Image src={premium} alt='locked' className='w-[80px]' mb={6} />
+          <Image
+            src={courseData.imagePath}
+            alt='locked'
+            className='w-20 h-20 object-cover rounded-2xl'
+            mb={6}
+          />
           <Heading
             className='!font-poppins !text-large !w-full !font-semibold !leading-6 !text-primary-500 !text-center'
             mb={2}
           >
-            {title}
+            {courseData.name}
           </Heading>
           <Text className='font-medium leading-5 text-base text-center ' mb={8}>
-            {text}
+            {courseData.description}
           </Text>
 
-          <Link
-            to={checkoutUrl}
-            className='w-full text-center bg-primary-400 rounded-[4px] px-3 py-[5px] text-white text-base leading-5'
-          >
-            {btnText}
-          </Link>
-
-          <Link to='/' className='w-full text-center mt-4'>
-            Voltar
-          </Link>
+          <Flex className='w-full' justifyContent={'space-between'}>
+            <Flex flexDirection={'column'}>
+              <Text className='text-[#FF8E00] text-normal font-medium leading-[18px]'>
+                {courseData.price?.toLocaleString('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                })}
+              </Text>
+              <Text className='text-gray-800 text-small leading-[18px]'>
+                ou 12x{' '}
+                {((courseData.price * 1.05) / 12)?.toLocaleString('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                })}
+              </Text>
+            </Flex>
+            <Link
+              to={courseData.paymentURL}
+              target='_blank'
+              className='text-center bg-primary-400 rounded-[4px] px-4 py-[5px] text-white text-base leading-5 flex items-center gap-2'
+            >
+              Comprar agora
+              <BiCartAdd size={20} className='text-white' />
+            </Link>
+          </Flex>
         </Flex>
       </ModalBody>
     </ModalComponent>

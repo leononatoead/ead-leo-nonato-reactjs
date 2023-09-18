@@ -36,12 +36,7 @@ const useCourse = () => {
   const dispatch = useDispatch();
   const toast = useToast();
 
-  const addNewCourse = (
-    courseData,
-    docCollection,
-    imageFile,
-    setOpenCourseModal,
-  ) => {
+  const addNewCourse = (courseData, docCollection, imageFile) => {
     setLoading(true);
 
     if (imageFile === null) {
@@ -149,7 +144,6 @@ const useCourse = () => {
             isClosable: true,
           });
         } finally {
-          setOpenCourseModal(false);
           setLoading(false);
         }
       },

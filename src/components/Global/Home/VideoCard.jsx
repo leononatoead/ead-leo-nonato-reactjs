@@ -2,10 +2,10 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { Card, CardBody, CardFooter, Image } from '@chakra-ui/react';
+import { Box, Card, CardBody, CardFooter, Image, Text } from '@chakra-ui/react';
 import PremiumContent from '../PremiumContent';
 
-import { BiLockAlt } from 'react-icons/bi';
+import { BiCartAdd, BiLockAlt } from 'react-icons/bi';
 
 export default function VideoCard({ courseData, setOpenLoginModal }) {
   const [openPremiumModal, setOpenPremiumModal] = useState(false);
@@ -13,31 +13,36 @@ export default function VideoCard({ courseData, setOpenLoginModal }) {
 
   return (
     <>
-      {!user && (
-        <Card
-          p={0}
-          bg={'transparent'}
-          className='!rounded-sm !overflow-hidden !shadow-none !w-40'
-          onClick={() => setOpenLoginModal(true)}
-        >
-          <CardBody p={0}>
-            <Image
-              src={courseData.imagePath}
-              className='!rounded-sm object-cover'
-              width={160}
-              height={100}
-            />
-          </CardBody>
-          <CardFooter p={0} mt={2} className='flex justify-between items-start'>
-            <span className='text-base text-primary-600 !font-medium leading-[18px]'>
-              {courseData.name}
-            </span>
-            <BiLockAlt className='text-primary-600' />
-          </CardFooter>
-        </Card>
-      )}
+      {!user &&
+        !courseData.isPremium(
+          <Card
+            p={0}
+            bg={'transparent'}
+            className='!rounded-sm !overflow-hidden !shadow-none !w-40'
+            onClick={() => setOpenLoginModal(true)}
+          >
+            <CardBody p={0}>
+              <Image
+                src={courseData.imagePath}
+                className='!rounded-sm object-cover'
+                width={160}
+                height={100}
+              />
+            </CardBody>
+            <CardFooter
+              p={0}
+              mt={2}
+              className='flex justify-between items-start'
+            >
+              <span className='text-base text-primary-600 !font-medium leading-[18px]'>
+                {courseData.name}
+              </span>
+              <BiLockAlt className='text-primary-600' />
+            </CardFooter>
+          </Card>,
+        )}
 
-      {user && courseData.isFree && (
+      {user && !courseData.isPremium && (
         <Link to={`/course/${courseData.id}`}>
           <Card
             p={0}
@@ -61,7 +66,7 @@ export default function VideoCard({ courseData, setOpenLoginModal }) {
         </Link>
       )}
 
-      {user && !courseData.isFree && user.isPremium && (
+      {user && user.isPremium && courseData.isPremium && (
         <Link to={`/course/${courseData.id}`}>
           <Card
             p={0}
@@ -85,7 +90,7 @@ export default function VideoCard({ courseData, setOpenLoginModal }) {
         </Link>
       )}
 
-      {user && !courseData.isFree && !user.isPremium && (
+      {user && courseData.isPremium && !user.isPremium && (
         <Card
           p={0}
           bg={'transparent'}
@@ -100,11 +105,19 @@ export default function VideoCard({ courseData, setOpenLoginModal }) {
               height={100}
             />
           </CardBody>
-          <CardFooter p={0} mt={2} className='flex justify-between items-start'>
-            <span className='text-base text-primary-600 !font-medium leading-[18px]'>
+          <CardFooter p={0} mt={2} className='flex flex-col'>
+            <Box className='flex justify-between items-start'>
+              <Text className='text-[#FF8E00] text-small font-medium leading-[18px]'>
+                {courseData.price?.toLocaleString('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                })}
+              </Text>
+              <BiCartAdd size={20} className='text-primary-600' />
+            </Box>
+            <Text className='text-base text-primary-600 !font-medium leading-[18px]'>
               {courseData.name}
-            </span>
-            <BiLockAlt className='text-primary-600' />
+            </Text>
           </CardFooter>
         </Card>
       )}
@@ -118,6 +131,7 @@ export default function VideoCard({ courseData, setOpenLoginModal }) {
         }
         btnText={'Assine já'}
         closeBtn={false}
+        courseData={courseData}
       />
     </>
   );

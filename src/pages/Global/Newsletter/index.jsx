@@ -2,15 +2,16 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPosts } from '../../../redux/modules/posts/actions';
 
-import Navbar from '../../../components/Global/Navbar';
-import { Box, Text } from '@chakra-ui/react';
-import PostCard from '../../../components/Global/PostCard';
-import Pagination from '../../../components/Global/Pagination';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
+import Navbar from '../../../components/Global/Navbar';
+import PostCard from '../../../components/Global/PostCard';
+import Pagination from '../../../components/Global/Pagination';
+
+import { Box, Text } from '@chakra-ui/react';
+
 export default function Newsletter() {
-  const { pages, currentPage } = useSelector((state) => state.posts);
-  // const page = pages?.find((page) => page.page === currentPage);
+  const { posts, pages, currentPage } = useSelector((state) => state.posts);
 
   const dispatch = useDispatch();
   const [categories, setCategories] = useState({
@@ -20,7 +21,18 @@ export default function Newsletter() {
   });
 
   const handleSelectCategory = (category) => {
-    setCategories((prev) => ({ ...prev, selectedCategory: category }));
+    let page;
+    if (category === 'Todos') {
+      page = pages?.find((page) => page.page === 1);
+    }
+    {
+      const filterByCategory = posts.filter(
+        (post) => post.category === category,
+      );
+      page = { page: 1, posts: filterByCategory };
+    }
+
+    setCategories((prev) => ({ ...prev, selectedCategory: category, page }));
   };
 
   useEffect(() => {

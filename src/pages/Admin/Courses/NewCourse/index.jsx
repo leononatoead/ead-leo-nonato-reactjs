@@ -106,6 +106,16 @@ export default function NewCourse() {
           <>
             <Input
               theme={'light'}
+              type={'number'}
+              label={'Preço'}
+              placeholder={'R$ 0,00'}
+              register={register}
+              id={'price'}
+              error={errors?.price?.message}
+              watch={watch}
+            />
+            <Input
+              theme={'light'}
               type={'text'}
               label={'Referência de pagamento'}
               placeholder={'Digite aqui'}
@@ -118,7 +128,7 @@ export default function NewCourse() {
               theme={'light'}
               type={'text'}
               label={'Checkout de pagamento (URL)'}
-              placeholder={'Digite aqui'}
+              placeholder={'https://exemplo.com/'}
               register={register}
               id={'paymentURL'}
               error={errors?.paymentURL?.message}

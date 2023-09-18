@@ -52,6 +52,7 @@ export default function EditCourse() {
 
   const handleEditCourse = async (formData) => {
     const data = { ...formData, isPremium, needAuth, isHidden };
+    console.log(data);
 
     if (imageFile) {
       editCourseWithImage(course, data, 'courses', imageFile);
@@ -123,6 +124,16 @@ export default function EditCourse() {
           <>
             <Input
               theme={'light'}
+              type={'number'}
+              label={'Preço'}
+              placeholder={'R$ 0,00'}
+              register={register}
+              id={'price'}
+              error={errors?.price?.message}
+              watch={watch}
+            />
+            <Input
+              theme={'light'}
               type={'text'}
               label={'Referência de pagamento'}
               placeholder={'Digite aqui'}
@@ -135,7 +146,7 @@ export default function EditCourse() {
               theme={'light'}
               type={'text'}
               label={'Checkout de pagamento (URL)'}
-              placeholder={'Digite aqui'}
+              placeholder={'https://exemplo.com/'}
               register={register}
               id={'paymentURL'}
               error={errors?.paymentURL?.message}
@@ -148,7 +159,11 @@ export default function EditCourse() {
             Curso pago:
           </Text>
           <Box className='flex justify-start items-center gap-4'>
-            <Switch id='isPremium' onChange={() => handleSwitch('isPremium')} />
+            <Switch
+              id='isPremium'
+              onChange={() => handleSwitch('isPremium')}
+              value={course.isPremium}
+            />
             <label htmlFor={'isPremium'} className='text-base leading-5'>
               {isPremium ? 'Sim' : 'Não'}
             </label>
@@ -163,6 +178,7 @@ export default function EditCourse() {
               id='needAuth'
               defaultChecked
               onChange={() => handleSwitch('needAuth')}
+              value={course.needAuth}
             />
             <label htmlFor={'needAuth'} className='text-base leading-5'>
               {needAuth ? 'Sim' : 'Não'}
@@ -178,6 +194,7 @@ export default function EditCourse() {
               id='isHidden'
               defaultChecked
               onChange={() => handleSwitch('isHidden')}
+              value={course.isHidden}
             />
             <label htmlFor={'isHidden'} className='text-base leading-5'>
               {isHidden ? 'Privado' : 'Público'}

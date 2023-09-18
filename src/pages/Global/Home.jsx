@@ -24,8 +24,8 @@ export default function Home() {
   const { pages } = useSelector((state) => state.posts);
   const { user } = useSelector((state) => state.auth);
 
-  const freeCourses = courses?.filter((course) => course.isFree);
-  const paidCourses = courses?.filter((course) => !course.isFree);
+  const freeCourses = courses?.filter((course) => !course.isPremium);
+  const paidCourses = courses?.filter((course) => course.isPremium);
 
   const dispatch = useDispatch();
 
@@ -98,7 +98,7 @@ export default function Home() {
             </Heading>
 
             <Link
-              to='/'
+              to='/courses'
               className='font-poppins text-small leading-[18px] text-primary-400/80'
             >
               Ver todos

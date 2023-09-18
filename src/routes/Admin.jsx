@@ -1,10 +1,13 @@
 import { Routes, Route } from 'react-router-dom';
 
 import Home from '../pages/Global/Home';
+import Profile from '../pages/Global/Profile';
+import HomeCourses from '../pages/Global/Courses';
 import Course from '../pages/Global/Course';
 import CourseWatch from '../pages/Global/CourseWatch';
 import Newsletter from '../pages/Global/Newsletter';
 import NewsletterPost from '../pages/Global/Newsletter/NewsletterPost';
+import FAQ from '../pages/Global/FAQ';
 
 import Dashboard from '../pages/Admin/Dashboard';
 import Courses from '../pages/Admin/Courses';
@@ -16,8 +19,6 @@ import EditCourse from '../pages/Admin/Courses/EditCourse';
 import DashboardFAQ from '../pages/Admin/FAQ';
 import NewQuestion from '../pages/Admin/FAQ/NewQuestion';
 import EditQuestion from '../pages/Admin/FAQ/EditQuestion';
-import Profile from '../pages/Global/Profile';
-import FAQ from '../pages/Global/FAQ';
 import Forms from '../pages/Admin/Forms';
 import NewForm from '../pages/Admin/Forms/NewForm';
 import EditForm from '../pages/Admin/Forms/EditForm';
@@ -29,6 +30,7 @@ export default function AdminRoutes() {
   return (
     <Routes>
       <Route path='/' element={<Home />} />
+      <Route path='/courses' element={<HomeCourses />} />
       <Route path='/course/:id' element={<Course />} />
       <Route path='/course/:id/:id' element={<CourseWatch />} />
       <Route path='/newsletter' element={<Newsletter />} />
