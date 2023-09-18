@@ -3,14 +3,40 @@ import { Link } from "react-router-dom";
 import AuthHeader from "../../../components/Auth/AuthHeader";
 
 import { AiOutlineCheckCircle } from "react-icons/ai";
-import { Box, Flex, Heading, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Heading,
+  Text,
+  Step,
+  StepDescription,
+  StepIcon,
+  StepIndicator,
+  StepNumber,
+  StepSeparator,
+  StepStatus,
+  StepTitle,
+  Stepper,
+  useSteps,
+} from "@chakra-ui/react";
 
 export default function VerifySucess() {
+  const steps = [
+    { title: "", description: "" },
+    { title: "", description: "" },
+    { title: "", description: "" },
+  ];
+
+  const { activeStep } = useSteps({
+    index: 3,
+    count: steps.length,
+  });
+
   return (
     <Flex
       flexDirection={"column"}
       className="min-h-screen bg-gray-200"
-      p={{ lg: "10rem 35%" }}
+      p={{ lg: "5rem 30%" }}
     >
       <AuthHeader step={4} />
 
@@ -24,6 +50,30 @@ export default function VerifySucess() {
         background={{ lg: "white" }}
       >
         <Box px={4} mt={1}>
+          <Stepper
+            index={activeStep}
+            mb={"1rem"}
+            display={{ base: "none", lg: "flex" }}
+          >
+            {steps.map((step, index) => (
+              <Step key={index}>
+                <StepIndicator>
+                  <StepStatus
+                    complete={<StepIcon />}
+                    incomplete={<StepNumber />}
+                    active={<StepNumber />}
+                  />
+                </StepIndicator>
+
+                <Box flexShrink="0">
+                  <StepTitle>{step.title}</StepTitle>
+                  <StepDescription>{step.description}</StepDescription>
+                </Box>
+
+                <StepSeparator />
+              </Step>
+            ))}
+          </Stepper>
           <AiOutlineCheckCircle size={80} className="text-[#89D185] mb-6" />
           <Heading
             className="!font-bold !font-poppins !text-large !leading-6 text-primary-600"

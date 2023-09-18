@@ -6,7 +6,23 @@ import useAuth from "../../../hooks/useAuth";
 import { Link } from "react-router-dom";
 import AuthHeader from "../../../components/Auth/AuthHeader";
 
-import { Box, Flex, Heading, Text, useMediaQuery } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Heading,
+  Text,
+  useMediaQuery,
+  Step,
+  StepDescription,
+  StepIcon,
+  StepIndicator,
+  StepNumber,
+  StepSeparator,
+  StepStatus,
+  StepTitle,
+  Stepper,
+  useSteps,
+} from "@chakra-ui/react";
 
 export default function VerifyEmail() {
   const [timer, setTimer] = useState(60);
@@ -14,6 +30,17 @@ export default function VerifyEmail() {
   const user = useSelector((state) => state.auth.user);
 
   const [isLargerThanLg] = useMediaQuery("(min-width: 992px)");
+
+  const steps = [
+    { title: "", description: "" },
+    { title: "", description: "" },
+    { title: "", description: "" },
+  ];
+
+  const { activeStep } = useSteps({
+    index: 2,
+    count: steps.length,
+  });
 
   const { verifyEmail } = useAuth();
 
@@ -56,6 +83,30 @@ export default function VerifyEmail() {
         background={{ lg: "white" }}
       >
         <Box className="mt-6 mb-8 flex flex-col gap-2 px-4">
+          <Stepper
+            index={activeStep}
+            mb={"1rem"}
+            display={{ base: "none", lg: "flex" }}
+          >
+            {steps.map((step, index) => (
+              <Step key={index}>
+                <StepIndicator>
+                  <StepStatus
+                    complete={<StepIcon />}
+                    incomplete={<StepNumber />}
+                    active={<StepNumber />}
+                  />
+                </StepIndicator>
+
+                <Box flexShrink="0">
+                  <StepTitle>{step.title}</StepTitle>
+                  <StepDescription>{step.description}</StepDescription>
+                </Box>
+
+                <StepSeparator />
+              </Step>
+            ))}
+          </Stepper>
           <Heading className="!font-bold !font-poppins !text-large !leading-6 text-primary-600">
             Verifique seu e-mail
           </Heading>

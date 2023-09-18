@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -7,18 +7,18 @@
 /* GLOBAL */
 
 * {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   outline: none !important;
 }
 
-input[type='number']::-webkit-inner-spin-button {
+input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
 
 /* AUTH */
 
 .auth-header-bg {
-  background-image: url('./assets/bg-light.png');
+  background-image: url("./assets/bg-light.png");
 }
 
 .auth-bg {
@@ -27,7 +27,7 @@ input[type='number']::-webkit-inner-spin-button {
       rgba(255, 255, 255, 0.8) 0%,
       rgba(255, 255, 255, 0.8) 100%
     ),
-    url('./assets/auth-bg.jpeg'), lightgray 50%;
+    url("./assets/auth-bg.jpeg"), lightgray 50%;
   background-repeat: no-repeat;
   background-size: cover;
 }

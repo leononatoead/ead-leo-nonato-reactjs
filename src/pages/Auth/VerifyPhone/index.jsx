@@ -12,7 +12,23 @@ import PhoneInput from "react-phone-input-2";
 import { useNavigate } from "react-router-dom";
 
 import AuthHeader from "../../../components/Auth/AuthHeader";
-import { Flex, Heading, Text, Box, useMediaQuery } from "@chakra-ui/react";
+import {
+  Flex,
+  Heading,
+  Text,
+  Box,
+  useMediaQuery,
+  Step,
+  StepDescription,
+  StepIcon,
+  StepIndicator,
+  StepNumber,
+  StepSeparator,
+  StepStatus,
+  StepTitle,
+  Stepper,
+  useSteps,
+} from "@chakra-ui/react";
 import { useToast } from "@chakra-ui/react";
 
 export default function VerifyPhone() {
@@ -24,6 +40,17 @@ export default function VerifyPhone() {
   const [verificationCode, setVerificationCode] = useState("");
 
   const [isLargerThanLg] = useMediaQuery("(min-width: 992px)");
+
+  const steps = [
+    { title: "", description: "" },
+    { title: "", description: "" },
+    { title: "", description: "" },
+  ];
+
+  const { activeStep } = useSteps({
+    index: 1,
+    count: steps.length,
+  });
 
   const toast = useToast();
   const navigate = useNavigate();
@@ -155,6 +182,30 @@ export default function VerifyPhone() {
             background={{ lg: "white" }}
           >
             <Flex flexDirection="column" px={4} py={1} gap={2}>
+              <Stepper
+                index={activeStep}
+                mb={"1rem"}
+                display={{ base: "none", lg: "flex" }}
+              >
+                {steps.map((step, index) => (
+                  <Step key={index}>
+                    <StepIndicator>
+                      <StepStatus
+                        complete={<StepIcon />}
+                        incomplete={<StepNumber />}
+                        active={<StepNumber />}
+                      />
+                    </StepIndicator>
+
+                    <Box flexShrink="0">
+                      <StepTitle>{step.title}</StepTitle>
+                      <StepDescription>{step.description}</StepDescription>
+                    </Box>
+
+                    <StepSeparator />
+                  </Step>
+                ))}
+              </Stepper>
               <Heading className="!font-bold !font-poppins !text-large !leading-6 text-primary-600 poppins">
                 Informe o código
               </Heading>
@@ -211,6 +262,31 @@ export default function VerifyPhone() {
             background={{ lg: "white" }}
           >
             <Flex flexDirection="column" px={4} py={1} gap={2}>
+              <Stepper
+                index={activeStep}
+                mb={"1rem"}
+                display={{ base: "none", lg: "flex" }}
+              >
+                {steps.map((step, index) => (
+                  <Step key={index}>
+                    <StepIndicator>
+                      <StepStatus
+                        complete={<StepIcon />}
+                        incomplete={<StepNumber />}
+                        active={<StepNumber />}
+                      />
+                    </StepIndicator>
+
+                    <Box flexShrink="0">
+                      <StepTitle>{step.title}</StepTitle>
+                      <StepDescription>{step.description}</StepDescription>
+                    </Box>
+
+                    <StepSeparator />
+                  </Step>
+                ))}
+              </Stepper>
+
               <Heading className="!font-bold !font-poppins !text-large !leading-6 text-primary-600 poppins">
                 Verificação necessária
               </Heading>
