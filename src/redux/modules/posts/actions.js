@@ -8,6 +8,7 @@ import {
   onSnapshot,
   orderBy,
   query,
+  startAfter,
 } from 'firebase/firestore';
 
 export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
@@ -38,6 +39,45 @@ export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
   }
 });
 
+export const fetchMorePosts = createAsyncThunk(
+  'posts/fetchMorePosts',
+  async (id) => {
+    const collectionRef = collection(database, 'posts');
+    const lastPost = doc(database, 'posts', id);
+
+    try {
+      const lastPostSnapshot = await getDoc(lastPost);
+
+      const q = query(
+        collectionRef,
+        orderBy('createdAt', 'desc'),
+        startAfter(lastPostSnapshot),
+        limit(10),
+      );
+
+      return new Promise((resolve, reject) => {
+        onSnapshot(
+          q,
+          (querySnapshot) => {
+            const data = querySnapshot.docs.map((doc) => ({
+              id: doc.id,
+              ...doc.data(),
+              createdAt: doc.data().createdAt.toMillis(),
+            }));
+
+            resolve(data);
+          },
+          (error) => {
+            reject(error);
+          },
+        );
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  },
+);
+
 export const fetchPost = createAsyncThunk('posts/fetchPost', async (id) => {
   const docRef = doc(database, 'posts', id);
 
@@ -57,6 +97,47 @@ export const fetchPost = createAsyncThunk('posts/fetchPost', async (id) => {
         console.log(error);
         reject(error);
       }
+    });
+  } catch (error) {
+    console.log(error.message);
+  }
+});
+
+export const delPost = createAsyncThunk('posts/delPost', async (data) => {
+  const collectionRef = collection(database, 'posts');
+  const lastPost = doc(database, 'posts', data.lastPostId);
+
+  try {
+    const lastPostSnapshot = await getDoc(lastPost);
+
+    const q = query(
+      collectionRef,
+      orderBy('createdAt', 'desc'),
+      startAfter(lastPostSnapshot),
+      limit(1),
+    );
+
+    return new Promise((resolve, reject) => {
+      onSnapshot(
+        q,
+        (querySnapshot) => {
+          const post = querySnapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+            createdAt: doc.data().createdAt.toMillis(),
+          }));
+
+          const delData = {
+            id: data.delId,
+            post: post[0],
+          };
+
+          resolve(delData);
+        },
+        (error) => {
+          reject(error);
+        },
+      );
     });
   } catch (error) {
     console.log(error.message);
@@ -84,9 +165,16 @@ export const editPost = (data) => async (dispatch) => {
   });
 };
 
-export const delPost = (data) => async (dispatch) => {
+// export const delPost = (data) => async (dispatch) => {
+//   dispatch({
+//     type: 'posts/delPost',
+//     payload: data,
+//   });
+// };
+
+export const changePage = (page) => async (dispatch) => {
   dispatch({
-    type: 'posts/delPost',
-    payload: data,
+    type: 'posts/changePage',
+    payload: page,
   });
 };

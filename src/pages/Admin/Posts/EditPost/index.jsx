@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPosts } from '../../../../redux/modules/posts/actions';
@@ -15,14 +15,16 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 import Input from '../../../../components/Global/Input';
 import ButtonSubmit from '../../../../components/Global/ButtonSubmit';
+import ConfirmModal from '../../../../components/Global/ConfirmModal';
 
-import { Box } from '@chakra-ui/react';
+import { Box, Flex } from '@chakra-ui/react';
 
 export default function EditPost() {
   const { id } = useParams();
-  const { posts } = useSelector((state) => state.posts);
+  const { posts, pages, currentPage } = useSelector((state) => state.posts);
   const post = posts?.find((post) => post.id === id);
 
+  const [openConfirmModal, setOpenConfirmModal] = useState();
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const handleEditorChange = (newEditorState) => {
     setEditorState(newEditorState);
@@ -36,8 +38,9 @@ export default function EditPost() {
     formState: { errors },
   } = useForm({ resolver: zodResolver(PostSchema) });
 
-  const { updatePost, loading } = usePosts();
+  const { updatePost, deletePost, loading } = usePosts();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleEditPost = (formData) => {
     const contentState = editorState.getCurrentContent();
@@ -47,8 +50,15 @@ export default function EditPost() {
     const data = { ...formData, postContent: contentStr };
     updatePost(id, data);
 
-    setEditorState(EditorState.createEmpty());
+    // setEditorState(EditorState.createEmpty());
     reset({ category: '', thumb: '', title: '', author: '' });
+  };
+
+  const handleDeletePost = () => {
+    const page = pages?.find((page) => page.page === currentPage);
+    const lastPostId = page.posts[page.posts.length - 1].id;
+    deletePost(id, lastPostId);
+    navigate('/dashboard/posts');
   };
 
   useEffect(() => {
@@ -195,12 +205,20 @@ export default function EditPost() {
           }}
         />
       </Box>
-      <ButtonSubmit
-        form='newPostForm'
-        disabled={loading}
-        text={'Editar Post'}
-        loading={loading}
-      />
+
+      <Flex flexDirection={'column'} gap={2}>
+        <ButtonSubmit
+          form='newPostForm'
+          disabled={loading}
+          text={'Editar Post'}
+          loading={loading}
+        />
+        <ConfirmModal
+          deleteFunction={handleDeletePost}
+          open={openConfirmModal}
+          setOpen={setOpenConfirmModal}
+        />
+      </Flex>
     </Box>
   );
 }

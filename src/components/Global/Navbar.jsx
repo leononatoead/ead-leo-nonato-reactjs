@@ -57,6 +57,12 @@ export default function Navbar({ title }) {
       removeBlank.pop();
     }
 
+    if (removeBlank.includes('post') && removeBlank.length === 2) {
+      // removeBlank.pop();
+      navigate(-1);
+      return;
+    }
+
     if (removeBlank.length > 0) {
       const newURL = removeBlank.join('/');
       const path = `/${newURL}`;
@@ -98,7 +104,7 @@ export default function Navbar({ title }) {
             aria-label='Options'
             icon={<GiHamburgerMenu />}
             variant='outline'
-            className='!border-none !bg-transparent !outline-none !min-w-max'
+            className='!border-none !bg-transparent !outline-none -mr-[10px] focus:!border-none'
           />
           <MenuList
             className='!flex !flex-col !justify-center !items-start !gap-[5px] !border-none !min-w-max !-translate-y-2 !shadow-lg'
@@ -221,7 +227,7 @@ export default function Navbar({ title }) {
               aria-label='Options'
               icon={<GiHamburgerMenu />}
               variant='outline'
-              className='!border-none !bg-transparent !outline-none !min-w-max'
+              className='!border-none !bg-transparent !outline-none -mr-[10px] focus:!border-none'
             />
             <MenuList
               className='!flex !flex-col !justify-center !items-start !gap-[5px] !border-none !min-w-max !-translate-y-2 !shadow-lg'
