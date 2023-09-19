@@ -101,7 +101,7 @@ export default function Newsletter() {
             </Box>
           )}
 
-          {posts.length >= 10 && <Pagination />}
+          {posts?.length >= 10 && <Pagination />}
         </Box>
       </Box>
     );
