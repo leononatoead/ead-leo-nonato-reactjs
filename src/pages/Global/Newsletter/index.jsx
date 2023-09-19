@@ -22,10 +22,10 @@ export default function Newsletter() {
 
   const handleSelectCategory = (category) => {
     let page;
+
     if (category === 'Todos') {
       page = pages?.find((page) => page.page === 1);
-    }
-    {
+    } else {
       const filterByCategory = posts.filter(
         (post) => post.category === category,
       );
@@ -59,7 +59,7 @@ export default function Newsletter() {
         {/* TODO: SEARCHBAR DE POSTS */}
 
         {/* TODO: SLIDER DE CATEGORIAS */}
-        <Swiper
+        {/* <Swiper
           spaceBetween={4}
           slidesPerView={3.5}
           className='pl-4 pt-5'
@@ -86,7 +86,7 @@ export default function Newsletter() {
               </SwiperSlide>
             );
           })}
-        </Swiper>
+        </Swiper> */}
 
         <Box className='px-4 py-6'>
           {categories.page && categories.page.posts.length > 0 ? (
