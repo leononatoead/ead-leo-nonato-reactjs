@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
 import Home from '../pages/Global/Home';
 import Profile from '../pages/Global/Profile';
@@ -30,15 +30,15 @@ export default function AdminRoutes() {
   return (
     <Routes>
       <Route path='/' element={<Home />} />
-      <Route path='/courses' element={<HomeCourses />} />
+      <Route path='/courses/:id' element={<HomeCourses />} />
       <Route path='/course/:id' element={<Course />} />
       <Route path='/course/:id/:id' element={<CourseWatch />} />
+      {/* <Route path='/my-courses' element={<MyCourses />} /> */}
       <Route path='/newsletter' element={<Newsletter />} />
       <Route path='/newsletter/post/:id' element={<NewsletterPost />} />
       <Route path='/faq' element={<FAQ />} />
 
       <Route path='/profile' element={<Profile />} />
-      {/* <Route path='/my-courses' element={<MyCourses />} /> */}
       <Route path='/dashboard' element={<Dashboard />}>
         <Route path='/dashboard' element={<Courses />} />
         <Route path='courses' element={<Courses />} />
@@ -59,6 +59,8 @@ export default function AdminRoutes() {
         <Route path='faq/new' element={<NewQuestion />} />
         <Route path='faq/edit/:id' element={<EditQuestion />} />
       </Route>
+
+      <Route path='/*' element={<Navigate to='/' />} />
     </Routes>
   );
 }

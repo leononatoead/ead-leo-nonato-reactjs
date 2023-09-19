@@ -7,6 +7,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import Navbar from '../../../components/Global/Navbar';
 import PostCard from '../../../components/Global/PostCard';
 import Pagination from '../../../components/Global/Pagination';
+import Loading from '../../../pages/Loading';
 
 import { Box, Text } from '@chakra-ui/react';
 
@@ -51,7 +52,7 @@ export default function Newsletter() {
   }, []);
 
   if (!categories.page) {
-    return <div>Loading...</div>;
+    return <Loading />;
   } else
     return (
       <Box className='min-h-screen bg-gray-200'>

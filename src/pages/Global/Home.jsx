@@ -68,9 +68,16 @@ export default function Home() {
       <section>
         <Box className='px-4'>
           <Box className='flex justify-between items-center pt-4 pb-5'>
-            <Heading className='!font-poppins !text-large !leading-6 !font-semibold  !text-primary-600'>
-              Cursos gratuitos
+            <Heading className='!font-poppins !text-large !leading-6 !font-semibold  !text-primary-600 '>
+              Cursos Gratuitos
             </Heading>
+
+            <Link
+              to='/courses/free'
+              className='font-poppins text-small leading-[18px] text-primary-400/80'
+            >
+              Ver todos
+            </Link>
           </Box>
 
           {freeCourses && (
@@ -98,7 +105,7 @@ export default function Home() {
             </Heading>
 
             <Link
-              to='/courses'
+              to='/courses/premium'
               className='font-poppins text-small leading-[18px] text-primary-400/80'
             >
               Ver todos

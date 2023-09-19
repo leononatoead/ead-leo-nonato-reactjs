@@ -1,15 +1,16 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 
-import Home from '../pages/Global/Home';
-import HomeCourses from '../pages/Global/Courses';
-import Course from '../pages/Global/Course';
-import Newsletter from '../pages/Global/Newsletter';
 import VerifyPhone from '../pages/Auth/VerifyPhone';
 import VerifyEmail from '../pages/Auth/VerifyEmail';
 import VerifySuccess from '../pages/Auth/VerifySuccess';
-import Profile from '../pages/Global/Profile';
-import FAQ from '../pages/Global/FAQ';
+import Home from '../pages/Global/Home';
+import HomeCourses from '../pages/Global/Courses';
+import Course from '../pages/Global/Course';
 import CourseWatch from '../pages/Global/CourseWatch';
+import Newsletter from '../pages/Global/Newsletter';
+import NewsletterPost from '../pages/Global/Newsletter/NewsletterPost';
+import FAQ from '../pages/Global/FAQ';
+import Profile from '../pages/Global/Profile';
 
 export default function UserAuthenticatedRoutes({ user }) {
   return (
@@ -80,12 +81,15 @@ export default function UserAuthenticatedRoutes({ user }) {
       />
 
       <Route path='/profile' element={<Profile />} />
-      <Route path='/faq' element={<FAQ />} />
-      <Route path='/courses' element={<HomeCourses />} />
+      <Route path='/courses/:id' element={<HomeCourses />} />
       <Route path='/course/:id' element={<Course />} />
       <Route path='/course/:id/:id' element={<CourseWatch />} />
       {/* <Route path='/my-courses' element={<MyCourses />} /> */}
       <Route path='/newsletter' element={<Newsletter />} />
+      <Route path='/newsletter/post/:id' element={<NewsletterPost />} />
+      <Route path='/faq' element={<FAQ />} />
+
+      <Route path='/*' element={<Navigate to='/' />} />
     </Routes>
   );
 }
