@@ -291,11 +291,11 @@ export default function Navbar({ title }) {
                 py={'3px'}
                 className='!outline-none !border-none focus:!bg-white'
               >
-                <MdContentPaste size={20} />
                 <Link
                   to='/dashboard/forms'
-                  className='font-normal leading-[14px] ml-3'
+                  className='font-normal leading-[14px] flex items-center gap-3'
                 >
+                  <MdContentPaste size={20} />
                   Formulários
                 </Link>
               </MenuItem>
@@ -304,11 +304,11 @@ export default function Navbar({ title }) {
                 py={'3px'}
                 className='!outline-none !border-none focus:!bg-white'
               >
-                <FiUsers size={20} />
                 <Link
                   to='/dashboard/students'
-                  className='font-normal leading-[14px] ml-3'
+                  className='font-normal leading-[14px] flex items-center gap-3'
                 >
+                  <FiUsers size={20} />
                   Usuários
                 </Link>
               </MenuItem>
@@ -317,12 +317,11 @@ export default function Navbar({ title }) {
                 py={'3px'}
                 className='!outline-none !border-none focus:!bg-white'
               >
-                <IoHelpSharp size={20} />
-
                 <Link
                   to='/dashboard/faq'
-                  className='font-normal leading-[14px] ml-3'
+                  className='font-normal leading-[14px] flex items-center gap-3'
                 >
+                  <IoHelpSharp size={20} />
                   FAQ
                 </Link>
               </MenuItem>
