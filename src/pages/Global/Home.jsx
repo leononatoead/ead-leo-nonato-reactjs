@@ -10,7 +10,7 @@ import 'swiper/css';
 import Navbar from '../../components/Global/Navbar';
 import LoginModal from '../../components/Auth/LoginModal';
 import VideoCard from '../../components/Global/Home/VideoCard';
-import SearchBar from '../../components/Global/Home/SearchBar';
+import SearchBar from '../../components/Global/SearchBar';
 import Banner from '../../components/Global/Home/Banner';
 import Footer from '../../components/Global/Footer';
 

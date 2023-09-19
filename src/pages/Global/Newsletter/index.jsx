@@ -5,7 +5,7 @@ import { fetchPosts } from '../../../redux/modules/posts/actions';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import Navbar from '../../../components/Global/Navbar';
-import PostCard from '../../../components/Global/PostCard';
+import PostCard from '../../../components/Global/Newsletter/PostCard';
 import Pagination from '../../../components/Global/Pagination';
 import Loading from '../../../pages/Loading';
 

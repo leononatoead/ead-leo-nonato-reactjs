@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
+import PremiumContent from '../PremiumContent';
+
 import { Box, Heading, Image, Text } from '@chakra-ui/react';
+
 import { BiCartAdd, BiShareAlt } from 'react-icons/bi';
 import { IoMdEye } from 'react-icons/io';
-import PremiumContent from './PremiumContent';
 
 export default function VideoCard({ cardData }) {
   const [openPremiumModal, setOpenPremiumModal] = useState(false);

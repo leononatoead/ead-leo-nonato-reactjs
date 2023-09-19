@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+
 import {
   fetchCourses,
   fetchVideos,
 } from '../../../redux/modules/courses/actions';
-import { useDispatch, useSelector } from 'react-redux';
 
 import Navbar from '../../../components/Global/Navbar';
 import PremiumContent from '../../../components/Global/PremiumContent';

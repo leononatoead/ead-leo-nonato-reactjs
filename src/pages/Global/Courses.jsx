@@ -1,10 +1,10 @@
 import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
 import Navbar from '../../components/Global/Navbar';
+import VideoCard from '../../components/Global/Courses/VideoCard';
 
 import { Box } from '@chakra-ui/react';
-import { useParams } from 'react-router-dom';
-import VideoCard from '../../components/Global/VideoCard';
 
 export default function Courses() {
   const { courses } = useSelector((state) => state.courses);
