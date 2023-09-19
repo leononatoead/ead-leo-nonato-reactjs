@@ -55,7 +55,7 @@ export default function Course() {
       setLocked(true);
     }
     if (user && course?.isPremium) {
-      if (!user.courses.includes(id)) {
+      if (!user.courses?.includes(id)) {
         setLocked(true);
       }
     }
