@@ -9,6 +9,7 @@ import Course from '../pages/Global/Course';
 import CourseWatch from '../pages/Global/CourseWatch';
 import Newsletter from '../pages/Global/Newsletter';
 import NewsletterPost from '../pages/Global/Newsletter/NewsletterPost';
+import SearchCourses from '../pages/Global/SearchCourses';
 import SearchPosts from '../pages/Global/SearchPosts';
 
 export default function UserUnAuthenticatedRoutes() {
