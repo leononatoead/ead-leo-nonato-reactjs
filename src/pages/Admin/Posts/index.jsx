@@ -31,7 +31,7 @@ export default function Posts() {
         </Link>
       </Box>
 
-      {posts.length >= 10 && page.posts.length > 0 ? (
+      {page && page.posts.length > 0 ? (
         <ul className='flex flex-col gap-4 pt-6 flex-grow'>
           {page.posts?.map((post) => (
             <PostCardAdmin post={post} key={post.id} />
@@ -42,8 +42,7 @@ export default function Posts() {
           <Text>Nenhum post encontrado.</Text>
         </Box>
       )}
-
-      <Pagination />
+      {posts.length >= 10 && <Pagination />}
     </Box>
   );
 }
