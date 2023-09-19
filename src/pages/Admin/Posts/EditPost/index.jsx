@@ -47,7 +47,19 @@ export default function EditPost() {
     const contentRaw = convertToRaw(contentState);
     const contentStr = JSON.stringify(contentRaw);
 
-    const data = { ...formData, postContent: contentStr };
+    const searchStr = formData.title
+      .toLowerCase()
+      .replace(/[áàãâä]/g, 'a')
+      .replace(/[éèêë]/g, 'e')
+      .replace(/[íìîï]/g, 'i')
+      .replace(/[óòõôö]/g, 'o')
+      .replace(/[úùûü]/g, 'u')
+      .replace(/ç/g, 'c')
+      .split(' ');
+
+    console.log(searchStr);
+
+    const data = { ...formData, postContent: contentStr, searchStr };
     updatePost(id, data);
   };
 

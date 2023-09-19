@@ -10,6 +10,7 @@ import Pagination from '../../../components/Global/Pagination';
 import Loading from '../../../pages/Loading';
 
 import { Box, Text } from '@chakra-ui/react';
+import SearchBar from '../../../components/Global/SearchBar';
 
 export default function Newsletter() {
   const { posts, pages, currentPage } = useSelector((state) => state.posts);
@@ -57,7 +58,7 @@ export default function Newsletter() {
     return (
       <Box className='min-h-screen bg-gray-200'>
         <Navbar title='Newsletter' />
-        {/* TODO: SEARCHBAR DE POSTS */}
+        <SearchBar type='post' />
 
         {/* TODO: SLIDER DE CATEGORIAS */}
         {/* <Swiper

@@ -4,11 +4,13 @@ import {
   collection,
   doc,
   getDoc,
+  getDocs,
   limit,
   onSnapshot,
   orderBy,
   query,
   startAfter,
+  where,
 } from 'firebase/firestore';
 
 export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
@@ -102,6 +104,43 @@ export const fetchPost = createAsyncThunk('posts/fetchPost', async (id) => {
     console.log(error.message);
   }
 });
+
+export const searchPosts = createAsyncThunk(
+  'posts/searchPosts',
+  async (search) => {
+    const searchRef = collection(database, 'posts');
+
+    try {
+      const q = query(
+        searchRef,
+        where('searchStr', 'array-contains-any', search),
+        orderBy('createdAt', 'desc'),
+        limit(10),
+      );
+
+      return new Promise((resolve, reject) => {
+        onSnapshot(
+          q,
+          (querySnapshot) => {
+            const data = querySnapshot.docs.map((doc) => ({
+              id: doc.id,
+              ...doc.data(),
+              createdAt: doc.data().createdAt.toMillis(),
+            }));
+
+            resolve(data);
+          },
+          (error) => {
+            reject(error);
+            console.log(error);
+          },
+        );
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  },
+);
 
 export const delPost = createAsyncThunk('posts/delPost', async (data) => {
   const collectionRef = collection(database, 'posts');

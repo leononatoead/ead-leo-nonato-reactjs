@@ -115,3 +115,10 @@ export const selectLesson = (videoData) => {
     payload: videoData,
   };
 };
+
+export const searchCourse = (searchQuery) => {
+  return {
+    type: 'courses/searchCourse',
+    payload: searchQuery,
+  };
+};

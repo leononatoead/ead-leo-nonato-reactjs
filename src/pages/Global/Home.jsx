@@ -38,11 +38,14 @@ export default function Home() {
   return (
     <main className='h-screen overflow-y-auto bg-[#f0f0f0]'>
       <Navbar title={'Início'} />
-      <div className='w-full bg-white flex px-4 pb-[6px] mb-6'>
-        <SearchBar />
-      </div>
 
-      <Swiper spaceBetween={16} slidesPerView={1.1} className='ml-4 !h-[206px]'>
+      <SearchBar type='course' />
+
+      <Swiper
+        spaceBetween={16}
+        slidesPerView={1.1}
+        className='ml-4 !h-[206px] mt-6'
+      >
         <SwiperSlide>
           <Banner
             post={{

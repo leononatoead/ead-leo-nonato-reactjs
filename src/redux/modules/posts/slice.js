@@ -1,5 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchMorePosts, fetchPost, fetchPosts, delPost } from './actions';
+import {
+  fetchMorePosts,
+  fetchPost,
+  fetchPosts,
+  delPost,
+  searchPosts,
+} from './actions';
 
 const postsReducer = createSlice({
   name: 'posts',
@@ -97,6 +103,9 @@ const postsReducer = createSlice({
       })
       .addCase(fetchPost.fulfilled, (state, action) => {
         return { ...state, currentPost: action.payload };
+      })
+      .addCase(searchPosts.fulfilled, (state, action) => {
+        return { ...state, searchResults: action.payload };
       })
       .addCase(delPost.fulfilled, (state, action) => {
         const posts = JSON.parse(JSON.stringify([...state.posts]));

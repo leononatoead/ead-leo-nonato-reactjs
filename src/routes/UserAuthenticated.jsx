@@ -11,6 +11,8 @@ import Newsletter from '../pages/Global/Newsletter';
 import NewsletterPost from '../pages/Global/Newsletter/NewsletterPost';
 import FAQ from '../pages/Global/FAQ';
 import Profile from '../pages/Global/Profile';
+import SearchPosts from '../pages/Global/SearchPosts';
+import SearchCourses from '../pages/Global/SearchCourses';
 
 export default function UserAuthenticatedRoutes({ user }) {
   return (
@@ -88,6 +90,8 @@ export default function UserAuthenticatedRoutes({ user }) {
       <Route path='/newsletter' element={<Newsletter />} />
       <Route path='/newsletter/post/:id' element={<NewsletterPost />} />
       <Route path='/faq' element={<FAQ />} />
+      <Route path='/courses/search/:id' element={<SearchCourses />} />
+      <Route path='/newsletter/search/:id' element={<SearchPosts />} />
 
       <Route path='/*' element={<Navigate to='/' />} />
     </Routes>

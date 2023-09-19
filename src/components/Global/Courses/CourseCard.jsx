@@ -8,13 +8,13 @@ import { Box, Heading, Image, Text } from '@chakra-ui/react';
 import { BiCartAdd, BiShareAlt } from 'react-icons/bi';
 import { IoMdEye } from 'react-icons/io';
 
-export default function VideoCard({ cardData }) {
+export default function CourseCard({ course }) {
   const [openPremiumModal, setOpenPremiumModal] = useState(false);
 
   return (
     <Box className='w-full h-32 shadow-md p-3 flex items-center gap-3 rounded-lg bg-white'>
       <Image
-        src={cardData.imagePath}
+        src={course.imagePath}
         alt='thumbnail'
         w={'120px'}
         h={'104px'}
@@ -23,20 +23,20 @@ export default function VideoCard({ cardData }) {
       <Box className='flex flex-col justify-start min-h-full w-full overflow-hidden'>
         <Box className='flex-grow'>
           <Heading className='!text-base !font-poppins !font-semibold !leading-5 !text-primary-600 max-h-16 break-title -mt-1'>
-            {cardData.name}
+            {course.name}
           </Heading>
           <Text className='text-gray-700 text-small break-title '>
-            {cardData.description}
+            {course.description}
           </Text>
         </Box>
         <Box className='w-full flex justify-between items-center'>
           <Box className='flex justify-end items-center gap-2 flex-1'>
-            {cardData.isPremium ? (
+            {course.isPremium ? (
               <button onClick={() => setOpenPremiumModal(true)}>
                 <BiCartAdd size={18} className='text-primary-600' />
               </button>
             ) : (
-              <Link to={`/course/${cardData.id}`}>
+              <Link to={`/course/${course.id}`}>
                 <IoMdEye size={18} className='text-primary-600' />
               </Link>
             )}
@@ -50,7 +50,7 @@ export default function VideoCard({ cardData }) {
       <PremiumContent
         open={openPremiumModal}
         close={setOpenPremiumModal}
-        courseData={cardData}
+        courseData={course}
       />
     </Box>
   );

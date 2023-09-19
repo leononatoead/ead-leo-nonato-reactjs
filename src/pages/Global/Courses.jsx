@@ -2,9 +2,10 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import Navbar from '../../components/Global/Navbar';
-import VideoCard from '../../components/Global/Courses/VideoCard';
+import CourseCard from '../../components/Global/Courses/CourseCard';
 
 import { Box } from '@chakra-ui/react';
+import SearchBar from '../../components/Global/SearchBar';
 
 export default function Courses() {
   const { courses } = useSelector((state) => state.courses);
@@ -14,6 +15,7 @@ export default function Courses() {
   return (
     <Box className='min-h-screen bg-gray-200'>
       <Navbar title={id === 'premium' ? 'Cursos Pagos' : 'Cursos Gratuitos'} />
+      <SearchBar type='course' />
 
       {courses && (
         <ul className='flex flex-col gap-4 px-4 py-6'>
@@ -21,14 +23,14 @@ export default function Courses() {
             (course) =>
               course.isPremium &&
               id === 'premium' && (
-                <VideoCard cardData={course} key={course.id} />
+                <CourseCard course={course} key={course.id} />
               ),
           )}
 
           {courses.map(
             (course) =>
               !course.isPremium &&
-              id === 'free' && <VideoCard cardData={course} key={course.id} />,
+              id === 'free' && <CourseCard course={course} key={course.id} />,
           )}
         </ul>
       )}

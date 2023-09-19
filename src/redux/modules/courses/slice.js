@@ -12,6 +12,36 @@ const courseReducer = createSlice({
         courses: [...state.courses, newCourse],
       };
     },
+    searchCourse: (state, action) => {
+      const courses = JSON.parse(JSON.stringify([...state.courses]));
+
+      const searchQuery = action.payload
+        .toLowerCase()
+        .replace(/[áàãâä]/g, 'a')
+        .replace(/[éèêë]/g, 'e')
+        .replace(/[íìîï]/g, 'i')
+        .replace(/[óòõôö]/g, 'o')
+        .replace(/[úùûü]/g, 'u')
+        .replace(/ç/g, 'c');
+
+      const searchResults = courses.filter((course) =>
+        course.name
+          .toLowerCase()
+          .toLowerCase()
+          .replace(/[áàãâä]/g, 'a')
+          .replace(/[éèêë]/g, 'e')
+          .replace(/[íìîï]/g, 'i')
+          .replace(/[óòõôö]/g, 'o')
+          .replace(/[úùûü]/g, 'u')
+          .replace(/ç/g, 'c')
+          .includes(searchQuery),
+      );
+
+      return {
+        ...state,
+        searchResults,
+      };
+    },
     editCourse: (state, action) => {
       const courses = JSON.parse(JSON.stringify([...state.courses]));
 

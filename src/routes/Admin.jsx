@@ -25,6 +25,8 @@ import EditForm from '../pages/Admin/Forms/EditForm';
 import Posts from '../pages/Admin/Posts';
 import NewPost from '../pages/Admin/Posts/NewPost';
 import EditPost from '../pages/Admin/Posts/EditPost';
+import SearchPosts from '../pages/Global/SearchPosts';
+import SearchCourses from '../pages/Global/SearchCourses';
 
 export default function AdminRoutes() {
   return (
@@ -37,6 +39,8 @@ export default function AdminRoutes() {
       <Route path='/newsletter' element={<Newsletter />} />
       <Route path='/newsletter/post/:id' element={<NewsletterPost />} />
       <Route path='/faq' element={<FAQ />} />
+      <Route path='/courses/search/:id' element={<SearchCourses />} />
+      <Route path='/newsletter/search/:id' element={<SearchPosts />} />
 
       <Route path='/profile' element={<Profile />} />
       <Route path='/dashboard' element={<Dashboard />}>

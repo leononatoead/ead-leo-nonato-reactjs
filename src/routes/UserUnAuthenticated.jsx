@@ -9,6 +9,7 @@ import Course from '../pages/Global/Course';
 import CourseWatch from '../pages/Global/CourseWatch';
 import Newsletter from '../pages/Global/Newsletter';
 import NewsletterPost from '../pages/Global/Newsletter/NewsletterPost';
+import SearchPosts from '../pages/Global/SearchPosts';
 
 export default function UserUnAuthenticatedRoutes() {
   return (
@@ -26,6 +27,8 @@ export default function UserUnAuthenticatedRoutes() {
       <Route path='/newsletter' element={<Newsletter />} />
       <Route path='/newsletter/post/:id' element={<NewsletterPost />} />
       <Route path='/faq' element={<FAQ />} />
+      <Route path='/courses/search/:id' element={<SearchCourses />} />
+      <Route path='/newsletter/search/:id' element={<SearchPosts />} />
 
       <Route path='/*' element={<Navigate to='/' />} />
     </Routes>
