@@ -11,7 +11,7 @@ import { Box, Text } from '@chakra-ui/react';
 import { MdAddCircleOutline } from 'react-icons/md';
 
 export default function Posts() {
-  const { pages, currentPage } = useSelector((state) => state.posts);
+  const { posts, pages, currentPage } = useSelector((state) => state.posts);
   const page = pages?.find((page) => page.page === currentPage);
 
   const dispatch = useDispatch();
@@ -31,7 +31,7 @@ export default function Posts() {
         </Link>
       </Box>
 
-      {page && page.posts.length > 0 ? (
+      {posts.length >= 10 && page.posts.length > 0 ? (
         <ul className='flex flex-col gap-4 pt-6 flex-grow'>
           {page.posts?.map((post) => (
             <PostCardAdmin post={post} key={post.id} />
