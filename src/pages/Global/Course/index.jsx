@@ -138,14 +138,8 @@ export default function Course() {
             ))}
         </Accordion>
       </Box>
-      <PremiumContent
-        open={locked}
-        close={setLocked}
-        title={'Curso disponível para assinantes'}
-        text={'Desbloqueie esse e muitos outros benefícios assinando'}
-        btnText={'Assine já'}
-        closeBtn={false}
-      />
+
+      <PremiumContent open={locked} close={setLocked} courseData={course} />
     </Box>
   );
 }

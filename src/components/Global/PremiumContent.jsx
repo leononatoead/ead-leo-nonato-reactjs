@@ -13,7 +13,6 @@ export default function PremiumContent({ open, close, courseData }) {
     close(false);
   };
 
-  console.log(courseData);
   return (
     <ModalComponent
       openModal={open}
@@ -24,7 +23,7 @@ export default function PremiumContent({ open, close, courseData }) {
       <ModalBody>
         <Flex flexDirection={'column'} justify={'center'} align={'center'}>
           <Image
-            src={courseData.imagePath}
+            src={courseData?.imagePath}
             alt='locked'
             className='w-20 h-20 object-cover rounded-2xl'
             mb={6}
@@ -33,30 +32,30 @@ export default function PremiumContent({ open, close, courseData }) {
             className='!font-poppins !text-large !w-full !font-semibold !leading-6 !text-primary-500 !text-center'
             mb={2}
           >
-            {courseData.name}
+            {courseData?.name}
           </Heading>
           <Text className='font-medium leading-5 text-base text-center ' mb={8}>
-            {courseData.description}
+            {courseData?.description}
           </Text>
 
           <Flex className='w-full' justifyContent={'space-between'}>
             <Flex flexDirection={'column'}>
               <Text className='text-[#FF8E00] text-normal font-medium leading-[18px]'>
-                {courseData.price?.toLocaleString('pt-BR', {
+                {courseData?.price?.toLocaleString('pt-BR', {
                   style: 'currency',
                   currency: 'BRL',
                 })}
               </Text>
               <Text className='text-gray-800 text-small leading-[18px]'>
                 ou 12x{' '}
-                {((courseData.price * 1.05) / 12)?.toLocaleString('pt-BR', {
+                {((courseData?.price * 1.05) / 12)?.toLocaleString('pt-BR', {
                   style: 'currency',
                   currency: 'BRL',
                 })}
               </Text>
             </Flex>
             <Link
-              to={courseData.paymentURL}
+              to={courseData?.paymentURL}
               target='_blank'
               className='text-center bg-primary-400 rounded-[4px] px-4 py-[5px] text-white text-base leading-5 flex items-center gap-2'
             >

@@ -125,12 +125,6 @@ export default function VideoCard({ courseData, setOpenLoginModal }) {
       <PremiumContent
         open={openPremiumModal}
         close={setOpenPremiumModal}
-        title={'Função disponível para assinantes'}
-        text={
-          'Desbloqueie esse e muitos outros benefícios assinando a plataforma'
-        }
-        btnText={'Assine já'}
-        closeBtn={false}
         courseData={courseData}
       />
     </>
