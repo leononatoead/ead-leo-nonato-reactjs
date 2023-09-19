@@ -87,22 +87,23 @@ export default function Newsletter() {
             );
           })}
         </Swiper>
+        {posts.length >= 10 && (
+          <Box className='px-4 py-6'>
+            {categories.page && categories.page.posts.length > 0 ? (
+              <ul className='flex flex-col gap-4 flex-grow'>
+                {categories.page.posts?.map((post) => (
+                  <PostCard post={post} key={post.id} />
+                ))}
+              </ul>
+            ) : (
+              <Box>
+                <Text>Nenhum post encontrado.</Text>
+              </Box>
+            )}
 
-        <Box className='px-4 py-6'>
-          {categories.page && categories.page.posts.length > 0 ? (
-            <ul className='flex flex-col gap-4 flex-grow'>
-              {categories.page.posts?.map((post) => (
-                <PostCard post={post} key={post.id} />
-              ))}
-            </ul>
-          ) : (
-            <Box>
-              <Text>Nenhum post encontrado.</Text>
-            </Box>
-          )}
-
-          <Pagination />
-        </Box>
+            <Pagination />
+          </Box>
+        )}
       </Box>
     );
 }
