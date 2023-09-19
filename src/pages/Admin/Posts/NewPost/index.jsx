@@ -48,6 +48,7 @@ export default function NewPost() {
       .replace(/[óòõôö]/g, 'o')
       .replace(/[úùûü]/g, 'u')
       .replace(/ç/g, 'c')
+      .replace(/[^\w\s]/gi, '')
       .split(' ');
 
     const data = { ...formData, postContent: contentStr, searchStr };

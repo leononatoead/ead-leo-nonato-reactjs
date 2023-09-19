@@ -21,6 +21,7 @@ export default function SearchBar({ type }) {
       .replace(/[óòõôö]/g, 'o')
       .replace(/[úùûü]/g, 'u')
       .replace(/ç/g, 'c')
+      .replace(/[^\w\s]/gi, '')
       .replace(' ', '-');
 
     if (type === 'course') {

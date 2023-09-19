@@ -55,9 +55,8 @@ export default function EditPost() {
       .replace(/[óòõôö]/g, 'o')
       .replace(/[úùûü]/g, 'u')
       .replace(/ç/g, 'c')
+      .replace(/[^\w\s]/gi, '')
       .split(' ');
-
-    console.log(searchStr);
 
     const data = { ...formData, postContent: contentStr, searchStr };
     updatePost(id, data);

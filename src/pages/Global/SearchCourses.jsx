@@ -19,7 +19,15 @@ export default function SearchCourses() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const search = id.replace('-', ' ');
+    const search = id
+      .replace(/[áàãâä]/g, 'a')
+      .replace(/[éèêë]/g, 'e')
+      .replace(/[íìîï]/g, 'i')
+      .replace(/[óòõôö]/g, 'o')
+      .replace(/[úùûü]/g, 'u')
+      .replace(/ç/g, 'c')
+      .replace(/[^\w\s]/gi, '')
+      .replace('-', ' ');
 
     dispatch(searchCourse(search));
   }, [id]);

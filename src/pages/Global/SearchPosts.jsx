@@ -24,6 +24,7 @@ export default function SearchResults() {
       .replace(/[óòõôö]/g, 'o')
       .replace(/[úùûü]/g, 'u')
       .replace(/ç/g, 'c')
+      .replace(/[^\w\s]/gi, '')
       .split('-');
 
     dispatch(searchPosts(search));
