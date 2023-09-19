@@ -58,7 +58,6 @@ export default function Navbar({ title }) {
     }
 
     if (removeBlank.includes('post') && removeBlank.length === 2) {
-      // removeBlank.pop();
       navigate(-1);
       return;
     }
@@ -78,7 +77,7 @@ export default function Navbar({ title }) {
   };
 
   return (
-    <header className='w-full px-4 py-1 bg-white font-bold flex gap-4 items-center justify-center'>
+    <header className='w-full px-4 py-1 bg-white font-bold flex items-center justify-center'>
       {path.pathname !== '/' && (
         <button onClick={handleBackBtn} className='-ml-2'>
           <RiArrowLeftSLine size={25} />
@@ -92,7 +91,7 @@ export default function Navbar({ title }) {
           Leo Nonato
         </Link>
       ) : (
-        <span className='block font-poppins text-[17px] leading-[22px] flex-1 text-center font-normal'>
+        <span className='block font-poppins text-[17px] leading-[22px] flex-1 text-center font-normal px-1'>
           {title}
         </span>
       )}
@@ -232,102 +231,102 @@ export default function Navbar({ title }) {
             setOpenLoginModal={setOpenLoginModal}
           />
         </Menu>
-      ) : (
-        path.pathname.includes('dashboard') && (
-          <Menu>
-            <MenuButton
-              as={IconButton}
-              aria-label='Options'
-              icon={<GiHamburgerMenu />}
-              variant='outline'
-              className='!border-none !bg-transparent !outline-none -mr-[10px] focus:!border-none'
-            />
-            <MenuList
-              className='!flex !flex-col !justify-center !items-start !gap-[5px] !border-none !min-w-max !-translate-y-2 !shadow-lg'
-              px={3}
-              py={2}
+      ) : path.pathname.includes('dashboard') ? (
+        <Menu>
+          <MenuButton
+            as={IconButton}
+            aria-label='Options'
+            icon={<GiHamburgerMenu />}
+            variant='outline'
+            className='!border-none !bg-transparent !outline-none -mr-[10px] focus:!border-none'
+          />
+          <MenuList
+            className='!flex !flex-col !justify-center !items-start !gap-[5px] !border-none !min-w-max !-translate-y-2 !shadow-lg'
+            px={3}
+            py={2}
+          >
+            <MenuItem
+              px={'6px'}
+              py={'3px'}
+              className='!outline-none !border-none focus:!bg-white'
             >
-              <MenuItem
-                px={'6px'}
-                py={'3px'}
-                className='!outline-none !border-none focus:!bg-white'
+              <Link
+                to='/dashboard/courses'
+                className='font-normal leading-[14px] flex items-center gap-3'
               >
-                <Link
-                  to='/dashboard/courses'
-                  className='font-normal leading-[14px] flex items-center gap-3'
-                >
-                  <PiTelevisionSimpleBold size={20} />
-                  Cursos
-                </Link>
-              </MenuItem>
-              <MenuItem
-                px={'6px'}
-                py={'3px'}
-                className='!outline-none !border-none focus:!bg-white'
+                <PiTelevisionSimpleBold size={20} />
+                Cursos
+              </Link>
+            </MenuItem>
+            <MenuItem
+              px={'6px'}
+              py={'3px'}
+              className='!outline-none !border-none focus:!bg-white'
+            >
+              <Link
+                to='/dashboard/posts'
+                className='font-normal leading-[14px] flex items-center gap-3'
               >
-                <Link
-                  to='/dashboard/posts'
-                  className='font-normal leading-[14px] flex items-center gap-3'
-                >
-                  <BiNews size={20} />
-                  Newsletter
-                </Link>
-              </MenuItem>
-              <MenuItem
-                px={'6px'}
-                py={'3px'}
-                className='!outline-none !border-none focus:!bg-white'
+                <BiNews size={20} />
+                Newsletter
+              </Link>
+            </MenuItem>
+            <MenuItem
+              px={'6px'}
+              py={'3px'}
+              className='!outline-none !border-none focus:!bg-white'
+            >
+              <Link
+                to='/dashboard/notifications'
+                className='font-normal leading-[14px] flex items-center gap-3'
               >
-                <Link
-                  to='/dashboard/notifications'
-                  className='font-normal leading-[14px] flex items-center gap-3'
-                >
-                  <MdOutlineNotificationsNone size={20} />
-                  Anúncios
-                </Link>
-              </MenuItem>
-              <MenuItem
-                px={'6px'}
-                py={'3px'}
-                className='!outline-none !border-none focus:!bg-white'
+                <MdOutlineNotificationsNone size={20} />
+                Anúncios
+              </Link>
+            </MenuItem>
+            <MenuItem
+              px={'6px'}
+              py={'3px'}
+              className='!outline-none !border-none focus:!bg-white'
+            >
+              <Link
+                to='/dashboard/forms'
+                className='font-normal leading-[14px] flex items-center gap-3'
               >
-                <Link
-                  to='/dashboard/forms'
-                  className='font-normal leading-[14px] flex items-center gap-3'
-                >
-                  <MdContentPaste size={20} />
-                  Formulários
-                </Link>
-              </MenuItem>
-              <MenuItem
-                px={'6px'}
-                py={'3px'}
-                className='!outline-none !border-none focus:!bg-white'
+                <MdContentPaste size={20} />
+                Formulários
+              </Link>
+            </MenuItem>
+            <MenuItem
+              px={'6px'}
+              py={'3px'}
+              className='!outline-none !border-none focus:!bg-white'
+            >
+              <Link
+                to='/dashboard/students'
+                className='font-normal leading-[14px] flex items-center gap-3'
               >
-                <Link
-                  to='/dashboard/students'
-                  className='font-normal leading-[14px] flex items-center gap-3'
-                >
-                  <FiUsers size={20} />
-                  Usuários
-                </Link>
-              </MenuItem>
-              <MenuItem
-                px={'6px'}
-                py={'3px'}
-                className='!outline-none !border-none focus:!bg-white'
+                <FiUsers size={20} />
+                Usuários
+              </Link>
+            </MenuItem>
+            <MenuItem
+              px={'6px'}
+              py={'3px'}
+              className='!outline-none !border-none focus:!bg-white'
+            >
+              <Link
+                to='/dashboard/faq'
+                className='font-normal leading-[14px] flex items-center gap-3'
               >
-                <Link
-                  to='/dashboard/faq'
-                  className='font-normal leading-[14px] flex items-center gap-3'
-                >
-                  <IoHelpSharp size={20} />
-                  FAQ
-                </Link>
-              </MenuItem>
-            </MenuList>
-          </Menu>
-        )
+                <IoHelpSharp size={20} />
+                FAQ
+              </Link>
+            </MenuItem>
+          </MenuList>
+        </Menu>
+      ) : (
+        <Box className='w-[17px] text-transparent'>'</Box>
       )}
     </header>
   );
