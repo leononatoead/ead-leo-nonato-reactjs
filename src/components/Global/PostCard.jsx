@@ -17,9 +17,8 @@ export default function PostCard({ post }) {
       <Image
         src={post.thumb}
         alt='thumbnail'
-        w={'120px'}
         h={'104px'}
-        className='rounded-sm object-cover'
+        className='rounded-sm object-cover max-w-[120px] min-w-[120px]'
       />
       <Box className='flex flex-col justify-start min-h-full overflow-hidden'>
         <Box className='flex-grow'>
