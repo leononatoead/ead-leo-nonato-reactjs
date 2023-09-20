@@ -76,7 +76,7 @@ export default function Navbar({ title }) {
   };
 
   return (
-    <header className='w-full px-4 py-1 bg-white font-bold flex items-center justify-center'>
+    <header className='w-full px-4 py-1 bg-white font-bold flex items-center justify-center h-12'>
       {path.pathname !== '/' && (
         <button onClick={handleBackBtn} className='-ml-2'>
           <RiArrowLeftSLine size={25} />
