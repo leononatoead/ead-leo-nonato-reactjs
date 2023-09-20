@@ -1,20 +1,17 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import useFormat from '../../../../hooks/useFormat';
-
 import { useDispatch, useSelector } from 'react-redux';
 import {
   fetchPost,
   fetchPosts,
   setCurrentPost,
 } from '../../../../redux/modules/posts/actions';
-
+import { useParams } from 'react-router-dom';
+import useFormat from '../../../../hooks/useFormat';
 import { Editor } from 'react-draft-wysiwyg';
 import { EditorState, convertFromRaw } from 'draft-js';
 
 import Navbar from '../../../../components/Global/Navbar';
 import LikeAndComment from '../../../../components/Global/Newsletter/LikeAndComment';
-
 import { Box, Heading, Image, Text } from '@chakra-ui/react';
 
 export default function NewsletterPost() {

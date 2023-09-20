@@ -1,17 +1,13 @@
 import { useState } from 'react';
-
+import useAuth from '../../../hooks/useAuth';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { changePasswordSchema } from './changePasswordSchema';
 
-import useAuth from '../../../hooks/useAuth';
-
 import ModalComponent from '../ModalComponent';
 import Input from '../Input';
 import ButtonSubmit from '../ButtonSubmit';
-
 import { ModalBody, ModalFooter, Text } from '@chakra-ui/react';
-
 import { IoIosCheckmarkCircleOutline } from 'react-icons/io';
 
 export default function ChangePassword({ openModal, setOpenModal }) {

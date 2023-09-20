@@ -1,14 +1,11 @@
 import { useEffect, useState } from 'react';
-
+import useAuth from '../../../hooks/useAuth';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ResetSchema } from './loginSchema';
 
-import useAuth from '../../../hooks/useAuth';
-
 import Input from '../../Global/Input';
 import ButtonSubmit from '../../Global/ButtonSubmit';
-
 import {
   Heading,
   ModalBody,

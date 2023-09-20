@@ -1,22 +1,18 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPosts } from '../../../../redux/modules/posts/actions';
 import usePosts from '../../../../hooks/usePosts';
-
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { PostSchema } from '../NewPost/PostSchema';
-
 import { Editor } from 'react-draft-wysiwyg';
 import { EditorState, convertFromRaw, convertToRaw } from 'draft-js';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import Input from '../../../../components/Global/Input';
 import ButtonSubmit from '../../../../components/Global/ButtonSubmit';
 import ConfirmModal from '../../../../components/Global/ConfirmModal';
-
 import { Box, Flex } from '@chakra-ui/react';
 
 export default function EditPost() {

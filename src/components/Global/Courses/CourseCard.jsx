@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import PremiumCourse from '../PremiumCourse';
 
 import { Box, Heading, Image, Text } from '@chakra-ui/react';
-
 import { BiCartAdd, BiShareAlt } from 'react-icons/bi';
 import { IoMdEye } from 'react-icons/io';
 

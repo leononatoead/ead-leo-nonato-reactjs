@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { fetchQuestions } from '../../redux/modules/faq/actions';
 
 import Navbar from '../../components/Global/Navbar';
-
 import {
   Accordion,
   AccordionItem,
@@ -12,9 +12,7 @@ import {
   Box,
   Image,
 } from '@chakra-ui/react';
-
 import background from '../../assets/auth-background.png';
-import { fetchQuestions } from '../../redux/modules/faq/actions';
 
 export default function FAQ() {
   const { questions } = useSelector((state) => state.faq);

@@ -1,10 +1,9 @@
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import VideoCardAdmin from '../../../components/Admin/VideoCardAdmin';
-
 import { Box } from '@chakra-ui/react';
 import { MdAddCircleOutline } from 'react-icons/md';
-import { Link } from 'react-router-dom';
 
 export default function Courses() {
   const { courses } = useSelector((state) => state.courses);

@@ -1,18 +1,14 @@
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchVideos } from '../../../../redux/modules/courses/actions';
-
 import useVideo from '../../../../hooks/useVideo';
-
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AddVideoSchema } from './addVideoSchema';
+import { useLocation } from 'react-router-dom';
 
 import Input from '../../../../components/Global/Input';
 import ButtonSubmit from '../../../../components/Global/ButtonSubmit';
-
 import { Box, Heading, Radio, RadioGroup } from '@chakra-ui/react';
 
 export default function NewLesson() {

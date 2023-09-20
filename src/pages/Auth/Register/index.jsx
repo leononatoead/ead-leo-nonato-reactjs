@@ -1,20 +1,14 @@
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-
+import useAuth from '../../../hooks/useAuth';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { RegisterSchema } from './registerSchema';
-
 import { cpf } from 'cpf-cnpj-validator';
-
-import useAuth from '../../../hooks/useAuth';
-import Input from '../../../components/Global/Input';
-
-import ButtonSubmit from '../../../components/Global/ButtonSubmit';
-
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
+import Input from '../../../components/Global/Input';
+import ButtonSubmit from '../../../components/Global/ButtonSubmit';
 import { Box, Heading, Image, Text, useMediaQuery } from '@chakra-ui/react';
-
 import logo from '../../../assets/auth-logo-black.svg';
 
 export default function Register() {

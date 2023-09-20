@@ -1,9 +1,8 @@
 import { useState } from 'react';
-
-import { IoIosSearch } from 'react-icons/io';
+import { useNavigate } from 'react-router-dom';
 
 import { Box } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
+import { IoIosSearch } from 'react-icons/io';
 
 export default function SearchBar({ type }) {
   const [search, setSearch] = useState('');

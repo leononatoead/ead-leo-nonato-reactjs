@@ -1,20 +1,17 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { fetchPosts } from '../../../../redux/modules/posts/actions';
 import usePosts from '../../../../hooks/usePosts';
-
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { PostSchema } from './PostSchema';
-
 import { Editor } from 'react-draft-wysiwyg';
 import { EditorState, convertToRaw } from 'draft-js';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 import Input from '../../../../components/Global/Input';
 import ButtonSubmit from '../../../../components/Global/ButtonSubmit';
-
 import { Box } from '@chakra-ui/react';
-import { fetchPosts } from '../../../../redux/modules/posts/actions';
 
 export default function NewPost() {
   const { posts } = useSelector((state) => state.posts);

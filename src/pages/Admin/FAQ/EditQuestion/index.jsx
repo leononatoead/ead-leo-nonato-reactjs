@@ -1,19 +1,16 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchQuestions } from '../../../../redux/modules/faq/actions';
-
 import useFAQ from '../../../../hooks/useFAQ';
-
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { QuestionsSchema } from '../NewQuestion/QuestionsSchema';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import Input from '../../../../components/Global/Input';
 import ButtonSubmit from '../../../../components/Global/ButtonSubmit';
-
-import { Box, Flex } from '@chakra-ui/react';
-import { useNavigate, useParams } from 'react-router-dom';
 import ConfirmModal from '../../../../components/Global/ConfirmModal';
+import { Box, Flex } from '@chakra-ui/react';
 
 export default function EditQuestion() {
   const [openConfirmModal, setOpenConfirmModal] = useState();

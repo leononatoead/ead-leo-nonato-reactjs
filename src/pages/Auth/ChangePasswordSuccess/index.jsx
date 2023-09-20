@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 
 import AuthHeader from '../../../components/Auth/AuthHeader';
-
 import { AiOutlineCheckCircle } from 'react-icons/ai';
 import { Box, Flex, Heading, Text } from '@chakra-ui/react';
 

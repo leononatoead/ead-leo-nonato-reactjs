@@ -1,5 +1,3 @@
-import React from 'react';
-
 export default function VideoPlayer({ video, size, setVideoPlayer }) {
   const handleSetVideoSize = () => {
     if (size === 'full') {

@@ -1,7 +1,8 @@
+import { Link } from 'react-router-dom';
+
 import { Box, Text } from '@chakra-ui/react';
 import { AiFillInstagram } from 'react-icons/ai';
 import { FaLinkedinIn, FaTwitter, FaYoutube } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
 
 export default function Footer() {
   return (

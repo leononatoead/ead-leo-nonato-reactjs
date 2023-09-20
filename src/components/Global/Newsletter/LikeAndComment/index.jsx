@@ -1,14 +1,10 @@
 import { useSelector } from 'react-redux';
 import usePosts from '../../../../hooks/usePosts';
-
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CommentSchema } from './CommentSchema';
 
-import Input from '../../Input';
-import ButtonSubmit from '../../ButtonSubmit';
-
-import { Box, Flex, Heading, Text } from '@chakra-ui/react';
+import { Box, Flex, Text } from '@chakra-ui/react';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 
 export default function LikeAndComment({ post }) {

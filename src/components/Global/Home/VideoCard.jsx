@@ -2,9 +2,8 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { Box, Card, CardBody, CardFooter, Image, Text } from '@chakra-ui/react';
 import PremiumCourse from '../PremiumCourse';
-
+import { Box, Card, CardBody, CardFooter, Image, Text } from '@chakra-ui/react';
 import { BiCartAdd, BiLockAlt } from 'react-icons/bi';
 
 export default function VideoCard({ courseData, setOpenLoginModal }) {

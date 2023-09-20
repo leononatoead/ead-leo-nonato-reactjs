@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutUser } from '../../redux/modules/auth/actions';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+
 import LoginModal from '../Auth/LoginModal';
 import {
   Box,
@@ -12,7 +12,6 @@ import {
   MenuItem,
   MenuList,
 } from '@chakra-ui/react';
-
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { RiArrowLeftSLine } from 'react-icons/ri';
 import {

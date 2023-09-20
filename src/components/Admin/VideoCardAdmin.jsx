@@ -1,8 +1,6 @@
-import * as React from 'react';
-
 import { Link } from 'react-router-dom';
 
-import { Box, Card, CardBody, Heading, Image, Text } from '@chakra-ui/react';
+import { Box, Heading, Image, Text } from '@chakra-ui/react';
 import { IoMdEye } from 'react-icons/io';
 import { BiEdit } from 'react-icons/bi';
 

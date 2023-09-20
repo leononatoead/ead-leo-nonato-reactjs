@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom';
 import { convertFromRaw } from 'draft-js';
 
 import { Box, Heading, Image, Text } from '@chakra-ui/react';
-
 import { IoMdEye } from 'react-icons/io';
 import { BiEdit } from 'react-icons/bi';
 

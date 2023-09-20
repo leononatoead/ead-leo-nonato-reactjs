@@ -1,6 +1,5 @@
-import { Link } from 'react-router-dom';
-
 import { convertFromRaw } from 'draft-js';
+import { Link } from 'react-router-dom';
 
 import { Box, Heading, Image, Text } from '@chakra-ui/react';
 

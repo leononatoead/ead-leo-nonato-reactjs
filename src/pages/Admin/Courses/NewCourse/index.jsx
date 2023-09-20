@@ -1,14 +1,11 @@
 import { useState } from 'react';
-
+import useCourse from '../../../../hooks/useCourse';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AddCourseSchema } from './addCourseSchema';
 
-import useCourse from '../../../../hooks/useCourse';
-
 import Input from '../../../../components/Global/Input';
 import ButtonSubmit from '../../../../components/Global/ButtonSubmit';
-
 import { Box, Switch, Text } from '@chakra-ui/react';
 
 export default function NewCourse() {

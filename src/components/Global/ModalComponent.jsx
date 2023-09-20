@@ -1,6 +1,3 @@
-import { RiCloseFill } from 'react-icons/ri';
-import logo from '../../assets/auth-logo-black.svg';
-
 import {
   Modal,
   ModalContent,
@@ -9,6 +6,8 @@ import {
   Text,
   Image,
 } from '@chakra-ui/react';
+import { RiCloseFill } from 'react-icons/ri';
+import logo from '../../assets/auth-logo-black.svg';
 
 export default function ModalComponent({
   openModal,

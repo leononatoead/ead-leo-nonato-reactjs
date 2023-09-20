@@ -1,17 +1,14 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-
+import useCourse from '../../../../hooks/useCourse';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { EditCourseSchema } from './editCourseSchema';
 
-import useCourse from '../../../../hooks/useCourse';
-
 import Input from '../../../../components/Global/Input';
 import ButtonSubmit from '../../../../components/Global/ButtonSubmit';
 import ConfirmModal from '../../../../components/Global/ConfirmModal';
-
 import { Box, Flex, Switch, Text } from '@chakra-ui/react';
 
 export default function EditCourse() {

@@ -1,14 +1,11 @@
-import { Link } from 'react-router-dom';
-
+import useAuth from '../../../hooks/useAuth';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoginSchema } from './loginSchema';
-
-import useAuth from '../../../hooks/useAuth';
+import { Link } from 'react-router-dom';
 
 import Input from '../../Global/Input';
 import ButtonSubmit from '../../Global/ButtonSubmit';
-
 import {
   Box,
   Heading,

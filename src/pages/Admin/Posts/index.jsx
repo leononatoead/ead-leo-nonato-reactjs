@@ -1,13 +1,11 @@
 import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
-
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPosts } from '../../../redux/modules/posts/actions';
+import { Link } from 'react-router-dom';
 
 import PostCardAdmin from '../../../components/Admin/PostCardAdmin';
 import Pagination from '../../../components/Global/Pagination';
 import { Box, Text } from '@chakra-ui/react';
-
 import { MdAddCircleOutline } from 'react-icons/md';
 
 export default function Posts() {

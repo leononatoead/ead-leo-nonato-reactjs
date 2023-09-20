@@ -1,8 +1,7 @@
 import { useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
-
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchVideos } from '../../../redux/modules/courses/actions';
+import { Link, useParams } from 'react-router-dom';
 
 import {
   Box,
@@ -15,7 +14,6 @@ import {
   AccordionIcon,
   AccordionPanel,
 } from '@chakra-ui/react';
-
 import { BiEdit } from 'react-icons/bi';
 import { MdAddCircleOutline } from 'react-icons/md';
 

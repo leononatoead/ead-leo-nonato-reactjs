@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { Swiper, SwiperSlide } from 'swiper/react';
 import { selectCategory } from '../../../redux/modules/posts/actions';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
 export default function CategoriesFilter() {
   const [categories, setCategories] = useState({

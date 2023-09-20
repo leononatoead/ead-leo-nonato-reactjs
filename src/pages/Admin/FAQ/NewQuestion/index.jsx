@@ -1,12 +1,10 @@
 import { useForm } from 'react-hook-form';
-
 import useFAQ from '../../../../hooks/useFAQ';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { QuestionsSchema } from './QuestionsSchema';
 
 import Input from '../../../../components/Global/Input';
 import ButtonSubmit from '../../../../components/Global/ButtonSubmit';
-
 import { Box } from '@chakra-ui/react';
 
 export default function NewQuestion() {

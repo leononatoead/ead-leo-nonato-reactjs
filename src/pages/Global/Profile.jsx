@@ -1,14 +1,11 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-
 import useFormatPhone from '../../hooks/useFormat';
 
 import Navbar from '../../components/Global/Navbar';
 import ChangePassword from '../../components/Global/ChangePassword';
 import ChangeProfileImage from '../../components/Global/ChangeProfileImage';
-
 import { Box, Image, Avatar, Heading, Flex, Text } from '@chakra-ui/react';
-
 import background from '../../assets/auth-background.png';
 import { BiPencil } from 'react-icons/bi';
 

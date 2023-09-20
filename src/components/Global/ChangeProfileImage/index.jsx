@@ -1,10 +1,8 @@
 import { useState } from 'react';
-
 import useAuth from '../../../hooks/useAuth';
 
 import ModalComponent from '../ModalComponent';
 import ButtonSubmit from '../ButtonSubmit';
-
 import { ModalBody, ModalFooter, Text } from '@chakra-ui/react';
 import { IoIosCheckmarkCircleOutline } from 'react-icons/io';
 

@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from 'react-redux';
-
 import { changePage, fetchMorePosts } from '../../redux/modules/posts/actions';
 
 import { Box } from '@chakra-ui/react';

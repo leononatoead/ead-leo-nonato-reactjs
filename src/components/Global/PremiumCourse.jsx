@@ -1,11 +1,9 @@
 import { Link } from 'react-router-dom';
 
 import ModalComponent from './ModalComponent';
-
 import { Image } from '@chakra-ui/image';
 import { ModalBody } from '@chakra-ui/modal';
 import { Flex, Heading, Text } from '@chakra-ui/layout';
-
 import { BiCartAdd } from 'react-icons/bi';
 
 export default function PremiumCourse({ open, close, courseData }) {
