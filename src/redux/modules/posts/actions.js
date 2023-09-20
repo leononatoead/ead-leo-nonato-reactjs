@@ -142,6 +142,49 @@ export const searchPosts = createAsyncThunk(
   },
 );
 
+export const selectCategory = createAsyncThunk(
+  'posts/selectCategory',
+  async (category) => {
+    if (category === null) {
+      return new Promise((resolve, reject) => {
+        resolve(null);
+      });
+    }
+
+    const searchRef = collection(database, 'posts');
+
+    try {
+      const q = query(
+        searchRef,
+        where('category', '==', category),
+        orderBy('createdAt', 'desc'),
+        limit(10),
+      );
+
+      return new Promise((resolve, reject) => {
+        onSnapshot(
+          q,
+          (querySnapshot) => {
+            const data = querySnapshot.docs.map((doc) => ({
+              id: doc.id,
+              ...doc.data(),
+              createdAt: doc.data().createdAt.toMillis(),
+            }));
+
+            resolve(data);
+          },
+          (error) => {
+            reject(error);
+            console.log(error);
+          },
+        );
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  },
+);
+
 export const delPost = createAsyncThunk('posts/delPost', async (data) => {
   const collectionRef = collection(database, 'posts');
   const lastPost = doc(database, 'posts', data.lastPostId);
@@ -203,13 +246,6 @@ export const editPost = (data) => async (dispatch) => {
     payload: data,
   });
 };
-
-// export const delPost = (data) => async (dispatch) => {
-//   dispatch({
-//     type: 'posts/delPost',
-//     payload: data,
-//   });
-// };
 
 export const changePage = (page) => async (dispatch) => {
   dispatch({

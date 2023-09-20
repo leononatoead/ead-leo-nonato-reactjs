@@ -51,7 +51,7 @@ export default function Input({
             className={`w-full rounded-[4px]  px-3 py-[5px] leading-5 text-base outline-none ${
               theme === 'light' ? 'bg-white' : 'bg-white/5'
             } placeholder:text-gray-900 resize-none`}
-            rows={10}
+            rows={id === 'comment' ? 3 : 10}
             autoComplete='false'
             defaultValue={defaultValue}
           ></textarea>

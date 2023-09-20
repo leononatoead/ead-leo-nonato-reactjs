@@ -5,6 +5,7 @@ import {
   fetchPosts,
   delPost,
   searchPosts,
+  selectCategory,
 } from './actions';
 
 const postsReducer = createSlice({
@@ -106,6 +107,9 @@ const postsReducer = createSlice({
       })
       .addCase(searchPosts.fulfilled, (state, action) => {
         return { ...state, searchResults: action.payload };
+      })
+      .addCase(selectCategory.fulfilled, (state, action) => {
+        return { ...state, selectedCategory: action.payload };
       })
       .addCase(delPost.fulfilled, (state, action) => {
         const posts = JSON.parse(JSON.stringify([...state.posts]));

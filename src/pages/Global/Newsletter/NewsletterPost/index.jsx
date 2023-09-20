@@ -13,12 +13,14 @@ import { Editor } from 'react-draft-wysiwyg';
 import { EditorState, convertFromRaw } from 'draft-js';
 
 import Navbar from '../../../../components/Global/Navbar';
+import LikeAndComment from '../../../../components/Global/Newsletter/LikeAndComment';
 
 import { Box, Heading, Image, Text } from '@chakra-ui/react';
 
 export default function NewsletterPost() {
   const { id } = useParams();
   const { posts, currentPost } = useSelector((state) => state.posts);
+  const { user } = useSelector((state) => state.auth);
 
   const [editorState, setEditorState] = useState();
 
@@ -72,6 +74,7 @@ export default function NewsletterPost() {
           toolbarHidden={true}
         />
       </Box>
+      {/* {user && <LikeAndComment post={currentPost} />} */}
     </Box>
   );
 }

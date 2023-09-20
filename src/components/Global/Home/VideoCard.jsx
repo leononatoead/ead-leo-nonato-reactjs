@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { Box, Card, CardBody, CardFooter, Image, Text } from '@chakra-ui/react';
-import PremiumContent from '../PremiumContent';
+import PremiumCourse from '../PremiumCourse';
 
 import { BiCartAdd, BiLockAlt } from 'react-icons/bi';
 
@@ -149,7 +149,7 @@ export default function VideoCard({ courseData, setOpenLoginModal }) {
         </Card>
       )}
 
-      <PremiumContent
+      <PremiumCourse
         open={openPremiumModal}
         close={setOpenPremiumModal}
         courseData={courseData}

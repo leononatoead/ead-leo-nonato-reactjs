@@ -8,7 +8,7 @@ import {
 } from '../../../redux/modules/courses/actions';
 
 import Navbar from '../../../components/Global/Navbar';
-import PremiumContent from '../../../components/Global/PremiumContent';
+import PremiumCourse from '../../../components/Global/PremiumCourse';
 
 import {
   Accordion,
@@ -140,7 +140,7 @@ export default function Course() {
         </Accordion>
       </Box>
 
-      <PremiumContent open={locked} close={setLocked} courseData={course} />
+      <PremiumCourse open={locked} close={setLocked} courseData={course} />
     </Box>
   );
 }

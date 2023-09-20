@@ -8,7 +8,7 @@ import { Flex, Heading, Text } from '@chakra-ui/layout';
 
 import { BiCartAdd } from 'react-icons/bi';
 
-export default function PremiumContent({ open, close, courseData }) {
+export default function PremiumCourse({ open, close, courseData }) {
   const handleCloseModal = () => {
     close(false);
   };

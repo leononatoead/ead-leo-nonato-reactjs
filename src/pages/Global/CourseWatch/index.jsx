@@ -10,7 +10,7 @@ import Navbar from '../../../components/Global/Navbar';
 
 import VideoList from './VideoList';
 import VideoPlayer from './VideoPlayer';
-import PremiumContent from '../../../components/Global/PremiumContent';
+import PremiumCourse from '../../../components/Global/PremiumCourse';
 
 export default function CourseWatch() {
   const { pathname } = useLocation();
@@ -97,7 +97,7 @@ export default function CourseWatch() {
           />
         </div>
       )}
-      <PremiumContent
+      <PremiumCourse
         open={locked}
         close={setLocked}
         title={'Conteúdo disponível para assinantes'}

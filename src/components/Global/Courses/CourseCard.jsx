@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import PremiumContent from '../PremiumContent';
+import PremiumCourse from '../PremiumCourse';
 
 import { Box, Heading, Image, Text } from '@chakra-ui/react';
 
@@ -47,7 +47,7 @@ export default function CourseCard({ course }) {
         </Box>
       </Box>
 
-      <PremiumContent
+      <PremiumCourse
         open={openPremiumModal}
         close={setOpenPremiumModal}
         courseData={course}

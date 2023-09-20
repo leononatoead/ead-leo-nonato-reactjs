@@ -104,7 +104,7 @@ export default function Home() {
         <Box className='px-4'>
           <Box className='flex justify-between items-center pt-4 pb-5'>
             <Heading className='!font-poppins !text-large !leading-6 !font-semibold  !text-primary-600 '>
-              Cursos pagos
+              Cursos Premium
             </Heading>
 
             <Link

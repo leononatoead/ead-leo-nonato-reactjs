@@ -85,6 +85,34 @@ const usePosts = () => {
     }
   };
 
+  // const addComment = async (id, comment) => {
+  //   setLoading(true);
+
+  //   try {
+  //     const postRef = doc(database, `posts/${id}/comments`, id);
+  //     await updateDoc(postRef, comment);
+
+  //     dispatch(editPost(comment));
+
+  //     toast({
+  //       description: 'Comentário adicionado com sucesso!',
+  //       status: 'success',
+  //       duration: '3000',
+  //       isClosable: true,
+  //     });
+  //   } catch (error) {
+  //     console.log(error);
+  //     toast({
+  //       description: error.message,
+  //       status: 'error',
+  //       duration: '3000',
+  //       isClosable: true,
+  //     });
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
   const deletePost = async (delId, lastPostId) => {
     try {
       const postRef = doc(database, `posts`, delId);
