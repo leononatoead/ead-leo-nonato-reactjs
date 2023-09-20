@@ -1,13 +1,10 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchPosts } from '../../../redux/modules/posts/actions';
+import { useSelector } from 'react-redux';
 
 import Navbar from '../../../components/Global/Navbar';
 import PostCard from '../../../components/Global/Newsletter/PostCard';
 import Pagination from '../../../components/Global/Pagination';
 import SearchBar from '../../../components/Global/SearchBar';
 import CategoriesFilter from '../../../components/Global/Newsletter/CategoriesFilter';
-
 import { Box, Text } from '@chakra-ui/react';
 
 export default function Newsletter() {
@@ -15,14 +12,6 @@ export default function Newsletter() {
     (state) => state.posts,
   );
   const page = pages?.find((page) => page.page === currentPage);
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (!pages) {
-      dispatch(fetchPosts());
-    }
-  }, []);
 
   return (
     <Box className='min-h-screen bg-gray-200'>

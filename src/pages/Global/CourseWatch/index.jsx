@@ -1,13 +1,9 @@
 import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import {
-  fetchCourses,
-  fetchVideos,
-} from '../../../redux/modules/courses/actions';
 import { useDispatch, useSelector } from 'react-redux';
+import { fetchVideos } from '../../../redux/modules/courses/actions';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import Navbar from '../../../components/Global/Navbar';
-
 import VideoList from './VideoList';
 import VideoPlayer from './VideoPlayer';
 import PremiumCourse from '../../../components/Global/PremiumCourse';
@@ -36,33 +32,28 @@ export default function CourseWatch() {
     const id = pathParams[2];
     const videoId = pathParams[3];
 
-    if (!courses) {
-      dispatch(fetchCourses());
-      return;
-    } else if (courses) {
-      const findCourse = courses?.find((course) => course.id === id);
+    const findCourse = courses?.find((course) => course.id === id);
 
-      if (!findCourse.videos) {
-        dispatch(fetchVideos(id));
-      } else {
-        const section = findCourse.videos.find((video) =>
-          video.videos.find((video) => video.id === videoId),
-        );
+    if (!findCourse.videos) {
+      dispatch(fetchVideos(id));
+    } else {
+      const section = findCourse.videos.find((video) =>
+        video.videos.find((video) => video.id === videoId),
+      );
 
-        if (!section) {
-          navigate('/');
-          return;
-        }
-
-        const video = section.videos.find((video) => video.id === videoId);
-
-        setVideoPlayer((prev) => ({
-          ...prev,
-          active: video,
-          videoList: section.videos,
-          sectionName: section.section,
-        }));
+      if (!section) {
+        navigate('/');
+        return;
       }
+
+      const video = section.videos.find((video) => video.id === videoId);
+
+      setVideoPlayer((prev) => ({
+        ...prev,
+        active: video,
+        videoList: section.videos,
+        sectionName: section.section,
+      }));
     }
 
     if (!user) {

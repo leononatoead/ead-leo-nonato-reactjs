@@ -1,11 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchPosts } from '../../redux/modules/posts/actions';
-
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
 
 import Navbar from '../../components/Global/Navbar';
 import LoginModal from '../../components/Auth/LoginModal';
@@ -13,9 +8,10 @@ import VideoCard from '../../components/Global/Home/VideoCard';
 import SearchBar from '../../components/Global/SearchBar';
 import Banner from '../../components/Global/Home/Banner';
 import Footer from '../../components/Global/Footer';
-
-import { Box, Heading } from '@chakra-ui/react';
 import PostCard from '../../components/Global/Home/PostCard';
+import { Box, Heading } from '@chakra-ui/react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
 
 export default function Home() {
   const [openLoginModal, setOpenLoginModal] = useState(false);
@@ -26,14 +22,6 @@ export default function Home() {
 
   const freeCourses = courses?.filter((course) => !course.isPremium);
   const paidCourses = courses?.filter((course) => course.isPremium);
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (!pages) {
-      dispatch(fetchPosts());
-    }
-  }, []);
 
   return (
     <main className='h-screen overflow-y-auto bg-[#f0f0f0]'>

@@ -6,7 +6,19 @@ const courseReducer = createSlice({
   initialState: {},
   reducers: {
     addCourse: (state, action) => {
+      const courses = JSON.parse(JSON.stringify([...state.courses]));
       const newCourse = action.payload;
+      const storageCourses = JSON.stringify([...courses, newCourse]);
+      localStorage.setItem('courses', storageCourses);
+
+      if (state.videos) {
+        const storageVideos = JSON.parse(JSON.stringify([...state.videos]));
+        localStorage.setItem('videos', storageVideos);
+      }
+
+      const updatedAt = JSON.stringify(new Date());
+      localStorage.setItem('lastCoursesUpdate', updatedAt);
+
       return {
         ...state,
         courses: [...state.courses, newCourse],
@@ -57,6 +69,17 @@ const courseReducer = createSlice({
         }
       });
 
+      const storageCourses = JSON.stringify([...updatedCourseList]);
+      localStorage.setItem('courses', storageCourses);
+
+      if (state.videos) {
+        const storageVideos = JSON.parse(JSON.stringify([...state.videos]));
+        localStorage.setItem('videos', storageVideos);
+      }
+
+      const updatedAt = JSON.stringify(new Date());
+      localStorage.setItem('lastCoursesUpdate', updatedAt);
+
       return {
         ...state,
         courses: updatedCourseList,
@@ -66,6 +89,17 @@ const courseReducer = createSlice({
       const filterCourses = state.courses.filter(
         (course) => course.id !== action.payload,
       );
+
+      const storageCourses = JSON.stringify([...filterCourses]);
+      localStorage.setItem('courses', storageCourses);
+
+      if (state.videos) {
+        const storageVideos = JSON.parse(JSON.stringify([...state.videos]));
+        localStorage.setItem('videos', storageVideos);
+      }
+
+      const updatedAt = JSON.stringify(new Date());
+      localStorage.setItem('lastCoursesUpdate', updatedAt);
 
       return {
         ...state,
@@ -112,6 +146,12 @@ const courseReducer = createSlice({
         }
       });
 
+      const storageCourses = JSON.parse(JSON.stringify([...updatedCourseList]));
+      localStorage.setItem('courses', storageCourses);
+
+      const updatedAt = JSON.stringify(new Date());
+      localStorage.setItem('lastCoursesUpdate', updatedAt);
+
       return {
         ...state,
         courses: updatedCourseList,
@@ -156,6 +196,12 @@ const courseReducer = createSlice({
         }
       });
 
+      const storageCourses = JSON.parse(JSON.stringify([...updatedCourseList]));
+      localStorage.setItem('courses', storageCourses);
+
+      const updatedAt = JSON.stringify(new Date());
+      localStorage.setItem('lastCoursesUpdate', updatedAt);
+
       return {
         ...state,
         courses: updatedCourseList,
@@ -191,6 +237,12 @@ const courseReducer = createSlice({
         }
       });
 
+      const storageCourses = JSON.parse(JSON.stringify([...updatedCourseList]));
+      localStorage.setItem('courses', storageCourses);
+
+      const updatedAt = JSON.stringify(new Date());
+      localStorage.setItem('lastCoursesUpdate', updatedAt);
+
       return {
         ...state,
         courses: updatedCourseList,
@@ -199,10 +251,18 @@ const courseReducer = createSlice({
     selectLesson: (state, action) => {
       return { ...state, activeLesson: action.payload };
     },
+    fetchCoursesFromLocalStorage: (state, action) => {
+      return { ...state, courses: action.payload };
+    },
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchCourses.fulfilled, (state, action) => {
+        const storage = JSON.stringify(action.payload);
+        localStorage.setItem('courses', storage);
+        const updatedAt = JSON.stringify(new Date());
+        localStorage.setItem('lastCoursesUpdate', updatedAt);
+
         return { ...state, courses: action.payload };
       })
       .addCase(fetchVideos.fulfilled, (state, action) => {
@@ -250,6 +310,13 @@ const courseReducer = createSlice({
         } else {
           allVideos = [...action.payload.videos];
         }
+
+        const storageCourses = JSON.stringify(updatedCourseList);
+        localStorage.setItem('courses', storageCourses);
+        const storageVideos = JSON.stringify(allVideos);
+        localStorage.setItem('videos', storageVideos);
+        const updatedAt = JSON.stringify(new Date());
+        localStorage.setItem('lastCoursesUpdate', updatedAt);
 
         return {
           ...state,

@@ -1,15 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { fetchVideos } from '../../../redux/modules/courses/actions';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-
-import {
-  fetchCourses,
-  fetchVideos,
-} from '../../../redux/modules/courses/actions';
 
 import Navbar from '../../../components/Global/Navbar';
 import PremiumCourse from '../../../components/Global/PremiumCourse';
-
 import {
   Accordion,
   AccordionItem,
@@ -19,9 +14,7 @@ import {
   Image,
   Avatar,
 } from '@chakra-ui/react';
-
 import { Box, Heading } from '@chakra-ui/layout';
-
 import background from '../../../assets/auth-background.png';
 
 export default function Course() {
@@ -40,17 +33,11 @@ export default function Course() {
   };
 
   useEffect(() => {
-    if (!courses) {
-      dispatch(fetchCourses());
+    const findCourse = courses?.find((course) => course.id === id);
+    if (!findCourse.videos) {
+      dispatch(fetchVideos(id));
     }
-
-    if (courses) {
-      const findCourse = courses?.find((course) => course.id === id);
-      if (!findCourse.videos) {
-        dispatch(fetchVideos(id));
-      }
-      setCourse(findCourse);
-    }
+    setCourse(findCourse);
 
     if (!user) {
       setLocked(true);

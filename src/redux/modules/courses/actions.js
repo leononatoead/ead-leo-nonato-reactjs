@@ -122,3 +122,10 @@ export const searchCourse = (searchQuery) => {
     payload: searchQuery,
   };
 };
+
+export const fetchCoursesFromLocalStorage = (data) => {
+  return {
+    type: 'courses/fetchCoursesFromLocalStorage',
+    payload: data,
+  };
+};

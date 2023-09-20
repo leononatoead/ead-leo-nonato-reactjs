@@ -1,13 +1,12 @@
 import { useEffect } from 'react';
-
-import { useParams } from 'react-router-dom';
-
 import { useDispatch, useSelector } from 'react-redux';
 import { searchPosts } from '../../redux/modules/posts/actions';
-import { Box, Text } from '@chakra-ui/react';
+import { useParams } from 'react-router-dom';
+
 import Navbar from '../../components/Global/Navbar';
 import PostCard from '../../components/Global/Newsletter/PostCard';
 import SearchBar from '../../components/Global/SearchBar';
+import { Box, Text } from '@chakra-ui/react';
 
 export default function SearchResults() {
   const { id } = useParams();

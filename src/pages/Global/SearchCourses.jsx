@@ -1,20 +1,16 @@
 import { useEffect } from 'react';
-
-import { useParams } from 'react-router-dom';
-
 import { useDispatch, useSelector } from 'react-redux';
 import { searchCourse } from '../../redux/modules/courses/actions';
+import { useParams } from 'react-router-dom';
 
 import Navbar from '../../components/Global/Navbar';
 import CourseCard from '../../components/Global/Courses/CourseCard';
 import SearchBar from '../../components/Global/SearchBar';
-
 import { Box, Text } from '@chakra-ui/react';
 
 export default function SearchCourses() {
   const { id } = useParams();
   const { searchResults } = useSelector((state) => state.courses);
-  console.log(searchResults);
 
   const dispatch = useDispatch();
 
