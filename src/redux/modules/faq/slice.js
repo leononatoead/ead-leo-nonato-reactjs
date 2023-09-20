@@ -7,14 +7,16 @@ const faqReducer = createSlice({
   reducers: {
     addQuestion: (state, action) => {
       const questions = JSON.parse(JSON.stringify([...state.questions]));
+      if (questions) {
+        const storageQuestions = JSON.stringify([...questions, action.payload]);
+        localStorage.setItem('FAQ', storageQuestions);
+      } else {
+        const storageQuestions = JSON.stringify([action.payload]);
+        localStorage.setItem('FAQ', storageQuestions);
+      }
 
-      // const courses = JSON.parse(JSON.stringify([...state.courses]));
-      // const newCourse = action.payload;
-      // const storageCourses = JSON.stringify([...courses, newCourse]);
-      // localStorage.setItem('courses', storageCourses);
-
-      // const updatedAt = JSON.stringify(new Date());
-      // localStorage.setItem('lastCoursesUpdate', updatedAt);
+      const updatedAt = JSON.stringify(new Date());
+      localStorage.setItem('lastFAQUpdate', updatedAt);
 
       return { ...state, questions: [...questions, action.payload] };
     },
@@ -29,6 +31,12 @@ const faqReducer = createSlice({
         }
       });
 
+      const storageQuestions = JSON.stringify([...updateQuestions]);
+      localStorage.setItem('FAQ', storageQuestions);
+
+      const updatedAt = JSON.stringify(new Date());
+      localStorage.setItem('lastFAQUpdate', updatedAt);
+
       return { ...state, questions: updateQuestions };
     },
     delQuestion: (state, action) => {
@@ -37,14 +45,29 @@ const faqReducer = createSlice({
         (question) => question.id !== action.payload,
       );
 
+      const storageQuestions = JSON.stringify([...filterQuestions]);
+      localStorage.setItem('FAQ', storageQuestions);
+
+      const updatedAt = JSON.stringify(new Date());
+      localStorage.setItem('lastFAQUpdate', updatedAt);
+
       return {
         ...state,
         questions: filterQuestions,
       };
     },
+    fetchFAQFromLocalStorage: (state, action) => {
+      return { ...state, questions: action.payload };
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchQuestions.fulfilled, (state, action) => {
+      const storageQuestions = JSON.stringify([...action.payload]);
+      localStorage.setItem('FAQ', storageQuestions);
+
+      const updatedAt = JSON.stringify(new Date());
+      localStorage.setItem('lastFAQUpdate', updatedAt);
+
       return { ...state, questions: action.payload };
     });
   },

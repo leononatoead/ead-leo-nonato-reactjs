@@ -51,3 +51,10 @@ export const delQuestion = (data) => async (dispatch) => {
     payload: data,
   });
 };
+
+export const fetchFAQFromLocalStorage = (data) => async (dispatch) => {
+  dispatch({
+    type: 'faq/fetchFAQFromLocalStorage',
+    payload: data,
+  });
+};

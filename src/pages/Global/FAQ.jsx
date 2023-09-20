@@ -1,6 +1,9 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchQuestions } from '../../redux/modules/faq/actions';
+import {
+  fetchFAQFromLocalStorage,
+  fetchQuestions,
+} from '../../redux/modules/faq/actions';
 
 import Navbar from '../../components/Global/Navbar';
 import {
@@ -19,8 +22,18 @@ export default function FAQ() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!questions) {
+    const lastFAQUpdate = new Date(
+      JSON.parse(localStorage.getItem('lastFAQUpdate')),
+    );
+    const actualTime = new Date();
+    const verifyFAQUpdate = Math.abs(actualTime - lastFAQUpdate);
+    const FAQMinutesDifference = Math.floor(verifyFAQUpdate / 86400000);
+
+    if (FAQMinutesDifference > 30) {
       dispatch(fetchQuestions());
+    } else {
+      const FAQ = JSON.parse(localStorage.getItem('FAQ'));
+      dispatch(fetchFAQFromLocalStorage(FAQ));
     }
   }, []);
 
