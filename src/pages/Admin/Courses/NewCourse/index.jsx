@@ -12,14 +12,22 @@ export default function NewCourse() {
   const [isPremium, setIsPremium] = useState(false);
   const [needAuth, setNeedAuth] = useState(true);
   const [isHidden, setIsHidden] = useState(false);
+  const [needForm, setNeedForm] = useState(false);
   const [imageFile, setImageFile] = useState();
-  const [error, setError] = useState();
-  const { addNewCourse, loading } = useCourse();
+  const [error, setError] = useState({
+    image: '',
+    price: '',
+    paymentRef: '',
+    paymentURL: '',
+    formRef: '',
+  });
 
+  const { addNewCourse, loading } = useCourse();
   const {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(AddCourseSchema),
@@ -32,19 +40,74 @@ export default function NewCourse() {
       setNeedAuth((prev) => !prev);
     } else if (type === 'isHidden') {
       setIsHidden((prev) => !prev);
+    } else if (type === 'needForm') {
+      setNeedForm((prev) => !prev);
     }
   };
 
   const handlAddCourse = async (formData) => {
-    setError(null);
+    setError({
+      image: '',
+      price: '',
+      paymentRef: '',
+      paymentURL: '',
+      formRef: '',
+    });
 
-    const data = { ...formData, isPremium, needAuth, isHidden };
-
-    if (imageFile) {
-      addNewCourse(data, 'courses', imageFile);
-    } else {
-      setError('Envie uma imagem!');
+    if (!imageFile) {
+      setError((prev) => ({ ...prev, image: 'Envie uma imagem!' }));
+      return;
     }
+
+    if (isPremium) {
+      if (!formData.price || !formData.paymentRef || !formData.paymentURL) {
+        if (!formData.price) {
+          setError((prev) => ({ ...prev, price: 'Digite um preço válido' }));
+        }
+        if (!formData.paymentRef) {
+          setError((prev) => ({
+            ...prev,
+            paymentRef: 'Digite uma referência válida',
+          }));
+        }
+        if (!formData.paymentURL) {
+          setError((prev) => ({
+            ...prev,
+            paymentURL: 'Digite um URL válido',
+          }));
+        }
+        return;
+      }
+    }
+
+    if (needForm) {
+      if (!formData.formRef) {
+        setError((prev) => ({
+          ...prev,
+          formRef: 'Digite uma referência válida',
+        }));
+
+        return;
+      }
+    }
+
+    const data = { ...formData, isPremium, needAuth, isHidden, needForm };
+    addNewCourse(data, 'courses', imageFile);
+
+    reset({
+      name: '',
+      description: '',
+      author: '',
+      price: '',
+      paymentRef: '',
+      paymentURL: '',
+      formRef: '',
+    });
+
+    setIsPremium(false);
+    setNeedAuth(true);
+    setIsHidden(false);
+    setNeedForm(false);
   };
 
   return (
@@ -67,7 +130,7 @@ export default function NewCourse() {
             className='w-full outline-none text-base'
             onChange={(e) => setImageFile(e.target.files[0])}
           />
-          <span className='errorText'>{error}</span>
+          <span className='errorText'>{error?.image && error.image}</span>
         </Box>
         <Input
           theme={'light'}
@@ -105,11 +168,11 @@ export default function NewCourse() {
               theme={'light'}
               type={'number'}
               label={'Preço'}
-              placeholder={'R$ 0,00'}
               register={register}
               id={'price'}
-              error={errors?.price?.message}
+              error={error.price}
               watch={watch}
+              defaultValue={0}
             />
             <Input
               theme={'light'}
@@ -118,7 +181,7 @@ export default function NewCourse() {
               placeholder={'Digite aqui'}
               register={register}
               id={'paymentRef'}
-              error={errors?.paymentRef?.message}
+              error={error?.paymentRef}
               watch={watch}
             />
             <Input
@@ -128,10 +191,22 @@ export default function NewCourse() {
               placeholder={'https://exemplo.com/'}
               register={register}
               id={'paymentURL'}
-              error={errors?.paymentURL?.message}
+              error={error?.paymentURL}
               watch={watch}
             />
           </>
+        )}
+        {needForm && (
+          <Input
+            theme={'light'}
+            type={'text'}
+            label={'Referência do formulário de cadastro'}
+            placeholder={'Digite aqui'}
+            register={register}
+            id={'formRef'}
+            error={error?.formRef}
+            watch={watch}
+          />
         )}
         <Box className='flex justify-start items-center gap-4' mb={'5px'}>
           <Text className='font-bold text-primary-600 text-base'>
@@ -146,7 +221,18 @@ export default function NewCourse() {
         </Box>
         <Box className='flex justify-start items-center gap-4' mb={'5px'}>
           <Text className='font-bold text-primary-600 text-base'>
-            Requer Cadastro:
+            Formulário de cadastro:
+          </Text>
+          <Box className='flex justify-start items-center gap-4'>
+            <Switch id='needForm' onChange={() => handleSwitch('needForm')} />
+            <label htmlFor={'needForm'} className='text-base leading-5'>
+              {needForm ? 'Ativado' : 'Desativado'}
+            </label>
+          </Box>
+        </Box>
+        <Box className='flex justify-start items-center gap-4' mb={'5px'}>
+          <Text className='font-bold text-primary-600 text-base'>
+            Requer cadastro:
           </Text>
           <Box className='flex justify-start items-center gap-4'>
             <Switch

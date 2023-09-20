@@ -31,7 +31,6 @@ function App() {
     const coursesMinutesDifference = Math.floor(verifyCourseUpdate / 60000);
 
     if (coursesMinutesDifference > 60) {
-      console.log('clg1');
       dispatch(fetchCourses());
     } else {
       const courses = JSON.parse(localStorage.getItem('courses'));

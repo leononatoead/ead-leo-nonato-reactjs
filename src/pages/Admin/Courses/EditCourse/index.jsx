@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import useCourse from '../../../../hooks/useCourse';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { EditCourseSchema } from './editCourseSchema';
+import { AddCourseSchema } from '../NewCourse/addCourseSchema';
 
 import Input from '../../../../components/Global/Input';
 import ButtonSubmit from '../../../../components/Global/ButtonSubmit';
@@ -26,7 +26,15 @@ export default function EditCourse() {
   const [isPremium, setIsPremium] = useState(course?.isPremium);
   const [isHidden, setIsHidden] = useState(course?.isHidden);
   const [needAuth, setNeedAuth] = useState(course?.needAuth);
+  const [needForm, setNeedForm] = useState(course?.formRef);
   const [openConfirmModal, setOpenConfirmModal] = useState();
+  const [error, setError] = useState({
+    image: '',
+    price: '',
+    paymentRef: '',
+    paymentURL: '',
+    formRef: '',
+  });
 
   const {
     register,
@@ -34,7 +42,7 @@ export default function EditCourse() {
     watch,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(EditCourseSchema),
+    resolver: zodResolver(AddCourseSchema),
   });
 
   const handleSwitch = (type) => {
@@ -44,17 +52,57 @@ export default function EditCourse() {
       setNeedAuth((prev) => !prev);
     } else if (type === 'isHidden') {
       setIsHidden((prev) => !prev);
+    } else if (type === 'needForm') {
+      setNeedForm((prev) => !prev);
     }
   };
-
   const handleEditCourse = async (formData) => {
-    const data = { ...formData, isPremium, needAuth, isHidden };
-    console.log(data);
+    setError({
+      image: '',
+      price: '',
+      paymentRef: '',
+      paymentURL: '',
+      formRef: '',
+    });
+
+    if (isPremium) {
+      if (!formData.price || !formData.paymentRef || !formData.paymentURL) {
+        if (!formData.price) {
+          setError((prev) => ({ ...prev, price: 'Digite um preço válido' }));
+        }
+        if (!formData.paymentRef) {
+          setError((prev) => ({
+            ...prev,
+            paymentRef: 'Digite uma referência válida',
+          }));
+        }
+        if (!formData.paymentURL) {
+          setError((prev) => ({
+            ...prev,
+            paymentURL: 'Digite um URL válido',
+          }));
+        }
+        return;
+      }
+    }
+
+    if (needForm) {
+      if (!formData.formRef) {
+        setError((prev) => ({
+          ...prev,
+          formRef: 'Digite uma referência válida',
+        }));
+
+        return;
+      }
+    }
+
+    const data = { ...formData, isPremium, needAuth, isHidden, needForm };
 
     if (imageFile) {
       editCourseWithImage(course, data, 'courses', imageFile);
     } else {
-      editCourseWithoutImage(course, formData);
+      editCourseWithoutImage(course, data);
     }
   };
 
@@ -128,6 +176,7 @@ export default function EditCourse() {
               id={'price'}
               error={errors?.price?.message}
               watch={watch}
+              defaultValue={course.price}
             />
             <Input
               theme={'light'}
@@ -138,6 +187,7 @@ export default function EditCourse() {
               id={'paymentRef'}
               error={errors?.paymentRef?.message}
               watch={watch}
+              defaultValue={course.paymentRef}
             />
             <Input
               theme={'light'}
@@ -148,8 +198,22 @@ export default function EditCourse() {
               id={'paymentURL'}
               error={errors?.paymentURL?.message}
               watch={watch}
+              defaultValue={course.paymentURL}
             />
           </>
+        )}
+        {needForm && (
+          <Input
+            theme={'light'}
+            type={'text'}
+            label={'Referência do formulário de cadastro'}
+            placeholder={'Digite aqui'}
+            register={register}
+            id={'formRef'}
+            error={error?.formRef}
+            watch={watch}
+            defaultValue={course.formRef}
+          />
         )}
         <Box className='flex justify-start items-center gap-4' mb={'5px'}>
           <Text className='font-bold text-primary-600 text-base'>
@@ -158,8 +222,8 @@ export default function EditCourse() {
           <Box className='flex justify-start items-center gap-4'>
             <Switch
               id='isPremium'
+              isChecked={isPremium}
               onChange={() => handleSwitch('isPremium')}
-              value={course.isPremium}
             />
             <label htmlFor={'isPremium'} className='text-base leading-5'>
               {isPremium ? 'Sim' : 'Não'}
@@ -168,14 +232,28 @@ export default function EditCourse() {
         </Box>
         <Box className='flex justify-start items-center gap-4' mb={'5px'}>
           <Text className='font-bold text-primary-600 text-base'>
-            Requer Cadastro:
+            Formulário de cadastro:
+          </Text>
+          <Box className='flex justify-start items-center gap-4'>
+            <Switch
+              id='needForm'
+              onChange={() => handleSwitch('needForm')}
+              isChecked={needAuth}
+            />
+            <label htmlFor={'needForm'} className='text-base leading-5'>
+              {needForm ? 'Ativado' : 'Desativado'}
+            </label>
+          </Box>
+        </Box>
+        <Box className='flex justify-start items-center gap-4' mb={'5px'}>
+          <Text className='font-bold text-primary-600 text-base'>
+            Requer cadastro:
           </Text>
           <Box className='flex justify-start items-center gap-4'>
             <Switch
               id='needAuth'
-              defaultChecked
+              isChecked={needAuth}
               onChange={() => handleSwitch('needAuth')}
-              value={course.needAuth}
             />
             <label htmlFor={'needAuth'} className='text-base leading-5'>
               {needAuth ? 'Sim' : 'Não'}
@@ -189,9 +267,8 @@ export default function EditCourse() {
           <Box className='flex justify-start items-center gap-4'>
             <Switch
               id='isHidden'
-              defaultChecked
+              isChecked={!isHidden}
               onChange={() => handleSwitch('isHidden')}
-              value={course.isHidden}
             />
             <label htmlFor={'isHidden'} className='text-base leading-5'>
               {isHidden ? 'Privado' : 'Público'}

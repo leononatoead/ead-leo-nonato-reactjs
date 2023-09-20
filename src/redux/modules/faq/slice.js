@@ -7,6 +7,15 @@ const faqReducer = createSlice({
   reducers: {
     addQuestion: (state, action) => {
       const questions = JSON.parse(JSON.stringify([...state.questions]));
+
+      // const courses = JSON.parse(JSON.stringify([...state.courses]));
+      // const newCourse = action.payload;
+      // const storageCourses = JSON.stringify([...courses, newCourse]);
+      // localStorage.setItem('courses', storageCourses);
+
+      // const updatedAt = JSON.stringify(new Date());
+      // localStorage.setItem('lastCoursesUpdate', updatedAt);
+
       return { ...state, questions: [...questions, action.payload] };
     },
     editQuestion: (state, action) => {

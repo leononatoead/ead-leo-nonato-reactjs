@@ -8,5 +8,6 @@ export const AddCourseSchema = z.object({
   price: z.number().optional(),
   paymentRef: z.string().optional(),
   paymentURL: z.string().optional(),
+  formRef: z.string().optional(),
   author: z.string().min(2, 'Digite um nome válido.'),
 });
