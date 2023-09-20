@@ -200,7 +200,7 @@ const courseReducer = createSlice({
         }
       });
 
-      const storageCourses = JSON.parse(JSON.stringify([...updatedCourseList]));
+      const storageCourses = JSON.stringify([...updatedCourseList]);
       localStorage.setItem('courses', storageCourses);
 
       const updatedAt = JSON.stringify(new Date());
@@ -316,12 +316,12 @@ const courseReducer = createSlice({
           allVideos = [...action.payload.videos];
         }
 
-        // const storageCourses = JSON.stringify(updatedCourseList);
-        // localStorage.setItem('courses', storageCourses);
-        // const storageVideos = JSON.stringify(allVideos);
-        // localStorage.setItem('videos', storageVideos);
-        // const updatedAt = JSON.stringify(new Date());
-        // localStorage.setItem('lastCoursesUpdate', updatedAt);
+        const storageCourses = JSON.stringify(updatedCourseList);
+        localStorage.setItem('courses', storageCourses);
+        const storageVideos = JSON.stringify(allVideos);
+        localStorage.setItem('videos', storageVideos);
+        const updatedAt = JSON.stringify(new Date());
+        localStorage.setItem('lastCoursesUpdate', updatedAt);
 
         return {
           ...state,
