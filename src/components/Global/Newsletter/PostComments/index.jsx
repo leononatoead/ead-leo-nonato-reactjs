@@ -53,7 +53,7 @@ export default function PostComments({ id }) {
 
   return (
     <Box className='px-4 pb-6'>
-      <Flex className='gap-4' alignItems={'center'}>
+      {/* <Flex className='gap-4' alignItems={'center'}>
         {user ? (
           <>
             {user?.posts?.includes(post) ? (
@@ -70,7 +70,7 @@ export default function PostComments({ id }) {
             ? `${post.likes} ${post.likes > 1 ? 'Curtidas' : 'Curtida'}`
             : ''}
         </Text>
-      </Flex>
+      </Flex> */}
 
       <Box className='py-4'>
         <Heading className='!font-poppins !text-large !leading-6 !font-semibold  !text-primary-600 '>
