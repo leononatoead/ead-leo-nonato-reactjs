@@ -13,6 +13,7 @@ import { EditorState, convertFromRaw } from 'draft-js';
 import Navbar from '../../../../components/Global/Navbar';
 import LikeAndComment from '../../../../components/Global/Newsletter/LikeAndComment';
 import { Box, Heading, Image, Text } from '@chakra-ui/react';
+import PremiumPost from '../../../../components/Global/PremiumPost';
 
 export default function NewsletterPost() {
   const { id } = useParams();
@@ -20,6 +21,7 @@ export default function NewsletterPost() {
   const { user } = useSelector((state) => state.auth);
 
   const [editorState, setEditorState] = useState();
+  const [openPremiumModal, setOpenPremiumModal] = useState(false);
 
   const { formatDate } = useFormat();
   const dispatch = useDispatch();
@@ -40,6 +42,23 @@ export default function NewsletterPost() {
       setEditorState(state);
     }
   }, [currentPost]);
+
+  useEffect(() => {
+    if (!user) {
+      const handleScroll = () => {
+        const scrollThreshold = 100;
+
+        if (window.scrollY >= scrollThreshold) {
+          setOpenPremiumModal(true);
+        }
+      };
+      window.addEventListener('scroll', handleScroll);
+
+      return () => {
+        window.removeEventListener('scroll', handleScroll);
+      };
+    }
+  }, []);
 
   useEffect(() => {
     if (!posts) {
@@ -72,6 +91,9 @@ export default function NewsletterPost() {
         />
       </Box>
       {/* {user && <LikeAndComment post={currentPost} />} */}
+      {!user && (
+        <PremiumPost open={openPremiumModal} close={setOpenPremiumModal} />
+      )}
     </Box>
   );
 }

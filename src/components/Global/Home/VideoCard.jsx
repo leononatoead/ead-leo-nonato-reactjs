@@ -101,7 +101,7 @@ export default function VideoCard({ courseData, setOpenLoginModal }) {
           </CardBody>
           <CardFooter p={0} mt={2} className='flex flex-col'>
             <Box className='flex justify-between items-start'>
-              <Text className='text-[#FF8E00] text-small font-medium leading-[18px]'>
+              <Text className='text-orange text-small font-medium leading-[18px]'>
                 {courseData?.price?.toLocaleString('pt-BR', {
                   style: 'currency',
                   currency: 'BRL',
@@ -133,7 +133,7 @@ export default function VideoCard({ courseData, setOpenLoginModal }) {
           </CardBody>
           <CardFooter p={0} mt={2} className='flex flex-col'>
             <Box className='flex justify-between items-start'>
-              <Text className='text-[#FF8E00] text-small font-medium leading-[18px]'>
+              <Text className='text-orange text-small font-medium leading-[18px]'>
                 {courseData?.price?.toLocaleString('pt-BR', {
                   style: 'currency',
                   currency: 'BRL',

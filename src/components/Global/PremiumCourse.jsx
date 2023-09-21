@@ -38,7 +38,7 @@ export default function PremiumCourse({ open, close, courseData }) {
 
           <Flex className='w-full' justifyContent={'space-between'}>
             <Flex flexDirection={'column'}>
-              <Text className='text-[#FF8E00] text-normal font-medium leading-[18px]'>
+              <Text className='text-orange text-normal font-medium leading-[18px]'>
                 {courseData?.price?.toLocaleString('pt-BR', {
                   style: 'currency',
                   currency: 'BRL',
