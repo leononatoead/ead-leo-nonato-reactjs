@@ -254,6 +254,22 @@ export const changePage = (page) => async (dispatch) => {
   });
 };
 
+//TODO: REDUCER DE ADD LIKE
+export const addLike = (id) => async (dispatch) => {
+  dispatch({
+    type: 'posts/addLike',
+    payload: id,
+  });
+};
+
+//TODO: REDUCER DE ADD LIKE COMENTARIO
+export const addComment = (id) => async (dispatch) => {
+  dispatch({
+    type: 'posts/addComment',
+    payload: id,
+  });
+};
+
 export const fetchPostsFromLocalStorage = (data) => async (dispatch) => {
   dispatch({
     type: 'posts/fetchPostsFromLocalStorage',

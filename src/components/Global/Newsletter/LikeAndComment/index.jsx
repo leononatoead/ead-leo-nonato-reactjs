@@ -48,6 +48,7 @@ export default function LikeAndComment({ post }) {
             : ''}
         </Text>
       </Flex>
+      {/* //TODO: FUNCAO DE LIKE E COMENTARIO */}
       {/* 
       <Box className='py-4'>
         <Heading className='!font-poppins !text-large !leading-6 !font-semibold  !text-primary-600 '>

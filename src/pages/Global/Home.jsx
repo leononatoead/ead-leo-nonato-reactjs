@@ -34,7 +34,7 @@ export default function Home() {
         slidesPerView={1.1}
         className='ml-4 !h-[206px] mt-6'
       >
-        <SwiperSlide>
+        <SwiperSlide className='w-[95%]'>
           <Banner
             post={{
               image:

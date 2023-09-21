@@ -49,7 +49,6 @@ function App() {
 
     if (postsMinutesDifference > 10) {
       dispatch(fetchPosts());
-      console.log('dispatchou');
     } else {
       const posts = JSON.parse(localStorage.getItem('posts'));
       const pages = JSON.parse(localStorage.getItem('pages'));
