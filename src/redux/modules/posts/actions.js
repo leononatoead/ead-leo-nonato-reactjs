@@ -253,3 +253,10 @@ export const changePage = (page) => async (dispatch) => {
     payload: page,
   });
 };
+
+export const fetchPostsFromLocalStorage = (data) => async (dispatch) => {
+  dispatch({
+    type: 'posts/fetchPostsFromLocalStorage',
+    payload: data,
+  });
+};

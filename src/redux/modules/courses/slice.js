@@ -3,7 +3,7 @@ import { fetchCourses, fetchVideos } from './actions';
 
 const courseReducer = createSlice({
   name: 'courses',
-  initialState: {},
+  initialState: { courses: [] },
   reducers: {
     addCourse: (state, action) => {
       if (state.courses) {

@@ -20,7 +20,7 @@ export default function PostCard({ post }) {
           {post.author}
         </Text>
 
-        <Text className='text-small leading-4 text-gray-900'>
+        <Text className='text-small leading-4 text-black px-2 py-1 bg-gray-250 w-max rounded-2xl'>
           {post.category}
         </Text>
       </Box>

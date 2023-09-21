@@ -5,7 +5,10 @@ import {
   fetchCourses,
   fetchCoursesFromLocalStorage,
 } from './redux/modules/courses/actions';
-import { fetchPosts } from './redux/modules/posts/actions';
+import {
+  fetchPosts,
+  fetchPostsFromLocalStorage,
+} from './redux/modules/posts/actions';
 
 import { ChakraProvider } from '@chakra-ui/react';
 
@@ -26,8 +29,8 @@ function App() {
     const lastCoursesUpdate = new Date(
       JSON.parse(localStorage.getItem('lastCoursesUpdate')),
     );
-    const actualTime = new Date();
-    const verifyCourseUpdate = Math.abs(actualTime - lastCoursesUpdate);
+    const actualCourseTime = new Date();
+    const verifyCourseUpdate = Math.abs(actualCourseTime - lastCoursesUpdate);
     const coursesMinutesDifference = Math.floor(verifyCourseUpdate / 60000);
 
     if (coursesMinutesDifference > 60) {
@@ -37,7 +40,25 @@ function App() {
       dispatch(fetchCoursesFromLocalStorage(courses));
     }
 
-    dispatch(fetchPosts());
+    const lastPostsUpdate = new Date(
+      JSON.parse(localStorage.getItem('lastPostsUpdate')),
+    );
+    const actualPostTime = new Date();
+    const verifyPostUpdate = Math.abs(actualPostTime - lastPostsUpdate);
+    const postsMinutesDifference = Math.floor(verifyPostUpdate / 60000);
+
+    if (postsMinutesDifference > 10) {
+      dispatch(fetchPosts());
+      console.log('dispatchou');
+    } else {
+      const posts = JSON.parse(localStorage.getItem('posts'));
+      const pages = JSON.parse(localStorage.getItem('pages'));
+      const currentPage = JSON.parse(localStorage.getItem('currentPage'));
+
+      const data = { posts, pages, currentPage };
+      dispatch(fetchPostsFromLocalStorage(data));
+    }
+
     authUser();
   }, []);
 
