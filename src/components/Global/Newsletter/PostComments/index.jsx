@@ -9,8 +9,8 @@ import { CommentSchema } from './CommentSchema';
 
 import Input from '../../Input';
 import ButtonSubmit from '../../ButtonSubmit';
-import { Box, Flex, Heading, Text } from '@chakra-ui/react';
-import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
+import { Box, Heading, Text } from '@chakra-ui/react';
+
 import { IoTrashBinSharp } from 'react-icons/io5';
 
 export default function PostComments({ id }) {
@@ -53,25 +53,6 @@ export default function PostComments({ id }) {
 
   return (
     <Box className='px-4 pb-6'>
-      {/* <Flex className='gap-4' alignItems={'center'}>
-        {user ? (
-          <>
-            {user?.posts?.includes(post) ? (
-              <AiFillHeart size={20} className='text-primary-600' />
-            ) : (
-              <AiOutlineHeart size={20} className='text-primary-600' />
-            )}
-          </>
-        ) : (
-          <AiOutlineHeart size={20} className='text-primary-600' />
-        )}
-        <Text className='text-primary-600 font-medium'>
-          {post?.likes
-            ? `${post.likes} ${post.likes > 1 ? 'Curtidas' : 'Curtida'}`
-            : ''}
-        </Text>
-      </Flex> */}
-
       <Box className='py-4'>
         <Heading className='!font-poppins !text-large !leading-6 !font-semibold  !text-primary-600 '>
           Comentários

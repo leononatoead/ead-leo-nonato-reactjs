@@ -14,6 +14,7 @@ import Navbar from '../../../../components/Global/Navbar';
 import PostComments from '../../../../components/Global/Newsletter/PostComments';
 import PremiumPost from '../../../../components/Global/PremiumPost';
 import { Box, Heading, Image, Text } from '@chakra-ui/react';
+import Like from '../../../../components/Global/Newsletter/Like';
 
 export default function NewsletterPost() {
   const { id } = useParams();
@@ -90,6 +91,7 @@ export default function NewsletterPost() {
           toolbarHidden={true}
         />
       </Box>
+      <Like id={id} />
       {user && <PostComments id={id} />}
       {!user && (
         <PremiumPost open={openPremiumModal} close={setOpenPremiumModal} />

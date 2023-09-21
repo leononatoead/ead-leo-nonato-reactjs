@@ -2,6 +2,8 @@ export const AUTH_USER = 'AUTH_USER';
 export const LOGOUT_USER = 'LOGOUT_USER';
 export const UPDATE_IMAGE = 'UPDATE_IMAGE';
 export const UPDATE_USER_COURSES = 'UPDATE_USER_COURSES';
+export const ADD_LIKED_POST_TO_USER = 'ADD_LIKED_POST_TO_USER';
+export const REMOVE_LIKED_POST_FROM_USER = 'REMOVE_LIKED_POST_FROM_USER';
 
 const initialState = {
   user: null,
@@ -17,6 +19,10 @@ const authReducer = (state = initialState, action) => {
       return { user: { ...state.user, ...action.payload } };
     case UPDATE_USER_COURSES:
       return { user: { ...state.user, courses: action.payload } };
+    case ADD_LIKED_POST_TO_USER:
+      return { user: { ...state.user, likedPosts: action.payload.likedPosts } };
+    case REMOVE_LIKED_POST_FROM_USER:
+      return { user: { ...state.user, likedPosts: action.payload.likedPosts } };
     default:
       return state;
   }

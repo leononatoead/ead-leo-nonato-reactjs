@@ -6,6 +6,8 @@ import {
   UPDATE_IMAGE,
   LOGOUT_USER,
   UPDATE_USER_COURSES,
+  ADD_LIKED_POST_TO_USER,
+  REMOVE_LIKED_POST_FROM_USER,
 } from './slice';
 
 export const verifyAuthentication = (user) => (dispatch) => {
@@ -35,6 +37,20 @@ export const updateProfileImage = (url) => async (dispatch) => {
 export const updtateUserCourses = (data) => async (dispatch) => {
   dispatch({
     type: UPDATE_USER_COURSES,
+    payload: data,
+  });
+};
+
+export const addLikedPostToUser = (data) => async (dispatch) => {
+  dispatch({
+    type: ADD_LIKED_POST_TO_USER,
+    payload: data,
+  });
+};
+
+export const removeLikedPostFromUser = (data) => async (dispatch) => {
+  dispatch({
+    type: REMOVE_LIKED_POST_FROM_USER,
     payload: data,
   });
 };

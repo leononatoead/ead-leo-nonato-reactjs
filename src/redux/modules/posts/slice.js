@@ -7,6 +7,7 @@ import {
   searchPosts,
   selectCategory,
   fetchComments,
+  addLikePost,
 } from './actions';
 
 const postsReducer = createSlice({
@@ -138,6 +139,70 @@ const postsReducer = createSlice({
             ...post,
             comments: filterComments,
           };
+        } else {
+          return post;
+        }
+      });
+
+      let pagination = [];
+      let currentPage = null;
+
+      updatePosts.forEach((post, index) => {
+        if (index % 10 === 0) {
+          currentPage = { page: Math.floor(index / 10) + 1, posts: [] };
+          pagination.push(currentPage);
+        }
+        currentPage.posts.push(post);
+      });
+
+      const storagePosts = JSON.stringify([...updatePosts]);
+      localStorage.setItem('posts', storagePosts);
+      const storagePages = JSON.stringify([...pagination]);
+      localStorage.setItem('pages', storagePages);
+
+      const updatedAt = JSON.stringify(new Date());
+      localStorage.setItem('lastPostsUpdate', updatedAt);
+
+      return { ...state, posts: updatePosts, pages: pagination };
+    },
+    addLikePost: (state, action) => {
+      const posts = JSON.parse(JSON.stringify([...state.posts]));
+
+      const updatePosts = posts.map((post) => {
+        if (post.id === action.payload.postId) {
+          return { ...post, likesCount: action.payload.likesCount };
+        } else {
+          return post;
+        }
+      });
+
+      let pagination = [];
+      let currentPage = null;
+
+      updatePosts.forEach((post, index) => {
+        if (index % 10 === 0) {
+          currentPage = { page: Math.floor(index / 10) + 1, posts: [] };
+          pagination.push(currentPage);
+        }
+        currentPage.posts.push(post);
+      });
+
+      const storagePosts = JSON.stringify([...updatePosts]);
+      localStorage.setItem('posts', storagePosts);
+      const storagePages = JSON.stringify([...pagination]);
+      localStorage.setItem('pages', storagePages);
+
+      const updatedAt = JSON.stringify(new Date());
+      localStorage.setItem('lastPostsUpdate', updatedAt);
+
+      return { ...state, posts: updatePosts, pages: pagination };
+    },
+    removeLikePost: (state, action) => {
+      const posts = JSON.parse(JSON.stringify([...state.posts]));
+
+      const updatePosts = posts.map((post) => {
+        if (post.id === action.payload.postId) {
+          return { ...post, likesCount: action.payload.likesCount };
         } else {
           return post;
         }
@@ -300,6 +365,38 @@ const postsReducer = createSlice({
           pages: pagination,
         };
       });
+    // .addCase(addLikePost.fulfilled, (state, action) => {
+    //   const posts = JSON.parse(JSON.stringify([...state.posts]));
+
+    //   const updatePosts = posts.map((post) => {
+    //     if (post.id === action.payload.id) {
+    //       return action.payload;
+    //     } else {
+    //       return post;
+    //     }
+    //   });
+
+    //   let pagination = [];
+    //   let currentPage = null;
+
+    //   updatePosts.forEach((post, index) => {
+    //     if (index % 10 === 0) {
+    //       currentPage = { page: Math.floor(index / 10) + 1, posts: [] };
+    //       pagination.push(currentPage);
+    //     }
+    //     currentPage.posts.push(post);
+    //   });
+
+    //   const storagePosts = JSON.stringify([...updatePosts]);
+    //   localStorage.setItem('posts', storagePosts);
+    //   const storagePages = JSON.stringify([...pagination]);
+    //   localStorage.setItem('pages', storagePages);
+
+    //   const updatedAt = JSON.stringify(new Date());
+    //   localStorage.setItem('lastPostsUpdate', updatedAt);
+
+    //   return { ...state, posts: updatePosts, pages: pagination };
+    // });
   },
 });
 
