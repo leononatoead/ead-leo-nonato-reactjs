@@ -6,6 +6,7 @@ import {
   delPost,
   searchPosts,
   selectCategory,
+  fetchComments,
 } from './actions';
 
 const postsReducer = createSlice({
@@ -89,6 +90,80 @@ const postsReducer = createSlice({
         currentPage: action.payload,
       };
     },
+    addCommentAction: (state, action) => {
+      const posts = JSON.parse(JSON.stringify([...state.posts]));
+
+      const updatePosts = posts.map((post) => {
+        if (post.id === action.payload.id) {
+          return {
+            ...post,
+            comments: [...post.comments, action.payload.comment],
+          };
+        } else {
+          return post;
+        }
+      });
+
+      let pagination = [];
+      let currentPage = null;
+
+      updatePosts.forEach((post, index) => {
+        if (index % 10 === 0) {
+          currentPage = { page: Math.floor(index / 10) + 1, posts: [] };
+          pagination.push(currentPage);
+        }
+        currentPage.posts.push(post);
+      });
+
+      const storagePosts = JSON.stringify([...updatePosts]);
+      localStorage.setItem('posts', storagePosts);
+      const storagePages = JSON.stringify([...pagination]);
+      localStorage.setItem('pages', storagePages);
+
+      const updatedAt = JSON.stringify(new Date());
+      localStorage.setItem('lastPostsUpdate', updatedAt);
+
+      return { ...state, posts: updatePosts, pages: pagination };
+    },
+    removeCommentAction: (state, action) => {
+      const posts = JSON.parse(JSON.stringify([...state.posts]));
+
+      const updatePosts = posts.map((post) => {
+        if (post.id === action.payload.postId) {
+          const filterComments = post.comments.filter(
+            (comment) => comment.id !== action.payload.commentId,
+          );
+
+          return {
+            ...post,
+            comments: filterComments,
+          };
+        } else {
+          return post;
+        }
+      });
+
+      let pagination = [];
+      let currentPage = null;
+
+      updatePosts.forEach((post, index) => {
+        if (index % 10 === 0) {
+          currentPage = { page: Math.floor(index / 10) + 1, posts: [] };
+          pagination.push(currentPage);
+        }
+        currentPage.posts.push(post);
+      });
+
+      const storagePosts = JSON.stringify([...updatePosts]);
+      localStorage.setItem('posts', storagePosts);
+      const storagePages = JSON.stringify([...pagination]);
+      localStorage.setItem('pages', storagePages);
+
+      const updatedAt = JSON.stringify(new Date());
+      localStorage.setItem('lastPostsUpdate', updatedAt);
+
+      return { ...state, posts: updatePosts, pages: pagination };
+    },
     fetchPostsFromLocalStorage: (state, action) => {
       return {
         ...state,
@@ -161,6 +236,38 @@ const postsReducer = createSlice({
       })
       .addCase(selectCategory.fulfilled, (state, action) => {
         return { ...state, selectedCategory: action.payload };
+      })
+      .addCase(fetchComments.fulfilled, (state, action) => {
+        const posts = JSON.parse(JSON.stringify([...state.posts]));
+
+        const updatePosts = posts.map((post) => {
+          if (post.id === action.payload.id) {
+            return { ...post, comments: [...action.payload.comments] };
+          } else {
+            return post;
+          }
+        });
+
+        let pagination = [];
+        let currentPage = null;
+
+        updatePosts.forEach((post, index) => {
+          if (index % 10 === 0) {
+            currentPage = { page: Math.floor(index / 10) + 1, posts: [] };
+            pagination.push(currentPage);
+          }
+          currentPage.posts.push(post);
+        });
+
+        const storagePosts = JSON.stringify([...updatePosts]);
+        localStorage.setItem('posts', storagePosts);
+        const storagePages = JSON.stringify([...pagination]);
+        localStorage.setItem('pages', storagePages);
+
+        const updatedAt = JSON.stringify(new Date());
+        localStorage.setItem('lastPostsUpdate', updatedAt);
+
+        return { ...state, posts: updatePosts, pages: pagination };
       })
       .addCase(delPost.fulfilled, (state, action) => {
         const posts = JSON.parse(JSON.stringify([...state.posts]));

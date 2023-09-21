@@ -13,7 +13,13 @@ import {
 } from 'firebase/firestore';
 
 import { useToast } from '@chakra-ui/react';
-import { delPost, editPost, newPost } from '../redux/modules/posts/actions';
+import {
+  addCommentAction,
+  delPost,
+  editPost,
+  newPost,
+  removeCommentAction,
+} from '../redux/modules/posts/actions';
 
 const usePosts = () => {
   const [loading, setLoading] = useState(false);
@@ -85,33 +91,46 @@ const usePosts = () => {
     }
   };
 
-  // const addComment = async (id, comment) => {
-  //   setLoading(true);
+  const addComment = async (id, comment) => {
+    setLoading(true);
 
-  //   try {
-  //     const postRef = doc(database, `posts/${id}/comments`, id);
-  //     await updateDoc(postRef, comment);
+    try {
+      const commentData = { ...comment, createdAt: Timestamp.now() };
 
-  //     dispatch(editPost(comment));
+      const res = await addDoc(
+        collection(database, `posts/${id}/comments/`),
+        commentData,
+      );
 
-  //     toast({
-  //       description: 'Comentário adicionado com sucesso!',
-  //       status: 'success',
-  //       duration: '3000',
-  //       isClosable: true,
-  //     });
-  //   } catch (error) {
-  //     console.log(error);
-  //     toast({
-  //       description: error.message,
-  //       status: 'error',
-  //       duration: '3000',
-  //       isClosable: true,
-  //     });
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
+      const data = {
+        id,
+        comment: {
+          id: res.id,
+          ...comment,
+          createdAt: Timestamp.now().toMillis(),
+        },
+      };
+
+      dispatch(addCommentAction(data));
+
+      toast({
+        description: 'Comentário adicionado com sucesso!',
+        status: 'success',
+        duration: '3000',
+        isClosable: true,
+      });
+    } catch (error) {
+      console.log(error);
+      toast({
+        description: error.message,
+        status: 'error',
+        duration: '3000',
+        isClosable: true,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const deletePost = async (delId, lastPostId) => {
     try {
@@ -138,7 +157,39 @@ const usePosts = () => {
     }
   };
 
-  return { addPost, updatePost, deletePost, loading };
+  const deleteComment = async (postId, commentId) => {
+    try {
+      const postRef = doc(database, `posts/${postId}/comments`, commentId);
+      await deleteDoc(postRef);
+
+      dispatch(removeCommentAction({ postId, commentId }));
+
+      toast({
+        description: 'Post removido com sucesso!',
+        status: 'success',
+        duration: '3000',
+        isClosable: true,
+      });
+    } catch (error) {
+      toast({
+        description: error.message,
+        status: 'error',
+        duration: '3000',
+        isClosable: true,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return {
+    addPost,
+    updatePost,
+    deletePost,
+    addComment,
+    deleteComment,
+    loading,
+  };
 };
 
 export default usePosts;

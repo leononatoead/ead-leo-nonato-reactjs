@@ -185,6 +185,38 @@ export const selectCategory = createAsyncThunk(
   },
 );
 
+export const fetchComments = createAsyncThunk(
+  'posts/fetchComments',
+  async (id) => {
+    const collectionRef = collection(database, `posts/${id}/comments`);
+
+    try {
+      const q = query(collectionRef, orderBy('createdAt', 'asc'));
+
+      return new Promise((resolve, reject) => {
+        onSnapshot(
+          q,
+          (querySnapshot) => {
+            const comments = querySnapshot.docs.map((doc) => ({
+              id: doc.id,
+              ...doc.data(),
+              createdAt: doc.data().createdAt.toMillis(),
+            }));
+
+            const data = { id, comments };
+            resolve(data);
+          },
+          (error) => {
+            reject(error);
+          },
+        );
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  },
+);
+
 export const delPost = createAsyncThunk('posts/delPost', async (data) => {
   const collectionRef = collection(database, 'posts');
   const lastPost = doc(database, 'posts', data.lastPostId);
@@ -263,10 +295,16 @@ export const addLike = (id) => async (dispatch) => {
 };
 
 //TODO: REDUCER DE ADD LIKE COMENTARIO
-export const addComment = (id) => async (dispatch) => {
+export const addCommentAction = (data) => async (dispatch) => {
   dispatch({
-    type: 'posts/addComment',
-    payload: id,
+    type: 'posts/addCommentAction',
+    payload: data,
+  });
+};
+export const removeCommentAction = (data) => async (dispatch) => {
+  dispatch({
+    type: 'posts/removeCommentAction',
+    payload: data,
   });
 };
 

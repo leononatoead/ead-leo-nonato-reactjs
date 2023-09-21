@@ -11,9 +11,9 @@ import { Editor } from 'react-draft-wysiwyg';
 import { EditorState, convertFromRaw } from 'draft-js';
 
 import Navbar from '../../../../components/Global/Navbar';
-import LikeAndComment from '../../../../components/Global/Newsletter/LikeAndComment';
-import { Box, Heading, Image, Text } from '@chakra-ui/react';
+import PostComments from '../../../../components/Global/Newsletter/PostComments';
 import PremiumPost from '../../../../components/Global/PremiumPost';
+import { Box, Heading, Image, Text } from '@chakra-ui/react';
 
 export default function NewsletterPost() {
   const { id } = useParams();
@@ -90,7 +90,7 @@ export default function NewsletterPost() {
           toolbarHidden={true}
         />
       </Box>
-      {/* {user && <LikeAndComment post={currentPost} />} */}
+      {user && <PostComments id={id} />}
       {!user && (
         <PremiumPost open={openPremiumModal} close={setOpenPremiumModal} />
       )}
