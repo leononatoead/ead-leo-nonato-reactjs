@@ -26,6 +26,7 @@ import {
   BiLogoTwitter,
   BiLogoWhatsapp,
   BiShare,
+  BiShareAlt,
 } from 'react-icons/bi';
 import { MdOutlineEmail } from 'react-icons/md';
 
@@ -34,12 +35,12 @@ export default function ShareBtn({ url }) {
   return (
     <>
       <button onClick={onOpen}>
-        <BiShare />
+        <BiShareAlt size={18} className='text-primary-600' />
       </button>
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent mx={4}>
           <ModalHeader className='!flex !items-center'>
             <Text className='text-primary-600 -mt-2'>Compartilhar</Text>
             <ModalCloseButton />

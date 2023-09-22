@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
+import ShareBtn from '../ShareBtn';
 import PremiumCourse from '../PremiumCourse';
 
 import { Box, Heading, Image, Text } from '@chakra-ui/react';
@@ -9,6 +10,8 @@ import { IoMdEye } from 'react-icons/io';
 
 export default function CourseCard({ course }) {
   const [openPremiumModal, setOpenPremiumModal] = useState(false);
+
+  const url = `${import.meta.env.VITE_VERCEL_APP_URL}course/${course.id}`;
 
   return (
     <Box className='w-full h-32 shadow-md p-3 flex items-center gap-3 rounded-lg bg-white'>
@@ -39,9 +42,8 @@ export default function CourseCard({ course }) {
                 <IoMdEye size={18} className='text-primary-600' />
               </Link>
             )}
-            <button>
-              <BiShareAlt size={18} className='text-primary-600' />
-            </button>
+
+            <ShareBtn url={url} />
           </Box>
         </Box>
       </Box>
