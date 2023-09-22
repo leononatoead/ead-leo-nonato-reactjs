@@ -12,11 +12,13 @@ const initialState = {
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case AUTH_USER: {
-      const storageUser = JSON.stringify(action.payload);
-      localStorage.setItem('user', storageUser);
+      if (action.payload !== null) {
+        const storageUser = JSON.stringify(action.payload);
+        localStorage.setItem('user', storageUser);
 
-      const updatedAt = JSON.stringify(new Date());
-      localStorage.setItem('lastUserUpdate', updatedAt);
+        const updatedAt = JSON.stringify(new Date());
+        localStorage.setItem('lastUserUpdate', updatedAt);
+      }
 
       return { user: action.payload };
     }

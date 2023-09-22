@@ -203,9 +203,27 @@ const usePosts = () => {
 
       const userRef = doc(database, 'users', userId);
       const userSnapshot = await getDoc(userRef);
+
       const likedPosts = userSnapshot.data().likedPosts
         ? [...userSnapshot.data().likedPosts, postId]
         : [postId];
+
+      //TODO: CORRIGIR POSSIVEL ERRO AO CURTIR O MESMO POST
+      // let likedPosts;
+
+      // if (userSnapshot.data().likedPosts) {
+      //   const verifyIfAlreadyLiked = userSnapshot
+      //     .data()
+      //     .likedPosts.find((post) => post === postId);
+
+      //   if (verifyIfAlreadyLiked) {
+      //     likedPosts = userSnapshot.data().likedPosts;
+      //   } else {
+      //     likedPosts = [...userSnapshot.data().likedPosts, postId];
+      //   }
+      // } else {
+      //   likedPosts = [postId];
+      // }
 
       await updateDoc(userRef, { likedPosts });
 
