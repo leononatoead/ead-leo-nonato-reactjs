@@ -5,7 +5,7 @@ import {
   fetchPosts,
   setCurrentPost,
 } from '../../../../redux/modules/posts/actions';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import useFormat from '../../../../hooks/useFormat';
 import { Editor } from 'react-draft-wysiwyg';
 import { EditorState, convertFromRaw } from 'draft-js';
@@ -15,9 +15,12 @@ import PostComments from '../../../../components/Global/Newsletter/PostComments'
 import PremiumPost from '../../../../components/Global/PremiumPost';
 import { Box, Heading, Image, Text } from '@chakra-ui/react';
 import Like from '../../../../components/Global/Newsletter/Like';
+import ShareBtn from '../../../../components/Global/ShareBtn';
 
 export default function NewsletterPost() {
   const { id } = useParams();
+  const { pathname } = useLocation();
+  const url = `${import.meta.env.VITE_VERCEL_APP_URL}${pathname}`;
   const { posts, currentPost } = useSelector((state) => state.posts);
   const { user } = useSelector((state) => state.auth);
 
@@ -78,6 +81,7 @@ export default function NewsletterPost() {
           <Text>{currentPost?.author}</Text>
           {`|`}
           <Text>{formatDate(currentPost?.createdAt)}</Text>
+          <ShareBtn url={url} />
         </Box>
         <Box className='w-full bg-gray-200 h-[1px] mb-4'></Box>
         <Image
