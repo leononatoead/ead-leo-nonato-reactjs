@@ -149,7 +149,7 @@ export default function Home() {
         )}
         {pages && (
           <Swiper spaceBetween={1} slidesPerView={1.1} className='pl-4'>
-            {pages[0].posts.map((post, index) => {
+            {pages[0]?.posts.map((post, index) => {
               if (index > 5) {
                 return (
                   <SwiperSlide key={post.id} className='!min-w-[170px]'>

@@ -19,6 +19,7 @@ import {
   IoLogOutOutline,
   IoLogInOutline,
   IoPersonCircleOutline,
+  IoHome,
 } from 'react-icons/io5';
 import { BiBook, BiNews } from 'react-icons/bi';
 import {
@@ -250,6 +251,19 @@ export default function Navbar({ title }) {
               className='!outline-none !border-none focus:!bg-white'
             >
               <Link
+                to='/dashboard/home'
+                className='font-normal leading-[14px] flex items-center gap-3'
+              >
+                <IoHome size={20} />
+                Home
+              </Link>
+            </MenuItem>
+            <MenuItem
+              px={'6px'}
+              py={'3px'}
+              className='!outline-none !border-none focus:!bg-white'
+            >
+              <Link
                 to='/dashboard/courses'
                 className='font-normal leading-[14px] flex items-center gap-3'
               >
@@ -270,19 +284,7 @@ export default function Navbar({ title }) {
                 Newsletter
               </Link>
             </MenuItem>
-            <MenuItem
-              px={'6px'}
-              py={'3px'}
-              className='!outline-none !border-none focus:!bg-white'
-            >
-              <Link
-                to='/dashboard/notifications'
-                className='font-normal leading-[14px] flex items-center gap-3'
-              >
-                <MdOutlineNotificationsNone size={20} />
-                Anúncios
-              </Link>
-            </MenuItem>
+
             <MenuItem
               px={'6px'}
               py={'3px'}

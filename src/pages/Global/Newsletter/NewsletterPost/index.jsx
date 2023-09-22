@@ -91,7 +91,8 @@ export default function NewsletterPost() {
           toolbarHidden={true}
         />
       </Box>
-      <Like id={id} />
+
+      {user && <Like id={id} />}
       {user && <PostComments id={id} />}
       {!user && (
         <PremiumPost open={openPremiumModal} close={setOpenPremiumModal} />

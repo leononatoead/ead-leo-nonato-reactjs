@@ -27,6 +27,7 @@ import NewPost from '../pages/Admin/Posts/NewPost';
 import EditPost from '../pages/Admin/Posts/EditPost';
 import SearchPosts from '../pages/Global/SearchPosts';
 import SearchCourses from '../pages/Global/SearchCourses';
+import HomePanel from '../pages/Admin/HomePanel';
 
 export default function AdminRoutes() {
   return (
@@ -54,7 +55,7 @@ export default function AdminRoutes() {
         <Route path='posts' element={<Posts />} />
         <Route path='posts/new' element={<NewPost />} />
         <Route path='posts/edit/:id' element={<EditPost />} />
-        {/* <Route path='announcement' element={<Announcement />} /> */}
+        <Route path='home' element={<HomePanel />} />
         <Route path='forms' element={<Forms />} />
         <Route path='forms/new' element={<NewForm />} />
         <Route path='forms/edit/:id' element={<EditForm />} />
