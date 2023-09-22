@@ -11,7 +11,7 @@ import { IoMdEye } from 'react-icons/io';
 export default function CourseCard({ course }) {
   const [openPremiumModal, setOpenPremiumModal] = useState(false);
 
-  const url = `${import.meta.env.VITE_VERCEL_APP_URL}course/${course.id}`;
+  const url = `${import.meta.env.VITE_VERCEL_APP_URL}/course/${course.id}`;
 
   return (
     <Box className='w-full h-32 shadow-md p-3 flex items-center gap-3 rounded-lg bg-white'>
