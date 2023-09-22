@@ -11,18 +11,64 @@ const initialState = {
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
-    case AUTH_USER:
+    case AUTH_USER: {
+      const storageUser = JSON.stringify(action.payload);
+      localStorage.setItem('user', storageUser);
+
+      const updatedAt = JSON.stringify(new Date());
+      localStorage.setItem('lastUserUpdate', updatedAt);
+
       return { user: action.payload };
-    case LOGOUT_USER:
+    }
+    case LOGOUT_USER: {
+      const storageUser = JSON.stringify(action.payload);
+      localStorage.removeItem('user', storageUser);
+
+      const updatedAt = JSON.stringify(new Date());
+      localStorage.removeItem('lastUserUpdate', updatedAt);
+
       return { user: action.payload };
-    case UPDATE_IMAGE:
+    }
+    case UPDATE_IMAGE: {
+      const storageUser = JSON.stringify({ ...state.user, ...action.payload });
+      localStorage.setItem('user', storageUser);
+
+      const updatedAt = JSON.stringify(new Date());
+      localStorage.setItem('lastUserUpdate', updatedAt);
       return { user: { ...state.user, ...action.payload } };
-    case UPDATE_USER_COURSES:
+    }
+    case UPDATE_USER_COURSES: {
+      const storageUser = JSON.stringify({
+        user: { ...state.user, courses: action.payload },
+      });
+      localStorage.setItem('user', storageUser);
+
+      const updatedAt = JSON.stringify(new Date());
+      localStorage.setItem('lastUserUpdate', updatedAt);
       return { user: { ...state.user, courses: action.payload } };
-    case ADD_LIKED_POST_TO_USER:
+    }
+    case ADD_LIKED_POST_TO_USER: {
+      const storageUser = JSON.stringify({
+        user: { ...state.user, likedPosts: action.payload.likedPosts },
+      });
+      localStorage.setItem('user', storageUser);
+
+      const updatedAt = JSON.stringify(new Date());
+      localStorage.setItem('lastUserUpdate', updatedAt);
+
       return { user: { ...state.user, likedPosts: action.payload.likedPosts } };
-    case REMOVE_LIKED_POST_FROM_USER:
+    }
+    case REMOVE_LIKED_POST_FROM_USER: {
+      const storageUser = JSON.stringify({
+        user: { ...state.user, likedPosts: action.payload.likedPosts },
+      });
+      localStorage.setItem('user', storageUser);
+
+      const updatedAt = JSON.stringify(new Date());
+      localStorage.setItem('lastUserUpdate', updatedAt);
+
       return { user: { ...state.user, likedPosts: action.payload.likedPosts } };
+    }
     default:
       return state;
   }

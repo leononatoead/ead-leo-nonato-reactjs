@@ -105,32 +105,6 @@ export const fetchPost = createAsyncThunk('posts/fetchPost', async (id) => {
   }
 });
 
-// export const addLikePost = createAsyncThunk('posts/addLikePost', async (id) => {
-//   const docRef = doc(database, 'posts', id);
-
-//   try {
-//     const docSnapshot = await getDoc(docRef);
-
-//     return new Promise((resolve, reject) => {
-//       try {
-//         const data = {
-//           id: docSnapshot.id,
-//           ...docSnapshot.data(),
-//           createdAt: docSnapshot.data().createdAt.toMillis(),
-//           likes: docSnapshot.data().likes ? docSnapshot.data().likes + 1 : 1,
-//         };
-//         console.log(data);
-//         resolve(data);
-//       } catch (error) {
-//         console.log(error);
-//         reject(error);
-//       }
-//     });
-//   } catch (error) {
-//     console.log(error.message);
-//   }
-// });
-
 export const searchPosts = createAsyncThunk(
   'posts/searchPosts',
   async (search) => {
