@@ -6,7 +6,12 @@ import { ModalBody } from '@chakra-ui/modal';
 import { Flex, Heading, Text } from '@chakra-ui/layout';
 import { BiCartAdd } from 'react-icons/bi';
 
-export default function PremiumCourse({ open, close, courseData }) {
+export default function PremiumCourse({
+  open,
+  close,
+  courseData,
+  closeBtn = false,
+}) {
   const handleCloseModal = () => {
     close(false);
   };
@@ -16,7 +21,7 @@ export default function PremiumCourse({ open, close, courseData }) {
       openModal={open}
       setOpenModal={close}
       handleCloseModal={handleCloseModal}
-      hasCloseButton={true}
+      hasCloseButton={closeBtn}
     >
       <ModalBody>
         <Flex flexDirection={'column'} justify={'center'} align={'center'}>
@@ -35,7 +40,6 @@ export default function PremiumCourse({ open, close, courseData }) {
           <Text className='font-medium leading-5 text-base text-center ' mb={8}>
             {courseData?.description}
           </Text>
-
           <Flex className='w-full' justifyContent={'space-between'}>
             <Flex flexDirection={'column'}>
               <Text className='text-orange text-normal font-medium leading-[18px]'>
@@ -61,6 +65,11 @@ export default function PremiumCourse({ open, close, courseData }) {
               <BiCartAdd size={20} className='text-white' />
             </Link>
           </Flex>
+          {!closeBtn && (
+            <Link to='/' className='block w-full pt-4 text-center'>
+              Voltar
+            </Link>
+          )}
         </Flex>
       </ModalBody>
     </ModalComponent>

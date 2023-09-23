@@ -52,6 +52,7 @@ export default function CourseCard({ course }) {
         open={openPremiumModal}
         close={setOpenPremiumModal}
         courseData={course}
+        closeBtn={true}
       />
     </Box>
   );

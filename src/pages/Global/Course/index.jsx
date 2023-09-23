@@ -42,12 +42,13 @@ export default function Course() {
     if (!user) {
       setLocked(true);
     }
+
     if (user && course?.isPremium) {
       if (!user.courses?.includes(id)) {
         setLocked(true);
       }
     }
-  }, [courses]);
+  }, [courses, course]);
 
   return (
     <Box className='min-h-screen bg-gray-200 flex flex-col'>

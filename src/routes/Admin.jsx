@@ -36,7 +36,6 @@ export default function AdminRoutes() {
       <Route path='/courses/:id' element={<HomeCourses />} />
       <Route path='/course/:id' element={<Course />} />
       <Route path='/course/:id/:id' element={<CourseWatch />} />
-      {/* <Route path='/my-courses' element={<MyCourses />} /> */}
       <Route path='/newsletter' element={<Newsletter />} />
       <Route path='/newsletter/post/:id' element={<NewsletterPost />} />
       <Route path='/faq' element={<FAQ />} />

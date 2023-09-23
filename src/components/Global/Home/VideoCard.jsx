@@ -152,6 +152,7 @@ export default function VideoCard({ courseData, setOpenLoginModal }) {
         open={openPremiumModal}
         close={setOpenPremiumModal}
         courseData={courseData}
+        closeBtn={true}
       />
     </>
   );

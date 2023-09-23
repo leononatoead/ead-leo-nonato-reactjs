@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import useFormatPhone from '../../hooks/useFormat';
+import { Link } from 'react-router-dom';
 
 import Navbar from '../../components/Global/Navbar';
 import ChangePassword from '../../components/Global/ChangePassword';
 import ChangeProfileImage from '../../components/Global/ChangeProfileImage';
 import { Box, Image, Avatar, Heading, Flex, Text } from '@chakra-ui/react';
-import background from '../../assets/auth-background.png';
 import { BiPencil } from 'react-icons/bi';
+import background from '../../assets/auth-background.png';
 
 export default function Profile() {
   const { user } = useSelector((state) => state.auth);
@@ -48,7 +49,13 @@ export default function Profile() {
         <Heading className='!font-poppins !text-large !font-bold leading-6 w-full text-center mb-1'>
           {user.name}
         </Heading>
-        <Text className='w-full text-center mb-5'>Assinante</Text>
+
+        <Link
+          to='/courses/my-courses'
+          className='block text-small leading-4 w-full text-center mb-5 text-primary-400'
+        >
+          Ver meus cursos
+        </Link>
       </Box>
 
       <Flex flexDirection='column' gap={4} px={5}>
@@ -94,10 +101,10 @@ export default function Profile() {
           >
             ********
             <button
-              className='absolute w-[32px] h-[28px] top-6 right-0 rounded-sm outline-none'
+              className='absolute w-[32px] h-[28px] top-6 right-0 rounded-sm outline-none '
               onClick={() => setOpenEditPasswordModal(true)}
             >
-              <BiPencil className='text-gray-400' />
+              <BiPencil className='text-gray-700' />
             </button>
           </Text>
         </Flex>

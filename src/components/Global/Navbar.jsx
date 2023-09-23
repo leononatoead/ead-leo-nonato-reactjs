@@ -58,8 +58,8 @@ export default function Navbar({ title }) {
     }
 
     if (removeBlank.includes('post') && removeBlank.length === 2) {
-      navigate(-1);
-      return;
+      console.log('ue');
+      removeBlank.pop();
     }
 
     if (removeBlank.length > 0) {
@@ -110,19 +110,6 @@ export default function Navbar({ title }) {
             px={3}
             py={2}
           >
-            <MenuItem
-              px={'6px'}
-              py={'3px'}
-              className='!outline-none !border-none focus:!bg-white'
-            >
-              <Link
-                to='/newsletter'
-                className='font-normal leading-[14px] flex items-center gap-3'
-              >
-                <BiNews size={20} />
-                Newsletter
-              </Link>
-            </MenuItem>
             {!user && (
               <>
                 <MenuItem
@@ -149,34 +136,73 @@ export default function Navbar({ title }) {
                 </MenuItem>
               </>
             )}
-
-            {user && (
+            {user && user.admin && (
               <>
-                {user.admin && (
-                  <>
-                    <MenuItem
-                      px={'6px'}
-                      py={'3px'}
-                      className='!outline-none !border-none focus:!bg-white'
-                    >
-                      <Link
-                        to='/dashboard'
-                        className='font-normal leading-[14px] flex items-center gap-3'
-                      >
-                        <MdOutlineSpaceDashboard size={20} />
-                        Painel
-                      </Link>
-                    </MenuItem>
-                  </>
-                )}
-
                 <MenuItem
                   px={'6px'}
                   py={'3px'}
                   className='!outline-none !border-none focus:!bg-white'
                 >
                   <Link
-                    to='/my-courses'
+                    to='/dashboard'
+                    className='font-normal leading-[14px] flex items-center gap-3'
+                  >
+                    <MdOutlineSpaceDashboard size={20} />
+                    Painel Admin
+                  </Link>
+                </MenuItem>
+              </>
+            )}
+
+            <MenuItem
+              px={'6px'}
+              py={'3px'}
+              className='!outline-none !border-none focus:!bg-white'
+            >
+              <Link
+                to='/courses/all'
+                className='font-normal leading-[14px] flex items-center gap-3'
+              >
+                <PiTelevisionSimpleBold size={20} />
+                Cursos
+              </Link>
+            </MenuItem>
+            <MenuItem
+              px={'6px'}
+              py={'3px'}
+              className='!outline-none !border-none focus:!bg-white'
+            >
+              <Link
+                to='/newsletter'
+                className='font-normal leading-[14px] flex items-center gap-3'
+              >
+                <BiNews size={20} />
+                Newsletter
+              </Link>
+            </MenuItem>
+            <MenuItem
+              px={'6px'}
+              py={'3px'}
+              className='!outline-none !border-none focus:!bg-white'
+            >
+              <Link
+                to='/faq'
+                className='font-normal leading-[14px] flex items-center gap-3'
+              >
+                <IoHelpSharp size={20} />
+                FAQ
+              </Link>
+            </MenuItem>
+
+            {user && (
+              <>
+                <MenuItem
+                  px={'6px'}
+                  py={'3px'}
+                  className='!outline-none !border-none focus:!bg-white'
+                >
+                  <Link
+                    to='/courses/my-courses'
                     className='font-normal leading-[14px] flex items-center gap-3'
                   >
                     <BiBook size={20} />
@@ -200,19 +226,6 @@ export default function Navbar({ title }) {
               </>
             )}
 
-            <MenuItem
-              px={'6px'}
-              py={'3px'}
-              className='!outline-none !border-none focus:!bg-white'
-            >
-              <Link
-                to='/faq'
-                className='font-normal leading-[14px] flex items-center gap-3'
-              >
-                <IoHelpSharp size={20} />
-                FAQ
-              </Link>
-            </MenuItem>
             {user && (
               <MenuItem
                 className='!outline-none !border-none focus:!bg-white font-normal leading-[14px] flex items-center gap-3'

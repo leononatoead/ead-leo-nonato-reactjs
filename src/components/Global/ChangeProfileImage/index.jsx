@@ -24,7 +24,7 @@ export default function ChangeProfileImage({ openModal, setOpenModal, user }) {
 
   return (
     <ModalComponent
-      title={success ? '' : 'Alterar Imagem'}
+      title={success ? '' : 'Foto de Perfil'}
       openModal={openModal}
       setOpenModal={setOpenModal}
       handleCloseModal={handleCloseModal}
