@@ -46,8 +46,6 @@ export default function Home() {
     }
   }, []);
 
-  console.log(banners);
-
   return (
     <main className='h-screen overflow-y-auto bg-[#f0f0f0]'>
       <Navbar title={'Início'} />
