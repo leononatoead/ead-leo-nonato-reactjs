@@ -10,9 +10,7 @@ export default function VideoCardAdmin({ cardData }) {
       <Image
         src={cardData.imagePath}
         alt='thumbnail'
-        w={'120px'}
-        h={'104px'}
-        className='rounded-sm object-cover'
+        className='min-w-[120px] max-w-[120px] h-[104px] rounded-sm object-cover'
       />
       <Box className='flex flex-col justify-start min-h-full w-full overflow-hidden'>
         <Box className='flex-grow'>

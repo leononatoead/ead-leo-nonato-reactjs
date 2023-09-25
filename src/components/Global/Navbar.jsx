@@ -58,7 +58,10 @@ export default function Navbar({ title }) {
     }
 
     if (removeBlank.includes('post') && removeBlank.length === 2) {
-      console.log('ue');
+      removeBlank.pop();
+    }
+
+    if (removeBlank.includes('banners') && removeBlank.length === 3) {
       removeBlank.pop();
     }
 

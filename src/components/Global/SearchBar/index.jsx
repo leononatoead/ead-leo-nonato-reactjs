@@ -33,13 +33,14 @@ export default function SearchBar({ type }) {
   return (
     <Box className='w-full bg-white flex px-4 pb-[6px]'>
       <Box className='w-full relative'>
-        <form className='w-full relative' onSubmit={handleSearch}>
+        <form className='w-full relative' onSubmit={handleSearch} id='search'>
           <IoIosSearch
             className='absolute top-2 left-2 text-gray-800'
             size={20}
             onClick={handleSearch}
           />
           <input
+            id='searchField'
             type='text'
             placeholder='Pesquisar'
             onChange={(e) => setSearch(e.target.value)}

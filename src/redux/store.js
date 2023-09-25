@@ -4,6 +4,7 @@ import coursesReducer from './modules/courses/slice';
 import faqReducer from './modules/faq/slice';
 import formsReducer from './modules/forms/slice';
 import postsReducer from './modules/posts/slice';
+import bannersReducer from './modules/banners/slice';
 
 const reducers = {
   auth: authReducer,
@@ -11,6 +12,7 @@ const reducers = {
   faq: faqReducer,
   forms: formsReducer,
   posts: postsReducer,
+  banners: bannersReducer,
 };
 
 const store = configureStore({

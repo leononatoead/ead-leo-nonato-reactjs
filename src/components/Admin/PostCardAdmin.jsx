@@ -15,8 +15,7 @@ export default function PostCardAdmin({ post }) {
       <Image
         src={post.thumb}
         alt='thumbnail'
-        h={'104px'}
-        className='rounded-sm object-cover max-w-[120px] min-w-[120px]'
+        className='min-w-[120px] max-w-[120px] h-[104px] rounded-sm object-cover'
       />
       <Box className='flex flex-col justify-start min-h-full overflow-hidden w-full'>
         <Box className='flex-grow'>

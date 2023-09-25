@@ -1,5 +1,9 @@
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  fetchBANNERSFromLocalStorage,
+  fetchBanners,
+} from '../../redux/modules/banners/actions';
 import { Link } from 'react-router-dom';
 
 import Navbar from '../../components/Global/Navbar';
@@ -19,9 +23,28 @@ export default function Home() {
   const courses = useSelector((state) => state.courses.courses);
   const { pages } = useSelector((state) => state.posts);
   const { user } = useSelector((state) => state.auth);
+  const { banners } = useSelector((state) => state.banners);
 
   const freeCourses = courses?.filter((course) => !course.isPremium);
   const paidCourses = courses?.filter((course) => course.isPremium);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const lastBannersUpdate = new Date(
+      JSON.parse(localStorage.getItem('lastBannersUpdate')),
+    );
+    const actualBannerTime = new Date();
+    const verifyBannerUpdate = Math.abs(actualBannerTime - lastBannersUpdate);
+    const bannersMinutesDifference = Math.floor(verifyBannerUpdate / 60000);
+
+    if (bannersMinutesDifference > 60) {
+      dispatch(fetchBanners());
+    } else {
+      const courses = JSON.parse(localStorage.getItem('banners'));
+      dispatch(fetchBANNERSFromLocalStorage(courses));
+    }
+  }, []);
 
   return (
     <main className='h-screen overflow-y-auto bg-[#f0f0f0]'>
@@ -34,26 +57,11 @@ export default function Home() {
         slidesPerView={1.1}
         className='ml-4 !h-[206px] mt-6'
       >
-        <SwiperSlide className='w-[95%]'>
-          <Banner
-            post={{
-              image:
-                'https://gazetadasemana.com.br/images/colunas/7849/31012022105932_Leo_Nonato.png',
-              title: 'Práticas para lucrar no Day Trade',
-              description: 'Léo Nonato',
-            }}
-          />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Banner
-            post={{
-              image:
-                'https://gazetadasemana.com.br/images/colunas/7849/31012022105932_Leo_Nonato.png',
-              title: 'Práticas para lucrar no Day Trade',
-              description: 'Léo Nonato',
-            }}
-          />
-        </SwiperSlide>
+        {banners?.map((banner) => (
+          <SwiperSlide className='w-[95%]' key={banner.id}>
+            <Banner data={banner} />
+          </SwiperSlide>
+        ))}
       </Swiper>
 
       <section>

@@ -140,7 +140,7 @@ export default function NewLesson() {
           </Box>
           <Input
             theme={'light'}
-            type={'section'}
+            type={'text'}
             label={'Seção'}
             placeholder={'Digite aqui'}
             register={register}
