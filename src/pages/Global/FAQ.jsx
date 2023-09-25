@@ -49,32 +49,35 @@ export default function FAQ() {
       </Box>
       <Box className='px-4' mt={-4}>
         <Accordion className='flex flex-col' gap={1} allowToggle>
-          {questions?.map((question, i) => (
-            <AccordionItem
-              key={i}
-              className='!border-[1px] !rounded-md !shadow-sm overflow-hidden'
-            >
-              <AccordionButton px={4} py={3} className='!bg-white'>
-                <Box
-                  as='span'
-                  flex='1'
-                  textAlign='left'
-                  className='!text-base !leading-5 '
-                >
-                  {question.question}
-                </Box>
-                <AccordionIcon />
-              </AccordionButton>
-
-              <AccordionPanel
-                className='!bg-zinc-100 !text-base text-justify'
-                px={4}
-                py={'7px'}
+          {questions
+            ?.slice()
+            .sort((a, b) => a.order - b.order)
+            .map((question, i) => (
+              <AccordionItem
+                key={i}
+                className='!border-[1px] !rounded-md !shadow-sm overflow-hidden'
               >
-                {question.answer}
-              </AccordionPanel>
-            </AccordionItem>
-          ))}
+                <AccordionButton px={4} py={3} className='!bg-white'>
+                  <Box
+                    as='span'
+                    flex='1'
+                    textAlign='left'
+                    className='!text-base !leading-5 '
+                  >
+                    {question.question}
+                  </Box>
+                  <AccordionIcon />
+                </AccordionButton>
+
+                <AccordionPanel
+                  className='!bg-zinc-100 !text-base text-justify'
+                  px={4}
+                  py={'7px'}
+                >
+                  {question.answer}
+                </AccordionPanel>
+              </AccordionItem>
+            ))}
         </Accordion>
       </Box>
     </Box>

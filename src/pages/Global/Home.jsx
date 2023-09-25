@@ -46,6 +46,8 @@ export default function Home() {
     }
   }, []);
 
+  console.log(banners);
+
   return (
     <main className='h-screen overflow-y-auto bg-[#f0f0f0]'>
       <Navbar title={'Início'} />
@@ -57,11 +59,14 @@ export default function Home() {
         slidesPerView={1.1}
         className='ml-4 !h-[206px] mt-6'
       >
-        {banners?.map((banner) => (
-          <SwiperSlide className='w-[95%]' key={banner.id}>
-            <Banner data={banner} />
-          </SwiperSlide>
-        ))}
+        {banners
+          ?.slice()
+          .sort((a, b) => a.order - b.order)
+          .map((banner) => (
+            <SwiperSlide className='w-[95%]' key={banner.id}>
+              <Banner data={banner} />
+            </SwiperSlide>
+          ))}
       </Swiper>
 
       <section>

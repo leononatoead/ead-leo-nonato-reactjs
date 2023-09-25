@@ -35,36 +35,39 @@ export default function DashboardFAQ() {
 
       <Accordion allowToggle mt={6}>
         {questions &&
-          questions.map((question, i) => (
-            <AccordionItem
-              key={i}
-              className='!border-t-0 !border-b-[1px] !border-gray-200 bg-white rounded-md px-4 mb-1'
-            >
-              <AccordionButton px={0} py={4} className='hover:!bg-white'>
-                <Box
-                  as='span'
-                  flex='1'
-                  textAlign='left'
-                  className='!text-base !font-medium !leading-5'
-                >
-                  {question.order} - {question.question}
-                </Box>
-                <AccordionIcon />
-              </AccordionButton>
+          questions
+            ?.slice()
+            .sort((a, b) => a.order - b.order)
+            .map((question, i) => (
+              <AccordionItem
+                key={i}
+                className='!border-t-0 !border-b-[1px] !border-gray-200 bg-white rounded-md px-4 mb-1'
+              >
+                <AccordionButton px={0} py={4} className='hover:!bg-white'>
+                  <Box
+                    as='span'
+                    flex='1'
+                    textAlign='left'
+                    className='!text-base !font-medium !leading-5'
+                  >
+                    {question.order} - {question.question}
+                  </Box>
+                  <AccordionIcon />
+                </AccordionButton>
 
-              <AccordionPanel pb={4}>
-                <Link
-                  to={`/dashboard/faq/edit/${question.id}`}
-                  className='flex items-center justify-center gap-3 '
-                >
-                  <span className='font-semibold text-small leading-4 flex-1 text-justify'>
-                    {question.answer}
-                  </span>
-                  <BiEdit size={18} />
-                </Link>
-              </AccordionPanel>
-            </AccordionItem>
-          ))}
+                <AccordionPanel pb={4}>
+                  <Link
+                    to={`/dashboard/faq/edit/${question.id}`}
+                    className='flex items-center justify-center gap-3 '
+                  >
+                    <span className='font-semibold text-small leading-4 flex-1 text-justify'>
+                      {question.answer}
+                    </span>
+                    <BiEdit size={18} />
+                  </Link>
+                </AccordionPanel>
+              </AccordionItem>
+            ))}
       </Accordion>
     </Box>
   );

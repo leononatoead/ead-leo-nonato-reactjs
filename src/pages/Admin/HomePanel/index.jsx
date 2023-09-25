@@ -41,9 +41,12 @@ export default function HomePanel() {
       </Box>
 
       <ul className='flex flex-col gap-4 py-6 '>
-        {banners?.map((banner) => (
-          <BannerCardAdmin key={banner.id} cardData={banner} />
-        ))}
+        {banners
+          ?.slice()
+          .sort((a, b) => a.order - b.order)
+          .map((banner) => (
+            <BannerCardAdmin key={banner.id} cardData={banner} />
+          ))}
       </ul>
     </Box>
   );
