@@ -65,31 +65,30 @@ const useAuth = () => {
         const userMinutesDifference = Math.floor(verifyUserUpdate / 60000);
 
         let userData;
+
         if (userMinutesDifference > 1440) {
           const collectionData = await getUserData(user.uid);
           userData = {
-            uid: user.uid,
-            name: user.displayName,
-            email: user.email,
-            emailVerified: user.emailVerified,
-            phoneNumber: user.phoneNumber,
-            photoURL: user.photoURL,
             ...collectionData,
           };
         } else {
           const storageData = JSON.parse(localStorage.getItem('user'));
           userData = {
-            uid: user.uid,
-            name: user.displayName,
-            email: user.email,
-            emailVerified: user.emailVerified,
-            phoneNumber: user.phoneNumber,
-            photoURL: user.photoURL,
             ...storageData,
           };
         }
 
-        dispatch(verifyAuthentication(userData));
+        const data = {
+          ...userData,
+          uid: user.uid,
+          name: user.displayName,
+          email: user.email,
+          emailVerified: user.emailVerified,
+          phoneNumber: user.phoneNumber,
+          photoURL: user.photoURL,
+        };
+
+        dispatch(verifyAuthentication(data));
         setLoadingAuth(false);
       } else {
         dispatch(verifyAuthentication(null));
