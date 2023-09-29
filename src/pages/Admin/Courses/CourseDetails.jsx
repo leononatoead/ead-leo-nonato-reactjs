@@ -32,7 +32,7 @@ export default function CourseDetails() {
   }, [courses, id]);
 
   return (
-    <Box className='main-container !px-0 !pt-0'>
+    <Box className='main-container !px-0 !py-0'>
       <Image
         src={course?.imagePath}
         alt='banner'
@@ -44,22 +44,26 @@ export default function CourseDetails() {
       <Box className='flex justify-start gap-20 items-start p-4'>
         <Box className='w-full'>
           <Text className='mb-2 !text-base'>
-            <span className='font-bold text-primary-500'>Autor:</span>{' '}
-            {course?.author}
-          </Text>
-          <Text className='mb-2 !text-base'>
             <span className='font-bold text-primary-500'>Descrição:</span>{' '}
             {course?.description}
           </Text>
           <Text className='mb-2 !text-base'>
-            <span className='font-bold text-primary-500'>Gratuito:</span>
-            {course?.isFree ? ' Sim' : ' Não'}
+            <span className='font-bold text-primary-500'>Autor:</span>{' '}
+            {course?.author}
+          </Text>
+          <Text className='mb-2 !text-base'>
+            <span className='font-bold text-primary-500'>Tipo:</span>
+            {course?.isPremium ? ' Premium' : ' Gratuito'}
           </Text>
           <Text className='mb-2 !text-base'>
             <span className='font-bold text-primary-500'>
               Necessita de cadastro:
             </span>
-            {course?.isFree ? ' Sim' : ' Não'}
+            {course?.needAuth ? ' Sim' : ' Não'}
+          </Text>
+          <Text className='mb-2 !text-base'>
+            <span className='font-bold text-primary-500'>Visibilidade:</span>
+            {course?.isHidden ? ' Oculto' : ' Visível'}
           </Text>
 
           <Link
@@ -71,13 +75,13 @@ export default function CourseDetails() {
         </Box>
       </Box>
 
-      <Box px={4} bg={'white'} className='!flex-grow' mt={8}>
+      <Box bg={'white'} className='!flex-grow px-4 py-6'>
         <Box className='w-full flex justify-between' mb={4}>
           <Heading className='!text-large !leading-7 !text-primary-500 !font-bold  !text-center !font-poppins'>
             Aulas
           </Heading>
           <Link
-            to={'new'}
+            to={`/dashboard/courses/new-video/${id}`}
             className='flex justify-center items-center gap-3 bg-primary-400 rounded-[4px] px-3 py-[5px] text-white text-base leading-5'
           >
             <MdAddCircleOutline size={18} /> Nova aula

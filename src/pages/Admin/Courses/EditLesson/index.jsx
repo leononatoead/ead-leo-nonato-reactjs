@@ -70,6 +70,8 @@ export default function EditLesson() {
     }
   }, [videos]);
 
+  console.log(oldVideoData);
+
   const handleAddFile = (e) => {
     e.preventDefault();
 

@@ -30,6 +30,7 @@ import SearchCourses from '../pages/Global/SearchCourses';
 import HomePanel from '../pages/Admin/HomePanel';
 import NewBanner from '../pages/Admin/HomePanel/Banners/NewBanner';
 import EditBanner from '../pages/Admin/HomePanel/Banners/EditBanner';
+import NewVideo from '../pages/Admin/Courses/NewVideo';
 
 export default function AdminRoutes() {
   return (
@@ -51,11 +52,15 @@ export default function AdminRoutes() {
         <Route path='home/banners/new' element={<NewBanner />} />
         <Route path='home/banners/edit/:id' element={<EditBanner />} />
         <Route path='courses' element={<Courses />} />
-        <Route path='courses/new' element={<NewCourse />} />
         <Route path='courses/:id' element={<CourseDetails />} />
-        <Route path='courses/:id/new' element={<NewLesson />} />
+        <Route path='courses/new' element={<NewCourse />} />
         <Route path='courses/:id/edit' element={<EditCourse />} />
+
+        <Route path='courses/new-video/:id/' element={<NewVideo />} />
+
+        <Route path='courses/:id/new' element={<NewLesson />} />
         <Route path='courses/:id/edit/:id' element={<EditLesson />} />
+
         <Route path='posts' element={<Posts />} />
         <Route path='posts/new' element={<NewPost />} />
         <Route path='posts/edit/:id' element={<EditPost />} />
