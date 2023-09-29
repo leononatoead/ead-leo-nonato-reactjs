@@ -55,12 +55,8 @@ export default function AdminRoutes() {
         <Route path='courses/:id' element={<CourseDetails />} />
         <Route path='courses/new' element={<NewCourse />} />
         <Route path='courses/:id/edit' element={<EditCourse />} />
-
-        <Route path='courses/new-video/:id/' element={<NewVideo />} />
-
-        <Route path='courses/:id/new' element={<NewLesson />} />
+        <Route path='courses/:id/new' element={<NewVideo />} />
         <Route path='courses/:id/edit/:id' element={<EditLesson />} />
-
         <Route path='posts' element={<Posts />} />
         <Route path='posts/new' element={<NewPost />} />
         <Route path='posts/edit/:id' element={<EditPost />} />

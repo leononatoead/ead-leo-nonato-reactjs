@@ -81,7 +81,7 @@ export default function CourseDetails() {
             Aulas
           </Heading>
           <Link
-            to={`/dashboard/courses/new-video/${id}`}
+            to={`new`}
             className='flex justify-center items-center gap-3 bg-primary-400 rounded-[4px] px-3 py-[5px] text-white text-base leading-5'
           >
             <MdAddCircleOutline size={18} /> Nova aula

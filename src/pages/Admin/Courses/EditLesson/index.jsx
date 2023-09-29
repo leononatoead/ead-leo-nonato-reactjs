@@ -5,7 +5,7 @@ import useVideo from '../../../../hooks/useVideo';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AddVideoSchema } from '../NewLesson/addVideoSchema';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import ButtonSubmit from '../../../../components/Global/ButtonSubmit';
 import Input from '../../../../components/Global/Input';
@@ -13,8 +13,10 @@ import ConfirmModal from '../../../../components/Global/ConfirmModal';
 import { Box, Flex, Heading, Radio, RadioGroup } from '@chakra-ui/react';
 
 export default function EditLesson() {
+  const params = useParams();
   const { pathname } = useLocation();
   const pathParams = pathname.split('/');
+  console.log(params);
 
   const courseId = pathParams[3];
   const id = pathParams[5];
