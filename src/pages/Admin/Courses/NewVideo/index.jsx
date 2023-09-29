@@ -7,10 +7,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { AddVideoSchema } from './addVideoSchema';
 import { fetchVideos } from '../../../../redux/modules/courses/actions';
+import ButtonSubmit from '../../../../components/Global/ButtonSubmit';
 import Input from '../../../../components/Global/Input';
 import Assets from '../../../../components/Admin/NewVideo/Assets';
 import Advertisement from '../../../../components/Admin/NewVideo/Advertisement';
 import Quiz from '../../../../components/Admin/NewVideo/Quiz';
+import Survey from '../../../../components/Admin/NewVideo/Survey';
+import useVideo from '../../../../hooks/useVideo';
 
 export default function NewVideo() {
   const [videoData, setVideoData] = useState({
@@ -29,7 +32,8 @@ export default function NewVideo() {
       questionsList: [],
     },
     survey: {
-      surveyList: [],
+      hasSurvey: false,
+      survey: null,
     },
     advertisement: {
       hasAdvertisement: false,
@@ -37,11 +41,11 @@ export default function NewVideo() {
     },
   });
 
-  console.log(videoData);
-
   const { id } = useParams();
   const { courses } = useSelector((state) => state.courses);
   const course = courses.find((course) => course.id === id);
+  const { uploadVideo, loading } = useVideo();
+
   const dispatch = useDispatch();
 
   const {
@@ -82,7 +86,15 @@ export default function NewVideo() {
         ...prev,
         quiz: {
           ...prev.quiz,
-          hasQuiz: !prev.advertisement.hasQuiz,
+          hasQuiz: !prev.quiz.hasQuiz,
+        },
+      }));
+    } else if (type === 'hasSurvey') {
+      setVideoData((prev) => ({
+        ...prev,
+        survey: {
+          ...prev.survey,
+          hasSurvey: !prev.survey.hasSurvey,
         },
       }));
     }
@@ -100,6 +112,54 @@ export default function NewVideo() {
       dispatch(fetchVideos(id));
     }
   }, [courses, id]);
+
+  const handleAddVideo = (formData) => {
+    let data = { ...formData };
+
+    if (videoData.video.videoType) {
+      data = {
+        ...data,
+        videoFile: videoData.video.videoFile,
+      };
+    }
+
+    if (videoData.assets.hasAssets) {
+      data = {
+        ...data,
+        assetsList: [...videoData.assets.assetsList],
+      };
+    }
+
+    if (videoData.assets.hasAssets) {
+      data = {
+        ...data,
+        assetsList: [...videoData.assets.assetsList],
+      };
+    }
+
+    if (videoData.advertisement.hasAdvertisement) {
+      data = {
+        ...data,
+        advertisementList: [...videoData.advertisement.advertisementList],
+      };
+    }
+
+    if (videoData.quiz.hasQuiz) {
+      data = {
+        ...data,
+        questionsList: [...videoData.quiz.questionsList],
+      };
+    }
+
+    if (videoData.survey.hasSurvey) {
+      data = {
+        ...data,
+        survey: videoData.survey.survey,
+      };
+    }
+
+    uploadVideo(data);
+  };
 
   return (
     <Box className='main-container'>
@@ -119,7 +179,7 @@ export default function NewVideo() {
         </Box>
       </Box>
       <form
-        onSubmit={handleSubmit('')}
+        onSubmit={handleSubmit(handleAddVideo)}
         id='addVideoForm'
         className='flex flex-col gap-[10px] pt-2 pb-4'
       >
@@ -252,6 +312,20 @@ export default function NewVideo() {
         </Box>
       </Box>
       {videoData.quiz.hasQuiz && <Quiz setVideoData={setVideoData} />}
+      <Box className='flex justify-start items-center gap-4' my={'16px'}>
+        <Text className='font-bold text-primary-600 text-base'>Enquete</Text>
+        <Box className='flex justify-start items-center gap-4'>
+          <Switch id='hasSurvey' onChange={() => handleSwitch('hasSurvey')} />
+        </Box>
+      </Box>
+      {videoData.survey.hasSurvey && <Survey setVideoData={setVideoData} />}
+
+      <ButtonSubmit
+        form='addVideoForm'
+        disabled={false}
+        text={'Adicionar'}
+        loading={loading}
+      />
     </Box>
   );
 }
