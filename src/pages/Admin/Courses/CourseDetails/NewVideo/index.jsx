@@ -107,12 +107,6 @@ export default function NewVideo() {
     }));
   };
 
-  useEffect(() => {
-    if (course && !course.videos) {
-      dispatch(fetchVideos(id));
-    }
-  }, [courses, id]);
-
   const handleAddVideo = (formData) => {
     let data = { ...formData };
 
@@ -158,8 +152,14 @@ export default function NewVideo() {
       };
     }
 
-    uploadVideo(data);
+    uploadVideo(data, `courses/${id}/videos`);
   };
+
+  useEffect(() => {
+    if (course && !course.videos) {
+      dispatch(fetchVideos(id));
+    }
+  }, [courses, id]);
 
   return (
     <Box className='main-container'>
@@ -226,8 +226,8 @@ export default function NewVideo() {
             className={`w-full rounded-[4px] px-3 py-[5px] leading-5 text-base outline-none bg-white placeholder:text-gray-900 shadow-sm shadow-gray-900/50`}
           >
             {course?.sections?.map((section, i) => (
-              <option key={i} value={section}>
-                {section}
+              <option key={i} value={section.sectionName}>
+                {section.sectionName}
               </option>
             ))}
           </select>

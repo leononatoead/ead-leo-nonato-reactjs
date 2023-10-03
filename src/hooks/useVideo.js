@@ -149,24 +149,8 @@ const useVideo = () => {
   const dispatch = useDispatch();
   const toast = useToast();
 
-  const uploadVideo = async (
-    videoData,
-    docCollection,
-    videoFile,
-    assetsList,
-  ) => {
+  const uploadVideo = async (videoData, docCollection) => {
     setLoading(true);
-
-    if (videoFile === null) {
-      toast({
-        description: 'Envie um arquivo de vídeo!',
-        status: 'error',
-        duration: '3000',
-        isClosable: true,
-      });
-      setLoading(false);
-      return;
-    }
 
     const assets = [];
 
@@ -187,22 +171,45 @@ const useVideo = () => {
       }
     };
 
-    for (const assetFile of assetsList) {
-      await uploadAsset(assetFile);
+    if (videoData.assetsList) {
+      for (const assetFile of videoData.assetsList) {
+        await uploadAsset(assetFile);
+      }
     }
 
-    const firestoreVideoFileName = `${docCollection}/${Date.now()}${v4()}`;
-    const videoStorageRef = ref(storage, firestoreVideoFileName);
+    let videoDataUpdated;
 
-    const URL = await uploadToStorage(videoStorageRef, videoFile);
+    if (videoData.videoFile !== null) {
+      const firestoreVideoFileName = `${docCollection}/${Date.now()}${v4()}`;
+      const videoStorageRef = ref(storage, firestoreVideoFileName);
 
-    const videoDataUpdated = {
-      ...videoData,
-      videoPath: URL,
-      storageRef: firestoreVideoFileName,
-      createdAt: Timestamp.now(),
-      assets: assets,
-    };
+      const URL = await uploadToStorage(videoStorageRef, videoData.videoFile);
+
+      videoDataUpdated = {
+        ...videoData,
+        videoPath: URL,
+        storageRef: firestoreVideoFileName,
+        createdAt: Timestamp.now(),
+        assets: assets,
+      };
+
+      delete videoDataUpdated.videoFile;
+      if (assets.length === 0) {
+        delete videoDataUpdated.assets;
+      }
+    } else {
+      videoDataUpdated = {
+        ...videoData,
+        videoPath: videoData.videoPath,
+        storageRef: firestoreVideoFileName,
+        createdAt: Timestamp.now(),
+        assets: assets,
+      };
+
+      if (assets.length === 0) {
+        delete videoDataUpdated.assets;
+      }
+    }
 
     const videoRes = await addDoc(
       collection(database, docCollection),
