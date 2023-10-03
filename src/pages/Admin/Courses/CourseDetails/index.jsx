@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchVideos } from '../../../redux/modules/courses/actions';
+import { fetchVideos } from '../../../../redux/modules/courses/actions';
 import { Link, useParams } from 'react-router-dom';
 
 import {
@@ -32,7 +32,7 @@ export default function CourseDetails() {
   }, [courses, id]);
 
   return (
-    <Box className='main-container !px-0 !py-0'>
+    <Box className='main-container !px-0 !py-0 flex flex-col'>
       <Image
         src={course?.imagePath}
         alt='banner'

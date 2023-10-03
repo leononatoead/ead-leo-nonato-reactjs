@@ -6,14 +6,14 @@ import { Box, Switch, Text } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { AddVideoSchema } from './addVideoSchema';
-import { fetchVideos } from '../../../../redux/modules/courses/actions';
-import ButtonSubmit from '../../../../components/Global/ButtonSubmit';
-import Input from '../../../../components/Global/Input';
-import Assets from '../../../../components/Admin/NewVideo/Assets';
-import Advertisement from '../../../../components/Admin/NewVideo/Advertisement';
-import Quiz from '../../../../components/Admin/NewVideo/Quiz';
-import Survey from '../../../../components/Admin/NewVideo/Survey';
-import useVideo from '../../../../hooks/useVideo';
+import { fetchVideos } from '../../../../../redux/modules/courses/actions';
+import ButtonSubmit from '../../../../../components/Global/ButtonSubmit';
+import Input from '../../../../../components/Global/Input';
+import Assets from '../../../../../components/Admin/NewVideo/Assets';
+import Advertisement from '../../../../../components/Admin/NewVideo/Advertisement';
+import Quiz from '../../../../../components/Admin/NewVideo/Quiz';
+import Survey from '../../../../../components/Admin/NewVideo/Survey';
+import useVideo from '../../../../../hooks/useVideo';
 
 export default function NewVideo() {
   const [videoData, setVideoData] = useState({

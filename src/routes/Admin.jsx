@@ -13,9 +13,8 @@ import Dashboard from '../pages/Admin/Dashboard';
 import Courses from '../pages/Admin/Courses';
 import CourseDetails from '../pages/Admin/Courses/CourseDetails';
 import NewCourse from '../pages/Admin/Courses/NewCourse';
-import NewLesson from '../pages/Admin/Courses/NewLesson';
-import EditLesson from '../pages/Admin/Courses/EditLesson';
 import EditCourse from '../pages/Admin/Courses/EditCourse';
+import NewVideo from '../pages/Admin/Courses/CourseDetails/NewVideo';
 import DashboardFAQ from '../pages/Admin/FAQ';
 import NewQuestion from '../pages/Admin/FAQ/NewQuestion';
 import EditQuestion from '../pages/Admin/FAQ/EditQuestion';
@@ -30,7 +29,6 @@ import SearchCourses from '../pages/Global/SearchCourses';
 import HomePanel from '../pages/Admin/HomePanel';
 import NewBanner from '../pages/Admin/HomePanel/Banners/NewBanner';
 import EditBanner from '../pages/Admin/HomePanel/Banners/EditBanner';
-import NewVideo from '../pages/Admin/Courses/NewVideo';
 
 export default function AdminRoutes() {
   return (
@@ -56,7 +54,7 @@ export default function AdminRoutes() {
         <Route path='courses/new' element={<NewCourse />} />
         <Route path='courses/:id/edit' element={<EditCourse />} />
         <Route path='courses/:id/new' element={<NewVideo />} />
-        <Route path='courses/:id/edit/:id' element={<EditLesson />} />
+        {/* <Route path='courses/:id/edit/:id' element={<EditLesson />} /> */}
         <Route path='posts' element={<Posts />} />
         <Route path='posts/new' element={<NewPost />} />
         <Route path='posts/edit/:id' element={<EditPost />} />
