@@ -163,7 +163,7 @@ const useVideo = () => {
         const path = await uploadToStorage(assetStorageRef, assetFile.file);
         const fileObject = {
           fileName: assetFile.fileName,
-          path,
+          fileURL: path,
           fileStorageRef: firestoreAssetFileName,
         };
 
@@ -235,41 +235,62 @@ const useVideo = () => {
     oldVideoData,
     updatedVideoData,
     docCollection,
-    fileList,
-    newVideo = null,
   ) => {
     setLoading(true);
 
     const filesToRemove = oldVideoData.assets.filter(
-      (item1) => !fileList.some((item2) => item2.fileURL === item1.fileURL),
+      (item1) =>
+        !updatedVideoData.assetsList.some(
+          (item2) => item2.fileURL === item1.fileURL,
+        ),
     );
 
     if (filesToRemove.length > 0) {
       filesToRemove.forEach(async (file) => {
-        const fileRef = ref(storage, file.fileStorageRef);
-        await deleteObject(fileRef);
+        if (file.fileStorageRef) {
+          const fileRef = ref(storage, file.fileStorageRef);
+          await deleteObject(fileRef);
+        }
+        return;
       });
     }
 
-    if (newVideo !== null) {
-      const firestoreFileName = `${docCollection}/${Date.now()}${v4()}`;
-      const storageRef = ref(storage, firestoreFileName);
-      const URL = await uploadToStorage(storageRef, newVideo);
+    try {
+      const updatedAssets = await Promise.all(
+        updatedVideoData.assetsList.map(uploadAssetFile),
+      );
+      let videoData;
 
-      const updatedAssets = await Promise.all(fileList.map(uploadAssetFile));
+      if (updatedVideoData.videoFile !== null) {
+        const firestoreFileName = `${docCollection}/${Date.now()}${v4()}`;
+        const storageRef = ref(storage, firestoreFileName);
+        const URL = await uploadToStorage(
+          storageRef,
+          updatedVideoData.videoFile,
+        );
 
-      const fileRef = ref(storage, oldVideoData.storageRef);
-      await deleteObject(fileRef);
+        const fileRef = ref(storage, oldVideoData.storageRef);
+        await deleteObject(fileRef);
 
-      const videoData = {
-        ...oldVideoData,
-        ...updatedVideoData,
-        courseRef: courseId,
-        assets: updatedAssets,
-        createdAt: Timestamp.fromMillis(oldVideoData.createdAt),
-        videoPath: URL,
-        storageRef: firestoreFileName,
-      };
+        videoData = {
+          id: oldVideoData.id,
+          ...updatedVideoData,
+          courseRef: courseId,
+          assets: updatedAssets,
+          createdAt: Timestamp.fromMillis(oldVideoData.createdAt),
+          videoPath: URL,
+          storageRef: firestoreFileName,
+        };
+      } else {
+        videoData = {
+          id: oldVideoData.id,
+          storageRef: oldVideoData.storageRef ? oldVideoData.storageRef : null,
+          ...updatedVideoData,
+          courseRef: courseId,
+          assets: updatedAssets,
+          createdAt: Timestamp.fromMillis(oldVideoData.createdAt),
+        };
+      }
 
       const videoRef = doc(database, docCollection, oldVideoData.id);
       await updateDoc(videoRef, videoData);
@@ -287,64 +308,41 @@ const useVideo = () => {
         duration: '3000',
         isClosable: true,
       });
-    } else {
-      try {
-        const updatedAssets = await Promise.all(fileList.map(uploadAssetFile));
+    } catch (error) {
+      toast({
+        description: error.message,
+        status: 'error',
+        duration: '3000',
+        isClosable: true,
+      });
 
-        const videoData = {
-          ...oldVideoData,
-          ...updatedVideoData,
-          courseRef: courseId,
-          assets: updatedAssets,
-          createdAt: Timestamp.fromMillis(oldVideoData.createdAt),
-        };
-
-        const videoRef = doc(database, docCollection, oldVideoData.id);
-        await updateDoc(videoRef, videoData);
-
-        dispatch(
-          editVideo({
-            ...videoData,
-            createdAt: videoData.createdAt.toMillis(),
-          }),
-        );
-
-        toast({
-          description: 'Video alterado com sucesso!',
-          status: 'success',
-          duration: '3000',
-          isClosable: true,
-        });
-      } catch (error) {
-        toast({
-          description: error.message,
-          status: 'error',
-          duration: '3000',
-          isClosable: true,
-        });
-      } finally {
-        setLoading(false);
-      }
+      console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const deleteVideo = async (courseId, videoId, storageRef, fileList) => {
+  const deleteVideo = async (courseId, video) => {
     setLoading(true);
     try {
-      const videoRef = doc(database, `courses/${courseId}/videos/`, videoId);
+      const videoRef = doc(database, `courses/${courseId}/videos/`, video.id);
       await deleteDoc(videoRef);
 
-      const fileRef = ref(storage, storageRef);
-      await deleteObject(fileRef);
+      if (video.storageRef) {
+        const fileRef = ref(storage, video.storageRef);
+        await deleteObject(fileRef);
+      }
 
-      fileList.forEach(async (file) => {
-        if (file.fileStorageRef) {
-          const fileRef = ref(storage, file.fileStorageRef);
-          await deleteObject(fileRef);
-        }
-      });
+      if (video.assets) {
+        video.assets.forEach(async (file) => {
+          if (file.fileStorageRef) {
+            const fileRef = ref(storage, file.fileStorageRef);
+            await deleteObject(fileRef);
+          }
+        });
+      }
 
-      dispatch(delVideo({ courseId, videoId }));
+      dispatch(delVideo({ courseId, videoId: video.id }));
     } catch (error) {
       toast({
         description: error.message,

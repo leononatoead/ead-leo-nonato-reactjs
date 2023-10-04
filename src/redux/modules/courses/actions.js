@@ -47,7 +47,7 @@ export const fetchVideos = createAsyncThunk(
     const collectionRef = collection(database, `courses/${courseId}/videos`);
 
     try {
-      const q = query(collectionRef, orderBy('createdAt', 'asc'), limit(10));
+      const q = query(collectionRef, orderBy('createdAt', 'asc'));
 
       const querySnapshot = await getDocs(q);
 

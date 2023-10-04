@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchCourses, fetchVideos } from './actions';
 
+//TODO: REFAZER REDUCER DE CURSOS
 const courseReducer = createSlice({
   name: 'courses',
   initialState: { courses: [] },
@@ -113,6 +114,7 @@ const courseReducer = createSlice({
     addVideo: (state, action) => {
       const newVideo = action.payload;
       const courses = JSON.parse(JSON.stringify([...state.courses]));
+      const stateVideos = JSON.parse(JSON.stringify([...state.videos]));
 
       const course = courses.find((course) => course.id === newVideo.courseRef);
 
@@ -153,12 +155,17 @@ const courseReducer = createSlice({
       const storageCourses = JSON.stringify([...updatedCourseList]);
       localStorage.setItem('courses', storageCourses);
 
+      const allVideos = [...stateVideos, newVideo];
+      const storageVideos = JSON.stringify(allVideos);
+      localStorage.setItem('videos', storageVideos);
+
       const updatedAt = JSON.stringify(new Date());
       localStorage.setItem('lastCoursesUpdate', updatedAt);
 
       return {
         ...state,
         courses: updatedCourseList,
+        videos: allVideos,
       };
     },
     editVideo: (state, action) => {
@@ -205,6 +212,8 @@ const courseReducer = createSlice({
 
       const updatedAt = JSON.stringify(new Date());
       localStorage.setItem('lastCoursesUpdate', updatedAt);
+
+      console.log(updatedCourseList);
 
       return {
         ...state,
@@ -256,7 +265,9 @@ const courseReducer = createSlice({
       return { ...state, activeLesson: action.payload };
     },
     fetchCoursesFromLocalStorage: (state, action) => {
-      return { ...state, courses: action.payload };
+      const videos = JSON.parse(localStorage.getItem('videos'));
+
+      return { ...state, courses: action.payload, videos };
     },
   },
   extraReducers: (builder) => {

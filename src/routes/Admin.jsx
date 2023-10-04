@@ -15,6 +15,7 @@ import CourseDetails from '../pages/Admin/Courses/CourseDetails';
 import NewCourse from '../pages/Admin/Courses/NewCourse';
 import EditCourse from '../pages/Admin/Courses/EditCourse';
 import NewVideo from '../pages/Admin/Courses/CourseDetails/NewVideo';
+import EditVideo from '../pages/Admin/Courses/CourseDetails/EditVideo';
 import DashboardFAQ from '../pages/Admin/FAQ';
 import NewQuestion from '../pages/Admin/FAQ/NewQuestion';
 import EditQuestion from '../pages/Admin/FAQ/EditQuestion';
@@ -54,7 +55,7 @@ export default function AdminRoutes() {
         <Route path='courses/new' element={<NewCourse />} />
         <Route path='courses/:id/edit' element={<EditCourse />} />
         <Route path='courses/:id/new' element={<NewVideo />} />
-        {/* <Route path='courses/:id/edit/:id' element={<EditLesson />} /> */}
+        <Route path='courses/:id/edit/:id' element={<EditVideo />} />
         <Route path='posts' element={<Posts />} />
         <Route path='posts/new' element={<NewPost />} />
         <Route path='posts/edit/:id' element={<EditPost />} />

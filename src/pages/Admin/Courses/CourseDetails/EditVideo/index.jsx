@@ -4,8 +4,8 @@ import { fetchVideos } from '../../../../../redux/modules/courses/actions';
 import useVideo from '../../../../../hooks/useVideo';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { AddVideoSchema } from './addVideoSchema';
-import { useParams } from 'react-router-dom';
+import { AddVideoSchema } from '../NewVideo/addVideoSchema';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import ButtonSubmit from '../../../../../components/Global/ButtonSubmit';
 import Input from '../../../../../components/Global/Input';
@@ -13,40 +13,54 @@ import Assets from '../../../../../components/Admin/NewVideo/Assets';
 import Advertisement from '../../../../../components/Admin/NewVideo/Advertisement';
 import Quiz from '../../../../../components/Admin/NewVideo/Quiz';
 import Survey from '../../../../../components/Admin/NewVideo/Survey';
-import { Box, Switch, Text } from '@chakra-ui/react';
+import { Box, Flex, Switch, Text } from '@chakra-ui/react';
+import ConfirmModal from '../../../../../components/Global/ConfirmModal';
 
-export default function NewVideo() {
+export default function EditVideo() {
+  const { pathname } = useLocation();
+  const path = pathname.split('/');
+  const id = path[3];
+  const videoId = path[5];
+
+  const { courses } = useSelector((state) => state.courses);
+  const course = courses?.find((course) => course.id === id);
+
+  const { videos } = useSelector((state) => state.courses);
+  const video = videos?.find((video) => video.id === videoId);
+
   const [videoData, setVideoData] = useState({
     video: {
       videoFile: null,
-      videoType: true,
+      videoType: video?.videoPath ? false : true,
     },
     assets: {
-      hasAssets: false,
-      assetsList: [],
+      hasAssets: video?.assets ? true : false,
+      assetsList: video?.assets ? video.assets : [],
       assetFile: null,
       assetType: true,
     },
     quiz: {
-      hasQuiz: false,
-      questionsList: [],
+      hasQuiz: video?.questionsList ? true : false,
+      questionsList: video?.questionsList ? video.questionsList : [],
     },
     survey: {
-      hasSurvey: false,
-      survey: null,
+      hasSurvey: video?.survey ? true : false,
+      survey: video?.survey ? video.survey : null,
     },
     advertisement: {
-      hasAdvertisement: false,
-      advertisementList: [],
+      hasAdvertisement: video?.advertisementList ? true : false,
+      advertisementList: video?.advertisementList
+        ? video.advertisementList
+        : [],
     },
   });
 
-  const { id } = useParams();
-  const { courses } = useSelector((state) => state.courses);
-  const course = courses.find((course) => course.id === id);
-  const { uploadVideo, loading } = useVideo();
+  const [openConfirmModal, setOpenConfirmModal] = useState();
+
+  const { updateVideo, deleteVideo, loading } = useVideo();
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -108,7 +122,7 @@ export default function NewVideo() {
     }));
   };
 
-  const handleAddVideo = (formData) => {
+  const handlEditVideo = (formData) => {
     let data = { ...formData };
 
     if (videoData.video.videoType) {
@@ -153,19 +167,26 @@ export default function NewVideo() {
       };
     }
 
-    uploadVideo(data, `courses/${id}/videos`);
-
-    reset({ order: '', title: '', description: '' });
+    updateVideo(id, video, data, `courses/${id}/videos`);
   };
-  //TODO: consertar fetch infinito
+
+  const handleDeleteVideo = () => {
+    deleteVideo(id, video);
+    navigate(`/dashboard/courses/${id}`);
+  };
+
   useEffect(() => {
     if (course) {
-      // if (course.videos.length > 0 || !course.videos) {
-      //   dispatch(fetchVideos(id));
-      //   console.log('teste');
-      // }
+      if (!course.videos.length > 0 || !course.videos) {
+        dispatch(fetchVideos(id));
+      }
     }
-  }, [courses, id]);
+    if (!video) {
+      dispatch(fetchVideos(id));
+    }
+  }, []);
+
+  console.log(video);
 
   return (
     <Box className='main-container'>
@@ -177,7 +198,7 @@ export default function NewVideo() {
           <Switch
             id='videoType'
             onChange={() => handleSwitch('videoType')}
-            defaultChecked
+            defaultChecked={videoData.video.videoType}
           />
           <label htmlFor={'videoType'} className='text-base leading-5'>
             {videoData.video.videoType ? 'Arquivo' : 'URL'}
@@ -185,8 +206,8 @@ export default function NewVideo() {
         </Box>
       </Box>
       <form
-        onSubmit={handleSubmit(handleAddVideo)}
-        id='addVideoForm'
+        onSubmit={handleSubmit(handlEditVideo)}
+        id='editVideoForm'
         className='flex flex-col gap-[10px] pt-2 pb-4'
       >
         {videoData.video.videoType ? (
@@ -217,6 +238,7 @@ export default function NewVideo() {
             id={'videoPath'}
             error={errors?.videoPath?.message}
             watch={watch}
+            defaultValue={video?.videoPath}
           />
         )}
         <Box className='pb-[5px]'>
@@ -230,6 +252,7 @@ export default function NewVideo() {
             id='section'
             {...register('section')}
             className={`w-full rounded-[4px] px-3 py-[5px] leading-5 text-base outline-none bg-white placeholder:text-gray-900 shadow-sm shadow-gray-900/50`}
+            defaultValue={video?.section}
           >
             {course?.sections?.map((section, i) => (
               <option key={i} value={section.sectionName}>
@@ -247,6 +270,7 @@ export default function NewVideo() {
           id={'order'}
           error={errors?.order?.message}
           watch={watch}
+          defaultValue={video?.order}
         />
         <Input
           theme={'light'}
@@ -257,6 +281,7 @@ export default function NewVideo() {
           id={'title'}
           error={errors?.title?.message}
           watch={watch}
+          defaultValue={video?.title}
         />
         <Input
           theme={'light'}
@@ -267,6 +292,7 @@ export default function NewVideo() {
           id={'description'}
           error={errors?.description?.message}
           watch={watch}
+          defaultValue={video?.description}
         />
       </form>
       <Box className='flex justify-start items-center gap-4' mb={'5px'}>
@@ -274,7 +300,11 @@ export default function NewVideo() {
           Material Complementar
         </Text>
         <Box className='flex justify-start items-center gap-4'>
-          <Switch id='hasAssets' onChange={() => handleSwitch('hasAssets')} />
+          <Switch
+            id='hasAssets'
+            onChange={() => handleSwitch('hasAssets')}
+            defaultChecked={videoData.assets.hasAssets}
+          />
         </Box>
       </Box>
       {videoData.assets.hasAssets && (
@@ -303,6 +333,7 @@ export default function NewVideo() {
           <Switch
             id='hasAdvertisement'
             onChange={() => handleSwitch('hasAdvertisement')}
+            defaultChecked={videoData.advertisement.hasAdvertisement}
           />
         </Box>
       </Box>
@@ -314,7 +345,11 @@ export default function NewVideo() {
           Questionário
         </Text>
         <Box className='flex justify-start items-center gap-4'>
-          <Switch id='hasQuiz' onChange={() => handleSwitch('hasQuiz')} />
+          <Switch
+            id='hasQuiz'
+            onChange={() => handleSwitch('hasQuiz')}
+            defaultChecked={videoData.quiz.hasQuiz}
+          />
         </Box>
       </Box>
       {videoData.quiz.hasQuiz && (
@@ -323,19 +358,30 @@ export default function NewVideo() {
       <Box className='flex justify-start items-center gap-4' my={'16px'}>
         <Text className='font-bold text-primary-600 text-base'>Enquete</Text>
         <Box className='flex justify-start items-center gap-4'>
-          <Switch id='hasSurvey' onChange={() => handleSwitch('hasSurvey')} />
+          <Switch
+            id='hasSurvey'
+            onChange={() => handleSwitch('hasSurvey')}
+            defaultChecked={videoData.survey.hasSurvey}
+          />
         </Box>
       </Box>
       {videoData.survey.hasSurvey && (
         <Survey videoData={videoData} setVideoData={setVideoData} />
       )}
 
-      <ButtonSubmit
-        form='addVideoForm'
-        disabled={false}
-        text={'Adicionar'}
-        loading={loading}
-      />
+      <Flex flexDirection={'column'} gap={2}>
+        <ButtonSubmit
+          form='editVideoForm'
+          disabled={false}
+          text={'Editar'}
+          loading={loading}
+        />
+        <ConfirmModal
+          deleteFunction={handleDeleteVideo}
+          open={openConfirmModal}
+          setOpen={setOpenConfirmModal}
+        />
+      </Flex>
     </Box>
   );
 }

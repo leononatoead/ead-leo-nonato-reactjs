@@ -23,7 +23,6 @@ export default function SurveyList({ videoData, setVideoData }) {
     }));
   };
 
-  console.log(videoData.survey.survey);
   return (
     <>
       <button

@@ -66,6 +66,7 @@ export default function Input({
             autoComplete='false'
             defaultValue={defaultValue}
             step={'any'}
+            min={0}
           />
         ) : (
           <input

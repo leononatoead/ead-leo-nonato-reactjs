@@ -20,14 +20,16 @@ import { MdAddCircleOutline } from 'react-icons/md';
 export default function CourseDetails() {
   const { id } = useParams();
 
-  const courses = useSelector((state) => state.courses.courses);
+  const { courses } = useSelector((state) => state.courses);
   const course = courses.find((course) => course.id === id);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (course && !course.videos) {
-      dispatch(fetchVideos(id));
+    if (course) {
+      if (!course.videos.length > 0 || !course.videos) {
+        dispatch(fetchVideos(id));
+      }
     }
   }, [courses, id]);
 
