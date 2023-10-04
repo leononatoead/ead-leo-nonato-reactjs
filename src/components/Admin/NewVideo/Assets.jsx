@@ -4,6 +4,7 @@ import { AssetsSchema } from './extraSchemas';
 
 import Input from '../../Global/Input';
 import { Box } from '@chakra-ui/react';
+import AssetsList from './AssetsList';
 
 export default function Assets({ videoData, setVideoData }) {
   const {
@@ -105,7 +106,7 @@ export default function Assets({ videoData, setVideoData }) {
           watch={watch}
         />
       )}
-      <Box className='flex items-center gap-4 justify-center'>
+      <Box className='flex items-center gap-4 justify-start'>
         <button
           className='w-[50%] bg-white rounded-[4px] px-3 py-[5px] text-primary-600 border-[1px] border-primary-600 text-base leading-5 mt-2'
           type='submit'
@@ -114,9 +115,9 @@ export default function Assets({ videoData, setVideoData }) {
           Incluir
         </button>
 
-        <button className='w-[50%] bg-white rounded-[4px] px-3 py-[5px] text-primary-600 border-[1px] border-primary-600 text-base leading-5 mt-2'>
-          Ver inclusos
-        </button>
+        {videoData.assets.assetsList.length > 0 && (
+          <AssetsList videoData={videoData} setVideoData={setVideoData} />
+        )}
       </Box>
     </form>
   );

@@ -73,7 +73,7 @@ export default function Sections({ sections, setSections }) {
         watch={watch}
       />
 
-      <Box className='flex items-center gap-4 justify-center'>
+      <Box className='flex items-center gap-4 justify-start'>
         <button
           className='w-[50%] bg-white rounded-[4px] px-3 py-[5px] text-primary-600 border-[1px] border-primary-600 text-base leading-5 mt-2'
           type='submit'
@@ -82,7 +82,9 @@ export default function Sections({ sections, setSections }) {
           Incluir
         </button>
 
-        <SectionList sections={sections} setSections={setSections} />
+        {sections.length > 0 && (
+          <SectionList sections={sections} setSections={setSections} />
+        )}
       </Box>
     </form>
   );

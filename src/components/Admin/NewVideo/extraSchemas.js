@@ -9,6 +9,7 @@ export const AdvertisementSchema = z.object({
   advertisementName: z.string().min(2, 'Digite um nome válido.'),
   advertisementTime: z.string().min(2, 'Digite um tempo válido.'),
   advertisementPath: z.string().url(),
+  advertisementImage: z.string().url(),
 });
 
 export const QuizSchema = z.object({

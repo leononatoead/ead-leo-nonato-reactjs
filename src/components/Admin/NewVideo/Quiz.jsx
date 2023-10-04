@@ -4,8 +4,9 @@ import { QuizSchema } from './extraSchemas';
 
 import Input from '../../Global/Input';
 import { Box } from '@chakra-ui/react';
+import QuizList from './QuizList';
 
-export default function Quiz({ setVideoData }) {
+export default function Quiz({ videoData, setVideoData }) {
   const {
     register,
     handleSubmit,
@@ -110,7 +111,7 @@ export default function Quiz({ setVideoData }) {
         </select>
       </Box>
 
-      <Box className='flex items-center gap-4 justify-center'>
+      <Box className='flex items-center gap-4 justify-start'>
         <button
           className='w-[50%] bg-white rounded-[4px] px-3 py-[5px] text-primary-600 border-[1px] border-primary-600 text-base leading-5 mt-2'
           type='submit'
@@ -118,10 +119,9 @@ export default function Quiz({ setVideoData }) {
         >
           Incluir
         </button>
-
-        <button className='w-[50%] bg-white rounded-[4px] px-3 py-[5px] text-primary-600 border-[1px] border-primary-600 text-base leading-5 mt-2'>
-          Ver inclusos
-        </button>
+        {videoData.quiz.questionsList.length > 0 && (
+          <QuizList videoData={videoData} setVideoData={setVideoData} />
+        )}
       </Box>
     </form>
   );

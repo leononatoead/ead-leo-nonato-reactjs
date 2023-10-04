@@ -53,6 +53,7 @@ export default function NewVideo() {
     handleSubmit,
     formState: { errors },
     watch,
+    reset,
   } = useForm({
     resolver: zodResolver(AddVideoSchema),
   });
@@ -153,6 +154,8 @@ export default function NewVideo() {
     }
 
     uploadVideo(data, `courses/${id}/videos`);
+
+    reset({ order: '', title: '', description: '' });
   };
 
   useEffect(() => {
@@ -301,7 +304,7 @@ export default function NewVideo() {
         </Box>
       </Box>
       {videoData.advertisement.hasAdvertisement && (
-        <Advertisement setVideoData={setVideoData} />
+        <Advertisement videoData={videoData} setVideoData={setVideoData} />
       )}
       <Box className='flex justify-start items-center gap-4' my={'16px'}>
         <Text className='font-bold text-primary-600 text-base'>
@@ -311,14 +314,18 @@ export default function NewVideo() {
           <Switch id='hasQuiz' onChange={() => handleSwitch('hasQuiz')} />
         </Box>
       </Box>
-      {videoData.quiz.hasQuiz && <Quiz setVideoData={setVideoData} />}
+      {videoData.quiz.hasQuiz && (
+        <Quiz videoData={videoData} setVideoData={setVideoData} />
+      )}
       <Box className='flex justify-start items-center gap-4' my={'16px'}>
         <Text className='font-bold text-primary-600 text-base'>Enquete</Text>
         <Box className='flex justify-start items-center gap-4'>
           <Switch id='hasSurvey' onChange={() => handleSwitch('hasSurvey')} />
         </Box>
       </Box>
-      {videoData.survey.hasSurvey && <Survey setVideoData={setVideoData} />}
+      {videoData.survey.hasSurvey && (
+        <Survey videoData={videoData} setVideoData={setVideoData} />
+      )}
 
       <ButtonSubmit
         form='addVideoForm'

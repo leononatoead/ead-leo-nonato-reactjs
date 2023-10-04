@@ -194,6 +194,7 @@ const useVideo = () => {
       };
 
       delete videoDataUpdated.videoFile;
+      delete videoDataUpdated.assetsList;
       if (assets.length === 0) {
         delete videoDataUpdated.assets;
       }
@@ -206,6 +207,7 @@ const useVideo = () => {
         assets: assets,
       };
 
+      delete videoDataUpdated.assetsList;
       if (assets.length === 0) {
         delete videoDataUpdated.assets;
       }

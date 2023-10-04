@@ -4,8 +4,9 @@ import { SurveySchema } from './extraSchemas';
 
 import Input from '../../Global/Input';
 import { Box } from '@chakra-ui/react';
+import SurveyList from './SurveyList';
 
-export default function Survey({ setVideoData }) {
+export default function Survey({ videoData, setVideoData }) {
   const {
     register,
     handleSubmit,
@@ -93,12 +94,16 @@ export default function Survey({ setVideoData }) {
 
       <Box className='flex items-center gap-4 justify-start'>
         <button
-          className='w-full bg-white rounded-[4px] px-3 py-[5px] text-primary-600 border-[1px] border-primary-600 text-base leading-5 mt-2'
+          className='w-[50%] bg-white rounded-[4px] px-3 py-[5px] text-primary-600 border-[1px] border-primary-600 text-base leading-5 mt-2'
           type='submit'
           form='AddSurveyForm'
         >
           Incluir
         </button>
+
+        {videoData.survey.survey && (
+          <SurveyList videoData={videoData} setVideoData={setVideoData} />
+        )}
       </Box>
     </form>
   );

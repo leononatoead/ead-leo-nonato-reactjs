@@ -61,9 +61,9 @@ export default function SectionList({ sections, setSections }) {
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent className='!max-w-[95%]'>
           <ModalHeader className='!flex !items-center'>
-            <Text className='text-primary-600 -mt-2'>Compartilhar</Text>
+            <Text className='text-primary-600 -mt-2'>Seções</Text>
             <ModalCloseButton />
           </ModalHeader>
           <ModalBody p={4}>
@@ -73,33 +73,39 @@ export default function SectionList({ sections, setSections }) {
               justifyContent={'center'}
               gap={2}
             >
-              {sections
-                ?.slice()
-                .sort((a, b) => a.order - b.order)
-                .map((section) => (
-                  <Box
-                    key={`${section.order}-${section.sectionName}`}
-                    className='w-full flex items-center justify-between gap-4'
-                  >
-                    <Box>
-                      {section.order} - {section.sectionName}
+              {sections.length > 0 ? (
+                sections
+                  ?.slice()
+                  .sort((a, b) => a.order - b.order)
+                  .map((section) => (
+                    <Box
+                      key={`${section.order}-${section.sectionName}`}
+                      className='w-full flex items-center justify-between gap-4'
+                    >
+                      <Box>
+                        {section.order} - {section.sectionName}
+                      </Box>
+                      <Box className='flex items-center gap-2'>
+                        <button
+                          onClick={() =>
+                            handleShowInput(section.order, section.sectionName)
+                          }
+                        >
+                          <BiEdit size={18} className='text-primary-600' />
+                        </button>
+                        <button
+                          onClick={() =>
+                            handleDeleteSection(section.sectionName)
+                          }
+                        >
+                          <BiTrash size={18} className='text-red-500' />
+                        </button>
+                      </Box>
                     </Box>
-                    <Box className='flex items-center gap-2'>
-                      <button
-                        onClick={() =>
-                          handleShowInput(section.order, section.sectionName)
-                        }
-                      >
-                        <BiEdit size={18} className='text-primary-600' />
-                      </button>
-                      <button
-                        onClick={() => handleDeleteSection(section.sectionName)}
-                      >
-                        <BiTrash size={18} className='text-red-500' />
-                      </button>
-                    </Box>
-                  </Box>
-                ))}
+                  ))
+              ) : (
+                <Text className='p-2'>Nenhuma seção cadastrada.</Text>
+              )}
               {edit.input && (
                 <Box className='w-full flex justify-center items-center gap-4 mt-4 '>
                   <input
