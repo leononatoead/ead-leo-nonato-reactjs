@@ -93,38 +93,49 @@ export default function Course() {
         <Heading className='!font-poppins !text-normal !leading-6 !font-medium'>
           Conteúdo
         </Heading>
+
         <Accordion allowToggle>
           {course &&
-            course?.videos?.map((section, i) => (
-              <AccordionItem
-                key={i}
-                className='!border-t-0 !border-b-[1px] !border-gray-200 '
-              >
-                <AccordionButton px={0} py={4} className='hover:!bg-white'>
-                  <Box
-                    as='span'
-                    flex='1'
-                    textAlign='left'
-                    className='!text-base !font-medium !leading-5'
-                  >
-                    {section.section}
-                  </Box>
-                  <AccordionIcon />
-                </AccordionButton>
-
-                <AccordionPanel pb={4} className='flex flex-col gap-6 '>
-                  {section.videos.map((video) => (
-                    <Link
-                      to={`/course/${id}/${video.id}`}
-                      key={video.id}
-                      className='font-semibold text-small leading-4'
+            course?.sections
+              ?.slice()
+              .sort((a, b) => a.order - b.order)
+              .map((section, i) => (
+                <AccordionItem
+                  key={i}
+                  className='!border-t-0 !border-b-[1px] !border-gray-200 '
+                >
+                  <AccordionButton px={0} py={4} className='hover:!bg-white'>
+                    <Box
+                      as='span'
+                      flex='1'
+                      textAlign='left'
+                      className='!text-base !font-medium !leading-5'
                     >
-                      {video.title}
-                    </Link>
-                  ))}
-                </AccordionPanel>
-              </AccordionItem>
-            ))}
+                      {section.sectionName}
+                    </Box>
+                    <AccordionIcon />
+                  </AccordionButton>
+
+                  <AccordionPanel pb={4} className='flex flex-col gap-6 '>
+                    {course?.videos
+                      ?.slice()
+                      .sort((a, b) => a.order - b.order)
+                      .map((video) => {
+                        if (video.section === section.sectionName) {
+                          return (
+                            <Link
+                              to={`/course/${id}/${video.id}`}
+                              key={video.id}
+                              className='font-semibold text-small leading-4'
+                            >
+                              {video.title}
+                            </Link>
+                          );
+                        }
+                      })}
+                  </AccordionPanel>
+                </AccordionItem>
+              ))}
         </Accordion>
       </Box>
 

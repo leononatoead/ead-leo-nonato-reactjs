@@ -219,7 +219,6 @@ const useVideo = () => {
 
     dispatch(
       addVideo({
-        courseRef: docCollection.replace('courses/', '').replace('/videos', ''),
         id: videoRes.id,
         ...videoDataUpdated,
         createdAt: videoDataUpdated.createdAt.toMillis(),

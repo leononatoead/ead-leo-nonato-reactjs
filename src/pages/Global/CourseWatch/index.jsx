@@ -31,28 +31,23 @@ export default function CourseWatch() {
     const pathParams = pathname.split('/');
     const id = pathParams[2];
     const videoId = pathParams[3];
+    const course = courses?.find((course) => course.id === id);
 
-    const findCourse = courses?.find((course) => course.id === id);
-
-    if (!findCourse.videos) {
+    if (!course?.videos) {
       dispatch(fetchVideos(id));
-    } else {
-      const section = findCourse.videos.find((video) =>
-        video.videos.find((video) => video.id === videoId),
-      );
+    }
 
-      if (!section) {
-        navigate('/');
-        return;
-      }
+    const video = course?.videos?.find((video) => video.id === videoId);
+    const videoList = course?.videos?.filter(
+      (v) => v.section === video.section,
+    );
 
-      const video = section.videos.find((video) => video.id === videoId);
-
+    if (video) {
       setVideoPlayer((prev) => ({
         ...prev,
         active: video,
-        videoList: section.videos,
-        sectionName: section.section,
+        sectionName: video.section,
+        videoList,
       }));
     }
 

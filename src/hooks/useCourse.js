@@ -2,12 +2,10 @@ import { useState } from 'react';
 import { v4 } from 'uuid';
 
 import {
-  getStorage,
   ref,
   uploadBytesResumable,
   getDownloadURL,
   deleteObject,
-  listAll,
 } from 'firebase/storage';
 
 import {
