@@ -157,15 +157,12 @@ export default function NewVideo() {
 
     reset({ order: '', title: '', description: '' });
   };
-  //TODO: consertar fetch infinito
+
   useEffect(() => {
-    if (course) {
-      // if (course.videos.length > 0 || !course.videos) {
-      //   dispatch(fetchVideos(id));
-      //   console.log('teste');
-      // }
+    if (!course?.videos) {
+      dispatch(fetchVideos(id));
     }
-  }, [courses, id]);
+  }, [course, id]);
 
   return (
     <Box className='main-container'>
@@ -211,7 +208,7 @@ export default function NewVideo() {
           <Input
             theme={'light'}
             type={'text'}
-            label={'URL'}
+            label={'Embed URL'}
             placeholder={'www.exemplo.com'}
             register={register}
             id={'videoPath'}
@@ -332,7 +329,7 @@ export default function NewVideo() {
 
       <ButtonSubmit
         form='addVideoForm'
-        disabled={false}
+        disabled={loading}
         text={'Adicionar'}
         loading={loading}
       />

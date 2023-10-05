@@ -190,7 +190,7 @@ const useVideo = () => {
         videoPath: URL,
         storageRef: firestoreVideoFileName,
         createdAt: Timestamp.now(),
-        assets: assets,
+        assetsList: assets,
       };
 
       delete videoDataUpdated.videoFile;
@@ -202,9 +202,8 @@ const useVideo = () => {
       videoDataUpdated = {
         ...videoData,
         videoPath: videoData.videoPath,
-        storageRef: firestoreVideoFileName,
         createdAt: Timestamp.now(),
-        assets: assets,
+        assetsList: assets,
       };
 
       delete videoDataUpdated.assetsList;
@@ -227,6 +226,12 @@ const useVideo = () => {
       }),
     );
 
+    toast({
+      description: 'Video adicionado com sucesso!',
+      status: 'success',
+      duration: '3000',
+      isClosable: true,
+    });
     setLoading(false);
   };
 
@@ -238,14 +243,17 @@ const useVideo = () => {
   ) => {
     setLoading(true);
 
-    const filesToRemove = oldVideoData.assets.filter(
-      (item1) =>
-        !updatedVideoData.assetsList.some(
-          (item2) => item2.fileURL === item1.fileURL,
-        ),
-    );
+    let filesToRemove;
+    if (oldVideoData.assetsList && updatedVideoData.assetsList) {
+      filesToRemove = oldVideoData?.assetsList?.filter(
+        (item1) =>
+          !updatedVideoData?.assetsList?.some(
+            (item2) => item2.fileURL === item1.fileURL,
+          ),
+      );
+    }
 
-    if (filesToRemove.length > 0) {
+    if (filesToRemove && filesToRemove?.length > 0) {
       filesToRemove.forEach(async (file) => {
         if (file.fileStorageRef) {
           const fileRef = ref(storage, file.fileStorageRef);
@@ -256,12 +264,15 @@ const useVideo = () => {
     }
 
     try {
-      const updatedAssets = await Promise.all(
-        updatedVideoData.assetsList.map(uploadAssetFile),
-      );
-      let videoData;
+      let updatedAssets = oldVideoData.assets || [];
+      if (updatedVideoData.assetsList) {
+        updatedAssets = await Promise.all(
+          updatedVideoData?.assetsList?.map(uploadAssetFile),
+        );
+      }
 
-      if (updatedVideoData.videoFile !== null) {
+      let videoData;
+      if (updatedVideoData?.videoFile) {
         const firestoreFileName = `${docCollection}/${Date.now()}${v4()}`;
         const storageRef = ref(storage, firestoreFileName);
         const URL = await uploadToStorage(
@@ -273,22 +284,18 @@ const useVideo = () => {
         await deleteObject(fileRef);
 
         videoData = {
-          id: oldVideoData.id,
           ...updatedVideoData,
-          courseRef: courseId,
-          assets: updatedAssets,
+          assetsList: updatedAssets,
           createdAt: Timestamp.fromMillis(oldVideoData.createdAt),
           videoPath: URL,
           storageRef: firestoreFileName,
         };
       } else {
         videoData = {
-          id: oldVideoData.id,
-          storageRef: oldVideoData.storageRef ? oldVideoData.storageRef : null,
           ...updatedVideoData,
-          courseRef: courseId,
-          assets: updatedAssets,
+          assetsList: updatedAssets,
           createdAt: Timestamp.fromMillis(oldVideoData.createdAt),
+          storageRef: oldVideoData.storageRef ? oldVideoData.storageRef : null,
         };
       }
 
@@ -297,8 +304,11 @@ const useVideo = () => {
 
       dispatch(
         editVideo({
-          ...videoData,
-          createdAt: videoData.createdAt.toMillis(),
+          videoData: {
+            ...videoData,
+            createdAt: videoData.createdAt.toMillis(),
+          },
+          courseId,
         }),
       );
 

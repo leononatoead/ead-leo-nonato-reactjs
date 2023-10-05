@@ -5,7 +5,7 @@ import useVideo from '../../../../../hooks/useVideo';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AddVideoSchema } from '../NewVideo/addVideoSchema';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import ButtonSubmit from '../../../../../components/Global/ButtonSubmit';
 import Input from '../../../../../components/Global/Input';
@@ -24,53 +24,24 @@ export default function EditVideo() {
 
   const { courses } = useSelector((state) => state.courses);
   const course = courses?.find((course) => course.id === id);
-
-  const { videos } = useSelector((state) => state.courses);
-  const video = videos?.find((video) => video.id === videoId);
-
-  const [videoData, setVideoData] = useState({
-    video: {
-      videoFile: null,
-      videoType: video?.videoPath ? false : true,
-    },
-    assets: {
-      hasAssets: video?.assets ? true : false,
-      assetsList: video?.assets ? video.assets : [],
-      assetFile: null,
-      assetType: true,
-    },
-    quiz: {
-      hasQuiz: video?.questionsList ? true : false,
-      questionsList: video?.questionsList ? video.questionsList : [],
-    },
-    survey: {
-      hasSurvey: video?.survey ? true : false,
-      survey: video?.survey ? video.survey : null,
-    },
-    advertisement: {
-      hasAdvertisement: video?.advertisementList ? true : false,
-      advertisementList: video?.advertisementList
-        ? video.advertisementList
-        : [],
-    },
-  });
+  const video = course?.videos?.find((video) => video.id === videoId);
 
   const [openConfirmModal, setOpenConfirmModal] = useState();
-
-  const { updateVideo, deleteVideo, loading } = useVideo();
-
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const [videoData, setVideoData] = useState();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     watch,
-    reset,
   } = useForm({
     resolver: zodResolver(AddVideoSchema),
   });
+
+  const { updateVideo, deleteVideo, loading } = useVideo();
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleSwitch = (type) => {
     if (type === 'videoType') {
@@ -123,7 +94,7 @@ export default function EditVideo() {
   };
 
   const handlEditVideo = (formData) => {
-    let data = { ...formData };
+    let data = { ...video, ...formData };
 
     if (videoData.video.videoType) {
       data = {
@@ -176,17 +147,41 @@ export default function EditVideo() {
   };
 
   useEffect(() => {
-    if (course) {
-      if (!course.videos.length > 0 || !course.videos) {
-        dispatch(fetchVideos(id));
-      }
-    }
-    if (!video) {
+    if (!course?.videos) {
       dispatch(fetchVideos(id));
     }
-  }, []);
+  }, [course, id]);
 
-  console.log(video);
+  useEffect(() => {
+    if (video) {
+      setVideoData({
+        video: {
+          videoFile: null,
+          videoType: video?.videoPath ? false : true,
+        },
+        assets: {
+          hasAssets: video?.assetsList ? true : false,
+          assetsList: video?.assetsList ? video.assetsList : [],
+          assetFile: null,
+          assetType: true,
+        },
+        quiz: {
+          hasQuiz: video?.questionsList ? true : false,
+          questionsList: video?.questionsList ? video.questionsList : [],
+        },
+        survey: {
+          hasSurvey: video?.survey ? true : false,
+          survey: video?.survey ? video.survey : null,
+        },
+        advertisement: {
+          hasAdvertisement: video?.advertisementList ? true : false,
+          advertisementList: video?.advertisementList
+            ? video.advertisementList
+            : [],
+        },
+      });
+    }
+  }, [video]);
 
   return (
     <Box className='main-container'>
@@ -198,10 +193,10 @@ export default function EditVideo() {
           <Switch
             id='videoType'
             onChange={() => handleSwitch('videoType')}
-            defaultChecked={videoData.video.videoType}
+            isChecked={videoData?.video.videoType}
           />
           <label htmlFor={'videoType'} className='text-base leading-5'>
-            {videoData.video.videoType ? 'Arquivo' : 'URL'}
+            {videoData?.video.videoType ? 'Arquivo' : 'URL'}
           </label>
         </Box>
       </Box>
@@ -210,7 +205,7 @@ export default function EditVideo() {
         id='editVideoForm'
         className='flex flex-col gap-[10px] pt-2 pb-4'
       >
-        {videoData.video.videoType ? (
+        {videoData?.video.videoType ? (
           <Box className='mb-4'>
             <label
               htmlFor={'videoFile'}
@@ -232,7 +227,7 @@ export default function EditVideo() {
           <Input
             theme={'light'}
             type={'text'}
-            label={'URL'}
+            label={'Embed URL'}
             placeholder={'www.exemplo.com'}
             register={register}
             id={'videoPath'}
@@ -303,11 +298,11 @@ export default function EditVideo() {
           <Switch
             id='hasAssets'
             onChange={() => handleSwitch('hasAssets')}
-            defaultChecked={videoData.assets.hasAssets}
+            isChecked={videoData?.assets?.hasAssets}
           />
         </Box>
       </Box>
-      {videoData.assets.hasAssets && (
+      {videoData?.assets?.hasAssets && (
         <>
           <Box className='flex justify-start items-center gap-4' my={'16px'}>
             <Text className='font-bold text-primary-600 text-base'>
@@ -320,7 +315,7 @@ export default function EditVideo() {
                 defaultChecked
               />
               <label htmlFor={'assetType'} className='text-base leading-5'>
-                {videoData.assets.assetType ? 'Arquivo' : 'URL'}
+                {videoData?.assets?.assetType ? 'Arquivo' : 'URL'}
               </label>
             </Box>
           </Box>
@@ -333,11 +328,11 @@ export default function EditVideo() {
           <Switch
             id='hasAdvertisement'
             onChange={() => handleSwitch('hasAdvertisement')}
-            defaultChecked={videoData.advertisement.hasAdvertisement}
+            isChecked={videoData?.advertisement.hasAdvertisement}
           />
         </Box>
       </Box>
-      {videoData.advertisement.hasAdvertisement && (
+      {videoData?.advertisement.hasAdvertisement && (
         <Advertisement videoData={videoData} setVideoData={setVideoData} />
       )}
       <Box className='flex justify-start items-center gap-4' my={'16px'}>
@@ -348,11 +343,11 @@ export default function EditVideo() {
           <Switch
             id='hasQuiz'
             onChange={() => handleSwitch('hasQuiz')}
-            defaultChecked={videoData.quiz.hasQuiz}
+            isChecked={videoData?.quiz.hasQuiz}
           />
         </Box>
       </Box>
-      {videoData.quiz.hasQuiz && (
+      {videoData?.quiz.hasQuiz && (
         <Quiz videoData={videoData} setVideoData={setVideoData} />
       )}
       <Box className='flex justify-start items-center gap-4' my={'16px'}>
@@ -361,11 +356,11 @@ export default function EditVideo() {
           <Switch
             id='hasSurvey'
             onChange={() => handleSwitch('hasSurvey')}
-            defaultChecked={videoData.survey.hasSurvey}
+            isChecked={videoData?.survey.hasSurvey}
           />
         </Box>
       </Box>
-      {videoData.survey.hasSurvey && (
+      {videoData?.survey.hasSurvey && (
         <Survey videoData={videoData} setVideoData={setVideoData} />
       )}
 

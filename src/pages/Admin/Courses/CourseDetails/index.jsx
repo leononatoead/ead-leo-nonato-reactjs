@@ -26,12 +26,10 @@ export default function CourseDetails() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (course) {
-      if (!course.videos.length > 0 || !course.videos) {
-        dispatch(fetchVideos(id));
-      }
+    if (!course?.videos) {
+      dispatch(fetchVideos(id));
     }
-  }, [courses, id]);
+  }, [course, id]);
 
   return (
     <Box className='main-container !px-0 !py-0 flex flex-col'>
@@ -91,36 +89,50 @@ export default function CourseDetails() {
         </Box>
         <Accordion allowToggle>
           {course &&
-            course?.videos?.map((section, i) => (
-              <AccordionItem
-                key={i}
-                className='!border-t-0 !border-b-[1px] !border-gray-200 '
-              >
-                <AccordionButton px={0} py={4} className='hover:!bg-white'>
-                  <Box
-                    as='span'
-                    flex='1'
-                    textAlign='left'
-                    className='!text-base !font-medium !leading-5'
-                  >
-                    {section.section}
-                  </Box>
-                  <AccordionIcon />
-                </AccordionButton>
-
-                <AccordionPanel pb={4} className='flex flex-col gap-6 '>
-                  {section.videos.map((video) => (
-                    <Link
-                      to={`/dashboard/courses/${id}/edit/${video.id}`}
-                      key={video.id}
-                      className='font-semibold text-small leading-4 flex items-center justify-between'
+            course?.sections
+              ?.slice()
+              .sort((a, b) => a.order - b.order)
+              .map((section, i) => (
+                <AccordionItem
+                  key={i}
+                  className='!border-t-0 !border-b-[1px] !border-gray-200 '
+                >
+                  <AccordionButton px={0} py={4} className='hover:!bg-white'>
+                    <Box
+                      as='span'
+                      flex='1'
+                      textAlign='left'
+                      className='!text-base !font-medium !leading-5'
                     >
-                      <span> {video.title}</span> <BiEdit size={18} />
-                    </Link>
-                  ))}
-                </AccordionPanel>
-              </AccordionItem>
-            ))}
+                      {section.order} {' - '}
+                      {section.sectionName}
+                    </Box>
+                    <AccordionIcon />
+                  </AccordionButton>
+
+                  <AccordionPanel pb={4} className='flex flex-col gap-6 '>
+                    {course?.videos
+                      ?.slice()
+                      .sort((a, b) => a.order - b.order)
+                      .map((video) => {
+                        if (video.section === section.sectionName) {
+                          return (
+                            <Link
+                              to={`/dashboard/courses/${id}/edit/${video.id}`}
+                              key={video.id}
+                              className='font-semibold text-small leading-4 flex items-center justify-between'
+                            >
+                              <span>
+                                {video.order} {' - '} {video.title}
+                              </span>
+                              <BiEdit size={18} />
+                            </Link>
+                          );
+                        }
+                      })}
+                  </AccordionPanel>
+                </AccordionItem>
+              ))}
         </Accordion>
       </Box>
     </Box>
