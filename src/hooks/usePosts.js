@@ -10,6 +10,7 @@ import {
   deleteDoc,
   doc,
   getDoc,
+  setDoc,
   updateDoc,
 } from 'firebase/firestore';
 
@@ -48,6 +49,12 @@ const usePosts = () => {
         createdAt: Timestamp.now().toMillis(),
       };
 
+      const updateTime = Timestamp.now();
+      const updateCollection = doc(database, 'updates', 'posts');
+      setDoc(updateCollection, { lastPostsUpdate: updateTime });
+      const updatedAt = JSON.stringify(new Date(updateTime.toMillis()));
+      localStorage.setItem('lastPostsUpdate', updatedAt);
+
       dispatch(newPost(data));
 
       toast({
@@ -77,6 +84,12 @@ const usePosts = () => {
 
       const data = { id, ...post };
 
+      const updateTime = Timestamp.now();
+      const updateCollection = doc(database, 'updates', 'posts');
+      setDoc(updateCollection, { lastPostsUpdate: updateTime });
+      const updatedAt = JSON.stringify(new Date(updateTime.toMillis()));
+      localStorage.setItem('lastPostsUpdate', updatedAt);
+
       dispatch(editPost(data));
 
       toast({
@@ -103,6 +116,12 @@ const usePosts = () => {
 
     try {
       const commentData = { ...comment, createdAt: Timestamp.now() };
+
+      const updateTime = Timestamp.now();
+      const updateCollection = doc(database, 'updates', 'posts');
+      setDoc(updateCollection, { lastPostsUpdate: updateTime });
+      const updatedAt = JSON.stringify(new Date(updateTime.toMillis()));
+      localStorage.setItem('lastPostsUpdate', updatedAt);
 
       const res = await addDoc(
         collection(database, `posts/${id}/comments/`),
@@ -144,6 +163,12 @@ const usePosts = () => {
       const postRef = doc(database, `posts`, delId);
       await deleteDoc(postRef);
 
+      const updateTime = Timestamp.now();
+      const updateCollection = doc(database, 'updates', 'posts');
+      setDoc(updateCollection, { lastPostsUpdate: updateTime });
+      const updatedAt = JSON.stringify(new Date(updateTime.toMillis()));
+      localStorage.setItem('lastPostsUpdate', updatedAt);
+
       dispatch(delPost({ delId, lastPostId }));
 
       toast({
@@ -168,6 +193,12 @@ const usePosts = () => {
     try {
       const postRef = doc(database, `posts/${postId}/comments`, commentId);
       await deleteDoc(postRef);
+
+      const updateTime = Timestamp.now();
+      const updateCollection = doc(database, 'updates', 'posts');
+      setDoc(updateCollection, { lastPostsUpdate: updateTime });
+      const updatedAt = JSON.stringify(new Date(updateTime.toMillis()));
+      localStorage.setItem('lastPostsUpdate', updatedAt);
 
       dispatch(removeCommentAction({ postId, commentId }));
 
@@ -231,6 +262,12 @@ const usePosts = () => {
       dispatch(addLikePost(postData));
       const userData = { userId, likedPosts };
       dispatch(addLikedPostToUser(userData));
+
+      const updateTime = Timestamp.now();
+      const updateCollection = doc(database, 'updates', 'posts');
+      setDoc(updateCollection, { lastPostsUpdate: updateTime });
+      const updatedAt = JSON.stringify(new Date(updateTime.toMillis()));
+      localStorage.setItem('lastPostsUpdate', updatedAt);
     } catch (error) {
       console.log(error);
       toast({
@@ -265,6 +302,12 @@ const usePosts = () => {
       dispatch(removeLikePost(postData));
       const userData = { userId, likedPosts };
       dispatch(removeLikedPostFromUser(userData));
+
+      const updateTime = Timestamp.now();
+      const updateCollection = doc(database, 'updates', 'posts');
+      setDoc(updateCollection, { lastPostsUpdate: updateTime });
+      const updatedAt = JSON.stringify(new Date(updateTime.toMillis()));
+      localStorage.setItem('lastPostsUpdate', updatedAt);
     } catch (error) {
       console.log(error);
       toast({

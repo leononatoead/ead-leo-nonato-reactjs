@@ -38,7 +38,7 @@ export const fetchCourses = createAsyncThunk(
             localStorage.setItem(
               'lastCoursesUpdate',
               JSON.stringify(
-                new Date(document.data().lastCoursesUpdate.toMillis()),
+                new Date(document.data()?.lastCoursesUpdate?.toMillis()),
               ),
             );
           },

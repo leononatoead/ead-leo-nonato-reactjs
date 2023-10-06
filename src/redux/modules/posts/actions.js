@@ -19,6 +19,9 @@ export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
   try {
     const q = query(collectionRef, orderBy('createdAt', 'desc'), limit(10));
 
+    const postsUpdate = doc(database, 'updates', 'posts');
+    const document = await getDoc(postsUpdate);
+
     return new Promise((resolve, reject) => {
       onSnapshot(
         q,
@@ -30,6 +33,13 @@ export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
           }));
 
           resolve(data);
+
+          localStorage.setItem(
+            'lastPostsUpdate',
+            JSON.stringify(
+              new Date(document.data()?.lastPostsUpdate?.toMillis()),
+            ),
+          );
         },
         (error) => {
           reject(error);

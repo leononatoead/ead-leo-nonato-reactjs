@@ -37,9 +37,6 @@ const postsReducer = createSlice({
       const storagePage = JSON.stringify(1);
       localStorage.setItem('currentPage', storagePage);
 
-      const updatedAt = JSON.stringify(new Date());
-      localStorage.setItem('lastPostsUpdate', updatedAt);
-
       return {
         ...state,
         posts: [...posts],
@@ -76,9 +73,6 @@ const postsReducer = createSlice({
       localStorage.setItem('posts', storagePosts);
       const storagePages = JSON.stringify([...pagination]);
       localStorage.setItem('pages', storagePages);
-
-      const updatedAt = JSON.stringify(new Date());
-      localStorage.setItem('lastPostsUpdate', updatedAt);
 
       return { ...state, posts: updatePosts, pages: pagination };
     },
@@ -121,9 +115,6 @@ const postsReducer = createSlice({
       const storagePages = JSON.stringify([...pagination]);
       localStorage.setItem('pages', storagePages);
 
-      const updatedAt = JSON.stringify(new Date());
-      localStorage.setItem('lastPostsUpdate', updatedAt);
-
       return { ...state, posts: updatePosts, pages: pagination };
     },
     removeCommentAction: (state, action) => {
@@ -160,9 +151,6 @@ const postsReducer = createSlice({
       const storagePages = JSON.stringify([...pagination]);
       localStorage.setItem('pages', storagePages);
 
-      const updatedAt = JSON.stringify(new Date());
-      localStorage.setItem('lastPostsUpdate', updatedAt);
-
       return { ...state, posts: updatePosts, pages: pagination };
     },
     addLikePost: (state, action) => {
@@ -191,9 +179,6 @@ const postsReducer = createSlice({
       localStorage.setItem('posts', storagePosts);
       const storagePages = JSON.stringify([...pagination]);
       localStorage.setItem('pages', storagePages);
-
-      const updatedAt = JSON.stringify(new Date());
-      localStorage.setItem('lastPostsUpdate', updatedAt);
 
       return { ...state, posts: updatePosts, pages: pagination };
     },
@@ -224,9 +209,6 @@ const postsReducer = createSlice({
       const storagePages = JSON.stringify([...pagination]);
       localStorage.setItem('pages', storagePages);
 
-      const updatedAt = JSON.stringify(new Date());
-      localStorage.setItem('lastPostsUpdate', updatedAt);
-
       return { ...state, posts: updatePosts, pages: pagination };
     },
     fetchPostsFromLocalStorage: (state, action) => {
@@ -249,9 +231,6 @@ const postsReducer = createSlice({
         localStorage.setItem('pages', storagePages);
         const storagePage = JSON.stringify(1);
         localStorage.setItem('currentPage', storagePage);
-
-        const updatedAt = JSON.stringify(new Date());
-        localStorage.setItem('lastPostsUpdate', updatedAt);
 
         return {
           ...state,
@@ -282,9 +261,6 @@ const postsReducer = createSlice({
         localStorage.setItem('pages', storagePages);
         const storagePage = JSON.stringify(pages[pages.length - 1].page + 1);
         localStorage.setItem('currentPage', storagePage);
-
-        const updatedAt = JSON.stringify(new Date());
-        localStorage.setItem('lastPostsUpdate', updatedAt);
 
         return {
           ...state,
@@ -329,9 +305,6 @@ const postsReducer = createSlice({
         const storagePages = JSON.stringify([...pagination]);
         localStorage.setItem('pages', storagePages);
 
-        const updatedAt = JSON.stringify(new Date());
-        localStorage.setItem('lastPostsUpdate', updatedAt);
-
         return { ...state, posts: updatePosts, pages: pagination };
       })
       .addCase(delPost.fulfilled, (state, action) => {
@@ -356,47 +329,12 @@ const postsReducer = createSlice({
         const storagePages = JSON.stringify([...pagination]);
         localStorage.setItem('pages', storagePages);
 
-        const updatedAt = JSON.stringify(new Date());
-        localStorage.setItem('lastPostsUpdate', updatedAt);
-
         return {
           ...state,
           posts: newPosts,
           pages: pagination,
         };
       });
-    // .addCase(addLikePost.fulfilled, (state, action) => {
-    //   const posts = JSON.parse(JSON.stringify([...state.posts]));
-
-    //   const updatePosts = posts.map((post) => {
-    //     if (post.id === action.payload.id) {
-    //       return action.payload;
-    //     } else {
-    //       return post;
-    //     }
-    //   });
-
-    //   let pagination = [];
-    //   let currentPage = null;
-
-    //   updatePosts.forEach((post, index) => {
-    //     if (index % 10 === 0) {
-    //       currentPage = { page: Math.floor(index / 10) + 1, posts: [] };
-    //       pagination.push(currentPage);
-    //     }
-    //     currentPage.posts.push(post);
-    //   });
-
-    //   const storagePosts = JSON.stringify([...updatePosts]);
-    //   localStorage.setItem('posts', storagePosts);
-    //   const storagePages = JSON.stringify([...pagination]);
-    //   localStorage.setItem('pages', storagePages);
-
-    //   const updatedAt = JSON.stringify(new Date());
-    //   localStorage.setItem('lastPostsUpdate', updatedAt);
-
-    //   return { ...state, posts: updatePosts, pages: pagination };
-    // });
   },
 });
 
