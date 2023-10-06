@@ -91,7 +91,7 @@ export default function Course() {
 
       <Box py={4} px={4} bg={'white'} className='!flex-grow'>
         <Heading className='!font-poppins !text-normal !leading-6 !font-medium'>
-          Conteúdo
+          Módulos
         </Heading>
 
         <Accordion allowToggle>

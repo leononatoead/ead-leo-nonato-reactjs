@@ -49,7 +49,7 @@ export default function Sections({ sections, setSections }) {
       className='flex flex-col gap-[10px] pb-4'
     >
       <Heading className='!font-bold !text-primary-600 !text-large !font-poppins'>
-        Seções
+        Módulos
       </Heading>
       <Input
         theme={'light'}
@@ -65,7 +65,7 @@ export default function Sections({ sections, setSections }) {
       <Input
         theme={'light'}
         type={'text'}
-        label={'Nome da seção'}
+        label={'Nome do módulo'}
         placeholder={'Digite aqui'}
         register={register}
         id={'sectionName'}

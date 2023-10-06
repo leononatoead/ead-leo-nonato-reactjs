@@ -56,7 +56,7 @@ export default function SectionList({ sections, setSections }) {
         onClick={onOpen}
         className='w-[50%] bg-white rounded-[4px] px-3 py-[5px] text-primary-600 border-[1px] border-primary-600 text-base leading-5 mt-2'
       >
-        Ver inclusas
+        Ver inclusos
       </button>
 
       <Modal isOpen={isOpen} onClose={onClose}>

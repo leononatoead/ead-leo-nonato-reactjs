@@ -78,7 +78,7 @@ export default function CourseDetails() {
       <Box bg={'white'} className='!flex-grow px-4 py-6'>
         <Box className='w-full flex justify-between' mb={4}>
           <Heading className='!text-large !leading-7 !text-primary-500 !font-bold  !text-center !font-poppins'>
-            Aulas
+            Módulos
           </Heading>
           <Link
             to={`new`}
