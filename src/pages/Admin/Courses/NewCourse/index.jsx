@@ -8,6 +8,7 @@ import Input from '../../../../components/Global/Input';
 import ButtonSubmit from '../../../../components/Global/ButtonSubmit';
 import Sections from '../../../../components/Admin/NewCourse/Sections';
 import { Box, Switch, Text, useToast } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 
 export default function NewCourse() {
   const [switchStates, setSwitchStates] = useState({
@@ -29,6 +30,7 @@ export default function NewCourse() {
   const [sections, setSections] = useState([]);
 
   const toast = useToast();
+  const navigate = useNavigate();
 
   const { addNewCourse, loading } = useCourse();
   const {
@@ -135,6 +137,8 @@ export default function NewCourse() {
       isHidden: false,
       needForm: false,
     });
+
+    navigate('/dashboard/courses');
   };
 
   return (

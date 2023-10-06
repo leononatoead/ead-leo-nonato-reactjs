@@ -217,6 +217,12 @@ const useVideo = () => {
       videoDataUpdated,
     );
 
+    const updateTime = Timestamp.now();
+    const updateCollection = doc(database, 'updates', 'courses');
+    setDoc(updateCollection, { lastCoursesUpdate: updateTime });
+    const updatedAt = JSON.stringify(updateTime);
+    localStorage.setItem('lastCoursesUpdate', updatedAt);
+
     dispatch(
       addVideo({
         id: videoRes.id,
@@ -301,6 +307,12 @@ const useVideo = () => {
       const videoRef = doc(database, docCollection, oldVideoData.id);
       await updateDoc(videoRef, videoData);
 
+      const updateTime = Timestamp.now();
+      const updateCollection = doc(database, 'updates', 'courses');
+      setDoc(updateCollection, { lastCoursesUpdate: updateTime });
+      const updatedAt = JSON.stringify(updateTime);
+      localStorage.setItem('lastCoursesUpdate', updatedAt);
+
       dispatch(
         editVideo({
           videoData: {
@@ -350,6 +362,12 @@ const useVideo = () => {
           }
         });
       }
+
+      const updateTime = Timestamp.now();
+      const updateCollection = doc(database, 'updates', 'courses');
+      setDoc(updateCollection, { lastCoursesUpdate: updateTime });
+      const updatedAt = JSON.stringify(updateTime);
+      localStorage.setItem('lastCoursesUpdate', updatedAt);
 
       dispatch(delVideo({ courseId, videoId: video.id }));
     } catch (error) {

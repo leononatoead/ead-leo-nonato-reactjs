@@ -18,27 +18,36 @@ import UserAuthenticated from './routes/UserAuthenticated';
 import UserUnAuthenticated from './routes/UserUnAuthenticated';
 import useAuth from './hooks/useAuth';
 import Loading from './pages/Loading';
+import useCheckUpdate from './hooks/useCheckUpdate';
 
 function App() {
   const { authUser, loadingAuth } = useAuth();
+  const { verifyCourseUpdate } = useCheckUpdate();
   const user = useSelector((state) => state.auth.user);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const lastCoursesUpdate = new Date(
-      JSON.parse(localStorage.getItem('lastCoursesUpdate')),
-    );
-    const actualCourseTime = new Date();
-    const verifyCourseUpdate = Math.abs(actualCourseTime - lastCoursesUpdate);
-    const coursesMinutesDifference = Math.floor(verifyCourseUpdate / 60000);
+    const fetchData = async () => {
+      try {
+        const firestoreCoursesUpdate = await verifyCourseUpdate();
+        const lastCoursesUpdate =
+          new Date(JSON.parse(localStorage.getItem('lastCoursesUpdate'))) || 0;
 
-    if (coursesMinutesDifference > 60) {
-      dispatch(fetchCourses());
-    } else {
-      const courses = JSON.parse(localStorage.getItem('courses'));
-      dispatch(fetchCoursesFromLocalStorage(courses));
-    }
+        const calc = firestoreCoursesUpdate - lastCoursesUpdate;
+
+        if (calc !== 0) {
+          dispatch(fetchCourses());
+        } else {
+          const courses = JSON.parse(localStorage.getItem('courses'));
+          dispatch(fetchCoursesFromLocalStorage(courses));
+        }
+      } catch (error) {
+        console.error('Erro ao buscar a última atualização do curso:', error);
+      }
+    };
+
+    fetchData();
 
     const lastPostsUpdate = new Date(
       JSON.parse(localStorage.getItem('lastPostsUpdate')),

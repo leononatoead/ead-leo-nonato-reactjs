@@ -15,6 +15,7 @@ import {
   deleteDoc,
   doc,
   getDocs,
+  setDoc,
   updateDoc,
 } from 'firebase/firestore';
 import { database, storage } from '../firebase/config';
@@ -114,6 +115,12 @@ const useCourse = () => {
             storageRef: firestoreFileName,
             createdAt: Timestamp.now(),
           };
+
+          const updateTime = Timestamp.now();
+          const updateCollection = doc(database, 'updates', 'courses');
+          setDoc(updateCollection, { lastCoursesUpdate: updateTime });
+          const updatedAt = JSON.stringify(updateTime);
+          localStorage.setItem('lastCoursesUpdate', updatedAt);
 
           const courseRes = await addDoc(
             collection(database, docCollection),
@@ -238,6 +245,12 @@ const useCourse = () => {
             storageRef: firestoreFileName,
           };
 
+          const updateTime = Timestamp.now();
+          const updateCollection = doc(database, 'updates', 'courses');
+          setDoc(updateCollection, { lastCoursesUpdate: updateTime });
+          const updatedAt = JSON.stringify(updateTime);
+          localStorage.setItem('lastCoursesUpdate', updatedAt);
+
           const courseRef = doc(database, 'courses', oldCourseData.id);
           await updateDoc(courseRef, courseData);
 
@@ -271,6 +284,12 @@ const useCourse = () => {
   const editCourseWithoutImage = async (oldCourseData, updatedCourseData) => {
     setLoading(true);
     try {
+      const updateTime = Timestamp.now();
+      const updateCollection = doc(database, 'updates', 'courses');
+      setDoc(updateCollection, { lastCoursesUpdate: updateTime });
+      const updatedAt = JSON.stringify(updateTime);
+      localStorage.setItem('lastCoursesUpdate', updatedAt);
+
       const courseRef = doc(database, 'courses', oldCourseData.id);
       await updateDoc(courseRef, updatedCourseData);
 
@@ -342,6 +361,12 @@ const useCourse = () => {
       );
 
       await Promise.all(deleteVideoSubcollectionPromises);
+
+      const updateTime = Timestamp.now();
+      const updateCollection = doc(database, 'updates', 'courses');
+      setDoc(updateCollection, { lastCoursesUpdate: updateTime });
+      const updatedAt = JSON.stringify(updateTime);
+      localStorage.setItem('lastCoursesUpdate', updatedAt);
 
       dispatch(delCourse(courseData.id));
 

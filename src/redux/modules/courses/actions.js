@@ -4,6 +4,8 @@ import { database } from '../../../firebase/config';
 
 import {
   collection,
+  doc,
+  getDoc,
   getDocs,
   limit,
   onSnapshot,
@@ -19,6 +21,9 @@ export const fetchCourses = createAsyncThunk(
     try {
       const q = query(collectionRef, orderBy('createdAt', 'asc'));
 
+      const courseUpdate = doc(database, 'updates', 'courses');
+      const document = await getDoc(courseUpdate);
+
       return new Promise((resolve, reject) => {
         onSnapshot(
           q,
@@ -29,6 +34,13 @@ export const fetchCourses = createAsyncThunk(
               createdAt: doc.data().createdAt.toMillis(),
             }));
             resolve(data);
+
+            localStorage.setItem(
+              'lastCoursesUpdate',
+              JSON.stringify(
+                new Date(document.data().lastCoursesUpdate.toMillis()),
+              ),
+            );
           },
           (error) => {
             reject(error);
