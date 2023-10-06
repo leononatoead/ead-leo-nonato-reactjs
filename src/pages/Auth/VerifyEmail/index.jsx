@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { logoutUser } from '../../../redux/modules/auth/actions';
 import useAuth from '../../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 
@@ -42,6 +43,7 @@ export default function VerifyEmail() {
 
   const { verifyEmail } = useAuth();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleVerify = () => {
     verifyEmail();
@@ -51,6 +53,11 @@ export default function VerifyEmail() {
   const handleContinue = () => {
     navigate('/verify-success');
     window.location.reload();
+  };
+
+  const handleLogout = () => {
+    dispatch(logoutUser());
+    navigate('/');
   };
 
   useEffect(() => {
@@ -86,7 +93,7 @@ export default function VerifyEmail() {
         boxShadow={{ lg: '0px 8px 16px 0px rgba(0, 0, 0, 0.14)' }}
         background={{ lg: 'white' }}
       >
-        <Box className='mt-6 mb-8 flex flex-col gap-2 px-4'>
+        <Box className='mt-6 mb-8 flex flex-col gap-2 px-4 flex-grow'>
           <Stepper
             index={activeStep}
             mb={'1rem'}
@@ -129,12 +136,15 @@ export default function VerifyEmail() {
           </Text>
         </Box>
 
-        <Box className='flex items-end !flex-1' px={'10px'} py={6}>
+        <Box className='flex flex-col items-center' px={'10px'} py={6}>
           <button
             onClick={handleContinue}
             className='w-full bg-primary-400 rounded-[4px] px-3 py-[5px] text-white text-base leading-5 text-center'
           >
             Continuar
+          </button>
+          <button className='w-full text-center mt-2' onClick={handleLogout}>
+            Sair
           </button>
         </Box>
       </Box>
