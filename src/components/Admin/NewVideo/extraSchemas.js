@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const AssetsSchema = z.object({
   assetName: z.string().min(2, 'Digite um nome válido.'),
-  assetPath: z.string().url().optional(),
+  assetPath: z.string().optional(),
 });
 
 export const AdvertisementSchema = z.object({

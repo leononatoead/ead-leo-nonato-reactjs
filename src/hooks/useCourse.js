@@ -49,7 +49,7 @@ const useCourse = () => {
     }
 
     // Nome do arquivo + path
-    const firestoreFileName = `${docCollection}/images/${Date.now()}${v4()}`;
+    const firestoreFileName = `images/${Date.now()}${v4()}`;
     // Referencia da Storage, passando a coleção e o nome do arquivo que será inserido
     const storageRef = ref(storage, firestoreFileName);
     // Método do FB para Enviar o arquivo, passando a referencia e o arquivo
@@ -119,7 +119,7 @@ const useCourse = () => {
           const updateTime = Timestamp.now();
           const updateCollection = doc(database, 'updates', 'courses');
           setDoc(updateCollection, { lastCoursesUpdate: updateTime });
-          const updatedAt = JSON.stringify(updateTime);
+          const updatedAt = JSON.stringify(new Date(updateTime.toMillis()));
           localStorage.setItem('lastCoursesUpdate', updatedAt);
 
           const courseRes = await addDoc(
@@ -174,7 +174,7 @@ const useCourse = () => {
     }
 
     // Referencia da Storage, passando a coleção e o nome do arquivo que será inserido
-    const firestoreFileName = `${docCollection}/images/${Date.now()}${v4()}`;
+    const firestoreFileName = `images/${Date.now()}${v4()}`;
     // Referencia da Storage, passando a coleção e o nome do arquivo que será inserido
     const storageRef = ref(storage, firestoreFileName);
     // Método do FB para Enviar o arquivo, passando a referencia e o arquivo
@@ -248,7 +248,7 @@ const useCourse = () => {
           const updateTime = Timestamp.now();
           const updateCollection = doc(database, 'updates', 'courses');
           setDoc(updateCollection, { lastCoursesUpdate: updateTime });
-          const updatedAt = JSON.stringify(updateTime);
+          const updatedAt = JSON.stringify(new Date(updateTime.toMillis()));
           localStorage.setItem('lastCoursesUpdate', updatedAt);
 
           const courseRef = doc(database, 'courses', oldCourseData.id);
@@ -287,7 +287,7 @@ const useCourse = () => {
       const updateTime = Timestamp.now();
       const updateCollection = doc(database, 'updates', 'courses');
       setDoc(updateCollection, { lastCoursesUpdate: updateTime });
-      const updatedAt = JSON.stringify(updateTime);
+      const updatedAt = JSON.stringify(new Date(updateTime.toMillis()));
       localStorage.setItem('lastCoursesUpdate', updatedAt);
 
       const courseRef = doc(database, 'courses', oldCourseData.id);
@@ -365,7 +365,7 @@ const useCourse = () => {
       const updateTime = Timestamp.now();
       const updateCollection = doc(database, 'updates', 'courses');
       setDoc(updateCollection, { lastCoursesUpdate: updateTime });
-      const updatedAt = JSON.stringify(updateTime);
+      const updatedAt = JSON.stringify(new Date(updateTime.toMillis()));
       localStorage.setItem('lastCoursesUpdate', updatedAt);
 
       dispatch(delCourse(courseData.id));

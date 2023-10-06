@@ -5,7 +5,7 @@ import useVideo from '../../../../../hooks/useVideo';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AddVideoSchema } from './addVideoSchema';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import ButtonSubmit from '../../../../../components/Global/ButtonSubmit';
 import Input from '../../../../../components/Global/Input';
@@ -13,7 +13,7 @@ import Assets from '../../../../../components/Admin/NewVideo/Assets';
 import Advertisement from '../../../../../components/Admin/NewVideo/Advertisement';
 import Quiz from '../../../../../components/Admin/NewVideo/Quiz';
 import Survey from '../../../../../components/Admin/NewVideo/Survey';
-import { Box, Switch, Text } from '@chakra-ui/react';
+import { Box, Switch, Text, useToast } from '@chakra-ui/react';
 
 export default function NewVideo() {
   const [videoData, setVideoData] = useState({
@@ -47,6 +47,7 @@ export default function NewVideo() {
   const { uploadVideo, loading } = useVideo();
 
   const dispatch = useDispatch();
+  const toast = useToast();
 
   const {
     register,
@@ -109,6 +110,40 @@ export default function NewVideo() {
   };
 
   const handleAddVideo = (formData) => {
+    if (videoData.video.videoType && videoData.video.videoFile === null) {
+      return toast({
+        description: 'Adicione um arquivo vídeo',
+        status: 'error',
+        duration: '3000',
+        isClosable: true,
+      });
+    } else if (!videoData.video.videoType && !formData.videoPath) {
+      return toast({
+        description: 'Adicione uma URL válida',
+        status: 'error',
+        duration: '3000',
+        isClosable: true,
+      });
+    }
+
+    if (formData.videoPath) {
+      try {
+        const urlObj = new URL(formData.videoPath);
+        const check =
+          urlObj.protocol === 'http:' || urlObj.protocol === 'https:';
+        if (!check) {
+          return;
+        }
+      } catch {
+        return toast({
+          description: 'Adicione uma URL válida',
+          status: 'error',
+          duration: '3000',
+          isClosable: true,
+        });
+      }
+    }
+
     let data = { ...formData };
 
     if (videoData.video.videoType) {
@@ -153,7 +188,7 @@ export default function NewVideo() {
       };
     }
 
-    uploadVideo(data, `courses/${id}/videos`);
+    uploadVideo(id, data, `courses/${id}/videos`);
 
     reset({ order: '', title: '', description: '' });
   };
