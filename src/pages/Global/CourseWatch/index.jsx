@@ -7,6 +7,9 @@ import Navbar from '../../../components/Global/Navbar';
 import VideoList from './VideoList';
 import VideoPlayer from './VideoPlayer';
 import PremiumCourse from '../../../components/Global/PremiumCourse';
+import VideoContent from './VideoContent';
+import { Box } from '@chakra-ui/react';
+import AssetsList from './AssetsList';
 
 export default function CourseWatch() {
   const { pathname } = useLocation();
@@ -20,6 +23,8 @@ export default function CourseWatch() {
     playerSize: 'full',
     isLocked: false,
     timeLeft: 30,
+    showVideoList: false,
+    showAssetsList: false,
   });
 
   const [locked, setLocked] = useState(null);
@@ -68,19 +73,37 @@ export default function CourseWatch() {
       {videoPlayer?.videoList?.length === 0 ? (
         <h1>Nenhuma aula.</h1>
       ) : (
-        <div className='flex flex-col flex-1'>
-          <VideoPlayer
-            video={videoPlayer?.active}
-            size={videoPlayer?.playerSize}
-            setVideoPlayer={setVideoPlayer}
-          />
+        <div className='flex flex-col justify-between flex-1'>
+          <Box>
+            <VideoPlayer
+              video={videoPlayer?.active}
+              size={videoPlayer?.playerSize}
+              setVideoPlayer={setVideoPlayer}
+            />
+            {!videoPlayer.showVideoList && !videoPlayer.showAssetsList && (
+              <VideoContent
+                videoData={videoPlayer?.active}
+                setVideoData={setVideoPlayer}
+              />
+            )}
+          </Box>
 
-          <div className='bg-[#F3F3F3] flex-1'></div>
-          <VideoList
-            list={videoPlayer?.videoList}
-            active={videoPlayer?.active}
-            setVideoPlayer={setVideoPlayer}
-          />
+          {!videoPlayer.showAssetsList && (
+            <VideoList
+              list={videoPlayer?.videoList}
+              active={videoPlayer?.active}
+              videoPlayer={videoPlayer}
+              setVideoPlayer={setVideoPlayer}
+            />
+          )}
+
+          {videoPlayer.showAssetsList && (
+            <AssetsList
+              assetList={videoPlayer.active.assetsList}
+              videoPlayer={videoPlayer}
+              setVideoPlayer={setVideoPlayer}
+            />
+          )}
         </div>
       )}
       <PremiumCourse

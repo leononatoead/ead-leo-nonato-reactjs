@@ -29,7 +29,7 @@ export default function Course() {
   const navigate = useNavigate();
 
   const handleWatch = () => {
-    navigate(`/course/${id}/${course?.videos[0]?.videos[0]?.id}`);
+    navigate(`/course/${id}/${course?.videos[0].id}`);
   };
 
   useEffect(() => {
@@ -83,7 +83,7 @@ export default function Course() {
         </Heading>
         <span
           onClick={handleWatch}
-          className='w-full bg-primary-400 rounded-[4px] px-3 py-[5px] text-white text-base leading-5 text-center'
+          className='w-full bg-primary-400 rounded-[4px] px-3 py-[5px] text-white text-base leading-5 text-center cursor-pointer'
         >
           Assistir
         </span>

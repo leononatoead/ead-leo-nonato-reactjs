@@ -367,7 +367,7 @@ export default function EditVideo() {
       <Flex flexDirection={'column'} gap={2}>
         <ButtonSubmit
           form='editVideoForm'
-          disabled={false}
+          disabled={loading}
           text={'Editar'}
           loading={loading}
         />

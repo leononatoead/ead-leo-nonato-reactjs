@@ -45,9 +45,11 @@ export default function Assets({ videoData, setVideoData }) {
 
     if (formData.assetPath) {
       try {
-        const urlObj = new URL(formData.videoPath);
+        const urlObj = new URL(formData.assetPath);
+
         const check =
           urlObj.protocol === 'http:' || urlObj.protocol === 'https:';
+
         if (!check) {
           return;
         }

@@ -14,6 +14,7 @@ export default function VideoPlayer({ video, size, setVideoPlayer }) {
           src={video.videoPath}
           controls
           className='w-full max-h-[80vh]  rounded-lg'
+          preload='auto'
         />
         {/* <button
           onClick={() => handleSetVideoSize()}

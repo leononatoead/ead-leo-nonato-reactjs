@@ -33,7 +33,10 @@ const uploadAssetFile = async (assetFile) => {
     return assetFile;
   } else if (assetFile.file) {
     return new Promise((resolve, reject) => {
-      const firestoreAssetFileName = `assets/${Date.now()}${v4()}`;
+      console.log(assetFile);
+      const firestoreAssetFileName = `assets/${Date.now()}${v4()}-${
+        assetFile.file.name
+      }`;
       const assetStorageRef = ref(storage, firestoreAssetFileName);
       const uploadAssetTask = uploadBytesResumable(
         assetStorageRef,
