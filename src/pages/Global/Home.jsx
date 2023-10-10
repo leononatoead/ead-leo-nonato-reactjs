@@ -60,7 +60,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main className='h-screen overflow-y-auto bg-[#f0f0f0]'>
+    <main className='h-[100dvh] overflow-y-auto bg-[#f0f0f0]'>
       <Navbar title={'Início'} />
 
       <SearchBar type='course' />

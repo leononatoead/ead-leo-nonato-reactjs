@@ -89,7 +89,7 @@ export default function CourseWatch() {
   }, [courses]);
 
   return (
-    <main className='min-h-screen bg-[#F3F3F3] flex flex-col'>
+    <main className='min-h-[100dvh] bg-[#F3F3F3] flex flex-col'>
       <Navbar title={videoPlayer?.sectionName} />
       {videoPlayer?.videoList?.length === 0 ? (
         <h1>Nenhuma aula.</h1>
