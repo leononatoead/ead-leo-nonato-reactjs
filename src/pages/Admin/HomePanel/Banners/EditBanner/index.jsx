@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  fetchBANNERSFromLocalStorage,
+  fetchBannersFromLocalStorage,
   fetchBanners,
 } from '../../../../../redux/modules/banners/actions';
 import useBanner from '../../../../../hooks/useBanner';
@@ -14,6 +14,7 @@ import { Box, Flex } from '@chakra-ui/react';
 import Input from '../../../../../components/Global/Input';
 import ButtonSubmit from '../../../../../components/Global/ButtonSubmit';
 import ConfirmModal from '../../../../../components/Global/ConfirmModal';
+import useCheckUpdate from '../../../../../hooks/useCheckUpdate';
 
 export default function EditBanner() {
   const { id } = useParams();
@@ -32,6 +33,7 @@ export default function EditBanner() {
   });
 
   const { updateBanner, deleteBanner, loading } = useBanner();
+  const { verifyBannersUpdate } = useCheckUpdate();
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -46,19 +48,29 @@ export default function EditBanner() {
   };
 
   useEffect(() => {
-    const lastBannersUpdate = new Date(
-      JSON.parse(localStorage.getItem('lastBannersUpdate')),
-    );
-    const actualBannerTime = new Date();
-    const verifyBannerUpdate = Math.abs(actualBannerTime - lastBannersUpdate);
-    const bannersMinutesDifference = Math.floor(verifyBannerUpdate / 60000);
+    const fetchBannersData = async () => {
+      try {
+        const firestoreBannersUpdate = await verifyBannersUpdate();
+        const lastBannersUpdate =
+          new Date(JSON.parse(localStorage.getItem('lastBannersUpdate'))) || 0;
 
-    if (bannersMinutesDifference > 60) {
-      dispatch(fetchBanners());
-    } else {
-      const courses = JSON.parse(localStorage.getItem('banners'));
-      dispatch(fetchBANNERSFromLocalStorage(courses));
-    }
+        const calcCourse = firestoreBannersUpdate - lastBannersUpdate;
+
+        if (calcCourse !== 0) {
+          dispatch(fetchBanners());
+        } else {
+          const banners = JSON.parse(localStorage.getItem('banners'));
+          dispatch(fetchBannersFromLocalStorage(banners));
+        }
+      } catch (error) {
+        console.error(
+          'Erro ao buscar a última atualização dos banners:',
+          error,
+        );
+      }
+    };
+
+    fetchBannersData();
   }, []);
 
   return (
@@ -77,7 +89,7 @@ export default function EditBanner() {
           id={'order'}
           error={errors?.order?.message}
           watch={watch}
-          defaultValue={banner.order}
+          defaultValue={banner?.order}
         />
         <Input
           theme={'light'}
@@ -88,7 +100,7 @@ export default function EditBanner() {
           id={'imageURL'}
           error={errors?.imageURL?.message}
           watch={watch}
-          defaultValue={banner.imageURL}
+          defaultValue={banner?.imageURL}
         />
         <Input
           theme={'light'}
@@ -99,7 +111,7 @@ export default function EditBanner() {
           id={'title'}
           error={errors?.title?.message}
           watch={watch}
-          defaultValue={banner.title}
+          defaultValue={banner?.title}
         />
         <Input
           theme={'light'}
@@ -110,7 +122,7 @@ export default function EditBanner() {
           id={'subtitle'}
           error={errors?.subtitle?.message}
           watch={watch}
-          defaultValue={banner.subtitle}
+          defaultValue={banner?.subtitle}
         />
         <Input
           theme={'light'}
@@ -121,7 +133,7 @@ export default function EditBanner() {
           id={'url'}
           error={errors?.url?.message}
           watch={watch}
-          defaultValue={banner.url}
+          defaultValue={banner?.url}
         />
       </form>
 

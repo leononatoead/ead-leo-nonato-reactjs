@@ -1,6 +1,13 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { database } from '../../../firebase/config';
-import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
+import {
+  collection,
+  doc,
+  getDoc,
+  onSnapshot,
+  orderBy,
+  query,
+} from 'firebase/firestore';
 
 export const fetchBanners = createAsyncThunk(
   'banners/fetchBanners',
@@ -9,6 +16,9 @@ export const fetchBanners = createAsyncThunk(
 
     try {
       const q = query(collectionRef, orderBy('order', 'asc'));
+
+      const courseUpdate = doc(database, 'updates', 'banners');
+      const document = await getDoc(courseUpdate);
 
       return new Promise((resolve, reject) => {
         onSnapshot(
@@ -19,6 +29,13 @@ export const fetchBanners = createAsyncThunk(
               ...doc.data(),
             }));
             resolve(data);
+
+            localStorage.setItem(
+              'lastBannersUpdate',
+              JSON.stringify(
+                new Date(document.data()?.lastBannersUpdate?.toMillis()),
+              ),
+            );
           },
           (error) => {
             reject(error);
@@ -52,9 +69,9 @@ export const delBanner = (data) => async (dispatch) => {
   });
 };
 
-export const fetchBANNERSFromLocalStorage = (data) => async (dispatch) => {
+export const fetchBannersFromLocalStorage = (data) => async (dispatch) => {
   dispatch({
-    type: 'banners/fetchBANNERSFromLocalStorage',
+    type: 'banners/fetchBannersFromLocalStorage',
     payload: data,
   });
 };

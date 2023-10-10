@@ -4,10 +4,12 @@ import { database } from '../firebase/config';
 import { useDispatch } from 'react-redux';
 
 import {
+  Timestamp,
   addDoc,
   collection,
   deleteDoc,
   doc,
+  setDoc,
   updateDoc,
 } from 'firebase/firestore';
 
@@ -31,6 +33,12 @@ const useBanner = () => {
       const res = await addDoc(collection(database, 'banners'), banner);
 
       const data = { id: res.id, ...banner };
+
+      const updateTime = Timestamp.now();
+      const updateCollection = doc(database, 'updates', 'banners');
+      setDoc(updateCollection, { lastBannersUpdate: updateTime });
+      const updatedAt = JSON.stringify(new Date(updateTime.toMillis()));
+      localStorage.setItem('lastBannersUpdate', updatedAt);
 
       dispatch(newBanner(data));
 
@@ -61,6 +69,12 @@ const useBanner = () => {
 
       const data = { id, ...banner };
 
+      const updateTime = Timestamp.now();
+      const updateCollection = doc(database, 'updates', 'banners');
+      setDoc(updateCollection, { lastBannersUpdate: updateTime });
+      const updatedAt = JSON.stringify(new Date(updateTime.toMillis()));
+      localStorage.setItem('lastBannersUpdate', updatedAt);
+
       dispatch(editBanner(data));
 
       toast({
@@ -87,6 +101,12 @@ const useBanner = () => {
       await deleteDoc(bannerRef);
 
       dispatch(delBanner(id));
+
+      const updateTime = Timestamp.now();
+      const updateCollection = doc(database, 'updates', 'banners');
+      setDoc(updateCollection, { lastBannersUpdate: updateTime });
+      const updatedAt = JSON.stringify(new Date(updateTime.toMillis()));
+      localStorage.setItem('lastBannersUpdate', updatedAt);
 
       toast({
         description: 'Banner removido com sucesso!',

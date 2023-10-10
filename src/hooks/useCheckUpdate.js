@@ -18,6 +18,7 @@ const useCheckUpdate = () => {
 
     return time;
   };
+
   const verifyPostsUpdate = async () => {
     const postsUpdate = doc(database, 'updates', 'posts');
 
@@ -34,7 +35,23 @@ const useCheckUpdate = () => {
     return time;
   };
 
-  return { verifyCourseUpdate, verifyPostsUpdate };
+  const verifyBannersUpdate = async () => {
+    const bannersUpdate = doc(database, 'updates', 'banners');
+
+    const document = await getDoc(bannersUpdate);
+    const lastUpdate = document.data()?.lastBannersUpdate?.toMillis();
+
+    let time;
+    if (lastUpdate) {
+      time = new Date(document.data()?.lastBannersUpdate?.toMillis());
+    } else {
+      time = null;
+    }
+
+    return time;
+  };
+
+  return { verifyCourseUpdate, verifyBannersUpdate, verifyPostsUpdate };
 };
 
 export default useCheckUpdate;

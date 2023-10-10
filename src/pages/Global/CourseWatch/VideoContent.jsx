@@ -15,9 +15,7 @@ export default function VideoContent({ videoData, setVideoData }) {
     <Box className='pt-2 '>
       <Box className='px-4 flex flex-col gap-[6px]'>
         <Text className='text-small leading-4'>{videoData.description}</Text>
-        <Text className='text-base leading-5 font-medium'>
-          {videoData.title}
-        </Text>
+        <Text className='text-base leading-5 font-bold'>{videoData.title}</Text>
       </Box>
 
       <Box className='flex items-center justify-center pt-[18px] pb-6 px-[22px] gap-[12px] border-b-[1px] border-b-gray-250'>
