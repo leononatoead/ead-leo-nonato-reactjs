@@ -5,7 +5,10 @@ import { BiEdit } from 'react-icons/bi';
 
 export default function BannerCardAdmin({ cardData }) {
   return (
-    <Box className='w-full h-32 shadow-md p-3 flex items-center gap-3 rounded-lg bg-white'>
+    <Link
+      to={`/dashboard/home/banners/edit/${cardData.id}`}
+      className='w-full h-32 shadow-md p-3 flex items-center gap-3 rounded-lg bg-white'
+    >
       <Image
         src={cardData.imageURL}
         alt='thumbnail'
@@ -21,11 +24,9 @@ export default function BannerCardAdmin({ cardData }) {
           </Text>
         </Box>
         <Box className='w-full flex justify-end items-center'>
-          <Link to={`/dashboard/home/banners/edit/${cardData.id}`}>
-            <BiEdit size={18} className='text-primary-600' />
-          </Link>
+          <BiEdit size={18} className='text-primary-600' />
         </Box>
       </Box>
-    </Box>
+    </Link>
   );
 }

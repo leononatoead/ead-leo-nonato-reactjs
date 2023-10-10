@@ -48,19 +48,17 @@ export default function Forms() {
       {forms && (
         <ul className='py-6 flex flex-col gap-2'>
           {forms.map((form) => (
-            <li
+            <Link
               key={form.id}
+              to={`/dashboard/forms/edit/${form.id}`}
               className='rounded-md border-[1px] border-gray-150 p-2 flex flex-col gap-4 shadow-sm bg-white'
             >
-              <Link
-                to={`/dashboard/forms/edit/${form.id}`}
-                className='flex items-center justify-center gap-3 '
-              >
+              <li className='flex items-center justify-center gap-3 '>
                 <span className='font-semibold text-normal leading-4 flex-1 text-justify'>
                   {form.title}
                 </span>
                 <BiEdit size={18} />
-              </Link>
+              </li>
 
               <button
                 className='flex gap-1 w-max text-gray-700'
@@ -74,7 +72,7 @@ export default function Forms() {
                   {form.id}
                 </Text>
               </button>
-            </li>
+            </Link>
           ))}
         </ul>
       )}

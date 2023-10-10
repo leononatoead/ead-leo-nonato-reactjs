@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { convertFromRaw } from 'draft-js';
 
 import { Box, Heading, Image, Text } from '@chakra-ui/react';
@@ -10,8 +10,21 @@ export default function PostCardAdmin({ post }) {
   const contentState = convertFromRaw(contentRaw);
   const postDescription = contentState.getPlainText();
 
+  const navigate = useNavigate();
+
+  const handleEdit = () => {
+    navigate(`/dashboard/posts/edit/${post.id}`);
+  };
+
+  const handleView = (event) => {
+    event.stopPropagation();
+  };
+
   return (
-    <Box className='w-full h-32 shadow-md p-3 flex items-center gap-3 rounded-lg bg-white'>
+    <Box
+      onClick={handleEdit}
+      className='w-full h-32 shadow-md p-3 flex items-center gap-3 rounded-lg bg-white'
+    >
       <Image
         src={post.thumb}
         alt='thumbnail'
@@ -31,9 +44,11 @@ export default function PostCardAdmin({ post }) {
             {post.category}
           </Text>
           <Box className='flex justify-end items-center gap-2 flex-1'>
-            <Link to={`/newsletter/post/${post.id}`}>
-              <IoMdEye size={18} className='text-primary-600' />
-            </Link>
+            <Box onClick={handleView}>
+              <Link to={`/newsletter/post/${post.id}`}>
+                <IoMdEye size={18} className='text-primary-600' />
+              </Link>
+            </Box>
             <Link to={`/dashboard/posts/edit/${post.id}`}>
               <BiEdit size={18} className='text-primary-600' />
             </Link>

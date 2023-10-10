@@ -11,6 +11,10 @@
   outline: none !important;
 }
 
+body {
+  min-height: -webkit-fill-available;
+}
+
 input[type='number']::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
