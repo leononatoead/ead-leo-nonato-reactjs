@@ -43,8 +43,28 @@ export default function CourseWatch() {
     }
 
     const video = course?.videos?.find((video) => video.id === videoId);
-    const videoList = course?.videos?.filter(
-      (v) => v.section === video.section,
+    // const videoList = course?.videos?.filter(
+    //   (v) => v.section === video.section,
+    // );
+
+    const videoList = course?.sections
+      ?.slice()
+      .sort((a, b) => a.order - b.order)
+      .map((section) => {
+        return {
+          section: section.sectionName,
+          videos: course?.videos
+            ?.slice()
+            .sort((a, b) => a.order - b.order)
+            .filter((video) => video.section === section.sectionName),
+        };
+      });
+
+    const allVideos = [];
+    videoList?.map((section) =>
+      section.videos?.forEach((video) => {
+        allVideos.push(video);
+      }),
     );
 
     if (video) {
@@ -53,6 +73,7 @@ export default function CourseWatch() {
         active: video,
         sectionName: video.section,
         videoList,
+        allVideos,
       }));
     }
 
@@ -90,8 +111,6 @@ export default function CourseWatch() {
 
           {!videoPlayer.showAssetsList && (
             <VideoList
-              list={videoPlayer?.videoList}
-              active={videoPlayer?.active}
               videoPlayer={videoPlayer}
               setVideoPlayer={setVideoPlayer}
             />

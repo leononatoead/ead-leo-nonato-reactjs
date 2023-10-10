@@ -33,19 +33,23 @@ export default function Course() {
   };
 
   useEffect(() => {
-    const findCourse = courses?.find((course) => course.id === id);
-    if (!findCourse.videos) {
-      dispatch(fetchVideos(id));
-    }
-    setCourse(findCourse);
+    if (courses.length > 0) {
+      const findCourse = courses?.find((course) => course.id === id);
 
-    if (!user) {
-      setLocked(true);
-    }
+      if (!findCourse.videos) {
+        dispatch(fetchVideos(id));
+      }
 
-    if (user && course?.isPremium) {
-      if (!user.courses?.includes(id)) {
+      setCourse(findCourse);
+
+      if (!user) {
         setLocked(true);
+      }
+
+      if (user && course?.isPremium) {
+        if (!user.courses?.includes(id)) {
+          setLocked(true);
+        }
       }
     }
   }, [courses, course]);
