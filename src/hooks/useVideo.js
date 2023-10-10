@@ -33,7 +33,6 @@ const uploadAssetFile = async (assetFile) => {
     return assetFile;
   } else if (assetFile.file) {
     return new Promise((resolve, reject) => {
-      console.log(assetFile);
       const firestoreAssetFileName = `assets/${Date.now()}${v4()}-${
         assetFile.file.name
       }`;
@@ -165,7 +164,9 @@ const useVideo = () => {
         if (assetFile.fileURL) {
           assets.push(assetFile);
         } else {
-          const firestoreAssetFileName = `assets/${Date.now()}${v4()}`;
+          const firestoreAssetFileName = `assets/${Date.now()}${v4()}-${
+            assetFile.file.name
+          }`;
           const assetStorageRef = ref(storage, firestoreAssetFileName);
           const path = await uploadToStorage(assetStorageRef, assetFile.file);
           const fileObject = {
