@@ -77,8 +77,8 @@ export default function VerifyEmail() {
       flexDirection={'column'}
       className={
         isLargerThanLg
-          ? 'auth-bg min-h-screen bg-gray-200'
-          : 'min-h-screen bg-gray-200'
+          ? 'auth-bg min-h-[100dvh] bg-gray-200'
+          : 'min-h-[100dvh] bg-gray-200'
       }
       p={{ lg: '10rem 35%' }}
     >

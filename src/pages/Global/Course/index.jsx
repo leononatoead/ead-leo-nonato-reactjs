@@ -55,7 +55,7 @@ export default function Course() {
   }, [courses, course]);
 
   return (
-    <Box className='min-h-screen bg-gray-200 flex flex-col'>
+    <Box className='min-h-[100dvh] bg-gray-200 flex flex-col'>
       <Navbar title='Curso' />
 
       <Box className='!h-[118px] rounded-b-2xl overflow-hidden'>

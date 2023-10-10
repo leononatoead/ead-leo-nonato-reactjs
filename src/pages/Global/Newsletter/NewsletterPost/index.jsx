@@ -71,7 +71,7 @@ export default function NewsletterPost() {
   }, []);
 
   return (
-    <Box className='min-h-screen'>
+    <Box className='min-h-[100dvh]'>
       <Navbar title={currentPost?.category} />
       <Box className='px-4 py-6'>
         <Heading className='!font-poppins !text-large !font-bold !leading-6 text-primary-600'>

@@ -19,7 +19,7 @@ export default function Profile() {
   const { formatPhone } = useFormatPhone();
 
   return (
-    <Box className='min-h-screen bg-gray-200'>
+    <Box className='min-h-[100dvh] bg-gray-200'>
       <Navbar title={'Perfil'} />
       <Box>
         <Image

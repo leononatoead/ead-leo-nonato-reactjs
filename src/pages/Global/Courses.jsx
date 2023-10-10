@@ -13,7 +13,7 @@ export default function Courses() {
   const { user } = useSelector((state) => state.auth);
 
   return (
-    <Box className='min-h-screen bg-gray-200'>
+    <Box className='min-h-[100dvh] bg-gray-200'>
       <Navbar
         title={
           id === 'premium'
