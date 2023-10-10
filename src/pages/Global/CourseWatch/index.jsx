@@ -43,9 +43,6 @@ export default function CourseWatch() {
     }
 
     const video = course?.videos?.find((video) => video.id === videoId);
-    // const videoList = course?.videos?.filter(
-    //   (v) => v.section === video.section,
-    // );
 
     const videoList = course?.sections
       ?.slice()

@@ -21,16 +21,16 @@ export default function VideoContent({ videoData, setVideoData }) {
       <Box className='flex items-center justify-center pt-[18px] pb-6 px-[22px] gap-[12px] border-b-[1px] border-b-gray-250'>
         <button
           onClick={handleSelectMaterials}
-          className='rounded-md px-3 py-2 w-[97px] h-[60px] border-[1px] border-gray-250 flex flex-col items-center justify-center gap-1'
+          className='rounded-md px-3 py-2 w-[97px] h-[60px] border-[1px] border-gray-250 bg-gray-250 flex flex-col items-center justify-center gap-1'
         >
           <AiOutlineFileText className='text-gray-950 ' size={20} />
           <Text className='text-small text-gray-950 leading-4'>Materiais</Text>
         </button>
-        <button className='rounded-md px-3 py-2 w-[97px] h-[60px] border-[1px] border-gray-250 flex flex-col items-center justify-center gap-1'>
+        <button className='rounded-md px-3 py-2 w-[97px] h-[60px] border-[1px] border-gray-250 bg-gray-250 flex flex-col items-center justify-center gap-1'>
           <AiOutlineStar className='text-gray-950' size={20} />
           <Text className='text-small text-gray-950 leading-4'>Avaliar</Text>
         </button>
-        <button className='rounded-md px-3 py-2 w-[97px] h-[60px] border-[1px] border-gray-250 flex flex-col items-center justify-center gap-1'>
+        <button className='rounded-md px-3 py-2 w-[97px] h-[60px] border-[1px] border-gray-250 bg-gray-250 flex flex-col items-center justify-center gap-1'>
           <BsCheck2Circle className='text-gray-950' size={20} />
           <Text className='text-small text-gray-950 leading-4'>Concluir</Text>
         </button>
