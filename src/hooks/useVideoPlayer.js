@@ -6,6 +6,7 @@ const useVideoPlayer = (videoRef) => {
     playing: false,
     percentage: 0,
     volume: 1,
+    currentTime: 0,
   });
 
   const togglePlayingState = () => {
@@ -16,7 +17,12 @@ const useVideoPlayer = (videoRef) => {
     const currentPercentage =
       (videoRef.current.currentTime / videoRef.current.duration) * 100;
 
-    setVideoPlayerState((prev) => ({ ...prev, percentage: currentPercentage }));
+    setVideoPlayerState((prev) => ({
+      ...prev,
+      percentage: currentPercentage,
+      currentTime: videoRef.current.currentTime,
+      duration: videoRef.current.duration,
+    }));
   };
 
   const toggleVideoTime = (e) => {

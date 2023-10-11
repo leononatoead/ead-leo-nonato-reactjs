@@ -93,11 +93,24 @@ export default function CourseWatch() {
       ) : (
         <div className='flex flex-col justify-between flex-1'>
           <Box>
-            <VideoPlayer
-              video={videoPlayer?.active}
-              size={videoPlayer?.playerSize}
-              setVideoPlayer={setVideoPlayer}
-            />
+            {videoPlayer?.active?.videoPath?.includes('firebasestorage') && (
+              <VideoPlayer
+                video={videoPlayer?.active}
+                size={videoPlayer?.playerSize}
+                setVideoPlayer={setVideoPlayer}
+              />
+            )}
+            {videoPlayer?.active?.videoPath?.includes('youtube') && (
+              <Box className='flex flex-col items-start justify-between p-4'>
+                <iframe
+                  className='w-full max-h-[80vh] rounded-lg min-h-[192px]'
+                  src={videoPlayer.active.videoPath}
+                  title={videoPlayer.active.title}
+                  allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+                  allowFullScreen
+                ></iframe>
+              </Box>
+            )}
             {!videoPlayer.showVideoList && !videoPlayer.showAssetsList && (
               <VideoContent
                 videoData={videoPlayer?.active}

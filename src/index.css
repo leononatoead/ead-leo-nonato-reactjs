@@ -106,3 +106,19 @@ input[type='number']::-webkit-inner-spin-button {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+/* VIDEO PLAYER */
+
+.show-controls {
+  animation: showControls 0.3s ease;
+}
+
+@keyframes showControls {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}

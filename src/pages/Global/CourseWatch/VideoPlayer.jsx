@@ -43,13 +43,13 @@ export default function VideoPlayer({ video, size, setVideoPlayer }) {
   return (
     <Box className='flex flex-col items-start justify-between p-4 '>
       <Box
-        className={`group relative  rounded-lg bg-black overflow-hidden w-${size}`}
+        className={`group relative rounded-lg bg-black overflow-hidden w-${size}`}
       >
         <video
           ref={videoRef}
           src={video.videoPath}
           onTimeUpdate={updateVideoTime}
-          className='w-full max-h-[80vh]  rounded-lg'
+          className='w-full max-h-[80vh] rounded-lg'
           preload='auto'
         />
 
@@ -60,10 +60,11 @@ export default function VideoPlayer({ video, size, setVideoPlayer }) {
             </button>
           </Box>
         ) : (
-          <Box className='absolute bottom-0 left-0 right-0 mx-4 mb-4 rounded-md px-4 py-3 bg-white/95 backdrop-blur-xl backdrop-filter border border-white/20  gap-4 hidden group-hover:flex'>
+          <Box className='absolute bottom-0 left-0 right-0 mx-4 mb-4 rounded-md px-4 py-3 bg-white/95 backdrop-blur-xl backdrop-filter border border-white/20  gap-4 hidden group-hover:flex show-controls'>
             <button onClick={togglePlayingState}>
               {videoPlayerState.playing ? <FaPause /> : <FaPlay />}
             </button>
+            <Box>{`${videoPlayerState.currentTime.toFixed(0)}`}</Box>
 
             <Slider
               defaultValue={0}
@@ -78,6 +79,7 @@ export default function VideoPlayer({ video, size, setVideoPlayer }) {
               <SliderThumb />
             </Slider>
 
+            <Box>{` ${videoPlayerState.duration.toFixed(0)}`}</Box>
             <button
               className='relative'
               onClick={() => setShowVolumeSlider((prev) => !prev)}

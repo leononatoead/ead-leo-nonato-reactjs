@@ -126,8 +126,8 @@ export default function Assets({ videoData, setVideoData }) {
             name='assetFile'
             onChange={handleInputFileChange}
             multiple={false}
-            accept='.pdf,.docx,.doc,.xlsx,.xls,.xlsm'
-            title='Selecione um arquivo PDF ou Word'
+            accept='.pdf,.docx,.doc,.xlsx,.xls,.xlsm,.zip,.rar'
+            title='Selecione um arquivo'
             className='w-full outline-none text-base'
             required
           />
