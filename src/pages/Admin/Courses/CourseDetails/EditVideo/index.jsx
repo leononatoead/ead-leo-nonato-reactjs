@@ -96,6 +96,35 @@ export default function EditVideo() {
   const handlEditVideo = (formData) => {
     let data = { ...video, ...formData };
 
+    if (formData.videoPath?.includes('pandavideo')) {
+      const idMatch = formData.videoPath.match(/id="([^"]+)"/);
+      const srcMatch = formData.videoPath.match(/src="([^"]+)"/);
+
+      const id = idMatch ? idMatch[1] : 'Nenhum ID encontrado';
+      const src = srcMatch ? srcMatch[1] : 'Nenhum SRC encontrado';
+
+      data = { ...data, videoFrame: { id, src } };
+      delete data.videoPath;
+    }
+
+    if (formData.videoPath?.includes('youtube')) {
+      try {
+        const urlObj = new URL(formData.videoPath);
+        const check =
+          urlObj.protocol === 'http:' || urlObj.protocol === 'https:';
+        if (!check) {
+          return;
+        }
+      } catch {
+        return toast({
+          description: 'Adicione uma URL válida',
+          status: 'error',
+          duration: '3000',
+          isClosable: true,
+        });
+      }
+    }
+
     if (videoData.video.videoType) {
       data = {
         ...data,
@@ -226,14 +255,15 @@ export default function EditVideo() {
         ) : (
           <Input
             theme={'light'}
-            type={'text'}
-            label={'Embed URL'}
-            placeholder={'www.exemplo.com'}
+            type={'textarea'}
+            label={'IFrame ou Embed URL'}
+            placeholder={
+              '<iframe id={...} src={...}></iframe> ou www.exemplo.com'
+            }
             register={register}
             id={'videoPath'}
             error={errors?.videoPath?.message}
             watch={watch}
-            defaultValue={video?.videoPath}
           />
         )}
         <Box className='pb-[5px]'>

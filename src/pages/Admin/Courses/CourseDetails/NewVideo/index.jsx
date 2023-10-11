@@ -119,14 +119,27 @@ export default function NewVideo() {
       });
     } else if (!videoData.video.videoType && !formData.videoPath) {
       return toast({
-        description: 'Adicione uma URL válida',
+        description: 'Adicione um iframe válido',
         status: 'error',
         duration: '3000',
         isClosable: true,
       });
     }
 
-    if (formData.videoPath) {
+    let data = { ...formData };
+
+    if (formData.videoPath?.includes('pandavideo')) {
+      const idMatch = formData.videoPath.match(/id="([^"]+)"/);
+      const srcMatch = formData.videoPath.match(/src="([^"]+)"/);
+
+      const id = idMatch ? idMatch[1] : 'Nenhum ID encontrado';
+      const src = srcMatch ? srcMatch[1] : 'Nenhum SRC encontrado';
+
+      data = { ...data, videoFrame: { id, src } };
+      delete data.videoPath;
+    }
+
+    if (formData.videoPath?.includes('youtube')) {
       try {
         const urlObj = new URL(formData.videoPath);
         const check =
@@ -143,8 +156,6 @@ export default function NewVideo() {
         });
       }
     }
-
-    let data = { ...formData };
 
     if (videoData.video.videoType) {
       data = {
@@ -190,7 +201,7 @@ export default function NewVideo() {
 
     uploadVideo(id, data, `courses/${id}/videos`);
 
-    reset({ order: '', title: '', description: '' });
+    reset({ videoPath: '', order: '', title: '', description: '' });
   };
 
   useEffect(() => {
@@ -242,9 +253,11 @@ export default function NewVideo() {
         ) : (
           <Input
             theme={'light'}
-            type={'text'}
-            label={'Embed URL'}
-            placeholder={'www.exemplo.com'}
+            type={'textarea'}
+            label={'IFrame ou Embed URL'}
+            placeholder={
+              '<iframe id={...} src={...}></iframe> ou www.exemplo.com'
+            }
             register={register}
             id={'videoPath'}
             error={errors?.videoPath?.message}

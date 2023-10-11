@@ -85,6 +85,8 @@ export default function CourseWatch() {
     // }
   }, [courses]);
 
+  console.log(videoPlayer.active);
+
   return (
     <main className='min-h-[100dvh] bg-[#F3F3F3] flex flex-col'>
       <Navbar title={videoPlayer?.sectionName} />
@@ -111,12 +113,12 @@ export default function CourseWatch() {
                 ></iframe>
               </Box>
             )}
-            {videoPlayer?.active?.videoPath?.includes('pandavideo') && (
+            {videoPlayer?.active?.videoFrame && (
               <Box className='flex flex-col items-start justify-between p-4'>
                 <iframe
                   className='w-full max-h-[80vh] rounded-lg min-h-[192px] '
-                  id='panda-46082e50-e720-49e2-9711-099da435768d'
-                  src={videoPlayer.active.videoPath}
+                  id={videoPlayer.active.videoFrame.id}
+                  src={videoPlayer.active.videoFrame.src}
                   allow='accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture'
                   allowFullScreen={true}
                 ></iframe>
