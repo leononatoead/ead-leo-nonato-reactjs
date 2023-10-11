@@ -114,8 +114,9 @@ export default function CourseWatch() {
             {videoPlayer?.active?.videoPath?.includes('pandavideo') && (
               <Box className='flex flex-col items-start justify-between p-4'>
                 <iframe
+                  className='w-full max-h-[80vh] rounded-lg min-h-[192px] '
                   id='panda-46082e50-e720-49e2-9711-099da435768d'
-                  src='https://player-vz-dd783508-e7c.tv.pandavideo.com.br/embed/?v=46082e50-e720-49e2-9711-099da435768d'
+                  src={videoPlayer.active.videoPath}
                   allow='accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture'
                   allowFullScreen={true}
                 ></iframe>
