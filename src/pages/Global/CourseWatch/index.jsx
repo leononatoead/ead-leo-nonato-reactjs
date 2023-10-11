@@ -85,8 +85,6 @@ export default function CourseWatch() {
     // }
   }, [courses]);
 
-  console.log(videoPlayer.active);
-
   return (
     <main className='min-h-[100dvh] bg-[#F3F3F3] flex flex-col'>
       <Navbar title={videoPlayer?.sectionName} />
@@ -106,7 +104,7 @@ export default function CourseWatch() {
             {videoPlayer?.active?.videoPath?.includes('youtube') && (
               <Box className='flex flex-col items-start justify-between p-4'>
                 <iframe
-                  className='w-full max-h-[80vh] rounded-lg min-h-[192px]'
+                  className='w-full max-h-[80vh] rounded-lg min-h-[192px] md:min-h-[400px]'
                   src={videoPlayer.active.videoPath}
                   title={videoPlayer.active.title}
                   allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
@@ -116,9 +114,9 @@ export default function CourseWatch() {
             )}
 
             {videoPlayer?.active?.videoFrame && (
-              <Box className='flex flex-col items-start justify-between p-4'>
+              <Box className='flex flex-col items-start justify-between p-4 min-h-[192px]'>
                 <iframe
-                  className='w-full max-h-[80vh] rounded-lg min-h-[192px] '
+                  className='w-full max-h-[80vh] rounded-lg min-h-[192px] md:min-h-[400px]'
                   id={videoPlayer.active.videoFrame.id}
                   src={videoPlayer.active.videoFrame.src}
                   allow='accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture'
