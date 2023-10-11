@@ -103,8 +103,9 @@ export default function EditVideo() {
       const id = idMatch ? idMatch[1] : 'Nenhum ID encontrado';
       const src = srcMatch ? srcMatch[1] : 'Nenhum SRC encontrado';
 
-      data = { ...data, videoFrame: { id, src } };
-      delete data.videoPath;
+      data = { ...data, videoFrame: { id, src }, videoPath: null };
+    } else {
+      data = { ...data, videoFrame: null };
     }
 
     if (formData.videoPath?.includes('youtube')) {
@@ -187,6 +188,7 @@ export default function EditVideo() {
         video: {
           videoFile: null,
           videoType: video?.videoPath ? false : true,
+          videoFrame: video.videoFrame ? video.videoFrame : null,
         },
         assets: {
           hasAssets: video?.assetsList ? true : false,

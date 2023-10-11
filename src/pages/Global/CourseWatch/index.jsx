@@ -102,6 +102,7 @@ export default function CourseWatch() {
                 setVideoPlayer={setVideoPlayer}
               />
             )}
+
             {videoPlayer?.active?.videoPath?.includes('youtube') && (
               <Box className='flex flex-col items-start justify-between p-4'>
                 <iframe
@@ -113,6 +114,7 @@ export default function CourseWatch() {
                 ></iframe>
               </Box>
             )}
+
             {videoPlayer?.active?.videoFrame && (
               <Box className='flex flex-col items-start justify-between p-4'>
                 <iframe
