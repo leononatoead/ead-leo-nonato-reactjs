@@ -3,8 +3,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { AssetsSchema } from './extraSchemas';
 
 import Input from '../../Global/Input';
-import { Box } from '@chakra-ui/react';
 import AssetsList from './AssetsList';
+import { Box, useToast } from '@chakra-ui/react';
 
 export default function Assets({ videoData, setVideoData }) {
   const {
@@ -17,6 +17,8 @@ export default function Assets({ videoData, setVideoData }) {
     resolver: zodResolver(AssetsSchema),
   });
 
+  const toast = useToast();
+
   const handleInputFileChange = (e) => {
     setVideoData((prev) => ({
       ...prev,
@@ -25,6 +27,42 @@ export default function Assets({ videoData, setVideoData }) {
   };
 
   const handleAddFile = (formData) => {
+    if (videoData.assets.assetType && videoData.assets.assetFile === null) {
+      return toast({
+        description: 'Adicione um arquivo vídeo',
+        status: 'error',
+        duration: '3000',
+        isClosable: true,
+      });
+    } else if (!videoData.assets.assetType && !formData.assetPath) {
+      return toast({
+        description: 'Adicione uma URL válida',
+        status: 'error',
+        duration: '3000',
+        isClosable: true,
+      });
+    }
+
+    if (formData.assetPath) {
+      try {
+        const urlObj = new URL(formData.assetPath);
+
+        const check =
+          urlObj.protocol === 'http:' || urlObj.protocol === 'https:';
+
+        if (!check) {
+          return;
+        }
+      } catch {
+        return toast({
+          description: 'Adicione uma URL válida',
+          status: 'error',
+          duration: '3000',
+          isClosable: true,
+        });
+      }
+    }
+
     if (formData.assetPath) {
       const data = {
         fileName: formData.assetName,
@@ -88,8 +126,8 @@ export default function Assets({ videoData, setVideoData }) {
             name='assetFile'
             onChange={handleInputFileChange}
             multiple={false}
-            accept='.pdf,.docx,.doc,.xlsx,.xls,.xlsm'
-            title='Selecione um arquivo PDF ou Word'
+            accept='.pdf,.docx,.doc,.xlsx,.xls,.xlsm,.zip,.rar'
+            title='Selecione um arquivo'
             className='w-full outline-none text-base'
             required
           />

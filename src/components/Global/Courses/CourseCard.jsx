@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import ShareBtn from '../ShareBtn';
 import PremiumCourse from '../PremiumCourse';
@@ -13,8 +13,21 @@ export default function CourseCard({ course }) {
 
   const url = `${import.meta.env.VITE_VERCEL_APP_URL}/course/${course.id}`;
 
+  const navigate = useNavigate();
+
+  const handleNavigate = () => {
+    navigate(`/course/${course.id}`);
+  };
+
+  const handleShare = (event) => {
+    event.stopPropagation();
+  };
+
   return (
-    <Box className='w-full h-32 shadow-md p-3 flex items-center gap-3 rounded-lg bg-white'>
+    <Box
+      onClick={handleNavigate}
+      className='w-full h-32 shadow-md p-3 flex items-center gap-3 rounded-lg bg-white cursor-pointer'
+    >
       <Image
         src={course.imagePath}
         alt='thumbnail'
@@ -38,12 +51,12 @@ export default function CourseCard({ course }) {
                 <BiCartAdd size={18} className='text-primary-600' />
               </button>
             ) : (
-              <Link to={`/course/${course.id}`}>
-                <IoMdEye size={18} className='text-primary-600' />
-              </Link>
+              <IoMdEye size={18} className='text-primary-600' />
             )}
 
-            <ShareBtn url={url} />
+            <Box onClick={handleShare}>
+              <ShareBtn url={url} />
+            </Box>
           </Box>
         </Box>
       </Box>

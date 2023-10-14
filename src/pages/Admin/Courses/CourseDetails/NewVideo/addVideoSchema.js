@@ -5,5 +5,5 @@ export const AddVideoSchema = z.object({
   order: z.number().min(1, 'Digite uma posição válida.'),
   title: z.string().min(2, 'Digite um nome válido.'),
   description: z.string().min(2, 'Digite uma descrição válida.'),
-  videoPath: z.string().min(2, 'Digite uma descrição válida.').url().optional(),
+  videoPath: z.string().optional(),
 });

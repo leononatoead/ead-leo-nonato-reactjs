@@ -30,7 +30,7 @@ export default function SearchResults() {
   }, [id]);
 
   return (
-    <Box className='min-h-screen bg-gray-200 flex flex-col'>
+    <Box className='min-h-[100dvh] bg-gray-200 flex flex-col'>
       <Navbar title={'Pesquisa'} />
 
       <SearchBar type='post' />

@@ -29,29 +29,33 @@ export default function Course() {
   const navigate = useNavigate();
 
   const handleWatch = () => {
-    navigate(`/course/${id}/${course?.videos[0]?.videos[0]?.id}`);
+    navigate(`/course/${id}/${course?.videos[0].id}`);
   };
 
   useEffect(() => {
-    const findCourse = courses?.find((course) => course.id === id);
-    if (!findCourse.videos) {
-      dispatch(fetchVideos(id));
-    }
-    setCourse(findCourse);
+    if (courses.length > 0) {
+      const findCourse = courses?.find((course) => course.id === id);
 
-    if (!user) {
-      setLocked(true);
-    }
+      if (!findCourse.videos) {
+        dispatch(fetchVideos(id));
+      }
 
-    if (user && course?.isPremium) {
-      if (!user.courses?.includes(id)) {
+      setCourse(findCourse);
+
+      if (!user) {
         setLocked(true);
+      }
+
+      if (user && course?.isPremium) {
+        if (!user.courses?.includes(id)) {
+          setLocked(true);
+        }
       }
     }
   }, [courses, course]);
 
   return (
-    <Box className='min-h-screen bg-gray-200 flex flex-col'>
+    <Box className='min-h-[100dvh] bg-gray-200 flex flex-col'>
       <Navbar title='Curso' />
 
       <Box className='!h-[118px] rounded-b-2xl overflow-hidden'>
@@ -83,7 +87,7 @@ export default function Course() {
         </Heading>
         <span
           onClick={handleWatch}
-          className='w-full bg-primary-400 rounded-[4px] px-3 py-[5px] text-white text-base leading-5 text-center'
+          className='w-full bg-primary-400 rounded-[4px] px-3 py-[5px] text-white text-base leading-5 text-center cursor-pointer'
         >
           Assistir
         </span>
@@ -91,7 +95,7 @@ export default function Course() {
 
       <Box py={4} px={4} bg={'white'} className='!flex-grow'>
         <Heading className='!font-poppins !text-normal !leading-6 !font-medium'>
-          Conteúdo
+          Módulos
         </Heading>
 
         <Accordion allowToggle>

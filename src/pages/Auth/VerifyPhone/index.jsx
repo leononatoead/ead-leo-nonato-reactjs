@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { logoutUser } from "../../../redux/modules/auth/actions";
 import { auth } from "../../../firebase/config";
 import {
   RecaptchaVerifier,
@@ -52,6 +54,7 @@ export default function VerifyPhone() {
 
   const toast = useToast();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const onCaptchaVerify = () => {
     if (!window.recaptchaVerifier) {
@@ -94,12 +97,22 @@ export default function VerifyPhone() {
         isClosable: true,
       });
     } catch (error) {
-      toast({
-        description: "Erro ao enviar código de verificação, tente novamente.",
-        status: "error",
-        duration: "3000",
-        isClosable: true,
-      });
+      if (error.message === "auth/account-exists-with-different-credential") {
+        toast({
+          description: "Telefone já cadastrado por outro usuário",
+          status: "error",
+          duration: "3000",
+          isClosable: true,
+        });
+      } else {
+        toast({
+          description: "Erro ao enviar código de verificação, tente novamente.",
+          status: "error",
+          duration: "3000",
+          isClosable: true,
+        });
+      }
+    } finally {
       setLoading(false);
     }
   };
@@ -118,6 +131,7 @@ export default function VerifyPhone() {
 
       navigate("/verify-email");
     } catch (error) {
+      console.log(error);
       if (error.message === "auth/account-exists-with-different-credential") {
         toast({
           description: "Telefone já cadastrado por outro usuário",
@@ -143,6 +157,11 @@ export default function VerifyPhone() {
     setVerificationCode("");
   };
 
+  const handleLogout = () => {
+    dispatch(logoutUser());
+    navigate("/");
+  };
+
   useEffect(() => {
     if (timer > 0) {
       const timerInterval = setInterval(() => {
@@ -160,8 +179,8 @@ export default function VerifyPhone() {
       flexDirection={"column"}
       className={
         isLargerThanLg
-          ? "auth-bg min-h-screen bg-gray-200"
-          : "min-h-screen bg-gray-200"
+          ? "auth-bg min-h-[100dvh] bg-gray-200"
+          : "min-h-[100dvh] bg-gray-200"
       }
       p={{ lg: "10rem 35%" }}
     >
@@ -247,6 +266,12 @@ export default function VerifyPhone() {
               >
                 {loading ? "Carregando" : "Validar"}
               </button>
+              <button
+                className="w-full text-center mt-2"
+                onClick={handleLogout}
+              >
+                Sair
+              </button>
             </Box>
           </Box>
         </Flex>
@@ -320,6 +345,12 @@ export default function VerifyPhone() {
                 disabled={phone ? false : true}
               >
                 {loading ? "Carregando" : "Enviar código"}
+              </button>
+              <button
+                className="w-full text-center mt-2"
+                onClick={handleLogout}
+              >
+                Sair
               </button>
             </Box>
           </Box>

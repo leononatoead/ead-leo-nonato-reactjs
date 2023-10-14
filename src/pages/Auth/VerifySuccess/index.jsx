@@ -34,7 +34,7 @@ export default function VerifySucess() {
   return (
     <Flex
       flexDirection={'column'}
-      className='min-h-screen bg-gray-200'
+      className='min-h-[100dvh] bg-gray-200'
       p={{ lg: '5rem 30%' }}
     >
       <AuthHeader step={4} />

@@ -6,7 +6,7 @@ import { Box, Flex, Heading, Text } from '@chakra-ui/react';
 
 export default function ChangePasswordSuccess() {
   return (
-    <Flex flexDirection={'column'} className='min-h-screen bg-gray-200'>
+    <Flex flexDirection={'column'} className='min-h-[100dvh] bg-gray-200'>
       <AuthHeader />
 
       <Box px={4} mt={1}>

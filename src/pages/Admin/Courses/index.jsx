@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import VideoCardAdmin from '../../../components/Admin/VideoCardAdmin';
+import CourseCardAdmin from '../../../components/Admin/CourseCardAdmin';
 import { Box } from '@chakra-ui/react';
 import { MdAddCircleOutline } from 'react-icons/md';
 
@@ -18,9 +18,9 @@ export default function Courses() {
       </Box>
 
       {courses && (
-        <ul className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-6'>
+        <ul className='flex flex-col gap-4 pt-6 flex-grow'>
           {courses?.map((course) => (
-            <VideoCardAdmin cardData={course} key={course.id} />
+            <CourseCardAdmin cardData={course} key={course.id} />
           ))}
         </ul>
       )}

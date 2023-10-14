@@ -143,6 +143,8 @@ export default function EditCourse() {
             <input
               id='image'
               type='file'
+              accept='image/*'
+              multiple={false}
               className='w-full outline-none text-base'
               onChange={(e) => setImageFile(e.target.files[0])}
             />

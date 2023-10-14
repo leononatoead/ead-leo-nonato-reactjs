@@ -19,7 +19,7 @@ export default function Newsletter() {
   const [openLoginModal, setOpenLoginModal] = useState(false);
 
   return (
-    <Box className='min-h-screen bg-gray-200'>
+    <Box className='min-h-[100dvh] bg-gray-200'>
       <Navbar title='Newsletter' />
       <SearchBar type='post' />
 

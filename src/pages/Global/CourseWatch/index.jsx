@@ -7,6 +7,9 @@ import Navbar from '../../../components/Global/Navbar';
 import VideoList from './VideoList';
 import VideoPlayer from './VideoPlayer';
 import PremiumCourse from '../../../components/Global/PremiumCourse';
+import VideoContent from './VideoContent';
+import { Box } from '@chakra-ui/react';
+import AssetsList from './AssetsList';
 
 export default function CourseWatch() {
   const { pathname } = useLocation();
@@ -20,6 +23,8 @@ export default function CourseWatch() {
     playerSize: 'full',
     isLocked: false,
     timeLeft: 30,
+    showVideoList: false,
+    showAssetsList: false,
   });
 
   const [locked, setLocked] = useState(null);
@@ -38,8 +43,25 @@ export default function CourseWatch() {
     }
 
     const video = course?.videos?.find((video) => video.id === videoId);
-    const videoList = course?.videos?.filter(
-      (v) => v.section === video.section,
+
+    const videoList = course?.sections
+      ?.slice()
+      .sort((a, b) => a.order - b.order)
+      .map((section) => {
+        return {
+          section: section.sectionName,
+          videos: course?.videos
+            ?.slice()
+            .sort((a, b) => a.order - b.order)
+            .filter((video) => video.section === section.sectionName),
+        };
+      });
+
+    const allVideos = [];
+    videoList?.map((section) =>
+      section.videos?.forEach((video) => {
+        allVideos.push(video);
+      }),
     );
 
     if (video) {
@@ -48,6 +70,7 @@ export default function CourseWatch() {
         active: video,
         sectionName: video.section,
         videoList,
+        allVideos,
       }));
     }
 
@@ -63,24 +86,67 @@ export default function CourseWatch() {
   }, [courses]);
 
   return (
-    <main className='min-h-screen bg-[#F3F3F3] flex flex-col'>
+    <main className='min-h-[100dvh] bg-[#F3F3F3] flex flex-col'>
       <Navbar title={videoPlayer?.sectionName} />
       {videoPlayer?.videoList?.length === 0 ? (
         <h1>Nenhuma aula.</h1>
       ) : (
-        <div className='flex flex-col flex-1'>
-          <VideoPlayer
-            video={videoPlayer?.active}
-            size={videoPlayer?.playerSize}
-            setVideoPlayer={setVideoPlayer}
-          />
+        <div className='flex flex-col justify-between flex-1'>
+          <Box>
+            {videoPlayer?.active?.videoPath?.includes('firebasestorage') && (
+              <VideoPlayer
+                video={videoPlayer?.active}
+                size={videoPlayer?.playerSize}
+                setVideoPlayer={setVideoPlayer}
+              />
+            )}
 
-          <div className='bg-[#F3F3F3] flex-1'></div>
-          <VideoList
-            list={videoPlayer?.videoList}
-            active={videoPlayer?.active}
-            setVideoPlayer={setVideoPlayer}
-          />
+            {videoPlayer?.active?.videoPath?.includes('youtube') && (
+              <Box className='flex flex-col items-start justify-between p-4'>
+                <iframe
+                  className='w-full max-h-[80vh] rounded-lg min-h-[192px] md:min-h-[400px]'
+                  src={videoPlayer.active.videoPath}
+                  title={videoPlayer.active.title}
+                  allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+                  allowFullScreen
+                ></iframe>
+              </Box>
+            )}
+
+            {videoPlayer?.active?.videoFrame && (
+              <Box className='flex flex-col items-start justify-between p-4 min-h-[192px]'>
+                <iframe
+                  className='w-full max-h-[80vh] rounded-lg min-h-[192px] md:min-h-[400px]'
+                  id={videoPlayer.active.videoFrame.id}
+                  src={videoPlayer.active.videoFrame.src}
+                  allow='accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture'
+                  allowFullScreen={true}
+                ></iframe>
+              </Box>
+            )}
+
+            {!videoPlayer.showVideoList && !videoPlayer.showAssetsList && (
+              <VideoContent
+                videoData={videoPlayer?.active}
+                setVideoData={setVideoPlayer}
+              />
+            )}
+          </Box>
+
+          {!videoPlayer.showAssetsList && (
+            <VideoList
+              videoPlayer={videoPlayer}
+              setVideoPlayer={setVideoPlayer}
+            />
+          )}
+
+          {videoPlayer.showAssetsList && (
+            <AssetsList
+              assetList={videoPlayer.active.assetsList}
+              videoPlayer={videoPlayer}
+              setVideoPlayer={setVideoPlayer}
+            />
+          )}
         </div>
       )}
       <PremiumCourse

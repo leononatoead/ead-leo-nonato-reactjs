@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  fetchBANNERSFromLocalStorage,
+  fetchBannersFromLocalStorage,
   fetchBanners,
 } from '../../redux/modules/banners/actions';
+import useCheckUpdate from '../../hooks/useCheckUpdate';
 import { Link } from 'react-router-dom';
 
 import Navbar from '../../components/Global/Navbar';
@@ -28,26 +29,38 @@ export default function Home() {
   const freeCourses = courses?.filter((course) => !course.isPremium);
   const paidCourses = courses?.filter((course) => course.isPremium);
 
+  const { verifyBannersUpdate } = useCheckUpdate();
+
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const lastBannersUpdate = new Date(
-      JSON.parse(localStorage.getItem('lastBannersUpdate')),
-    );
-    const actualBannerTime = new Date();
-    const verifyBannerUpdate = Math.abs(actualBannerTime - lastBannersUpdate);
-    const bannersMinutesDifference = Math.floor(verifyBannerUpdate / 60000);
+    const fetchBannersData = async () => {
+      try {
+        const firestoreBannersUpdate = await verifyBannersUpdate();
+        const lastBannersUpdate =
+          new Date(JSON.parse(localStorage.getItem('lastBannersUpdate'))) || 0;
 
-    if (bannersMinutesDifference > 60) {
-      dispatch(fetchBanners());
-    } else {
-      const courses = JSON.parse(localStorage.getItem('banners'));
-      dispatch(fetchBANNERSFromLocalStorage(courses));
-    }
+        const calcCourse = firestoreBannersUpdate - lastBannersUpdate;
+
+        if (calcCourse !== 0) {
+          dispatch(fetchBanners());
+        } else {
+          const banners = JSON.parse(localStorage.getItem('banners'));
+          dispatch(fetchBannersFromLocalStorage(banners));
+        }
+      } catch (error) {
+        console.error(
+          'Erro ao buscar a última atualização dos banners:',
+          error,
+        );
+      }
+    };
+
+    fetchBannersData();
   }, []);
 
   return (
-    <main className='h-screen overflow-y-auto bg-[#f0f0f0]'>
+    <main className='h-[100dvh] overflow-y-auto bg-[#f0f0f0]'>
       <Navbar title={'Início'} />
 
       <SearchBar type='course' />

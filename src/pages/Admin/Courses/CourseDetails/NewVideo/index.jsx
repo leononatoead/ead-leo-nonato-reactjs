@@ -5,7 +5,7 @@ import useVideo from '../../../../../hooks/useVideo';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AddVideoSchema } from './addVideoSchema';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import ButtonSubmit from '../../../../../components/Global/ButtonSubmit';
 import Input from '../../../../../components/Global/Input';
@@ -13,7 +13,7 @@ import Assets from '../../../../../components/Admin/NewVideo/Assets';
 import Advertisement from '../../../../../components/Admin/NewVideo/Advertisement';
 import Quiz from '../../../../../components/Admin/NewVideo/Quiz';
 import Survey from '../../../../../components/Admin/NewVideo/Survey';
-import { Box, Switch, Text } from '@chakra-ui/react';
+import { Box, Switch, Text, useToast } from '@chakra-ui/react';
 
 export default function NewVideo() {
   const [videoData, setVideoData] = useState({
@@ -47,6 +47,7 @@ export default function NewVideo() {
   const { uploadVideo, loading } = useVideo();
 
   const dispatch = useDispatch();
+  const toast = useToast();
 
   const {
     register,
@@ -109,7 +110,53 @@ export default function NewVideo() {
   };
 
   const handleAddVideo = (formData) => {
+    if (videoData.video.videoType && videoData.video.videoFile === null) {
+      return toast({
+        description: 'Adicione um arquivo vídeo',
+        status: 'error',
+        duration: '3000',
+        isClosable: true,
+      });
+    } else if (!videoData.video.videoType && !formData.videoPath) {
+      return toast({
+        description: 'Adicione um iframe válido',
+        status: 'error',
+        duration: '3000',
+        isClosable: true,
+      });
+    }
+
     let data = { ...formData };
+
+    if (formData.videoPath?.includes('pandavideo')) {
+      const idMatch = formData.videoPath.match(/id="([^"]+)"/);
+      const srcMatch = formData.videoPath.match(/src="([^"]+)"/);
+
+      const id = idMatch ? idMatch[1] : 'Nenhum ID encontrado';
+      const src = srcMatch ? srcMatch[1] : 'Nenhum SRC encontrado';
+
+      data = { ...data, videoFrame: { id, src }, videoPath: null };
+    } else {
+      data = { ...data, videoFrame: null };
+    }
+
+    if (formData.videoPath?.includes('youtube')) {
+      try {
+        const urlObj = new URL(formData.videoPath);
+        const check =
+          urlObj.protocol === 'http:' || urlObj.protocol === 'https:';
+        if (!check) {
+          return;
+        }
+      } catch {
+        return toast({
+          description: 'Adicione uma URL válida',
+          status: 'error',
+          duration: '3000',
+          isClosable: true,
+        });
+      }
+    }
 
     if (videoData.video.videoType) {
       data = {
@@ -153,9 +200,9 @@ export default function NewVideo() {
       };
     }
 
-    uploadVideo(data, `courses/${id}/videos`);
+    uploadVideo(id, data, `courses/${id}/videos`);
 
-    reset({ order: '', title: '', description: '' });
+    reset({ videoPath: '', order: '', title: '', description: '' });
   };
 
   useEffect(() => {
@@ -207,9 +254,11 @@ export default function NewVideo() {
         ) : (
           <Input
             theme={'light'}
-            type={'text'}
-            label={'Embed URL'}
-            placeholder={'www.exemplo.com'}
+            type={'textarea'}
+            label={'IFrame ou Embed URL'}
+            placeholder={
+              '<iframe id={...} src={...}></iframe> ou www.exemplo.com'
+            }
             register={register}
             id={'videoPath'}
             error={errors?.videoPath?.message}

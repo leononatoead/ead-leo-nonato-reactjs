@@ -90,7 +90,7 @@ input[type='number']::-webkit-inner-spin-button {
 /* DASHBOARD */
 
 .main-container {
-  @apply min-h-[calc(100vh-48px)] px-4 py-6 bg-gray-200;
+  @apply min-h-[calc(100dvh-48px)] px-4 py-6 bg-gray-200;
 }
 
 .add-btn {
@@ -105,4 +105,20 @@ input[type='number']::-webkit-inner-spin-button {
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+/* VIDEO PLAYER */
+
+.show-controls {
+  animation: showControls 0.3s ease;
+}
+
+@keyframes showControls {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }

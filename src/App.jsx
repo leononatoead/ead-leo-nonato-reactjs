@@ -18,45 +18,60 @@ import UserAuthenticated from './routes/UserAuthenticated';
 import UserUnAuthenticated from './routes/UserUnAuthenticated';
 import useAuth from './hooks/useAuth';
 import Loading from './pages/Loading';
+import useCheckUpdate from './hooks/useCheckUpdate';
 
 function App() {
   const { authUser, loadingAuth } = useAuth();
+  const { verifyCourseUpdate, verifyPostsUpdate } = useCheckUpdate();
   const user = useSelector((state) => state.auth.user);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const lastCoursesUpdate = new Date(
-      JSON.parse(localStorage.getItem('lastCoursesUpdate')),
-    );
-    const actualCourseTime = new Date();
-    const verifyCourseUpdate = Math.abs(actualCourseTime - lastCoursesUpdate);
-    const coursesMinutesDifference = Math.floor(verifyCourseUpdate / 60000);
+    const fetchCoursesData = async () => {
+      try {
+        const firestoreCoursesUpdate = await verifyCourseUpdate();
+        const lastCoursesUpdate =
+          new Date(JSON.parse(localStorage.getItem('lastCoursesUpdate'))) || 0;
 
-    if (coursesMinutesDifference > 60) {
-      dispatch(fetchCourses());
-    } else {
-      const courses = JSON.parse(localStorage.getItem('courses'));
-      dispatch(fetchCoursesFromLocalStorage(courses));
-    }
+        const calcCourse = firestoreCoursesUpdate - lastCoursesUpdate;
 
-    const lastPostsUpdate = new Date(
-      JSON.parse(localStorage.getItem('lastPostsUpdate')),
-    );
-    const actualPostTime = new Date();
-    const verifyPostUpdate = Math.abs(actualPostTime - lastPostsUpdate);
-    const postsMinutesDifference = Math.floor(verifyPostUpdate / 60000);
+        if (calcCourse !== 0) {
+          dispatch(fetchCourses());
+        } else {
+          const courses = JSON.parse(localStorage.getItem('courses'));
+          dispatch(fetchCoursesFromLocalStorage(courses));
+        }
+      } catch (error) {
+        console.error('Erro ao buscar a última atualização do curso:', error);
+      }
+    };
 
-    if (postsMinutesDifference > 10) {
-      dispatch(fetchPosts());
-    } else {
-      const posts = JSON.parse(localStorage.getItem('posts'));
-      const pages = JSON.parse(localStorage.getItem('pages'));
-      const currentPage = JSON.parse(localStorage.getItem('currentPage'));
+    const fetchPostData = async () => {
+      try {
+        const firestorePostsUpdate = await verifyPostsUpdate();
+        const lastPostsUpdate =
+          new Date(JSON.parse(localStorage.getItem('lastPostsUpdate'))) || 0;
 
-      const data = { posts, pages, currentPage };
-      dispatch(fetchPostsFromLocalStorage(data));
-    }
+        const calcPosts = firestorePostsUpdate - lastPostsUpdate;
+
+        if (calcPosts !== 0) {
+          dispatch(fetchPosts());
+        } else {
+          const posts = JSON.parse(localStorage.getItem('posts'));
+          const pages = JSON.parse(localStorage.getItem('pages'));
+          const currentPage = JSON.parse(localStorage.getItem('currentPage'));
+
+          const data = { posts, pages, currentPage };
+          dispatch(fetchPostsFromLocalStorage(data));
+        }
+      } catch (error) {
+        console.error('Erro ao buscar a última atualização dos posts:', error);
+      }
+    };
+
+    fetchCoursesData();
+    fetchPostData();
 
     authUser();
   }, []);

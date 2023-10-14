@@ -16,9 +16,6 @@ const bannersReducer = createSlice({
         localStorage.setItem('banners', storageBanners);
       }
 
-      const updatedAt = JSON.stringify(new Date());
-      localStorage.setItem('lastBannersUpdate', updatedAt);
-
       return { ...state, banners: [...banners, action.payload] };
     },
     editBanner: (state, action) => {
@@ -35,9 +32,6 @@ const bannersReducer = createSlice({
       const storageBanners = JSON.stringify([...updateBanners]);
       localStorage.setItem('banners', storageBanners);
 
-      const updatedAt = JSON.stringify(new Date());
-      localStorage.setItem('lastBannersUpdate', updatedAt);
-
       return { ...state, banners: updateBanners };
     },
     delBanner: (state, action) => {
@@ -49,15 +43,12 @@ const bannersReducer = createSlice({
       const storageBanners = JSON.stringify([...filterBanners]);
       localStorage.setItem('banners', storageBanners);
 
-      const updatedAt = JSON.stringify(new Date());
-      localStorage.setItem('lastBannersUpdate', updatedAt);
-
       return {
         ...state,
         banners: filterBanners,
       };
     },
-    fetchBANNERSFromLocalStorage: (state, action) => {
+    fetchBannersFromLocalStorage: (state, action) => {
       return { ...state, banners: action.payload };
     },
   },
@@ -65,9 +56,6 @@ const bannersReducer = createSlice({
     builder.addCase(fetchBanners.fulfilled, (state, action) => {
       const storageBanners = JSON.stringify([...action.payload]);
       localStorage.setItem('banners', storageBanners);
-
-      const updatedAt = JSON.stringify(new Date());
-      localStorage.setItem('lastBannersUpdate', updatedAt);
 
       return { ...state, banners: action.payload };
     });

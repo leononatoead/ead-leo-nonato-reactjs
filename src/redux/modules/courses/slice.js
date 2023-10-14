@@ -15,9 +15,6 @@ const courseReducer = createSlice({
         localStorage.setItem('courses', storageCourses);
       }
 
-      const updatedAt = JSON.stringify(new Date());
-      localStorage.setItem('lastCoursesUpdate', updatedAt);
-
       return {
         ...state,
         courses: [...state.courses, action.payload],
@@ -71,9 +68,6 @@ const courseReducer = createSlice({
       const storageCourses = JSON.stringify([...updatedCourseList]);
       localStorage.setItem('courses', storageCourses);
 
-      const updatedAt = JSON.stringify(new Date());
-      localStorage.setItem('lastCoursesUpdate', updatedAt);
-
       return {
         ...state,
         courses: updatedCourseList,
@@ -87,18 +81,17 @@ const courseReducer = createSlice({
       const storageCourses = JSON.stringify([...filterCourses]);
       localStorage.setItem('courses', storageCourses);
 
-      const updatedAt = JSON.stringify(new Date());
-      localStorage.setItem('lastCoursesUpdate', updatedAt);
-
       return {
         ...state,
         courses: filterCourses,
       };
     },
     addVideo: (state, action) => {
-      const newVideo = action.payload;
+      const newVideo = action.payload.videoData;
       const courses = JSON.parse(JSON.stringify([...state.courses]));
-      const course = courses.find((course) => course.id === newVideo.courseRef);
+      const course = courses.find(
+        (course) => course.id === action.payload.courseId,
+      );
 
       const updateCourseVideos = {
         ...course,
@@ -106,7 +99,7 @@ const courseReducer = createSlice({
       };
 
       const updatedCourseList = courses.map((course) => {
-        if (course.id === newVideo.courseRef) {
+        if (course.id === action.payload.courseId) {
           return updateCourseVideos;
         } else {
           return course;
@@ -115,9 +108,6 @@ const courseReducer = createSlice({
 
       const storageCourses = JSON.stringify([...updatedCourseList]);
       localStorage.setItem('courses', storageCourses);
-
-      const updatedAt = JSON.stringify(new Date());
-      localStorage.setItem('lastCoursesUpdate', updatedAt);
 
       return {
         ...state,
@@ -155,9 +145,6 @@ const courseReducer = createSlice({
       const storageCourses = JSON.stringify([...updatedCourseList]);
       localStorage.setItem('courses', storageCourses);
 
-      const updatedAt = JSON.stringify(new Date());
-      localStorage.setItem('lastCoursesUpdate', updatedAt);
-
       return {
         ...state,
         courses: updatedCourseList,
@@ -170,7 +157,7 @@ const courseReducer = createSlice({
         (course) => course.id === removedVideo.courseId,
       );
 
-      const updatedVideoList = course.videos.find(
+      const updatedVideoList = course.videos.filter(
         (video) => video.id !== removedVideo.videoId,
       );
 
@@ -190,9 +177,6 @@ const courseReducer = createSlice({
       const storageCourses = JSON.stringify([...updatedCourseList]);
       localStorage.setItem('courses', storageCourses);
 
-      const updatedAt = JSON.stringify(new Date());
-      localStorage.setItem('lastCoursesUpdate', updatedAt);
-
       return {
         ...state,
         courses: updatedCourseList,
@@ -210,9 +194,6 @@ const courseReducer = createSlice({
       .addCase(fetchCourses.fulfilled, (state, action) => {
         const storageCourses = JSON.stringify([...action.payload]);
         localStorage.setItem('courses', storageCourses);
-
-        const updatedAt = JSON.stringify(new Date());
-        localStorage.setItem('lastCoursesUpdate', updatedAt);
 
         return { ...state, courses: action.payload };
       })
@@ -238,8 +219,6 @@ const courseReducer = createSlice({
 
         const storageCourses = JSON.stringify(updatedCourseList);
         localStorage.setItem('courses', storageCourses);
-        const updatedAt = JSON.stringify(new Date());
-        localStorage.setItem('lastCoursesUpdate', updatedAt);
 
         return {
           ...state,

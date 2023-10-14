@@ -2,33 +2,46 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   fetchBanners,
-  fetchBANNERSFromLocalStorage,
+  fetchBannersFromLocalStorage,
 } from '../../../redux/modules/banners/actions';
 import { Link } from 'react-router-dom';
 
 import BannerCardAdmin from '../../../components/Admin/BannerCardAdmin';
 import { Box } from '@chakra-ui/react';
 import { MdAddCircleOutline } from 'react-icons/md';
+import useCheckUpdate from '../../../hooks/useCheckUpdate';
 
 export default function HomePanel() {
   const { banners } = useSelector((state) => state.banners);
 
+  const { verifyBannersUpdate } = useCheckUpdate();
+
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const lastBannersUpdate = new Date(
-      JSON.parse(localStorage.getItem('lastBannersUpdate')),
-    );
-    const actualBannerTime = new Date();
-    const verifyBannerUpdate = Math.abs(actualBannerTime - lastBannersUpdate);
-    const bannersMinutesDifference = Math.floor(verifyBannerUpdate / 60000);
+    const fetchBannersData = async () => {
+      try {
+        const firestoreBannersUpdate = await verifyBannersUpdate();
+        const lastBannersUpdate =
+          new Date(JSON.parse(localStorage.getItem('lastBannersUpdate'))) || 0;
 
-    if (bannersMinutesDifference > 60) {
-      dispatch(fetchBanners());
-    } else {
-      const courses = JSON.parse(localStorage.getItem('banners'));
-      dispatch(fetchBANNERSFromLocalStorage(courses));
-    }
+        const calcCourse = firestoreBannersUpdate - lastBannersUpdate;
+
+        if (calcCourse !== 0) {
+          dispatch(fetchBanners());
+        } else {
+          const banners = JSON.parse(localStorage.getItem('banners'));
+          dispatch(fetchBannersFromLocalStorage(banners));
+        }
+      } catch (error) {
+        console.error(
+          'Erro ao buscar a última atualização dos banners:',
+          error,
+        );
+      }
+    };
+
+    fetchBannersData();
   }, []);
 
   return (

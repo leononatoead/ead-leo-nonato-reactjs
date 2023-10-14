@@ -22,16 +22,20 @@ import {
   doc,
   deleteDoc,
   updateDoc,
+  setDoc,
 } from '@firebase/firestore';
 
 import { useToast } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 
 const uploadAssetFile = async (assetFile) => {
   if (assetFile.fileURL) {
     return assetFile;
   } else if (assetFile.file) {
     return new Promise((resolve, reject) => {
-      const firestoreAssetFileName = `courses/downloads/${Date.now()}${v4()}`;
+      const firestoreAssetFileName = `assets/${Date.now()}${v4()}-${
+        assetFile.file.name
+      }`;
       const assetStorageRef = ref(storage, firestoreAssetFileName);
       const uploadAssetTask = uploadBytesResumable(
         assetStorageRef,
@@ -148,90 +152,107 @@ const useVideo = () => {
 
   const dispatch = useDispatch();
   const toast = useToast();
+  const navigate = useNavigate();
 
-  const uploadVideo = async (videoData, docCollection) => {
+  const uploadVideo = async (courseId, videoData, docCollection) => {
     setLoading(true);
 
-    const assets = [];
+    try {
+      const assets = [];
 
-    const uploadAsset = async (assetFile) => {
-      if (assetFile.fileURL) {
-        assets.push(assetFile);
-      } else {
-        const firestoreAssetFileName = `courses/downloads/${Date.now()}${v4()}`;
-        const assetStorageRef = ref(storage, firestoreAssetFileName);
-        const path = await uploadToStorage(assetStorageRef, assetFile.file);
-        const fileObject = {
-          fileName: assetFile.fileName,
-          fileURL: path,
-          fileStorageRef: firestoreAssetFileName,
+      const uploadAsset = async (assetFile) => {
+        if (assetFile.fileURL) {
+          assets.push(assetFile);
+        } else {
+          const firestoreAssetFileName = `assets/${Date.now()}${v4()}-${
+            assetFile.file.name
+          }`;
+          const assetStorageRef = ref(storage, firestoreAssetFileName);
+          const path = await uploadToStorage(assetStorageRef, assetFile.file);
+          const fileObject = {
+            fileName: assetFile.fileName,
+            fileURL: path,
+            fileStorageRef: firestoreAssetFileName,
+          };
+
+          assets.push(fileObject);
+        }
+      };
+
+      if (videoData.assetsList) {
+        for (const assetFile of videoData.assetsList) {
+          await uploadAsset(assetFile);
+        }
+      }
+
+      let videoDataUpdated;
+
+      if (videoData.videoFile !== null) {
+        const firestoreVideoFileName = `videos/${Date.now()}${v4()}`;
+        const videoStorageRef = ref(storage, firestoreVideoFileName);
+
+        const URL = await uploadToStorage(videoStorageRef, videoData.videoFile);
+
+        videoDataUpdated = {
+          ...videoData,
+          videoPath: URL,
+          storageRef: firestoreVideoFileName,
+          createdAt: Timestamp.now(),
+          assetsList: assets,
         };
 
-        assets.push(fileObject);
+        delete videoDataUpdated.videoFile;
+      } else {
+        videoDataUpdated = {
+          ...videoData,
+          videoPath: videoData.videoPath,
+          createdAt: Timestamp.now(),
+          assetsList: assets,
+        };
       }
-    };
 
-    if (videoData.assetsList) {
-      for (const assetFile of videoData.assetsList) {
-        await uploadAsset(assetFile);
-      }
+      const videoRes = await addDoc(
+        collection(database, docCollection),
+        videoDataUpdated,
+      );
+
+      const updateTime = Timestamp.now();
+      const updateCollection = doc(database, 'updates', 'courses');
+      setDoc(updateCollection, { lastCoursesUpdate: updateTime });
+      const updatedAt = JSON.stringify(new Date(updateTime.toMillis()));
+      localStorage.setItem('lastCoursesUpdate', updatedAt);
+
+      dispatch(
+        addVideo({
+          videoData: {
+            id: videoRes.id,
+            ...videoDataUpdated,
+            createdAt: videoDataUpdated.createdAt.toMillis(),
+          },
+          courseId,
+        }),
+      );
+
+      toast({
+        description: 'Video adicionado com sucesso!',
+        status: 'success',
+        duration: '3000',
+        isClosable: true,
+      });
+
+      navigate(`/dashboard/courses/${courseId}`);
+    } catch (error) {
+      toast({
+        description: error.message,
+        status: 'error',
+        duration: '3000',
+        isClosable: true,
+      });
+
+      console.log(error);
+    } finally {
+      setLoading(false);
     }
-
-    let videoDataUpdated;
-
-    if (videoData.videoFile !== null) {
-      const firestoreVideoFileName = `${docCollection}/${Date.now()}${v4()}`;
-      const videoStorageRef = ref(storage, firestoreVideoFileName);
-
-      const URL = await uploadToStorage(videoStorageRef, videoData.videoFile);
-
-      videoDataUpdated = {
-        ...videoData,
-        videoPath: URL,
-        storageRef: firestoreVideoFileName,
-        createdAt: Timestamp.now(),
-        assetsList: assets,
-      };
-
-      delete videoDataUpdated.videoFile;
-      delete videoDataUpdated.assetsList;
-      if (assets.length === 0) {
-        delete videoDataUpdated.assets;
-      }
-    } else {
-      videoDataUpdated = {
-        ...videoData,
-        videoPath: videoData.videoPath,
-        createdAt: Timestamp.now(),
-        assetsList: assets,
-      };
-
-      delete videoDataUpdated.assetsList;
-      if (assets.length === 0) {
-        delete videoDataUpdated.assets;
-      }
-    }
-
-    const videoRes = await addDoc(
-      collection(database, docCollection),
-      videoDataUpdated,
-    );
-
-    dispatch(
-      addVideo({
-        id: videoRes.id,
-        ...videoDataUpdated,
-        createdAt: videoDataUpdated.createdAt.toMillis(),
-      }),
-    );
-
-    toast({
-      description: 'Video adicionado com sucesso!',
-      status: 'success',
-      duration: '3000',
-      isClosable: true,
-    });
-    setLoading(false);
   };
 
   const updateVideo = async (
@@ -272,7 +293,7 @@ const useVideo = () => {
 
       let videoData;
       if (updatedVideoData?.videoFile) {
-        const firestoreFileName = `${docCollection}/${Date.now()}${v4()}`;
+        const firestoreFileName = `videos/${Date.now()}${v4()}`;
         const storageRef = ref(storage, firestoreFileName);
         const URL = await uploadToStorage(
           storageRef,
@@ -301,6 +322,12 @@ const useVideo = () => {
       const videoRef = doc(database, docCollection, oldVideoData.id);
       await updateDoc(videoRef, videoData);
 
+      const updateTime = Timestamp.now();
+      const updateCollection = doc(database, 'updates', 'courses');
+      setDoc(updateCollection, { lastCoursesUpdate: updateTime });
+      const updatedAt = JSON.stringify(new Date(updateTime.toMillis()));
+      localStorage.setItem('lastCoursesUpdate', updatedAt);
+
       dispatch(
         editVideo({
           videoData: {
@@ -317,6 +344,8 @@ const useVideo = () => {
         duration: '3000',
         isClosable: true,
       });
+
+      navigate(`/dashboard/courses/${courseId}`);
     } catch (error) {
       toast({
         description: error.message,
@@ -342,14 +371,20 @@ const useVideo = () => {
         await deleteObject(fileRef);
       }
 
-      if (video.assets) {
-        video.assets.forEach(async (file) => {
+      if (video.assetsList) {
+        video.assetsList.forEach(async (file) => {
           if (file.fileStorageRef) {
             const fileRef = ref(storage, file.fileStorageRef);
             await deleteObject(fileRef);
           }
         });
       }
+
+      const updateTime = Timestamp.now();
+      const updateCollection = doc(database, 'updates', 'courses');
+      setDoc(updateCollection, { lastCoursesUpdate: updateTime });
+      const updatedAt = JSON.stringify(new Date(updateTime.toMillis()));
+      localStorage.setItem('lastCoursesUpdate', updatedAt);
 
       dispatch(delVideo({ courseId, videoId: video.id }));
     } catch (error) {

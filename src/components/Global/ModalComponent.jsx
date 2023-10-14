@@ -32,7 +32,7 @@ export default function ModalComponent({
                 onClick={handleCloseModal}
                 className='border-none bg-transparent absolute right-4 outline-none'
               >
-                <RiCloseFill alt='close' className='w-4' />
+                <RiCloseFill className='w-4' />
               </button>
             )}
           </Box>

@@ -49,7 +49,7 @@ export default function Register() {
       color='white'
       borderBottom={'1px'}
       borderBottomColor={'primary-400'}
-      className='relative bg-gray-200 min-h-screen'
+      className='relative bg-gray-200 min-h-[100dvh]'
       display={{ base: 'block', lg: 'flex' }}
     >
       {/* CONTAINER VIDEO */}
