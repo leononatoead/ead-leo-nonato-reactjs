@@ -292,7 +292,8 @@ const useVideo = () => {
       }
 
       let videoData;
-      if (updatedVideoData?.videoFile) {
+
+      if (updatedVideoData.videoFile) {
         const firestoreFileName = `videos/${Date.now()}${v4()}`;
         const storageRef = ref(storage, firestoreFileName);
         const URL = await uploadToStorage(
@@ -300,24 +301,34 @@ const useVideo = () => {
           updatedVideoData.videoFile,
         );
 
-        const fileRef = ref(storage, oldVideoData.storageRef);
-        await deleteObject(fileRef);
+        if (oldVideoData.storageRef) {
+          const fileRef = ref(storage, oldVideoData.storageRef);
+          await deleteObject(fileRef);
+        }
 
         videoData = {
           ...updatedVideoData,
-          assetsList: updatedAssets,
-          createdAt: Timestamp.fromMillis(oldVideoData.createdAt),
           videoPath: URL,
           storageRef: firestoreFileName,
+        };
+
+        delete videoData.videoFile;
+      } else if (updatedVideoData.videoPath || updatedVideoData.videoFrame) {
+        videoData = {
+          ...updatedVideoData,
+          storageRef: null,
         };
       } else {
         videoData = {
           ...updatedVideoData,
-          assetsList: updatedAssets,
-          createdAt: Timestamp.fromMillis(oldVideoData.createdAt),
-          storageRef: oldVideoData.storageRef ? oldVideoData.storageRef : null,
         };
       }
+
+      videoData = {
+        ...videoData,
+        assetsList: updatedAssets,
+        createdAt: Timestamp.fromMillis(oldVideoData.createdAt),
+      };
 
       const videoRef = doc(database, docCollection, oldVideoData.id);
       await updateDoc(videoRef, videoData);

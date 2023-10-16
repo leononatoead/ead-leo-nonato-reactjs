@@ -168,6 +168,15 @@ export default function EditVideo() {
       };
     }
 
+    if (!formData.videoPath) {
+      delete data.videoPath;
+      delete data.videoFrame;
+    }
+
+    if (formData.videoPath) {
+      delete data.storageRef;
+    }
+
     updateVideo(id, video, data, `courses/${id}/videos`);
   };
 
