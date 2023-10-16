@@ -64,7 +64,7 @@ export default function VideoPlayer({ video, size, setVideoPlayer }) {
             <button onClick={togglePlayingState}>
               {videoPlayerState.playing ? <FaPause /> : <FaPlay />}
             </button>
-            <Box>{`${videoPlayerState.currentTime.toFixed(0)}`}</Box>
+            {/* <Box>{`${videoPlayerState.currentTime.toFixed(0)}`}</Box> */}
 
             <Slider
               defaultValue={0}
@@ -79,7 +79,7 @@ export default function VideoPlayer({ video, size, setVideoPlayer }) {
               <SliderThumb />
             </Slider>
 
-            <Box>{` ${videoPlayerState.duration.toFixed(0)}`}</Box>
+            {/* <Box>{` ${videoPlayerState.duration.toFixed(0)}`}</Box> */}
             <button
               className='relative'
               onClick={() => setShowVolumeSlider((prev) => !prev)}

@@ -254,7 +254,7 @@ export default function NewVideo() {
         ) : (
           <Input
             theme={'light'}
-            type={'textarea'}
+            type={'code'}
             label={'IFrame ou Embed URL'}
             placeholder={
               '<iframe id={...} src={...}></iframe> ou www.exemplo.com'

@@ -2,6 +2,7 @@ import { useLocation, useNavigate } from 'react-router';
 import { RiArrowUpSLine } from 'react-icons/ri';
 import { MdOutlineSkipNext } from 'react-icons/md';
 import { Box, Text } from '@chakra-ui/react';
+import NextVideoIcon from '../../../assets/next-icon.svg';
 
 export default function VideoList({ videoPlayer, setVideoPlayer }) {
   const { pathname } = useLocation();
@@ -60,15 +61,17 @@ export default function VideoList({ videoPlayer, setVideoPlayer }) {
         </Box>
         <Box className='flex gap-5'>
           {nextVideo && (
-            <button onClick={handlePlayNext}>
-              <MdOutlineSkipNext alt='next' size={20} />
+            <button onClick={handlePlayNext} className='w-6'>
+              <img src={NextVideoIcon} alt='next' className='!w-6 !h-6' />
             </button>
           )}
           <button onClick={handleOpenList}>
             <RiArrowUpSLine
               size={25}
               alt='view-all'
-              className={` ${videoPlayer.showVideoList && 'rotate-180'}`}
+              className={` ${
+                videoPlayer.showVideoList && 'rotate-180'
+              } text-gray-950`}
             />
           </button>
         </Box>
