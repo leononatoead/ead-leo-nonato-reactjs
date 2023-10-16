@@ -1,8 +1,9 @@
-import { Box, Text } from '@chakra-ui/react';
 import { useState } from 'react';
+import { Box, Text } from '@chakra-ui/react';
 import { AiOutlineFileText, AiOutlineStar } from 'react-icons/ai';
 import { BsCheck2Circle } from 'react-icons/bs';
 import { RiArrowDownSLine } from 'react-icons/ri';
+import { MdFormatListNumbered } from 'react-icons/md';
 
 export default function VideoContent({ videoData, setVideoData }) {
   const [showDescription, setShowDescription] = useState(false);
@@ -11,7 +12,17 @@ export default function VideoContent({ videoData, setVideoData }) {
     setVideoData((prev) => ({
       ...prev,
       showVideoList: false,
+      showQuestionsList: false,
       showAssetsList: true,
+    }));
+  };
+
+  const handleSelectQuestions = () => {
+    setVideoData((prev) => ({
+      ...prev,
+      showVideoList: false,
+      showAssetsList: false,
+      showQuestionsList: true,
     }));
   };
 
@@ -19,7 +30,6 @@ export default function VideoContent({ videoData, setVideoData }) {
     setShowDescription((prev) => !prev);
   };
 
-  console.log(videoData);
   return (
     <Box className='pt-2 '>
       <Box className='px-4 flex flex-col gap-[6px]'>
@@ -55,6 +65,15 @@ export default function VideoContent({ videoData, setVideoData }) {
             <Text className='text-small text-gray-950 leading-4'>
               Materiais
             </Text>
+          </button>
+        )}
+        {videoData.questionsList.length > 0 && (
+          <button
+            onClick={handleSelectQuestions}
+            className='rounded-md px-3 py-2 w-[97px] h-[60px] border-[1px] border-gray-250 bg-gray-250 flex flex-col items-center justify-center gap-1'
+          >
+            <MdFormatListNumbered className='text-gray-950 ' size={20} />
+            <Text className='text-small text-gray-950 leading-4'>Questões</Text>
           </button>
         )}
         <button className='rounded-md px-3 py-2 w-[97px] h-[60px] border-[1px] border-gray-250 bg-gray-250 flex flex-col items-center justify-center gap-1'>

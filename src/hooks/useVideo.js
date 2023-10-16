@@ -310,6 +310,7 @@ const useVideo = () => {
           ...updatedVideoData,
           videoPath: URL,
           storageRef: firestoreFileName,
+          videoFrame: null,
         };
 
         delete videoData.videoFile;

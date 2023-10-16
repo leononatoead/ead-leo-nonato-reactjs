@@ -14,8 +14,9 @@ export default function AssetsList({ assetList, videoPlayer, setVideoPlayer }) {
   const handleCloseList = () => {
     setVideoPlayer((prev) => ({
       ...prev,
-      // showVideoList: !prev.showVideoList,
-      showAssetsList: !prev.showAssetsList,
+      showVideoList: false,
+      showAssetsList: false,
+      showQuestionsList: false,
     }));
   };
 

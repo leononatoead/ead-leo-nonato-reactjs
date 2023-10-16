@@ -10,6 +10,7 @@ import PremiumCourse from '../../../components/Global/PremiumCourse';
 import VideoContent from './VideoContent';
 import { Box } from '@chakra-ui/react';
 import AssetsList from './AssetsList';
+import QuestionsList from './QuestionsList';
 
 export default function CourseWatch() {
   const { pathname } = useLocation();
@@ -25,6 +26,7 @@ export default function CourseWatch() {
     timeLeft: 30,
     showVideoList: false,
     showAssetsList: false,
+    showQuestionsList: false,
   });
 
   const [locked, setLocked] = useState(null);
@@ -125,15 +127,17 @@ export default function CourseWatch() {
               </Box>
             )}
 
-            {!videoPlayer.showVideoList && !videoPlayer.showAssetsList && (
-              <VideoContent
-                videoData={videoPlayer?.active}
-                setVideoData={setVideoPlayer}
-              />
-            )}
+            {!videoPlayer.showVideoList &&
+              !videoPlayer.showAssetsList &&
+              !videoPlayer.showQuestionsList && (
+                <VideoContent
+                  videoData={videoPlayer?.active}
+                  setVideoData={setVideoPlayer}
+                />
+              )}
           </Box>
 
-          {!videoPlayer.showAssetsList && (
+          {!videoPlayer.showAssetsList && !videoPlayer.showQuestionsList && (
             <VideoList
               videoPlayer={videoPlayer}
               setVideoPlayer={setVideoPlayer}
@@ -143,6 +147,14 @@ export default function CourseWatch() {
           {videoPlayer.showAssetsList && (
             <AssetsList
               assetList={videoPlayer.active.assetsList}
+              videoPlayer={videoPlayer}
+              setVideoPlayer={setVideoPlayer}
+            />
+          )}
+
+          {videoPlayer.showQuestionsList && (
+            <QuestionsList
+              questionsList={videoPlayer.active.questionsList}
               videoPlayer={videoPlayer}
               setVideoPlayer={setVideoPlayer}
             />
