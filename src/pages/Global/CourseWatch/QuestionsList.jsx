@@ -4,7 +4,6 @@ import { RiCloseFill } from "react-icons/ri";
 
 export default function QuestionsList({
   questionsList,
-  videoPlayer,
   setVideoPlayer,
   setQuizData,
 }) {
@@ -64,11 +63,7 @@ export default function QuestionsList({
   }, []);
 
   return (
-    <Box
-      className={`bottom-0 w-full bg-white ${
-        videoPlayer.showQuestionsList && "flex-grow"
-      }`}
-    >
+    <Box>
       <Box className="flex items-center justify-between p-4 pb-2">
         <Text className="font-poppins text-normal font-medium leading-6">
           Atividade

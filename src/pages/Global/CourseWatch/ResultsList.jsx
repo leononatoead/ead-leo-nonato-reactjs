@@ -1,12 +1,6 @@
 import { useEffect, useState } from "react";
-import {
-  Alert,
-  AlertIcon,
-  Box,
-  Radio,
-  RadioGroup,
-  Text,
-} from "@chakra-ui/react";
+import { Alert, AlertIcon, Box, Text } from "@chakra-ui/react";
+import { BiSolidCheckboxChecked } from "react-icons/bi";
 
 export default function ResultsList({ questionsList, setResults }) {
   const [questions, setQuestions] = useState({});
@@ -53,7 +47,12 @@ export default function ResultsList({ questionsList, setResults }) {
               <Box className="flex w-full items-center justify-between">
                 <Text>{active?.question?.firstAnswer}</Text>
                 <Text className="font-bold">
-                  {active?.userAnswer === 1 && "Selecionada"}
+                  {active?.userAnswer === 1 && (
+                    <BiSolidCheckboxChecked
+                      size={30}
+                      className="text-primary-400"
+                    />
+                  )}
                 </Text>
               </Box>
             </Alert>
@@ -66,7 +65,12 @@ export default function ResultsList({ questionsList, setResults }) {
               <Box className="flex w-full items-center justify-between">
                 <Text>{active?.question?.secondAnswer}</Text>
                 <Text className="font-bold">
-                  {active?.userAnswer === 2 && "Selecionada"}
+                  {active?.userAnswer === 2 && (
+                    <BiSolidCheckboxChecked
+                      size={30}
+                      className="text-primary-400"
+                    />
+                  )}
                 </Text>
               </Box>
             </Alert>
@@ -79,7 +83,12 @@ export default function ResultsList({ questionsList, setResults }) {
               <Box className="flex w-full items-center justify-between">
                 <Text>{active?.question?.thirdAnswer}</Text>
                 <Text className="font-bold">
-                  {active?.userAnswer === 3 && "Selecionada"}
+                  {active?.userAnswer === 3 && (
+                    <BiSolidCheckboxChecked
+                      size={30}
+                      className="text-primary-400"
+                    />
+                  )}
                 </Text>
               </Box>
             </Alert>
@@ -92,7 +101,12 @@ export default function ResultsList({ questionsList, setResults }) {
               <Box className="flex w-full items-center justify-between">
                 <Text>{active?.question?.fourthAnswer}</Text>
                 <Text className="font-bold">
-                  {active?.userAnswer === 4 && "Selecionada"}
+                  {active?.userAnswer === 4 && (
+                    <BiSolidCheckboxChecked
+                      size={30}
+                      className="text-primary-400"
+                    />
+                  )}
                 </Text>
               </Box>
             </Alert>

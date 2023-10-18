@@ -4,7 +4,7 @@ import { RiCloseFill } from "react-icons/ri";
 import { BsCheckLg } from "react-icons/bs";
 import ResultsList from "./ResultsList";
 
-export default function QuizResult({ quizData, videoPlayer, setVideoPlayer }) {
+export default function QuizResult({ quizData, setVideoPlayer }) {
   const [results, setResults] = useState({
     results: null,
     totalQuestions: null,
@@ -41,11 +41,7 @@ export default function QuizResult({ quizData, videoPlayer, setVideoPlayer }) {
   }, []);
 
   return (
-    <Box
-      className={`bottom-0 w-full bg-white ${
-        videoPlayer.showQuestionsList && "flex-grow"
-      } flex flex-col`}
-    >
+    <>
       <Box className="flex items-center justify-between p-4 pb-2">
         <Text className="font-poppins text-normal font-medium leading-6">
           Resultado
@@ -91,6 +87,6 @@ export default function QuizResult({ quizData, videoPlayer, setVideoPlayer }) {
           </Box>
         </Box>
       )}
-    </Box>
+    </>
   );
 }
