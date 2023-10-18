@@ -1,16 +1,17 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchVideos } from '../../../redux/modules/courses/actions';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchVideos } from "../../../redux/modules/courses/actions";
+import { useLocation, useNavigate } from "react-router-dom";
 
-import Navbar from '../../../components/Global/Navbar';
-import VideoList from './VideoList';
-import VideoPlayer from './VideoPlayer';
-import PremiumCourse from '../../../components/Global/PremiumCourse';
-import VideoContent from './VideoContent';
-import { Box } from '@chakra-ui/react';
-import AssetsList from './AssetsList';
-import QuestionsList from './QuestionsList';
+import Navbar from "../../../components/Global/Navbar";
+import VideoList from "./VideoList";
+import VideoPlayer from "./VideoPlayer";
+import PremiumCourse from "../../../components/Global/PremiumCourse";
+import VideoContent from "./VideoContent";
+import { Box } from "@chakra-ui/react";
+import AssetsList from "./AssetsList";
+import QuestionsList from "./QuestionsList";
+import Quiz from "./Quiz";
 
 export default function CourseWatch() {
   const { pathname } = useLocation();
@@ -20,8 +21,8 @@ export default function CourseWatch() {
   const [videoPlayer, setVideoPlayer] = useState({
     active: {},
     videoList: [],
-    sectionName: '',
-    playerSize: 'full',
+    sectionName: "",
+    playerSize: "full",
     isLocked: false,
     timeLeft: 30,
     showVideoList: false,
@@ -35,7 +36,7 @@ export default function CourseWatch() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const pathParams = pathname.split('/');
+    const pathParams = pathname.split("/");
     const id = pathParams[2];
     const videoId = pathParams[3];
     const course = courses?.find((course) => course.id === id);
@@ -88,14 +89,14 @@ export default function CourseWatch() {
   }, [courses]);
 
   return (
-    <main className='min-h-[100dvh] bg-[#F3F3F3] flex flex-col'>
+    <main className="flex min-h-[100dvh] flex-col bg-[#F3F3F3]">
       <Navbar title={videoPlayer?.sectionName} />
       {videoPlayer?.videoList?.length === 0 ? (
         <h1>Nenhuma aula.</h1>
       ) : (
-        <div className='flex flex-col justify-between flex-1'>
+        <div className="flex flex-1 flex-col justify-between">
           <Box>
-            {videoPlayer?.active?.videoPath?.includes('firebasestorage') && (
+            {videoPlayer?.active?.videoPath?.includes("firebasestorage") && (
               <VideoPlayer
                 video={videoPlayer?.active}
                 size={videoPlayer?.playerSize}
@@ -103,25 +104,25 @@ export default function CourseWatch() {
               />
             )}
 
-            {videoPlayer?.active?.videoPath?.includes('youtube') && (
-              <Box className='flex flex-col items-start justify-between p-4'>
+            {videoPlayer?.active?.videoPath?.includes("youtube") && (
+              <Box className="flex flex-col items-start justify-between p-4">
                 <iframe
-                  className='w-full max-h-[80vh] rounded-lg min-h-[192px] md:min-h-[400px]'
+                  className="max-h-[80vh] min-h-[192px] w-full rounded-lg md:min-h-[400px]"
                   src={videoPlayer.active.videoPath}
                   title={videoPlayer.active.title}
-                  allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowFullScreen
                 ></iframe>
               </Box>
             )}
 
             {videoPlayer?.active?.videoFrame && (
-              <Box className='flex flex-col items-start justify-between p-4 min-h-[192px]'>
+              <Box className="flex min-h-[192px] flex-col items-start justify-between p-4">
                 <iframe
-                  className='w-full max-h-[80vh] rounded-lg min-h-[192px] md:min-h-[400px]'
+                  className="max-h-[80vh] min-h-[192px] w-full rounded-lg md:min-h-[400px]"
                   id={videoPlayer.active.videoFrame.id}
                   src={videoPlayer.active.videoFrame.src}
-                  allow='accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture'
+                  allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture"
                   allowFullScreen={true}
                 ></iframe>
               </Box>
@@ -153,20 +154,16 @@ export default function CourseWatch() {
           )}
 
           {videoPlayer.showQuestionsList && (
-            <QuestionsList
-              questionsList={videoPlayer.active.questionsList}
-              videoPlayer={videoPlayer}
-              setVideoPlayer={setVideoPlayer}
-            />
+            <Quiz videoPlayer={videoPlayer} setVideoPlayer={setVideoPlayer} />
           )}
         </div>
       )}
       <PremiumCourse
         open={locked}
         close={setLocked}
-        title={'Conteúdo disponível para assinantes'}
-        text={'Tenha acesso total a este curso assinando a plataforma'}
-        btnText={'Assine já'}
+        title={"Conteúdo disponível para assinantes"}
+        text={"Tenha acesso total a este curso assinando a plataforma"}
+        btnText={"Assine já"}
         closeBtn={false}
       />
     </main>

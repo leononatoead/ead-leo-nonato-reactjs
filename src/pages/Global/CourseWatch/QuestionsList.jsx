@@ -6,6 +6,7 @@ export default function QuestionsList({
   questionsList,
   videoPlayer,
   setVideoPlayer,
+  setQuizData,
 }) {
   const [questions, setQuestions] = useState({});
   const [active, setActive] = useState({});
@@ -49,7 +50,7 @@ export default function QuestionsList({
   };
 
   const handleFinish = () => {
-    console.log(questions);
+    setQuizData((prev) => ({ ...prev, isFinished: true, results: questions }));
   };
 
   useEffect(() => {
