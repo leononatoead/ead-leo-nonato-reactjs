@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
-import { Box, Radio, RadioGroup, Text } from '@chakra-ui/react';
-import { RiCloseFill } from 'react-icons/ri';
+import { useEffect, useState } from "react";
+import { Box, Radio, RadioGroup, Text } from "@chakra-ui/react";
+import { RiCloseFill } from "react-icons/ri";
 
 export default function QuestionsList({
   questionsList,
@@ -64,75 +64,75 @@ export default function QuestionsList({
 
   return (
     <Box
-      className={`w-full bottom-0 bg-white ${
-        videoPlayer.showQuestionsList && 'flex-grow'
+      className={`bottom-0 w-full bg-white ${
+        videoPlayer.showQuestionsList && "flex-grow"
       }`}
     >
-      <Box className='p-4 pb-2 flex justify-between items-center'>
-        <Text className='text-normal font-medium leading-6 font-poppins'>
+      <Box className="flex items-center justify-between p-4 pb-2">
+        <Text className="font-poppins text-normal font-medium leading-6">
           Atividade
         </Text>
         <button onClick={handleCloseList}>
-          <RiCloseFill alt='close' size={20} />
+          <RiCloseFill alt="close" size={20} />
         </button>
       </Box>
       <Box>
         {active && (
           <Box>
-            <Text className='pt-4 pb-8 px-4'>{active?.question?.question}</Text>
-            <Box className='w-full border-b bg-gray-950'></Box>
+            <Text className="px-4 pb-8 pt-4">{active?.question?.question}</Text>
+            <Box className="w-full border-b bg-gray-950"></Box>
             <RadioGroup
-              className='px-4 py-6 flex flex-col gap-4'
+              className="flex flex-col gap-4 px-4 py-6"
               onChange={handleSelectAnswer}
             >
-              <Box className='px-5 flex gap-4 !bg-gray-150 py-4 border-l-[5px] border-l-gray-450'>
+              <Box className="flex gap-4 border-l-[5px] border-l-gray-450 !bg-gray-150 px-5 py-4">
                 <Radio
-                  value='1'
-                  size='lg'
-                  colorScheme='gray'
-                  className='!border-gray-450 !border-[3px] '
+                  value="1"
+                  size="lg"
+                  colorScheme="gray"
+                  className="!border-[3px] !border-gray-450 "
                 ></Radio>
                 <Text>{active?.question?.firstAnswer}</Text>
               </Box>
-              <Box className='px-5 flex gap-4 !bg-gray-150 py-4 border-l-[5px] border-l-gray-450'>
+              <Box className="flex gap-4 border-l-[5px] border-l-gray-450 !bg-gray-150 px-5 py-4">
                 <Radio
-                  value='2'
-                  size='lg'
-                  colorScheme='gray'
-                  className='!border-gray-450 !border-[3px]'
+                  value="2"
+                  size="lg"
+                  colorScheme="gray"
+                  className="!border-[3px] !border-gray-450"
                 ></Radio>
                 <Text>{active?.question?.secondAnswer}</Text>
               </Box>
-              <Box className='px-5 flex gap-4 !bg-gray-150 py-4 border-l-[5px] border-l-gray-450'>
+              <Box className="flex gap-4 border-l-[5px] border-l-gray-450 !bg-gray-150 px-5 py-4">
                 <Radio
-                  value='3'
-                  size='lg'
-                  colorScheme='gray'
-                  className='!border-gray-450 !border-[3px]'
+                  value="3"
+                  size="lg"
+                  colorScheme="gray"
+                  className="!border-[3px] !border-gray-450"
                 ></Radio>
                 <Text>{active?.question?.thirdAnswer}</Text>
               </Box>
-              <Box className='px-5 flex gap-4 !bg-gray-150 py-4 border-l-[5px] border-l-gray-450'>
+              <Box className="flex gap-4 border-l-[5px] border-l-gray-450 !bg-gray-150 px-5 py-4">
                 <Radio
-                  value='4'
-                  size='lg'
-                  colorScheme='gray'
-                  className='!border-gray-450 !border-[3px]'
+                  value="4"
+                  size="lg"
+                  colorScheme="gray"
+                  className="!border-[3px] !border-gray-450"
                 ></Radio>
-                <Text>{active?.question?.fourthAnswer}</Text>{' '}
+                <Text>{active?.question?.fourthAnswer}</Text>{" "}
               </Box>
             </RadioGroup>
             <Box
-              className={`px-4 w-full flex  gap-4 ${
+              className={`flex w-full gap-4  px-4 ${
                 questions[0]?.question === active?.question
-                  ? 'justify-end'
-                  : 'justify-between'
+                  ? "justify-end"
+                  : "justify-between"
               }`}
             >
               {questions[0]?.question !== active?.question && (
                 <button
                   onClick={handleSelectLastQuestion}
-                  className='w-1/2 bg-primary-400 text-white text-base leading-5  rounded-sm py-[6px]'
+                  className="w-1/2 rounded-sm bg-primary-400 py-[6px] text-base  leading-5 text-white"
                 >
                   Anterior
                 </button>
@@ -141,7 +141,7 @@ export default function QuestionsList({
                 active?.question && (
                 <button
                   onClick={handleSelectNextQuestion}
-                  className='w-1/2 bg-primary-400 text-white text-base leading-5  rounded-sm py-[6px] disabled:bg-gray-700'
+                  className="w-1/2 rounded-sm bg-primary-400 py-[6px] text-base  leading-5 text-white disabled:bg-gray-700"
                   disabled={!active.userAnswer}
                 >
                   Próxima
@@ -151,7 +151,7 @@ export default function QuestionsList({
                 active?.question && (
                 <button
                   onClick={handleFinish}
-                  className='w-1/2 bg-primary-400 text-white text-base leading-5  rounded-sm py-[6px] disabled:bg-gray-700'
+                  className="w-1/2 rounded-sm bg-primary-400 py-[6px] text-base  leading-5 text-white disabled:bg-gray-700"
                   disabled={!active.userAnswer}
                 >
                   Finalizar
