@@ -1,12 +1,12 @@
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { auth, database, storage } from '../firebase/config';
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { auth, database, storage } from "../firebase/config";
 import {
   updateProfileImage,
   verifyAuthentication,
-} from '../redux/modules/auth/actions';
-import { useToast } from '@chakra-ui/react';
+} from "../redux/modules/auth/actions";
+import { useToast } from "@chakra-ui/react";
 
 import {
   createUserWithEmailAndPassword,
@@ -17,16 +17,16 @@ import {
   updatePassword,
   deleteUser,
   onAuthStateChanged,
-} from 'firebase/auth';
+} from "firebase/auth";
 
-import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import {
   deleteObject,
   getDownloadURL,
   ref,
   uploadBytesResumable,
-} from 'firebase/storage';
-import { v4 } from 'uuid';
+} from "firebase/storage";
+import { v4 } from "uuid";
 
 const useAuth = () => {
   const [loadingAuth, setLoadingAuth] = useState(true);
@@ -38,7 +38,7 @@ const useAuth = () => {
 
   const actionCodeSettings = {
     url: `${import.meta.env.VITE_VERCEL_APP_URL}/verify-success`,
-    locale: 'pt-br',
+    locale: "pt-br",
   };
 
   const getUserData = async (uid) => {
@@ -57,22 +57,16 @@ const useAuth = () => {
 
     onAuthStateChanged(auth, async (user) => {
       if (user) {
-        const lastUserUpdate = new Date(
-          JSON.parse(localStorage.getItem('lastUserUpdate')),
-        );
-        const actualUserTime = new Date();
-        const verifyUserUpdate = Math.abs(actualUserTime - lastUserUpdate);
-        const userMinutesDifference = Math.floor(verifyUserUpdate / 60000);
+        const storageData = JSON.parse(localStorage.getItem("user"));
 
         let userData;
 
-        if (userMinutesDifference > 1440) {
+        if (!storageData) {
           const collectionData = await getUserData(user.uid);
           userData = {
             ...collectionData,
           };
         } else {
-          const storageData = JSON.parse(localStorage.getItem('user'));
           userData = {
             ...storageData,
           };
@@ -104,11 +98,11 @@ const useAuth = () => {
     } catch (error) {
       toast({
         description: error.message,
-        status: 'error',
-        duration: '3000',
+        status: "error",
+        duration: "3000",
         isClosable: true,
       });
-      navigate('/');
+      navigate("/");
     } finally {
       setLoading(false);
     }
@@ -132,24 +126,24 @@ const useAuth = () => {
         cpf: registerData.cpf,
       };
 
-      await setDoc(doc(database, 'users', user.uid), userData);
+      await setDoc(doc(database, "users", user.uid), userData);
 
       sendEmailVerification(user, actionCodeSettings);
 
-      navigate('/verify-phone');
+      navigate("/verify-phone");
     } catch (error) {
-      if (error.message.includes('email-already-in-use')) {
+      if (error.message.includes("email-already-in-use")) {
         toast({
-          description: 'E-mail já cadastrado.',
-          status: 'error',
-          duration: '3000',
+          description: "E-mail já cadastrado.",
+          status: "error",
+          duration: "3000",
           isClosable: true,
         });
       } else {
         toast({
           description: error.message,
-          status: 'error',
-          duration: '3000',
+          status: "error",
+          duration: "3000",
           isClosable: true,
         });
       }
@@ -165,8 +159,8 @@ const useAuth = () => {
     } catch (error) {
       toast({
         description: error.message,
-        status: 'error',
-        duration: '3000',
+        status: "error",
+        duration: "3000",
         isClosable: true,
       });
     } finally {
@@ -179,7 +173,7 @@ const useAuth = () => {
     try {
       const actionCodeSettings = {
         url: `${import.meta.env.VITE_VERCEL_APP_URL}/change-password-success`,
-        locale: 'pt-br',
+        locale: "pt-br",
       };
 
       await sendPasswordResetEmail(auth, email, actionCodeSettings);
@@ -187,8 +181,8 @@ const useAuth = () => {
     } catch (error) {
       toast({
         description: error.message,
-        status: 'error',
-        duration: '3000',
+        status: "error",
+        duration: "3000",
         isClosable: true,
       });
       setSuccess(false);
@@ -203,19 +197,19 @@ const useAuth = () => {
       await updatePassword(auth.currentUser, newPassword);
       setSuccess(true);
     } catch (error) {
-      if (error.message.includes('equires-recent-login')) {
+      if (error.message.includes("equires-recent-login")) {
         toast({
           description:
-            'A troca de senha necessita de um login recente, por favor ente novamente para altera-la.',
-          status: 'error',
-          duration: '3000',
+            "A troca de senha necessita de um login recente, por favor ente novamente para altera-la.",
+          status: "error",
+          duration: "3000",
           isClosable: true,
         });
       } else {
         toast({
           description: error.message,
-          status: 'error',
-          duration: '3000',
+          status: "error",
+          duration: "3000",
           isClosable: true,
         });
       }
@@ -238,17 +232,17 @@ const useAuth = () => {
       const uploadTask = uploadBytesResumable(storageRef, image);
 
       uploadTask.on(
-        'state_changed',
+        "state_changed",
         (snapshot) => {
           const progressStatus =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
 
           switch (snapshot.state) {
-            case 'paused':
+            case "paused":
               toast({
-                description: 'Envio pausado',
-                status: 'info',
-                duration: '3000',
+                description: "Envio pausado",
+                status: "info",
+                duration: "3000",
                 isClosable: true,
               });
               break;
@@ -258,28 +252,28 @@ const useAuth = () => {
         },
         (error) => {
           switch (error.code) {
-            case 'storage/unauthorized':
+            case "storage/unauthorized":
               toast({
                 description:
-                  'O usuário não tem autorização para acessar o objeto.',
-                status: 'error',
-                duration: '3000',
+                  "O usuário não tem autorização para acessar o objeto.",
+                status: "error",
+                duration: "3000",
                 isClosable: true,
               });
               break;
-            case 'storage/canceled':
+            case "storage/canceled":
               toast({
-                description: 'O usuário cancelou o upload',
-                status: 'error',
-                duration: '3000',
+                description: "O usuário cancelou o upload",
+                status: "error",
+                duration: "3000",
                 isClosable: true,
               });
               break;
             default:
               toast({
-                description: 'Ocorreu um erro, tente novamente.',
-                status: 'error',
-                duration: '3000',
+                description: "Ocorreu um erro, tente novamente.",
+                status: "error",
+                duration: "3000",
                 isClosable: true,
               });
               break;
@@ -291,7 +285,7 @@ const useAuth = () => {
 
             await updateProfile(auth.currentUser, { photoURL: fileURL });
 
-            const userRef = doc(database, 'users', user.uid);
+            const userRef = doc(database, "users", user.uid);
             await updateDoc(userRef, { profileImageRef: fileURL });
 
             const data = {
@@ -304,8 +298,8 @@ const useAuth = () => {
           } catch (error) {
             toast({
               description: error.message,
-              status: 'error',
-              duration: '3000',
+              status: "error",
+              duration: "3000",
               isClosable: true,
             });
           } finally {
@@ -316,8 +310,8 @@ const useAuth = () => {
     } catch (error) {
       toast({
         description: error.message,
-        status: 'error',
-        duration: '3000',
+        status: "error",
+        duration: "3000",
         isClosable: true,
       });
     }

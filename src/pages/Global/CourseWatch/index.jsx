@@ -1,22 +1,29 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchVideos } from "../../../redux/modules/courses/actions";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import useCourse from "../../../hooks/useCourse";
 
 import Navbar from "../../../components/Global/Navbar";
 import VideoList from "./VideoList";
 import VideoPlayer from "./VideoPlayer";
 import PremiumCourse from "../../../components/Global/PremiumCourse";
 import VideoContent from "./VideoContent";
-import { Box } from "@chakra-ui/react";
 import AssetsList from "./AssetsList";
-import QuestionsList from "./QuestionsList";
 import Quiz from "./Quiz";
+import { Box } from "@chakra-ui/react";
 
 export default function CourseWatch() {
   const { pathname } = useLocation();
+  const pathParams = pathname.split("/");
+  const id = pathParams[2];
+  const videoId = pathParams[3];
+
   const { user } = useSelector((state) => state.auth);
   const { courses } = useSelector((state) => state.courses);
+  const course = courses?.find((course) => course.id === id);
+
+  const { addCourseToUser, addCourseVideosToUser } = useCourse();
 
   const [videoPlayer, setVideoPlayer] = useState({
     active: {},
@@ -33,14 +40,8 @@ export default function CourseWatch() {
   const [locked, setLocked] = useState(null);
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   useEffect(() => {
-    const pathParams = pathname.split("/");
-    const id = pathParams[2];
-    const videoId = pathParams[3];
-    const course = courses?.find((course) => course.id === id);
-
     if (!course?.videos) {
       dispatch(fetchVideos(id));
     }
@@ -76,17 +77,77 @@ export default function CourseWatch() {
         allVideos,
       }));
     }
+  }, [courses]);
 
+  useEffect(() => {
     if (!user) {
       setLocked(true);
     }
 
-    // if (user && videoPlayer.active?.isPremium) {
-    //   if (!user.courses.includes(id)) {
-    //     setLocked(true);
-    //   }
-    // }
-  }, [courses]);
+    if (!course) {
+      return;
+    }
+
+    if (user && !course?.isPremium) {
+      const courseData = {
+        id: course?.id,
+        videos: [],
+      };
+
+      if (!user.courses) {
+        addCourseToUser(user.uid, courseData);
+      } else if (user?.courses) {
+        const checkIfCourseAlreadyInArray = user.courses.find(
+          (c) => c.id === course.id,
+        );
+
+        if (!checkIfCourseAlreadyInArray) {
+          addCourseToUser(user.uid, courseData, user.courses);
+          console.log("nao ta add");
+        }
+      }
+    }
+
+    if (user && user.courses) {
+      const selectedCourse = user.courses?.find((c) => c.id === course.id);
+      const video = selectedCourse.videos.find((video) => video.id === videoId);
+
+      if (!video) {
+        const videoData = {
+          id: videoId,
+          rating: null,
+          concluded: false,
+        };
+
+        const updatedCourse = user.courses.map((c) => {
+          if (c.id === course.id) {
+            let update = { ...c, videos: [...c.videos, videoData] };
+            return update;
+          } else {
+            return c;
+          }
+        });
+
+        addCourseVideosToUser(user.uid, updatedCourse);
+      }
+    }
+
+    if (user && videoPlayer.active?.isPremium) {
+      const purchased = user.purchased?.find((ref) => ref === course.courseRef);
+      if (!purchased) {
+        setLocked(true);
+      }
+
+      // if (user && !user?.courses && course?.isPremium) {
+      //   //TODO: add course to user if he payed
+      //   if (purchased) {
+      //     const courseData = {
+      //       id: course?.id,
+      //       videos: [],
+      //     };
+      //   }
+    }
+  }, [courses, user, videoId]);
 
   return (
     <main className="flex min-h-[100dvh] flex-col bg-[#F3F3F3]">
