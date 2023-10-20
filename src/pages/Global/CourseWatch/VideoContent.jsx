@@ -6,6 +6,7 @@ import { RiArrowDownSLine } from "react-icons/ri";
 import { MdFormatListNumbered } from "react-icons/md";
 import { useSelector } from "react-redux";
 import useCourse from "../../../hooks/useCourse";
+import Rating from "./Rating";
 
 export default function VideoContent({
   videoData,
@@ -114,17 +115,13 @@ export default function VideoContent({
           </button>
         )}
 
-        {video.rating ? (
-          <button className="flex max-h-[60px] min-h-[60px] min-w-[77px] max-w-[77px] flex-col items-center justify-center gap-1 rounded-md border-[1px] border-gray-250 bg-gray-250 px-3 py-2 md:min-w-[97px] md:max-w-[97px]">
-            <AiFillStar className="text-orange" size={20} />
-            <Text className="text-small leading-4 text-gray-950">Avaliado</Text>
-          </button>
-        ) : (
-          <button className="flex max-h-[60px] min-h-[60px] min-w-[77px] max-w-[77px] flex-col items-center justify-center gap-1 rounded-md border-[1px] border-gray-250 bg-gray-250 px-3 py-2 md:min-w-[97px] md:max-w-[97px]">
-            <AiOutlineStar className="text-gray-950" size={20} />
-            <Text className="text-small leading-4 text-gray-950">Avaliar</Text>
-          </button>
-        )}
+        <Rating
+          courses={user?.courses}
+          courseId={course.id}
+          video={video}
+          userId={user.uid}
+        />
+
         <button
           onClick={handleChangeConcludedState}
           className="flex max-h-[60px] min-h-[60px] min-w-[77px] max-w-[77px] flex-col items-center justify-center gap-1 rounded-md border-[1px] border-gray-250 bg-gray-250 px-3 py-2 md:min-w-[97px] md:max-w-[97px]"

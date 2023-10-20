@@ -7,8 +7,9 @@ import {
   LOGOUT_USER,
   UPDATE_USER_COURSES,
   UPDATE_USER_COURSE_VIDEOS,
-  ADD_LIKED_POST_TO_USER,
   UPDATE_USER_CONCLUDED_VIDEOS,
+  UPDATE_USER_VIDEO_RATING,
+  ADD_LIKED_POST_TO_USER,
   REMOVE_LIKED_POST_FROM_USER,
 } from "./slice";
 
@@ -53,6 +54,13 @@ export const updtateUserCoursesVideos = (data) => async (dispatch) => {
 export const updateConludedVideoState = (data) => async (dispatch) => {
   dispatch({
     type: UPDATE_USER_CONCLUDED_VIDEOS,
+    payload: data,
+  });
+};
+
+export const updateRating = (data) => async (dispatch) => {
+  dispatch({
+    type: UPDATE_USER_VIDEO_RATING,
     payload: data,
   });
 };
