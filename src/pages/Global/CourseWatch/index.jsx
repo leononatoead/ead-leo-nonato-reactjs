@@ -195,6 +195,8 @@ export default function CourseWatch() {
                 <VideoContent
                   videoData={videoPlayer?.active}
                   setVideoData={setVideoPlayer}
+                  courseId={id}
+                  videoId={videoId}
                 />
               )}
           </Box>

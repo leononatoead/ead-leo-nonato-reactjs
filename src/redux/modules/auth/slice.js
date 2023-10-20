@@ -3,6 +3,7 @@ export const LOGOUT_USER = "LOGOUT_USER";
 export const UPDATE_IMAGE = "UPDATE_IMAGE";
 export const UPDATE_USER_COURSES = "UPDATE_USER_COURSES";
 export const UPDATE_USER_COURSE_VIDEOS = "UPDATE_USER_COURSE_VIDEOS";
+export const UPDATE_USER_CONCLUDED_VIDEOS = "UPDATE_USER_CONCLUDED_VIDEOS";
 export const ADD_LIKED_POST_TO_USER = "ADD_LIKED_POST_TO_USER";
 export const REMOVE_LIKED_POST_FROM_USER = "REMOVE_LIKED_POST_FROM_USER";
 
@@ -43,6 +44,17 @@ const authReducer = (state = initialState, action) => {
     }
 
     case UPDATE_USER_COURSE_VIDEOS: {
+      const storageUser = JSON.stringify({
+        ...state.user,
+        courses: action.payload,
+      });
+
+      localStorage.setItem("user", storageUser);
+
+      return { user: { ...state.user, courses: action.payload } };
+    }
+
+    case UPDATE_USER_CONCLUDED_VIDEOS: {
       const storageUser = JSON.stringify({
         ...state.user,
         courses: action.payload,

@@ -1,12 +1,25 @@
 import { useState } from "react";
 import { Box, Text } from "@chakra-ui/react";
-import { AiOutlineFileText, AiOutlineStar } from "react-icons/ai";
+import { AiOutlineFileText, AiOutlineStar, AiFillStar } from "react-icons/ai";
 import { BsCheck2Circle } from "react-icons/bs";
 import { RiArrowDownSLine } from "react-icons/ri";
 import { MdFormatListNumbered } from "react-icons/md";
+import { useSelector } from "react-redux";
+import useCourse from "../../../hooks/useCourse";
 
-export default function VideoContent({ videoData, setVideoData }) {
+export default function VideoContent({
+  videoData,
+  setVideoData,
+  courseId,
+  videoId,
+}) {
   const [showDescription, setShowDescription] = useState(false);
+
+  const { user } = useSelector((state) => state.auth);
+  const course = user?.courses?.find((course) => course.id === courseId);
+  const video = course?.videos?.find((video) => video.id === videoId);
+
+  const { changeConcludedVideoState } = useCourse();
 
   const handleSelectMaterials = () => {
     setVideoData((prev) => ({
@@ -24,6 +37,30 @@ export default function VideoContent({ videoData, setVideoData }) {
       showAssetsList: false,
       showQuestionsList: true,
     }));
+  };
+
+  const handleChangeConcludedState = () => {
+    let videoData = {
+      ...video,
+    };
+
+    if (video?.concluded) {
+      videoData = { ...videoData, concluded: false };
+    } else {
+      videoData = { ...videoData, concluded: true };
+    }
+
+    const updatedCourse = user.courses.map((c) => {
+      if (c.id === course.id) {
+        const videoList = c.videos.filter((video) => video.id !== videoId);
+        const update = { ...c, videos: [...videoList, videoData] };
+        return update;
+      } else {
+        return c;
+      }
+    });
+
+    changeConcludedVideoState(user.uid, updatedCourse);
   };
 
   const handleOpenDescription = () => {
@@ -76,13 +113,39 @@ export default function VideoContent({ videoData, setVideoData }) {
             <Text className="text-small leading-4 text-gray-950">Questões</Text>
           </button>
         )}
-        <button className="flex max-h-[60px] min-h-[60px] min-w-[77px] max-w-[77px] flex-col items-center justify-center gap-1 rounded-md border-[1px] border-gray-250 bg-gray-250 px-3 py-2 md:min-w-[97px] md:max-w-[97px]">
-          <AiOutlineStar className="text-gray-950" size={20} />
-          <Text className="text-small leading-4 text-gray-950">Avaliar</Text>
-        </button>
-        <button className="flex max-h-[60px] min-h-[60px] min-w-[77px] max-w-[77px] flex-col items-center justify-center gap-1 rounded-md border-[1px] border-gray-250 bg-gray-250 px-3 py-2 md:min-w-[97px] md:max-w-[97px]">
-          <BsCheck2Circle className="text-gray-950" size={20} />
-          <Text className="text-small leading-4 text-gray-950">Concluir</Text>
+
+        {video.rating ? (
+          <button className="flex max-h-[60px] min-h-[60px] min-w-[77px] max-w-[77px] flex-col items-center justify-center gap-1 rounded-md border-[1px] border-gray-250 bg-gray-250 px-3 py-2 md:min-w-[97px] md:max-w-[97px]">
+            <AiFillStar className="text-orange" size={20} />
+            <Text className="text-small leading-4 text-gray-950">Avaliado</Text>
+          </button>
+        ) : (
+          <button className="flex max-h-[60px] min-h-[60px] min-w-[77px] max-w-[77px] flex-col items-center justify-center gap-1 rounded-md border-[1px] border-gray-250 bg-gray-250 px-3 py-2 md:min-w-[97px] md:max-w-[97px]">
+            <AiOutlineStar className="text-gray-950" size={20} />
+            <Text className="text-small leading-4 text-gray-950">Avaliar</Text>
+          </button>
+        )}
+        <button
+          onClick={handleChangeConcludedState}
+          className="flex max-h-[60px] min-h-[60px] min-w-[77px] max-w-[77px] flex-col items-center justify-center gap-1 rounded-md border-[1px] border-gray-250 bg-gray-250 px-3 py-2 md:min-w-[97px] md:max-w-[97px]"
+        >
+          {video.concluded ? (
+            <>
+              <BsCheck2Circle className="text-green-300" size={20} />
+
+              <Text className="text-small leading-4 text-gray-950">
+                Concluído
+              </Text>
+            </>
+          ) : (
+            <>
+              <BsCheck2Circle className="text-gray-950" size={20} />
+
+              <Text className="text-small leading-4 text-gray-950">
+                Concluir
+              </Text>
+            </>
+          )}
         </button>
       </Box>
     </Box>

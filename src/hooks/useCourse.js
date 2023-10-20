@@ -28,6 +28,7 @@ import {
   editCourse,
 } from "../redux/modules/courses/actions";
 import {
+  updateConludedVideoState,
   updtateUserCourses,
   updtateUserCoursesVideos,
 } from "../redux/modules/auth/actions";
@@ -432,6 +433,40 @@ const useCourse = () => {
     }
   };
 
+  const changeConcludedVideoState = async (userId, coursesData) => {
+    try {
+      const userRef = doc(database, "users", userId);
+      await updateDoc(userRef, { courses: coursesData });
+
+      dispatch(updateConludedVideoState(coursesData));
+    } catch (error) {
+      toast({
+        description: error.message,
+        status: "error",
+        duration: "3000",
+        isClosable: true,
+      });
+    }
+  };
+
+  // const ratingVideo = async (userId, coursesData, videoId) => {
+  //   try {
+  //     const userRef = doc(database, "users", userId);
+
+  //   await addDoc(collection(database, 'ratings',videoId),data,);
+  //     await updateDoc(userRef, { courses: coursesData });
+
+  //     dispatch(updateRating(coursesData));
+  //   } catch (error) {
+  //     toast({
+  //       description: error.message,
+  //       status: "error",
+  //       duration: "3000",
+  //       isClosable: true,
+  //     });
+  //   }
+  // };
+
   return {
     addNewCourse,
     editCourseWithImage,
@@ -439,6 +474,7 @@ const useCourse = () => {
     deleteCourse,
     addCourseToUser,
     addCourseVideosToUser,
+    changeConcludedVideoState,
     loading,
     progress,
   };
