@@ -76,8 +76,8 @@ export default function Rating({ courses, courseId, video, userId }) {
                 onClick={() => handleSelectRating(1)}
                 size={40}
                 className={`${
-                  video.rating
-                    ? video.rating >= 1
+                  video?.rating
+                    ? video?.rating >= 1
                       ? "text-orange"
                       : "text-gray-800"
                     : "text-gray-800"
@@ -91,8 +91,8 @@ export default function Rating({ courses, courseId, video, userId }) {
                 onClick={() => handleSelectRating(2)}
                 size={40}
                 className={`${
-                  video.rating
-                    ? video.rating >= 2
+                  video?.rating
+                    ? video?.rating >= 2
                       ? "text-orange"
                       : "text-gray-800"
                     : "text-gray-800"
@@ -106,8 +106,8 @@ export default function Rating({ courses, courseId, video, userId }) {
                 onClick={() => handleSelectRating(3)}
                 size={40}
                 className={`${
-                  video.rating
-                    ? video.rating >= 3
+                  video?.rating
+                    ? video?.rating >= 3
                       ? "text-orange"
                       : "text-gray-800"
                     : "text-gray-800"
@@ -121,8 +121,8 @@ export default function Rating({ courses, courseId, video, userId }) {
                 onClick={() => handleSelectRating(4)}
                 size={40}
                 className={`${
-                  video.rating
-                    ? video.rating >= 4
+                  video?.rating
+                    ? video?.rating >= 4
                       ? "text-orange"
                       : "text-gray-800"
                     : "text-gray-800"
@@ -136,8 +136,8 @@ export default function Rating({ courses, courseId, video, userId }) {
                 onClick={() => handleSelectRating(5)}
                 size={40}
                 className={`${
-                  video.rating
-                    ? video.rating >= 5
+                  video?.rating
+                    ? video?.rating >= 5
                       ? "text-orange"
                       : "text-gray-800"
                     : "text-gray-800"
