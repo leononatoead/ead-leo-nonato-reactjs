@@ -61,7 +61,7 @@ export default function VideoContent({
       }
     });
 
-    changeConcludedVideoState(user.uid, updatedCourse);
+    changeConcludedVideoState(user?.uid, updatedCourse);
   };
 
   const handleOpenDescription = () => {
@@ -117,9 +117,9 @@ export default function VideoContent({
 
         <Rating
           courses={user?.courses}
-          courseId={course.id}
+          courseId={course?.id}
           video={video}
-          userId={user.uid}
+          userId={user?.uid}
         />
 
         <button
