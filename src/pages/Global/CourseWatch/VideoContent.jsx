@@ -126,7 +126,7 @@ export default function VideoContent({
           onClick={handleChangeConcludedState}
           className="flex max-h-[60px] min-h-[60px] min-w-[77px] max-w-[77px] flex-col items-center justify-center gap-1 rounded-md border-[1px] border-gray-250 bg-gray-250 px-3 py-2 md:min-w-[97px] md:max-w-[97px]"
         >
-          {video.concluded ? (
+          {video?.concluded ? (
             <>
               <BsCheck2Circle className="text-green-300" size={20} />
 

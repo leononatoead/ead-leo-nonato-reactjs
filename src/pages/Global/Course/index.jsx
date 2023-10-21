@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchVideos } from '../../../redux/modules/courses/actions';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchVideos } from "../../../redux/modules/courses/actions";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
-import Navbar from '../../../components/Global/Navbar';
-import PremiumCourse from '../../../components/Global/PremiumCourse';
+import Navbar from "../../../components/Global/Navbar";
+import PremiumCourse from "../../../components/Global/PremiumCourse";
 import {
   Accordion,
   AccordionItem,
@@ -13,9 +13,9 @@ import {
   AccordionIcon,
   Image,
   Avatar,
-} from '@chakra-ui/react';
-import { Box, Heading } from '@chakra-ui/layout';
-import background from '../../../assets/auth-background.png';
+} from "@chakra-ui/react";
+import { Box, Heading } from "@chakra-ui/layout";
+import background from "../../../assets/auth-background.png";
 
 export default function Course() {
   const [course, setCourse] = useState();
@@ -28,8 +28,10 @@ export default function Course() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  // console.log(course);
+
   const handleWatch = () => {
-    navigate(`/course/${id}/${course?.videos[0].id}`);
+    // navigate(`/course/${id}/${course?.videos[0].id}`);
   };
 
   useEffect(() => {
@@ -55,31 +57,31 @@ export default function Course() {
   }, [courses, course]);
 
   return (
-    <Box className='min-h-[100dvh] bg-gray-200 flex flex-col'>
-      <Navbar title='Curso' />
+    <Box className="flex min-h-[100dvh] flex-col bg-gray-200">
+      <Navbar title="Curso" />
 
-      <Box className='!h-[118px] rounded-b-2xl overflow-hidden'>
+      <Box className="!h-[118px] overflow-hidden rounded-b-2xl">
         <Image
           src={background}
-          alt='logo'
-          className='w-full !object-cover !h-[118px]'
+          alt="logo"
+          className="!h-[118px] w-full !object-cover"
         />
       </Box>
 
       <Box
         px={6}
         pb={4}
-        mt={'-51px'}
-        className='flex items-center justify-center flex-col'
+        mt={"-51px"}
+        className="flex flex-col items-center justify-center"
       >
         <Avatar
-          size='xl'
-          bg='blue.500'
+          size="xl"
+          bg="blue.500"
           name={course?.name}
           src={course?.imagePath}
         />
         <Heading
-          className='!text-large !font-poppins !font-bold !leading-6'
+          className="!font-poppins !text-large !font-bold !leading-6"
           mb={8}
           mt={6}
         >
@@ -87,14 +89,14 @@ export default function Course() {
         </Heading>
         <span
           onClick={handleWatch}
-          className='w-full bg-primary-400 rounded-[4px] px-3 py-[5px] text-white text-base leading-5 text-center cursor-pointer'
+          className="w-full cursor-pointer rounded-[4px] bg-primary-400 px-3 py-[5px] text-center text-base leading-5 text-white"
         >
           Assistir
         </span>
       </Box>
 
-      <Box py={4} px={4} bg={'white'} className='!flex-grow'>
-        <Heading className='!font-poppins !text-normal !leading-6 !font-medium'>
+      <Box py={4} px={4} bg={"white"} className="!flex-grow">
+        <Heading className="!font-poppins !text-normal !font-medium !leading-6">
           Módulos
         </Heading>
 
@@ -106,21 +108,21 @@ export default function Course() {
               .map((section, i) => (
                 <AccordionItem
                   key={i}
-                  className='!border-t-0 !border-b-[1px] !border-gray-200 '
+                  className="!border-b-[1px] !border-t-0 !border-gray-200 "
                 >
-                  <AccordionButton px={0} py={4} className='hover:!bg-white'>
+                  <AccordionButton px={0} py={4} className="hover:!bg-white">
                     <Box
-                      as='span'
-                      flex='1'
-                      textAlign='left'
-                      className='!text-base !font-medium !leading-5'
+                      as="span"
+                      flex="1"
+                      textAlign="left"
+                      className="!text-base !font-medium !leading-5"
                     >
                       {section.sectionName}
                     </Box>
                     <AccordionIcon />
                   </AccordionButton>
 
-                  <AccordionPanel pb={4} className='flex flex-col gap-6 '>
+                  <AccordionPanel pb={4} className="flex flex-col gap-6 ">
                     {course?.videos
                       ?.slice()
                       .sort((a, b) => a.order - b.order)
@@ -130,7 +132,7 @@ export default function Course() {
                             <Link
                               to={`/course/${id}/${video.id}`}
                               key={video.id}
-                              className='font-semibold text-small leading-4'
+                              className="text-small font-semibold leading-4"
                             >
                               {video.title}
                             </Link>

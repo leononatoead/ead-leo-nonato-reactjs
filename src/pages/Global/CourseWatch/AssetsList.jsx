@@ -5,6 +5,7 @@ import {
   AiOutlineFileExcel,
   AiOutlineFilePdf,
   AiOutlineFileWord,
+  AiOutlineFileZip,
 } from "react-icons/ai";
 import { MdLink } from "react-icons/md";
 import { RiCloseFill } from "react-icons/ri";
@@ -40,6 +41,20 @@ export default function AssetsList({ assetList, videoPlayer, setVideoPlayer }) {
             <Box className="flex h-[60px] items-center justify-between border-b-[1px] border-gray-250 py-2 text-gray-950">
               <Box className="flex items-center gap-2">
                 <AiOutlineFileExcel size={20} />
+
+                <Text className="text-base font-medium leading-5">
+                  {asset.fileName}
+                </Text>
+              </Box>
+              <a href={asset.fileURL} className="cursor-pointer">
+                <AiOutlineDownload size={20} />
+              </a>
+            </Box>
+          ) : asset.fileURL.includes(".zip") ||
+            asset.fileURL.includes(".rar") ? (
+            <Box className="flex h-[60px] items-center justify-between border-b-[1px] border-gray-250 py-2 text-gray-950">
+              <Box className="flex items-center gap-2">
+                <AiOutlineFileZip size={20} />
 
                 <Text className="text-base font-medium leading-5">
                   {asset.fileName}

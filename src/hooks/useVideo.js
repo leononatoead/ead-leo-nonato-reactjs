@@ -1,20 +1,20 @@
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { v4 } from 'uuid';
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { v4 } from "uuid";
 
 import {
   addVideo,
   delVideo,
   editVideo,
-} from '../redux/modules/courses/actions';
+} from "../redux/modules/courses/actions";
 
-import { database, storage } from '../firebase/config';
+import { database, storage } from "../firebase/config";
 import {
   ref,
   uploadBytesResumable,
   getDownloadURL,
   deleteObject,
-} from 'firebase/storage';
+} from "firebase/storage";
 import {
   Timestamp,
   addDoc,
@@ -23,10 +23,10 @@ import {
   deleteDoc,
   updateDoc,
   setDoc,
-} from '@firebase/firestore';
+} from "@firebase/firestore";
 
-import { useToast } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
+import { useToast } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
 const uploadAssetFile = async (assetFile) => {
   if (assetFile.fileURL) {
@@ -43,14 +43,14 @@ const uploadAssetFile = async (assetFile) => {
       );
 
       uploadAssetTask.on(
-        'state_changed',
+        "state_changed",
         (snapshot) => {
           switch (snapshot.state) {
-            case 'paused':
+            case "paused":
               toast({
-                description: 'Envio pausado',
-                status: 'info',
-                duration: '3000',
+                description: "Envio pausado",
+                status: "info",
+                duration: "3000",
                 isClosable: true,
               });
               break;
@@ -60,28 +60,28 @@ const uploadAssetFile = async (assetFile) => {
         },
         (error) => {
           switch (error.code) {
-            case 'storage/unauthorized':
+            case "storage/unauthorized":
               toast({
                 description:
-                  'O usuário não tem autorização para acessar o objeto.',
-                status: 'error',
-                duration: '3000',
+                  "O usuário não tem autorização para acessar o objeto.",
+                status: "error",
+                duration: "3000",
                 isClosable: true,
               });
               break;
-            case 'storage/canceled':
+            case "storage/canceled":
               toast({
-                description: 'O usuário cancelou o upload',
-                status: 'error',
-                duration: '3000',
+                description: "O usuário cancelou o upload",
+                status: "error",
+                duration: "3000",
                 isClosable: true,
               });
               break;
             default:
               toast({
-                description: 'Ocorreu um erro, tente novamente.',
-                status: 'error',
-                duration: '3000',
+                description: "Ocorreu um erro, tente novamente.",
+                status: "error",
+                duration: "3000",
                 isClosable: true,
               });
               break;
@@ -101,8 +101,8 @@ const uploadAssetFile = async (assetFile) => {
             reject(error);
             toast({
               description: error.message,
-              status: 'error',
-              duration: '3000',
+              status: "error",
+              duration: "3000",
               isClosable: true,
             });
           }
@@ -117,22 +117,22 @@ const uploadToStorage = (storageRef, file) => {
     const uploadTask = uploadBytesResumable(storageRef, file);
 
     uploadTask.on(
-      'state_changed',
+      "state_changed",
       (snapshot) => {
         // Se quiser adicionar tratamento de progresso, pode fazer isso aqui
       },
       (error) => {
         switch (error.code) {
-          case 'storage/unauthorized':
+          case "storage/unauthorized":
             reject(
-              new Error('O usuário não tem autorização para acessar o objeto.'),
+              new Error("O usuário não tem autorização para acessar o objeto."),
             );
             break;
-          case 'storage/canceled':
-            reject(new Error('O usuário cancelou o upload.'));
+          case "storage/canceled":
+            reject(new Error("O usuário cancelou o upload."));
             break;
           default:
-            reject(new Error('Ocorreu um erro, tente novamente.'));
+            reject(new Error("Ocorreu um erro, tente novamente."));
         }
       },
       async () => {
@@ -217,10 +217,10 @@ const useVideo = () => {
       );
 
       const updateTime = Timestamp.now();
-      const updateCollection = doc(database, 'updates', 'courses');
+      const updateCollection = doc(database, "updates", "courses");
       setDoc(updateCollection, { lastCoursesUpdate: updateTime });
       const updatedAt = JSON.stringify(new Date(updateTime.toMillis()));
-      localStorage.setItem('lastCoursesUpdate', updatedAt);
+      localStorage.setItem("lastCoursesUpdate", updatedAt);
 
       dispatch(
         addVideo({
@@ -234,9 +234,9 @@ const useVideo = () => {
       );
 
       toast({
-        description: 'Video adicionado com sucesso!',
-        status: 'success',
-        duration: '3000',
+        description: "Video adicionado com sucesso!",
+        status: "success",
+        duration: "3000",
         isClosable: true,
       });
 
@@ -244,8 +244,8 @@ const useVideo = () => {
     } catch (error) {
       toast({
         description: error.message,
-        status: 'error',
-        duration: '3000',
+        status: "error",
+        duration: "3000",
         isClosable: true,
       });
 
@@ -292,6 +292,7 @@ const useVideo = () => {
       }
 
       let videoData;
+      let reducerData;
 
       if (updatedVideoData.videoFile) {
         const firestoreFileName = `videos/${Date.now()}${v4()}`;
@@ -312,16 +313,24 @@ const useVideo = () => {
           storageRef: firestoreFileName,
           videoFrame: null,
         };
-
         delete videoData.videoFile;
+
+        reducerData = { ...videoData };
       } else if (updatedVideoData.videoPath || updatedVideoData.videoFrame) {
         videoData = {
           ...updatedVideoData,
           storageRef: null,
         };
+
+        reducerData = { ...videoData };
       } else {
         videoData = {
           ...updatedVideoData,
+        };
+
+        reducerData = {
+          ...oldVideoData,
+          ...videoData,
         };
       }
 
@@ -331,29 +340,30 @@ const useVideo = () => {
         createdAt: Timestamp.fromMillis(oldVideoData.createdAt),
       };
 
+      reducerData = { ...reducerData, assetsList: updatedAssets };
+
       const videoRef = doc(database, docCollection, oldVideoData.id);
       await updateDoc(videoRef, videoData);
 
       const updateTime = Timestamp.now();
-      const updateCollection = doc(database, 'updates', 'courses');
+      const updateCollection = doc(database, "updates", "courses");
       setDoc(updateCollection, { lastCoursesUpdate: updateTime });
       const updatedAt = JSON.stringify(new Date(updateTime.toMillis()));
-      localStorage.setItem('lastCoursesUpdate', updatedAt);
+      localStorage.setItem("lastCoursesUpdate", updatedAt);
 
       dispatch(
         editVideo({
           videoData: {
-            ...videoData,
-            createdAt: videoData.createdAt.toMillis(),
+            ...reducerData,
           },
           courseId,
         }),
       );
 
       toast({
-        description: 'Video alterado com sucesso!',
-        status: 'success',
-        duration: '3000',
+        description: "Video alterado com sucesso!",
+        status: "success",
+        duration: "3000",
         isClosable: true,
       });
 
@@ -361,8 +371,8 @@ const useVideo = () => {
     } catch (error) {
       toast({
         description: error.message,
-        status: 'error',
-        duration: '3000',
+        status: "error",
+        duration: "3000",
         isClosable: true,
       });
 
@@ -393,17 +403,17 @@ const useVideo = () => {
       }
 
       const updateTime = Timestamp.now();
-      const updateCollection = doc(database, 'updates', 'courses');
+      const updateCollection = doc(database, "updates", "courses");
       setDoc(updateCollection, { lastCoursesUpdate: updateTime });
       const updatedAt = JSON.stringify(new Date(updateTime.toMillis()));
-      localStorage.setItem('lastCoursesUpdate', updatedAt);
+      localStorage.setItem("lastCoursesUpdate", updatedAt);
 
       dispatch(delVideo({ courseId, videoId: video.id }));
     } catch (error) {
       toast({
         description: error.message,
-        status: 'error',
-        duration: '3000',
+        status: "error",
+        duration: "3000",
         isClosable: true,
       });
     } finally {
