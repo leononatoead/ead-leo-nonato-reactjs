@@ -167,9 +167,9 @@ export default function CourseWatch() {
             )}
 
             {videoPlayer?.active?.videoPath?.includes("youtube") && (
-              <Box className="flex flex-col items-start justify-between p-4">
+              <Box className="flex min-h-[246px] flex-col items-start justify-between  p-4">
                 <iframe
-                  className="max-h-[80vh] min-h-[192px] w-full rounded-lg md:min-h-[400px]"
+                  className="max-h-[80vh] min-h-[246px] w-full rounded-lg md:min-h-[400px]"
                   src={videoPlayer.active.videoPath}
                   title={videoPlayer.active.title}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -179,9 +179,9 @@ export default function CourseWatch() {
             )}
 
             {videoPlayer?.active?.videoFrame && (
-              <Box className="flex min-h-[192px] flex-col items-start justify-between p-4">
+              <Box className="flex min-h-[246px] flex-col items-start justify-between p-4">
                 <iframe
-                  className="max-h-[80vh] min-h-[192px] w-full rounded-lg md:min-h-[400px]"
+                  className="max-h-[80vh] min-h-[246px] w-full rounded-lg md:min-h-[400px]"
                   id={videoPlayer.active.videoFrame.id}
                   src={videoPlayer.active.videoFrame.src}
                   allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture"

@@ -97,7 +97,7 @@ export default function VideoList({
         </Box>
       </Box>
       <Accordion
-        allowToggle
+        allowMultiple
         className={`flex flex-col gap-4 p-4  ${
           !videoPlayer.showVideoList && "hidden"
         }`}
@@ -113,7 +113,13 @@ export default function VideoList({
               >
                 <AccordionButton px={0} py={4} className="hover:!bg-white">
                   <Box as="span" flex="1" textAlign="left">
-                    <Text className="!text-base !font-medium !leading-5">
+                    <Text
+                      className={`!text-base !leading-5 ${
+                        videoPlayer.active.section === section.sectionName
+                          ? "font-bold"
+                          : " font-medium"
+                      }`}
+                    >
                       {section.sectionName}
                     </Text>
 

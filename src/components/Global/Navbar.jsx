@@ -1,9 +1,10 @@
-import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { logoutUser } from '../../redux/modules/auth/actions';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUser } from "../../redux/modules/auth/actions";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
-import LoginModal from '../Auth/LoginModal';
+import LoginModal from "../Auth/LoginModal";
+import ShareBtn from "./ShareBtn";
 import {
   Box,
   IconButton,
@@ -11,25 +12,25 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
-} from '@chakra-ui/react';
-import { GiHamburgerMenu } from 'react-icons/gi';
-import { RiArrowLeftSLine } from 'react-icons/ri';
+} from "@chakra-ui/react";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { RiArrowLeftSLine } from "react-icons/ri";
 import {
   IoHelpSharp,
   IoLogOutOutline,
   IoLogInOutline,
   IoPersonCircleOutline,
   IoHome,
-} from 'react-icons/io5';
-import { BiBook, BiNews } from 'react-icons/bi';
+} from "react-icons/io5";
+import { BiBook, BiNews } from "react-icons/bi";
 import {
   MdContentPaste,
   MdOutlineNotificationsNone,
   MdOutlineSpaceDashboard,
-} from 'react-icons/md';
-import { BsPersonAdd } from 'react-icons/bs';
-import { FiUsers } from 'react-icons/fi';
-import { PiTelevisionSimpleBold } from 'react-icons/pi';
+} from "react-icons/md";
+import { BsPersonAdd } from "react-icons/bs";
+import { FiUsers } from "react-icons/fi";
+import { PiTelevisionSimpleBold } from "react-icons/pi";
 
 export default function Navbar({ title }) {
   const user = useSelector((state) => state.auth.user);
@@ -43,95 +44,95 @@ export default function Navbar({ title }) {
   const handleBackBtn = () => {
     const URL = path.pathname;
 
-    const URLParamsArray = URL.split('/');
+    const URLParamsArray = URL.split("/");
 
-    let removeBlank = URLParamsArray.filter((value) => value !== '');
+    let removeBlank = URLParamsArray.filter((value) => value !== "");
 
     removeBlank.pop();
 
-    if (removeBlank.includes('edit')) {
+    if (removeBlank.includes("edit")) {
       removeBlank.pop();
     }
 
-    if (removeBlank.includes('course') && removeBlank.length === 1) {
+    if (removeBlank.includes("course") && removeBlank.length === 1) {
       removeBlank.pop();
     }
 
-    if (removeBlank.includes('post') && removeBlank.length === 2) {
+    if (removeBlank.includes("post") && removeBlank.length === 2) {
       removeBlank.pop();
     }
 
-    if (removeBlank.includes('banners') && removeBlank.length === 3) {
+    if (removeBlank.includes("banners") && removeBlank.length === 3) {
       removeBlank.pop();
     }
 
     if (removeBlank.length > 0) {
-      const newURL = removeBlank.join('/');
+      const newURL = removeBlank.join("/");
       const path = `/${newURL}`;
       navigate(path);
     } else {
-      navigate('/');
+      navigate("/");
     }
   };
 
   const handleLogout = () => {
     dispatch(logoutUser());
-    navigate('/');
+    navigate("/");
   };
 
   return (
-    <header className='w-full px-4 py-1 bg-white font-bold flex items-center justify-center h-12'>
-      {path.pathname !== '/' && (
-        <button onClick={handleBackBtn} className='-ml-2'>
+    <header className="flex h-12 w-full items-center justify-center bg-white px-4 py-1 font-bold">
+      {path.pathname !== "/" && (
+        <button onClick={handleBackBtn} className="-ml-2">
           <RiArrowLeftSLine size={25} />
         </button>
       )}
-      {path.pathname === '/' ? (
+      {path.pathname === "/" ? (
         <Link
-          to='/'
-          className='block font-poppins text-large leading-6 flex-1 text-left font-bold poppins'
+          to="/"
+          className="poppins block flex-1 text-left font-poppins text-large font-bold leading-6"
         >
           Leo Nonato
         </Link>
       ) : (
-        <span className='block font-poppins text-[17px] leading-[22px] flex-1 text-center font-normal px-1'>
+        <span className="block flex-1 px-1 text-center font-poppins text-[17px] font-normal leading-[22px]">
           {title}
         </span>
       )}
 
-      {path.pathname === '/' ? (
+      {path.pathname === "/" ? (
         <Menu>
           <MenuButton
             as={IconButton}
-            aria-label='Options'
+            aria-label="Options"
             icon={<GiHamburgerMenu />}
-            variant='outline'
-            className='!border-none !bg-transparent !outline-none -mr-[10px] focus:!border-none'
+            variant="outline"
+            className="-mr-[10px] !border-none !bg-transparent !outline-none focus:!border-none"
           />
           <MenuList
-            className='!flex !flex-col !justify-center !items-start !gap-[5px] !border-none !min-w-max !-translate-y-2 !shadow-lg'
+            className="!flex !min-w-max !-translate-y-2 !flex-col !items-start !justify-center !gap-[5px] !border-none !shadow-lg"
             px={3}
             py={2}
           >
             {!user && (
               <>
                 <MenuItem
-                  className='!outline-none !border-none focus:!bg-white'
-                  px={'6px'}
-                  py={'3px'}
+                  className="!border-none !outline-none focus:!bg-white"
+                  px={"6px"}
+                  py={"3px"}
                   onClick={() => setOpenLoginModal(true)}
                 >
                   <IoLogInOutline size={20} />
-                  <span className='font-normal leading-[14px] ml-3'>Login</span>
+                  <span className="ml-3 font-normal leading-[14px]">Login</span>
                 </MenuItem>
                 <MenuItem
-                  px={'6px'}
-                  py={'3px'}
-                  className='!outline-none !border-none focus:!bg-white'
+                  px={"6px"}
+                  py={"3px"}
+                  className="!border-none !outline-none focus:!bg-white"
                 >
                   <Link
-                    to='/register'
-                    className='font-normal leading-[14px] flex items-center gap-3'
+                    to="/register"
+                    className="flex items-center gap-3 font-normal leading-[14px]"
                   >
                     <BsPersonAdd size={20} />
                     Cadastro
@@ -142,13 +143,13 @@ export default function Navbar({ title }) {
             {user && user.admin && (
               <>
                 <MenuItem
-                  px={'6px'}
-                  py={'3px'}
-                  className='!outline-none !border-none focus:!bg-white'
+                  px={"6px"}
+                  py={"3px"}
+                  className="!border-none !outline-none focus:!bg-white"
                 >
                   <Link
-                    to='/dashboard'
-                    className='font-normal leading-[14px] flex items-center gap-3'
+                    to="/dashboard"
+                    className="flex items-center gap-3 font-normal leading-[14px]"
                   >
                     <MdOutlineSpaceDashboard size={20} />
                     Painel Admin
@@ -158,39 +159,39 @@ export default function Navbar({ title }) {
             )}
 
             <MenuItem
-              px={'6px'}
-              py={'3px'}
-              className='!outline-none !border-none focus:!bg-white'
+              px={"6px"}
+              py={"3px"}
+              className="!border-none !outline-none focus:!bg-white"
             >
               <Link
-                to='/courses/all'
-                className='font-normal leading-[14px] flex items-center gap-3'
+                to="/courses/all"
+                className="flex items-center gap-3 font-normal leading-[14px]"
               >
                 <PiTelevisionSimpleBold size={20} />
                 Cursos
               </Link>
             </MenuItem>
             <MenuItem
-              px={'6px'}
-              py={'3px'}
-              className='!outline-none !border-none focus:!bg-white'
+              px={"6px"}
+              py={"3px"}
+              className="!border-none !outline-none focus:!bg-white"
             >
               <Link
-                to='/newsletter'
-                className='font-normal leading-[14px] flex items-center gap-3'
+                to="/newsletter"
+                className="flex items-center gap-3 font-normal leading-[14px]"
               >
                 <BiNews size={20} />
                 Newsletter
               </Link>
             </MenuItem>
             <MenuItem
-              px={'6px'}
-              py={'3px'}
-              className='!outline-none !border-none focus:!bg-white'
+              px={"6px"}
+              py={"3px"}
+              className="!border-none !outline-none focus:!bg-white"
             >
               <Link
-                to='/faq'
-                className='font-normal leading-[14px] flex items-center gap-3'
+                to="/faq"
+                className="flex items-center gap-3 font-normal leading-[14px]"
               >
                 <IoHelpSharp size={20} />
                 FAQ
@@ -200,13 +201,13 @@ export default function Navbar({ title }) {
             {user && (
               <>
                 <MenuItem
-                  px={'6px'}
-                  py={'3px'}
-                  className='!outline-none !border-none focus:!bg-white'
+                  px={"6px"}
+                  py={"3px"}
+                  className="!border-none !outline-none focus:!bg-white"
                 >
                   <Link
-                    to='/courses/my-courses'
-                    className='font-normal leading-[14px] flex items-center gap-3'
+                    to="/courses/my-courses"
+                    className="flex items-center gap-3 font-normal leading-[14px]"
                   >
                     <BiBook size={20} />
                     Meus Cursos
@@ -214,13 +215,13 @@ export default function Navbar({ title }) {
                 </MenuItem>
 
                 <MenuItem
-                  px={'6px'}
-                  py={'3px'}
-                  className='!outline-none !border-none focus:!bg-white'
+                  px={"6px"}
+                  py={"3px"}
+                  className="!border-none !outline-none focus:!bg-white"
                 >
                   <Link
-                    to='/profile'
-                    className='font-normal leading-[14px] flex items-center gap-3'
+                    to="/profile"
+                    className="flex items-center gap-3 font-normal leading-[14px]"
                   >
                     <IoPersonCircleOutline size={20} />
                     Perfil
@@ -231,9 +232,9 @@ export default function Navbar({ title }) {
 
             {user && (
               <MenuItem
-                className='!outline-none !border-none focus:!bg-white font-normal leading-[14px] flex items-center gap-3'
-                px={'6px'}
-                py={'3px'}
+                className="flex items-center gap-3 !border-none font-normal leading-[14px] !outline-none focus:!bg-white"
+                px={"6px"}
+                py={"3px"}
                 onClick={handleLogout}
               >
                 <IoLogOutOutline size={20} />
@@ -247,54 +248,54 @@ export default function Navbar({ title }) {
             setOpenLoginModal={setOpenLoginModal}
           />
         </Menu>
-      ) : path.pathname.includes('dashboard') ? (
+      ) : path.pathname.includes("dashboard") ? (
         <Menu>
           <MenuButton
             as={IconButton}
-            aria-label='Options'
+            aria-label="Options"
             icon={<GiHamburgerMenu />}
-            variant='outline'
-            className='!border-none !bg-transparent !outline-none -mr-[10px] focus:!border-none'
+            variant="outline"
+            className="-mr-[10px] !border-none !bg-transparent !outline-none focus:!border-none"
           />
           <MenuList
-            className='!flex !flex-col !justify-center !items-start !gap-[5px] !border-none !min-w-max !-translate-y-2 !shadow-lg'
+            className="!flex !min-w-max !-translate-y-2 !flex-col !items-start !justify-center !gap-[5px] !border-none !shadow-lg"
             px={3}
             py={2}
           >
             <MenuItem
-              px={'6px'}
-              py={'3px'}
-              className='!outline-none !border-none focus:!bg-white'
+              px={"6px"}
+              py={"3px"}
+              className="!border-none !outline-none focus:!bg-white"
             >
               <Link
-                to='/dashboard/home'
-                className='font-normal leading-[14px] flex items-center gap-3'
+                to="/dashboard/home"
+                className="flex items-center gap-3 font-normal leading-[14px]"
               >
                 <IoHome size={20} />
                 Home
               </Link>
             </MenuItem>
             <MenuItem
-              px={'6px'}
-              py={'3px'}
-              className='!outline-none !border-none focus:!bg-white'
+              px={"6px"}
+              py={"3px"}
+              className="!border-none !outline-none focus:!bg-white"
             >
               <Link
-                to='/dashboard/courses'
-                className='font-normal leading-[14px] flex items-center gap-3'
+                to="/dashboard/courses"
+                className="flex items-center gap-3 font-normal leading-[14px]"
               >
                 <PiTelevisionSimpleBold size={20} />
                 Cursos
               </Link>
             </MenuItem>
             <MenuItem
-              px={'6px'}
-              py={'3px'}
-              className='!outline-none !border-none focus:!bg-white'
+              px={"6px"}
+              py={"3px"}
+              className="!border-none !outline-none focus:!bg-white"
             >
               <Link
-                to='/dashboard/posts'
-                className='font-normal leading-[14px] flex items-center gap-3'
+                to="/dashboard/posts"
+                className="flex items-center gap-3 font-normal leading-[14px]"
               >
                 <BiNews size={20} />
                 Newsletter
@@ -302,39 +303,39 @@ export default function Navbar({ title }) {
             </MenuItem>
 
             <MenuItem
-              px={'6px'}
-              py={'3px'}
-              className='!outline-none !border-none focus:!bg-white'
+              px={"6px"}
+              py={"3px"}
+              className="!border-none !outline-none focus:!bg-white"
             >
               <Link
-                to='/dashboard/forms'
-                className='font-normal leading-[14px] flex items-center gap-3'
+                to="/dashboard/forms"
+                className="flex items-center gap-3 font-normal leading-[14px]"
               >
                 <MdContentPaste size={20} />
                 Formulários
               </Link>
             </MenuItem>
             <MenuItem
-              px={'6px'}
-              py={'3px'}
-              className='!outline-none !border-none focus:!bg-white'
+              px={"6px"}
+              py={"3px"}
+              className="!border-none !outline-none focus:!bg-white"
             >
               <Link
-                to='/dashboard/students'
-                className='font-normal leading-[14px] flex items-center gap-3'
+                to="/dashboard/students"
+                className="flex items-center gap-3 font-normal leading-[14px]"
               >
                 <FiUsers size={20} />
                 Usuários
               </Link>
             </MenuItem>
             <MenuItem
-              px={'6px'}
-              py={'3px'}
-              className='!outline-none !border-none focus:!bg-white'
+              px={"6px"}
+              py={"3px"}
+              className="!border-none !outline-none focus:!bg-white"
             >
               <Link
-                to='/dashboard/faq'
-                className='font-normal leading-[14px] flex items-center gap-3'
+                to="/dashboard/faq"
+                className="flex items-center gap-3 font-normal leading-[14px]"
               >
                 <IoHelpSharp size={20} />
                 FAQ
@@ -343,7 +344,15 @@ export default function Navbar({ title }) {
           </MenuList>
         </Menu>
       ) : (
-        <Box className='w-[17px] text-transparent'>'</Box>
+        <>
+          {path.pathname.includes("/course/") ? (
+            <ShareBtn
+              url={`${import.meta.env.VITE_VERCEL_APP_URL}${path.pathname}`}
+            />
+          ) : (
+            <Box className="w-[17px] text-transparent">'</Box>
+          )}
+        </>
       )}
     </header>
   );
