@@ -108,7 +108,7 @@ export default function CourseWatch() {
       }
     }
 
-    if (user && user.courses) {
+    if (user && user.courses && videoPlayer.sectionName) {
       const selectedCourse = user.courses?.find((c) => c.id === course.id);
       const video = selectedCourse.videos.find((video) => video.id === videoId);
 
@@ -117,6 +117,7 @@ export default function CourseWatch() {
           id: videoId,
           rating: null,
           concluded: false,
+          section: videoPlayer.sectionName,
         };
 
         const updatedCourse = user.courses.map((c) => {
@@ -205,6 +206,8 @@ export default function CourseWatch() {
             <VideoList
               videoPlayer={videoPlayer}
               setVideoPlayer={setVideoPlayer}
+              user={user}
+              course={course}
             />
           )}
 

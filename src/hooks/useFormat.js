@@ -1,8 +1,8 @@
 const useFormat = () => {
   const formatPhone = (num) => {
-    let phone = num.replace('+', '');
+    let phone = num.replace("+", "");
 
-    if (phone.startsWith('55')) {
+    if (phone.startsWith("55")) {
       phone = phone.substring(2);
     }
 
@@ -25,13 +25,25 @@ const useFormat = () => {
     const date = new Date(milli);
 
     const day = date.getDate();
-    const month = date.toLocaleDateString('pt-BR', { month: 'long' });
+    const month = date.toLocaleDateString("pt-BR", { month: "long" });
     const year = date.getFullYear();
 
     return `${day} de ${month} de ${year}`;
   };
 
-  return { formatPhone, formatDate };
+  const getFirstElement = (array) => {
+    let first = array[0];
+
+    for (let i = 1; i < array.length; i++) {
+      if (array[i].order < first.order) {
+        first = array[i];
+      }
+    }
+
+    return first;
+  };
+
+  return { formatPhone, formatDate, getFirstElement };
 };
 
 export default useFormat;
