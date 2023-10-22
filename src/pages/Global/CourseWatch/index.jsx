@@ -111,8 +111,8 @@ export default function CourseWatch() {
       }
     }
 
-    if (user && user.courses && videoSection) {
-      const selectedCourse = user.courses?.find((c) => c.id === course.id);
+    const selectedCourse = user.courses?.find((c) => c.id === course.id);
+    if (user && user.courses && videoSection && selectedCourse) {
       const video = selectedCourse?.videos?.find(
         (video) => video.id === videoId,
       );
@@ -138,21 +138,21 @@ export default function CourseWatch() {
       }
     }
 
-    if (user && videoPlayer.active?.isPremium) {
-      const purchased = user.purchased?.find((ref) => ref === course.courseRef);
-      if (!purchased) {
-        setLocked(true);
-      }
+    // if (user && videoPlayer.active?.isPremium) {
+    //   const purchased = user.purchased?.find((ref) => ref === course.courseRef);
+    //   if (!purchased) {
+    //     setLocked(true);
+    //   }
 
-      // if (user && !user?.courses && course?.isPremium) {
-      //   //TODO: add course to user if he payed
-      //   if (purchased) {
-      //     const courseData = {
-      //       id: course?.id,
-      //       videos: [],
-      //     };
-      //   }
-    }
+    //   // if (user && !user?.courses && course?.isPremium) {
+    //   //   //TODO: add course to user if he payed
+    //   //   if (purchased) {
+    //   //     const courseData = {
+    //   //       id: course?.id,
+    //   //       videos: [],
+    //   //     };
+    //   //   }
+    // }
   }, [courses, user, videoId]);
 
   return (
