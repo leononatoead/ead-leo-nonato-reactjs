@@ -88,6 +88,10 @@ export default function CourseWatch() {
       return;
     }
 
+    const videoSection = course?.videos?.find(
+      (video) => video.id === videoId,
+    ).section;
+
     if (user && !course?.isPremium) {
       const courseData = {
         id: course?.id,
@@ -103,21 +107,22 @@ export default function CourseWatch() {
 
         if (!checkIfCourseAlreadyInArray) {
           addCourseToUser(user.uid, courseData, user.courses);
-          console.log("nao ta add");
         }
       }
     }
 
-    if (user && user.courses && videoPlayer.sectionName) {
+    if (user && user.courses && videoSection) {
       const selectedCourse = user.courses?.find((c) => c.id === course.id);
-      const video = selectedCourse.videos.find((video) => video.id === videoId);
+      const video = selectedCourse?.videos?.find(
+        (video) => video.id === videoId,
+      );
 
       if (!video) {
         const videoData = {
           id: videoId,
           rating: null,
           concluded: false,
-          section: videoPlayer.sectionName,
+          section: videoSection,
         };
 
         const updatedCourse = user.courses.map((c) => {
@@ -182,8 +187,8 @@ export default function CourseWatch() {
               <Box className="flex min-h-[246px] flex-col items-start justify-between p-4">
                 <iframe
                   className="max-h-[80vh] min-h-[246px] w-full rounded-lg md:min-h-[400px]"
-                  id={videoPlayer.active.videoFrame.id}
-                  src={videoPlayer.active.videoFrame.src}
+                  id={videoPlayer?.active?.videoFrame?.id}
+                  src={videoPlayer?.active?.videoFrame?.src}
                   allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture"
                   allowFullScreen={true}
                 ></iframe>
@@ -211,7 +216,7 @@ export default function CourseWatch() {
             />
           )}
 
-          {videoPlayer.showAssetsList && (
+          {videoPlayer?.showAssetsList && (
             <AssetsList
               assetList={videoPlayer.active.assetsList}
               videoPlayer={videoPlayer}
@@ -219,7 +224,7 @@ export default function CourseWatch() {
             />
           )}
 
-          {videoPlayer.showQuestionsList && (
+          {videoPlayer?.showQuestionsList && (
             <Quiz videoPlayer={videoPlayer} setVideoPlayer={setVideoPlayer} />
           )}
         </div>

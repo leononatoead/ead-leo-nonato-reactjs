@@ -1,5 +1,5 @@
-import { useRef, useState } from 'react';
-import useVideoPlayer from '../../../hooks/useVideoPlayer';
+import { useRef, useState } from "react";
+import useVideoPlayer from "../../../hooks/useVideoPlayer";
 
 import {
   Box,
@@ -7,7 +7,7 @@ import {
   SliderFilledTrack,
   SliderThumb,
   SliderTrack,
-} from '@chakra-ui/react';
+} from "@chakra-ui/react";
 
 import {
   FaPause,
@@ -15,8 +15,8 @@ import {
   FaVolumeMute,
   FaVolumeDown,
   FaVolumeUp,
-} from 'react-icons/fa';
-import { MdFullscreen } from 'react-icons/md';
+} from "react-icons/fa";
+import { MdFullscreen } from "react-icons/md";
 
 export default function VideoPlayer({ video, size, setVideoPlayer }) {
   const videoRef = useRef(null);
@@ -41,28 +41,28 @@ export default function VideoPlayer({ video, size, setVideoPlayer }) {
   // };
 
   return (
-    <Box className='flex flex-col items-start justify-between p-4 '>
+    <Box className="flex flex-col items-start justify-between p-4 ">
       <Box
-        className={`group relative rounded-lg bg-black overflow-hidden w-${size}`}
+        className={`group relative overflow-hidden rounded-lg bg-black w-${size}`}
       >
         <video
           ref={videoRef}
-          src={video.videoPath}
+          src={video?.videoPath}
           onTimeUpdate={updateVideoTime}
-          className='w-full max-h-[80vh] rounded-lg'
-          preload='auto'
+          className="max-h-[80vh] w-full rounded-lg"
+          preload="auto"
         />
 
-        {videoPlayerState.percentage === 0 ? (
-          <Box className='absolute w-full h-full bg-black top-0 flex items-center justify-center'>
+        {videoPlayerState?.percentage === 0 ? (
+          <Box className="absolute top-0 flex h-full w-full items-center justify-center bg-black">
             <button onClick={togglePlayingState}>
-              <FaPlay className='text-gray-100' size={40} />
+              <FaPlay className="text-gray-100" size={40} />
             </button>
           </Box>
         ) : (
-          <Box className='absolute bottom-0 left-0 right-0 mx-4 mb-4 rounded-md px-4 py-3 bg-white/95 backdrop-blur-xl backdrop-filter border border-white/20  gap-4 hidden group-hover:flex show-controls'>
+          <Box className="show-controls absolute bottom-0 left-0 right-0 mx-4 mb-4 hidden gap-4 rounded-md border border-white/20 bg-white/95 px-4  py-3 backdrop-blur-xl backdrop-filter group-hover:flex">
             <button onClick={togglePlayingState}>
-              {videoPlayerState.playing ? <FaPause /> : <FaPlay />}
+              {videoPlayerState?.playing ? <FaPause /> : <FaPlay />}
             </button>
             {/* <Box>{`${videoPlayerState.currentTime.toFixed(0)}`}</Box> */}
 
@@ -70,7 +70,7 @@ export default function VideoPlayer({ video, size, setVideoPlayer }) {
               defaultValue={0}
               min={0}
               max={100}
-              value={videoPlayerState.percentage}
+              value={videoPlayerState?.percentage || 0}
               onChange={toggleVideoTime}
             >
               <SliderTrack>
@@ -81,31 +81,31 @@ export default function VideoPlayer({ video, size, setVideoPlayer }) {
 
             {/* <Box>{` ${videoPlayerState.duration.toFixed(0)}`}</Box> */}
             <button
-              className='relative'
+              className="relative"
               onClick={() => setShowVolumeSlider((prev) => !prev)}
             >
               <>
-                {videoPlayerState.volume === 0 ? (
+                {videoPlayerState?.volume === 0 ? (
                   <FaVolumeMute />
-                ) : videoPlayerState.volume > 0.5 ? (
+                ) : videoPlayerState?.volume > 0.5 ? (
                   <FaVolumeUp />
                 ) : (
                   <FaVolumeDown />
                 )}
               </>
               <Box
-                className={`absolute bg-white p-2 pt-3 bottom-6 -left-2 rounded-md shadow-md ${
-                  showVolumeSlider ? '' : 'hidden'
+                className={`absolute -left-2 bottom-6 rounded-md bg-white p-2 pt-3 shadow-md ${
+                  showVolumeSlider ? "" : "hidden"
                 }`}
               >
                 <Slider
                   defaultValue={100}
-                  orientation='vertical'
-                  minH='12'
+                  orientation="vertical"
+                  minH="12"
                   min={0}
                   max={1}
                   step={0.1}
-                  value={videoPlayerState.volume}
+                  value={videoPlayerState?.volume || 1}
                   onChange={toggleVolume}
                 >
                   <SliderTrack>
