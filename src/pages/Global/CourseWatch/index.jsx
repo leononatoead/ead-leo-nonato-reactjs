@@ -12,6 +12,7 @@ import VideoContent from "./VideoContent";
 import AssetsList from "./AssetsList";
 import Quiz from "./Quiz";
 import { Box } from "@chakra-ui/react";
+import VideoIframe from "./VideoIframe";
 
 export default function CourseWatch() {
   const { pathname } = useLocation();
@@ -163,36 +164,14 @@ export default function CourseWatch() {
       ) : (
         <div className="flex flex-1 flex-col justify-between">
           <Box>
-            {videoPlayer?.active?.videoPath?.includes("firebasestorage") && (
+            {videoPlayer?.active?.videoPath?.includes("firebasestorage") ? (
               <VideoPlayer
                 video={videoPlayer?.active}
                 size={videoPlayer?.playerSize}
                 setVideoPlayer={setVideoPlayer}
               />
-            )}
-
-            {videoPlayer?.active?.videoPath?.includes("youtube") && (
-              <Box className="flex min-h-[246px] flex-col items-start justify-between  p-4">
-                <iframe
-                  className="max-h-[80vh] min-h-[246px] w-full rounded-lg md:min-h-[400px]"
-                  src={videoPlayer.active.videoPath}
-                  title={videoPlayer.active.title}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                ></iframe>
-              </Box>
-            )}
-
-            {videoPlayer?.active?.videoFrame && (
-              <Box className="flex min-h-[246px] flex-col items-start justify-between p-4">
-                <iframe
-                  className="max-h-[80vh] min-h-[246px] w-full rounded-lg md:min-h-[400px]"
-                  id={videoPlayer?.active?.videoFrame?.id}
-                  src={videoPlayer?.active?.videoFrame?.src}
-                  allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture"
-                  allowFullScreen={true}
-                ></iframe>
-              </Box>
+            ) : (
+              <VideoIframe videoPlayer={videoPlayer} />
             )}
 
             {!videoPlayer.showVideoList &&

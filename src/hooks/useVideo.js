@@ -316,7 +316,15 @@ const useVideo = () => {
         delete videoData.videoFile;
 
         reducerData = { ...videoData };
-      } else if (updatedVideoData.videoPath || updatedVideoData.videoFrame) {
+      } else if (updatedVideoData.videoPath) {
+        videoData = {
+          ...updatedVideoData,
+          storageRef: null,
+          videoFrame: null,
+        };
+
+        reducerData = { ...videoData };
+      } else if (updatedVideoData.videoFrame) {
         videoData = {
           ...updatedVideoData,
           storageRef: null,
