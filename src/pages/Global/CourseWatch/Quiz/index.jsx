@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 import QuestionsList from "./QuestionsList";
 import QuizResult from "./QuizResult";
 import { Box } from "@chakra-ui/react";
