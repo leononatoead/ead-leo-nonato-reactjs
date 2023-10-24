@@ -1,12 +1,12 @@
-import { useState } from 'react';
-import { v4 } from 'uuid';
+import { useState } from "react";
+import { v4 } from "uuid";
 
 import {
   ref,
   uploadBytesResumable,
   getDownloadURL,
   deleteObject,
-} from 'firebase/storage';
+} from "firebase/storage";
 
 import {
   Timestamp,
@@ -17,16 +17,22 @@ import {
   getDocs,
   setDoc,
   updateDoc,
-} from 'firebase/firestore';
-import { database, storage } from '../firebase/config';
+} from "firebase/firestore";
+import { database, storage } from "../firebase/config";
 
-import { useToast } from '@chakra-ui/react';
-import { useDispatch } from 'react-redux';
+import { useToast } from "@chakra-ui/react";
+import { useDispatch } from "react-redux";
 import {
   addCourse,
   delCourse,
   editCourse,
-} from '../redux/modules/courses/actions';
+} from "../redux/modules/courses/actions";
+import {
+  updateConludedVideoState,
+  updateRating,
+  updtateUserCourses,
+  updtateUserCoursesVideos,
+} from "../redux/modules/auth/actions";
 
 const useCourse = () => {
   const [progress, setProgress] = useState(0);
@@ -40,9 +46,9 @@ const useCourse = () => {
 
     if (imageFile === null) {
       toast({
-        description: 'Envie uma imagem!',
-        status: 'error',
-        duration: '3000',
+        description: "Envie uma imagem!",
+        status: "error",
+        duration: "3000",
         isClosable: true,
       });
       return;
@@ -56,7 +62,7 @@ const useCourse = () => {
     const uploadTask = uploadBytesResumable(storageRef, imageFile);
     // Observa mudanças no estado, erros e a finalização do upload
     uploadTask.on(
-      'state_changed',
+      "state_changed",
       (snapshot) => {
         // Pega o progresso do upload, incluindo o numero de bytes enviados e o total enviado
         const progressStatus =
@@ -64,11 +70,11 @@ const useCourse = () => {
         // Atualiza o progresso do upload
         setProgress(progressStatus);
         switch (snapshot.state) {
-          case 'paused':
+          case "paused":
             toast({
-              description: 'Envio pausado!',
-              status: 'info',
-              duration: '3000',
+              description: "Envio pausado!",
+              status: "info",
+              duration: "3000",
               isClosable: true,
             });
             break;
@@ -78,28 +84,28 @@ const useCourse = () => {
       },
       (error) => {
         switch (error.code) {
-          case 'storage/unauthorized':
+          case "storage/unauthorized":
             toast({
               description:
-                'O usuário não tem autorização para acessar o objeto.',
-              status: 'error',
-              duration: '3000',
+                "O usuário não tem autorização para acessar o objeto.",
+              status: "error",
+              duration: "3000",
               isClosable: true,
             });
             break;
-          case 'storage/canceled':
+          case "storage/canceled":
             toast({
-              description: 'O usuário cancelou o upload',
-              status: 'error',
-              duration: '3000',
+              description: "O usuário cancelou o upload",
+              status: "error",
+              duration: "3000",
               isClosable: true,
             });
             break;
           default:
             toast({
-              description: 'Ocorreu um erro, tente novamente.',
-              status: 'error',
-              duration: '3000',
+              description: "Ocorreu um erro, tente novamente.",
+              status: "error",
+              duration: "3000",
               isClosable: true,
             });
             break;
@@ -117,10 +123,10 @@ const useCourse = () => {
           };
 
           const updateTime = Timestamp.now();
-          const updateCollection = doc(database, 'updates', 'courses');
+          const updateCollection = doc(database, "updates", "courses");
           setDoc(updateCollection, { lastCoursesUpdate: updateTime });
           const updatedAt = JSON.stringify(new Date(updateTime.toMillis()));
-          localStorage.setItem('lastCoursesUpdate', updatedAt);
+          localStorage.setItem("lastCoursesUpdate", updatedAt);
 
           const courseRes = await addDoc(
             collection(database, docCollection),
@@ -136,16 +142,16 @@ const useCourse = () => {
           );
 
           toast({
-            description: 'Curso adicionado com sucesso',
-            status: 'success',
-            duration: '3000',
+            description: "Curso adicionado com sucesso",
+            status: "success",
+            duration: "3000",
             isClosable: true,
           });
         } catch (error) {
           toast({
             description: error.message,
-            status: 'error',
-            duration: '3000',
+            status: "error",
+            duration: "3000",
             isClosable: true,
           });
         } finally {
@@ -165,9 +171,9 @@ const useCourse = () => {
 
     if (imageFile === null) {
       toast({
-        description: 'Envie uma imagem!',
-        status: 'error',
-        duration: '3000',
+        description: "Envie uma imagem!",
+        status: "error",
+        duration: "3000",
         isClosable: true,
       });
       return;
@@ -181,18 +187,18 @@ const useCourse = () => {
     const uploadTask = uploadBytesResumable(storageRef, imageFile);
     // Observa mudanças no estado, erros e a finalização do upload
     uploadTask.on(
-      'state_changed',
+      "state_changed",
       (snapshot) => {
         // Pega o progresso do upload, incluindo o numero de bytes enviados e o total enviado
         const progressStatus =
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         setProgress(progressStatus);
         switch (snapshot.state) {
-          case 'paused':
+          case "paused":
             toast({
-              description: 'Envio pausado',
-              status: 'info',
-              duration: '3000',
+              description: "Envio pausado",
+              status: "info",
+              duration: "3000",
               isClosable: true,
             });
             break;
@@ -202,28 +208,28 @@ const useCourse = () => {
       },
       (error) => {
         switch (error.code) {
-          case 'storage/unauthorized':
+          case "storage/unauthorized":
             toast({
               description:
-                'O usuário não tem autorização para acessar o objeto.',
-              status: 'error',
-              duration: '3000',
+                "O usuário não tem autorização para acessar o objeto.",
+              status: "error",
+              duration: "3000",
               isClosable: true,
             });
             break;
-          case 'storage/canceled':
+          case "storage/canceled":
             toast({
-              description: 'O usuário cancelou o upload',
-              status: 'error',
-              duration: '3000',
+              description: "O usuário cancelou o upload",
+              status: "error",
+              duration: "3000",
               isClosable: true,
             });
             break;
           default:
             toast({
-              description: 'Ocorreu um erro, tente novamente.',
-              status: 'error',
-              duration: '3000',
+              description: "Ocorreu um erro, tente novamente.",
+              status: "error",
+              duration: "3000",
               isClosable: true,
             });
             break;
@@ -246,12 +252,12 @@ const useCourse = () => {
           };
 
           const updateTime = Timestamp.now();
-          const updateCollection = doc(database, 'updates', 'courses');
+          const updateCollection = doc(database, "updates", "courses");
           setDoc(updateCollection, { lastCoursesUpdate: updateTime });
           const updatedAt = JSON.stringify(new Date(updateTime.toMillis()));
-          localStorage.setItem('lastCoursesUpdate', updatedAt);
+          localStorage.setItem("lastCoursesUpdate", updatedAt);
 
-          const courseRef = doc(database, 'courses', oldCourseData.id);
+          const courseRef = doc(database, "courses", oldCourseData.id);
           await updateDoc(courseRef, courseData);
 
           dispatch(
@@ -262,16 +268,16 @@ const useCourse = () => {
           );
 
           toast({
-            description: 'Curso alterado com sucesso!',
-            status: 'success',
-            duration: '3000',
+            description: "Curso alterado com sucesso!",
+            status: "success",
+            duration: "3000",
             isClosable: true,
           });
         } catch (error) {
           toast({
             description: error.message,
-            status: 'error',
-            duration: '3000',
+            status: "error",
+            duration: "3000",
             isClosable: true,
           });
         } finally {
@@ -285,12 +291,12 @@ const useCourse = () => {
     setLoading(true);
     try {
       const updateTime = Timestamp.now();
-      const updateCollection = doc(database, 'updates', 'courses');
+      const updateCollection = doc(database, "updates", "courses");
       setDoc(updateCollection, { lastCoursesUpdate: updateTime });
       const updatedAt = JSON.stringify(new Date(updateTime.toMillis()));
-      localStorage.setItem('lastCoursesUpdate', updatedAt);
+      localStorage.setItem("lastCoursesUpdate", updatedAt);
 
-      const courseRef = doc(database, 'courses', oldCourseData.id);
+      const courseRef = doc(database, "courses", oldCourseData.id);
       await updateDoc(courseRef, updatedCourseData);
 
       dispatch(
@@ -301,16 +307,16 @@ const useCourse = () => {
       );
 
       toast({
-        description: 'Curso alterado com sucesso!',
-        status: 'success',
-        duration: '3000',
+        description: "Curso alterado com sucesso!",
+        status: "success",
+        duration: "3000",
         isClosable: true,
       });
     } catch (error) {
       toast({
         description: error.message,
-        status: 'error',
-        duration: '3000',
+        status: "error",
+        duration: "3000",
         isClosable: true,
       });
     } finally {
@@ -363,28 +369,111 @@ const useCourse = () => {
       await Promise.all(deleteVideoSubcollectionPromises);
 
       const updateTime = Timestamp.now();
-      const updateCollection = doc(database, 'updates', 'courses');
+      const updateCollection = doc(database, "updates", "courses");
       setDoc(updateCollection, { lastCoursesUpdate: updateTime });
       const updatedAt = JSON.stringify(new Date(updateTime.toMillis()));
-      localStorage.setItem('lastCoursesUpdate', updatedAt);
+      localStorage.setItem("lastCoursesUpdate", updatedAt);
 
       dispatch(delCourse(courseData.id));
 
       toast({
-        description: 'Curso removido com sucesso.',
-        status: 'success',
-        duration: '3000',
+        description: "Curso removido com sucesso.",
+        status: "success",
+        duration: "3000",
         isClosable: true,
       });
     } catch (error) {
       toast({
         description: error.message,
-        status: 'error',
-        duration: '3000',
+        status: "error",
+        duration: "3000",
         isClosable: true,
       });
     } finally {
       setLoading(false);
+    }
+  };
+
+  const addCourseToUser = async (userId, courseData, prevCourses) => {
+    try {
+      const userRef = doc(database, "users", userId);
+
+      let courses;
+      if (prevCourses) {
+        courses = { courses: [...prevCourses, courseData] };
+        await updateDoc(userRef, courses);
+      } else {
+        courses = { courses: [courseData] };
+        await updateDoc(userRef, courses);
+      }
+
+      dispatch(updtateUserCourses(courses));
+    } catch (error) {
+      toast({
+        description: error.message,
+        status: "error",
+        duration: "3000",
+        isClosable: true,
+      });
+    }
+  };
+
+  const addCourseVideosToUser = async (userId, coursesData) => {
+    try {
+      const userRef = doc(database, "users", userId);
+      await updateDoc(userRef, { courses: coursesData });
+
+      dispatch(updtateUserCoursesVideos(coursesData));
+    } catch (error) {
+      toast({
+        description: error.message,
+        status: "error",
+        duration: "3000",
+        isClosable: true,
+      });
+    }
+  };
+
+  const changeConcludedVideoState = async (userId, coursesData) => {
+    try {
+      const userRef = doc(database, "users", userId);
+      await updateDoc(userRef, { courses: coursesData });
+
+      dispatch(updateConludedVideoState(coursesData));
+    } catch (error) {
+      toast({
+        description: error.message,
+        status: "error",
+        duration: "3000",
+        isClosable: true,
+      });
+    }
+  };
+
+  const ratingVideo = async (
+    userId,
+    coursesData,
+    rating,
+    courseId,
+    videoId,
+  ) => {
+    try {
+      const collectionRef = collection(database, "ratings");
+      const docRef = doc(collectionRef, courseId);
+      await setDoc(docRef, { id: videoId, rating });
+
+      const userRef = doc(database, "users", userId);
+      await updateDoc(userRef, { courses: coursesData });
+
+      dispatch(updateRating(coursesData));
+    } catch (error) {
+      toast({
+        description: error.message,
+        status: "error",
+        duration: "3000",
+        isClosable: true,
+      });
+      console.log(error);
     }
   };
 
@@ -393,6 +482,10 @@ const useCourse = () => {
     editCourseWithImage,
     editCourseWithoutImage,
     deleteCourse,
+    addCourseToUser,
+    addCourseVideosToUser,
+    changeConcludedVideoState,
+    ratingVideo,
     loading,
     progress,
   };

@@ -40,9 +40,23 @@ export default function Input({
           value ? 'after:w-full' : 'after:w-0'
         } hover:after:w-full animation ${
           error && 'after:bg-red-500 after:w-full'
-        } ${theme === 'light' ? 'shadow-sm shadow-gray-900/50' : ''}`}
+        } ${theme === 'light' ? 'shadow-sm shadow-gray-900/50' : ''} ${
+          type === 'code' && 'bg-gray-950'
+        }`}
       >
-        {type === 'textarea' ? (
+        {type === 'code' ? (
+          <textarea
+            {...register(id)}
+            placeholder={placeholder}
+            id={id}
+            className={`w-full rounded-[4px] text-white px-3 py-[5px] leading-5 text-base outline-none ${
+              theme === 'dark' ? 'bg-white' : 'bg-gray-950'
+            } placeholder:text-white/80 resize-none`}
+            rows={id === 'comment' ? 3 : 10}
+            autoComplete='false'
+            defaultValue={defaultValue}
+          ></textarea>
+        ) : type === 'textarea' ? (
           <textarea
             {...register(id)}
             placeholder={placeholder}

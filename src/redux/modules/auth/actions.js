@@ -1,14 +1,17 @@
-import { auth } from '../../../firebase/config';
-import { signOut } from 'firebase/auth';
+import { auth } from "../../../firebase/config";
+import { signOut } from "firebase/auth";
 
 import {
   AUTH_USER,
   UPDATE_IMAGE,
   LOGOUT_USER,
   UPDATE_USER_COURSES,
+  UPDATE_USER_COURSE_VIDEOS,
+  UPDATE_USER_CONCLUDED_VIDEOS,
+  UPDATE_USER_VIDEO_RATING,
   ADD_LIKED_POST_TO_USER,
   REMOVE_LIKED_POST_FROM_USER,
-} from './slice';
+} from "./slice";
 
 export const verifyAuthentication = (user) => (dispatch) => {
   if (user) {
@@ -37,6 +40,27 @@ export const updateProfileImage = (url) => async (dispatch) => {
 export const updtateUserCourses = (data) => async (dispatch) => {
   dispatch({
     type: UPDATE_USER_COURSES,
+    payload: data,
+  });
+};
+
+export const updtateUserCoursesVideos = (data) => async (dispatch) => {
+  dispatch({
+    type: UPDATE_USER_COURSE_VIDEOS,
+    payload: data,
+  });
+};
+
+export const updateConludedVideoState = (data) => async (dispatch) => {
+  dispatch({
+    type: UPDATE_USER_CONCLUDED_VIDEOS,
+    payload: data,
+  });
+};
+
+export const updateRating = (data) => async (dispatch) => {
+  dispatch({
+    type: UPDATE_USER_VIDEO_RATING,
     payload: data,
   });
 };
