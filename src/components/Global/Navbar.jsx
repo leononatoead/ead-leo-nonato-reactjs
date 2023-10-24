@@ -20,8 +20,8 @@ import {
   IoLogOutOutline,
   IoLogInOutline,
   IoPersonCircleOutline,
-  IoHome,
 } from "react-icons/io5";
+import { IoMdSettings } from "react-icons/io";
 import { BiBook, BiNews } from "react-icons/bi";
 import {
   MdContentPaste,
@@ -271,8 +271,8 @@ export default function Navbar({ title }) {
                 to="/dashboard/home"
                 className="flex items-center gap-3 font-normal leading-[14px]"
               >
-                <IoHome size={20} />
-                Home
+                <IoMdSettings size={20} />
+                Configurações
               </Link>
             </MenuItem>
             <MenuItem
@@ -321,7 +321,7 @@ export default function Navbar({ title }) {
               className="!border-none !outline-none focus:!bg-white"
             >
               <Link
-                to="/dashboard/students"
+                to="/dashboard/users"
                 className="flex items-center gap-3 font-normal leading-[14px]"
               >
                 <FiUsers size={20} />

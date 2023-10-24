@@ -123,6 +123,7 @@ const useAuth = () => {
 
       const userData = {
         admin: false,
+        name: registerData.name,
         cpf: registerData.cpf,
       };
 

@@ -1,11 +1,11 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-import { Box } from '@chakra-ui/react';
-import { IoIosSearch } from 'react-icons/io';
+import { Box } from "@chakra-ui/react";
+import { IoIosSearch } from "react-icons/io";
 
 export default function SearchBar({ type }) {
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
 
   const navigate = useNavigate();
 
@@ -14,37 +14,37 @@ export default function SearchBar({ type }) {
 
     const searchURL = search
       .toLowerCase()
-      .replace(/[áàãâä]/g, 'a')
-      .replace(/[éèêë]/g, 'e')
-      .replace(/[íìîï]/g, 'i')
-      .replace(/[óòõôö]/g, 'o')
-      .replace(/[úùûü]/g, 'u')
-      .replace(/ç/g, 'c')
-      .replace(/[^\w\s]/gi, '')
-      .replace(' ', '-');
+      .replace(/[áàãâä]/g, "a")
+      .replace(/[éèêë]/g, "e")
+      .replace(/[íìîï]/g, "i")
+      .replace(/[óòõôö]/g, "o")
+      .replace(/[úùûü]/g, "u")
+      .replace(/ç/g, "c")
+      .replace(/[^\w\s]/gi, "")
+      .replace(" ", "-");
 
-    if (type === 'course') {
+    if (type === "course") {
       navigate(`/courses/search/${searchURL}`);
-    } else if (type === 'post') {
+    } else if (type === "post") {
       navigate(`/newsletter/search/${searchURL}`);
     }
   };
 
   return (
-    <Box className='w-full bg-white flex px-4 pb-[6px]'>
-      <Box className='w-full relative'>
-        <form className='w-full relative' onSubmit={handleSearch} id='search'>
+    <Box className="flex w-full bg-white px-4 pb-[6px]">
+      <Box className="relative w-full">
+        <form className="relative w-full" onSubmit={handleSearch} id="search">
           <IoIosSearch
-            className='absolute top-2 left-2 text-gray-800'
+            className="absolute left-2 top-2 cursor-pointer text-gray-800"
             size={20}
             onClick={handleSearch}
           />
           <input
-            id='searchField'
-            type='text'
-            placeholder='Pesquisar'
+            id="searchField"
+            type="text"
+            placeholder="Pesquisar"
             onChange={(e) => setSearch(e.target.value)}
-            className='bg-gray-150 w-full pl-9 pr-4 h-9 rounded-xl outline-none placeholder:text-gray-700'
+            className="h-9 w-full rounded-xl bg-gray-150 pl-9 pr-4 outline-none placeholder:text-gray-700"
           />
         </form>
       </Box>
