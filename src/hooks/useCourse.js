@@ -453,14 +453,14 @@ const useCourse = () => {
   const ratingVideo = async (
     userId,
     coursesData,
-    rating,
-    courseId,
-    videoId,
+    // rating,
+    // courseId,
+    // videoId,
   ) => {
     try {
-      const collectionRef = collection(database, "ratings");
-      const docRef = doc(collectionRef, courseId);
-      await setDoc(docRef, { id: videoId, rating });
+      // const videoRatingRef = collection(database, "ratings");
+      // const videoDoc = doc(videoRatingRef, courseId);
+      // await setDoc(videoDoc, { videos: videoId });
 
       const userRef = doc(database, "users", userId);
       await updateDoc(userRef, { courses: coursesData });
