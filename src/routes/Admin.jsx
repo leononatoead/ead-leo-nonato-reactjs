@@ -49,9 +49,9 @@ export default function AdminRoutes() {
       <Route path="/profile" element={<Profile />} />
       <Route path="/dashboard" element={<Dashboard />}>
         <Route path="/dashboard" element={<Courses />} />
-        <Route path="home" element={<HomePanel />} />
-        <Route path="home/banners/new" element={<NewBanner />} />
-        <Route path="home/banners/edit/:id" element={<EditBanner />} />
+        <Route path="settings" element={<HomePanel />} />
+        <Route path="settings/banners/new" element={<NewBanner />} />
+        <Route path="settings/banners/edit/:id" element={<EditBanner />} />
         <Route path="courses" element={<Courses />} />
         <Route path="courses/:id" element={<CourseDetails />} />
         <Route path="courses/new" element={<NewCourse />} />

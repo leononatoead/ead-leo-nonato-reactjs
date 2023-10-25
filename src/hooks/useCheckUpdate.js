@@ -52,15 +52,15 @@ const useCheckUpdate = () => {
     return time;
   };
 
-  const verifyBannersUpdate = async () => {
-    const bannersUpdate = doc(database, "updates", "banners");
+  const verifySettingsUpdate = async () => {
+    const settingsUpdate = doc(database, "updates", "settings");
 
-    const document = await getDoc(bannersUpdate);
-    const lastUpdate = document.data()?.lastBannersUpdate?.toMillis();
+    const document = await getDoc(settingsUpdate);
+    const lastUpdate = document.data()?.lastSettingsUpdate?.toMillis();
 
     let time;
     if (lastUpdate) {
-      time = new Date(document.data()?.lastBannersUpdate?.toMillis());
+      time = new Date(document.data()?.lastSettingsUpdate?.toMillis());
     } else {
       time = null;
     }
@@ -71,7 +71,7 @@ const useCheckUpdate = () => {
   return {
     verifyUsersUpdate,
     verifyCourseUpdate,
-    verifyBannersUpdate,
+    verifySettingsUpdate,
     verifyPostsUpdate,
   };
 };

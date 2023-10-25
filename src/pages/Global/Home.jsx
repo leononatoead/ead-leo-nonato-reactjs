@@ -1,95 +1,95 @@
-import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
-  fetchBannersFromLocalStorage,
-  fetchBanners,
-} from '../../redux/modules/banners/actions';
-import useCheckUpdate from '../../hooks/useCheckUpdate';
-import { Link } from 'react-router-dom';
+  fetchSettingsFromLocalStorage,
+  fetchBannerSettings,
+} from "../../redux/modules/settings/actions";
+import useCheckUpdate from "../../hooks/useCheckUpdate";
+import { Link } from "react-router-dom";
 
-import Navbar from '../../components/Global/Navbar';
-import LoginModal from '../../components/Auth/LoginModal';
-import VideoCard from '../../components/Global/Home/VideoCard';
-import SearchBar from '../../components/Global/SearchBar';
-import Banner from '../../components/Global/Home/Banner';
-import Footer from '../../components/Global/Footer';
-import PostCard from '../../components/Global/Home/PostCard';
-import { Box, Heading } from '@chakra-ui/react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
+import Navbar from "../../components/Global/Navbar";
+import LoginModal from "../../components/Auth/LoginModal";
+import VideoCard from "../../components/Global/Home/VideoCard";
+import SearchBar from "../../components/Global/SearchBar";
+import Banner from "../../components/Global/Home/Banner";
+import Footer from "../../components/Global/Footer";
+import PostCard from "../../components/Global/Home/PostCard";
+import { Box, Heading } from "@chakra-ui/react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
 
 export default function Home() {
   const [openLoginModal, setOpenLoginModal] = useState(false);
 
-  const courses = useSelector((state) => state.courses.courses);
+  // const { user } = useSelector((state) => state.auth);
   const { pages } = useSelector((state) => state.posts);
-  const { user } = useSelector((state) => state.auth);
-  const { banners } = useSelector((state) => state.banners);
+  const { courses } = useSelector((state) => state.courses);
+  const settings = useSelector((state) => state.settings);
 
   const freeCourses = courses?.filter((course) => !course.isPremium);
   const paidCourses = courses?.filter((course) => course.isPremium);
 
-  const { verifyBannersUpdate } = useCheckUpdate();
+  const { verifySettingsUpdate } = useCheckUpdate();
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchBannersData = async () => {
+    const fetchSettingsData = async () => {
       try {
-        const firestoreBannersUpdate = await verifyBannersUpdate();
-        const lastBannersUpdate =
-          new Date(JSON.parse(localStorage.getItem('lastBannersUpdate'))) || 0;
+        const firestoreSettingsUpdate = await verifySettingsUpdate();
+        const lastSettingsUpdate =
+          new Date(JSON.parse(localStorage.getItem("lastSettingsUpdate"))) || 0;
 
-        const calcCourse = firestoreBannersUpdate - lastBannersUpdate;
+        const calcCourse = firestoreSettingsUpdate - lastSettingsUpdate;
 
         if (calcCourse !== 0) {
-          dispatch(fetchBanners());
+          dispatch(fetchBannerSettings());
         } else {
-          const banners = JSON.parse(localStorage.getItem('banners'));
-          dispatch(fetchBannersFromLocalStorage(banners));
+          const settings = JSON.parse(localStorage.getItem("settings"));
+          dispatch(fetchSettingsFromLocalStorage(settings));
         }
       } catch (error) {
         console.error(
-          'Erro ao buscar a última atualização dos banners:',
+          "Erro ao buscar a última atualização dos banners:",
           error,
         );
       }
     };
 
-    fetchBannersData();
+    fetchSettingsData();
   }, []);
 
   return (
-    <main className='h-[100dvh] overflow-y-auto bg-[#f0f0f0]'>
-      <Navbar title={'Início'} />
+    <main className="h-[100dvh] overflow-y-auto bg-[#f0f0f0]">
+      <Navbar title={"Início"} />
 
-      <SearchBar type='course' />
+      <SearchBar type="course" />
 
       <Swiper
         spaceBetween={16}
         slidesPerView={1.1}
-        className='ml-4 !h-[206px] mt-6'
+        className="ml-4 mt-6 !h-[206px]"
       >
-        {banners
+        {settings?.banners
           ?.slice()
           .sort((a, b) => a.order - b.order)
           .map((banner) => (
-            <SwiperSlide className='w-[95%]' key={banner.id}>
+            <SwiperSlide className="w-[95%]" key={banner.id}>
               <Banner data={banner} />
             </SwiperSlide>
           ))}
       </Swiper>
 
       <section>
-        <Box className='px-4'>
-          <Box className='flex justify-between items-center pt-4 pb-5'>
-            <Heading className='!font-poppins !text-large !leading-6 !font-semibold  !text-primary-600 '>
+        <Box className="px-4">
+          <Box className="flex items-center justify-between pb-5 pt-4">
+            <Heading className="!font-poppins !text-large !font-semibold !leading-6  !text-primary-600 ">
               Cursos Gratuitos
             </Heading>
 
             <Link
-              to='/courses/free'
-              className='font-poppins text-small leading-[18px] text-primary-400/80'
+              to="/courses/free"
+              className="font-poppins text-small leading-[18px] text-primary-400/80"
             >
               Ver todos
             </Link>
@@ -99,10 +99,10 @@ export default function Home() {
             <Swiper
               spaceBetween={16}
               slidesPerView={1.5}
-              className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6'
+              className="mb-6 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4"
             >
               {freeCourses.map((course) => (
-                <SwiperSlide key={course.id} className='!w-40'>
+                <SwiperSlide key={course.id} className="!w-40">
                   <VideoCard
                     courseData={course}
                     setOpenLoginModal={setOpenLoginModal}
@@ -113,15 +113,15 @@ export default function Home() {
           )}
         </Box>
 
-        <Box className='px-4'>
-          <Box className='flex justify-between items-center pt-4 pb-5'>
-            <Heading className='!font-poppins !text-large !leading-6 !font-semibold  !text-primary-600 '>
+        <Box className="px-4">
+          <Box className="flex items-center justify-between pb-5 pt-4">
+            <Heading className="!font-poppins !text-large !font-semibold !leading-6  !text-primary-600 ">
               Cursos Premium
             </Heading>
 
             <Link
-              to='/courses/premium'
-              className='font-poppins text-small leading-[18px] text-primary-400/80'
+              to="/courses/premium"
+              className="font-poppins text-small leading-[18px] text-primary-400/80"
             >
               Ver todos
             </Link>
@@ -131,10 +131,10 @@ export default function Home() {
             <Swiper
               spaceBetween={16}
               slidesPerView={1.5}
-              className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6'
+              className="mb-6 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4"
             >
               {paidCourses.map((course) => (
-                <SwiperSlide key={course.id} className='!w-40'>
+                <SwiperSlide key={course.id} className="!w-40">
                   <VideoCard
                     courseData={course}
                     setOpenLoginModal={setOpenLoginModal}
@@ -145,25 +145,25 @@ export default function Home() {
           )}
         </Box>
 
-        <Box className='flex justify-between items-center pt-4 pb-5 px-4'>
-          <Heading className='!font-poppins !text-large !leading-6 !font-semibold  !text-primary-600 '>
+        <Box className="flex items-center justify-between px-4 pb-5 pt-4">
+          <Heading className="!font-poppins !text-large !font-semibold !leading-6  !text-primary-600 ">
             Newsletter
           </Heading>
 
           <Link
-            to='/newsletter'
-            className='font-poppins text-small leading-[18px] text-primary-400/80'
+            to="/newsletter"
+            className="font-poppins text-small leading-[18px] text-primary-400/80"
           >
             Ver todos
           </Link>
         </Box>
 
         {pages && (
-          <Swiper spaceBetween={1} slidesPerView={1.1} className='pl-4 pb-4'>
+          <Swiper spaceBetween={1} slidesPerView={1.1} className="pb-4 pl-4">
             {pages[0]?.posts?.map((post, index) => {
               if (index <= 5) {
                 return (
-                  <SwiperSlide key={post.id} className='!min-w-[170px]'>
+                  <SwiperSlide key={post.id} className="!min-w-[170px]">
                     <PostCard post={post} />
                   </SwiperSlide>
                 );
@@ -172,11 +172,11 @@ export default function Home() {
           </Swiper>
         )}
         {pages && (
-          <Swiper spaceBetween={1} slidesPerView={1.1} className='pl-4'>
+          <Swiper spaceBetween={1} slidesPerView={1.1} className="pl-4">
             {pages[0]?.posts.map((post, index) => {
               if (index > 5) {
                 return (
-                  <SwiperSlide key={post.id} className='!min-w-[170px]'>
+                  <SwiperSlide key={post.id} className="!min-w-[170px]">
                     <PostCard post={post} />
                   </SwiperSlide>
                 );

@@ -1,0 +1,157 @@
+import { createSlice } from "@reduxjs/toolkit";
+import {
+  fetchActualClassSettings,
+  fetchBannerSettings,
+  fetchNotificationsSettings,
+  fetchRegisterVideoSettings,
+  fetchWhatsAppSettings,
+} from "./actions";
+
+const settingsReducer = createSlice({
+  name: "settings",
+  initialState: {},
+  reducers: {
+    newBanner: (state, action) => {
+      const settings = JSON.parse(JSON.stringify(state));
+
+      let storageSettings;
+
+      if (settings) {
+        storageSettings = JSON.stringify({
+          ...settings,
+          banners: [...settings.banners, action.payload],
+        });
+      } else {
+        storageSettings = JSON.stringify({ banners: [action.payload] });
+      }
+      localStorage.setItem("settings", storageSettings);
+
+      return { ...state, banners: [...settings.banners, action.payload] };
+    },
+    editBanner: (state, action) => {
+      const settings = JSON.parse(JSON.stringify(state));
+
+      const updateBanners = settings.banners.map((banner) => {
+        if (banner.id === action.payload.id) {
+          return action.payload;
+        } else {
+          return banner;
+        }
+      });
+
+      const storageSettings = JSON.stringify({
+        ...state,
+        banners: updateBanners,
+      });
+      localStorage.setItem("settings", storageSettings);
+
+      return { ...state, banners: updateBanners };
+    },
+    delBanner: (state, action) => {
+      const settings = JSON.parse(JSON.stringify(state));
+
+      const filterBanners = settings.banners.filter(
+        (banner) => banner.id !== action.payload,
+      );
+
+      const storageSettings = JSON.stringify({
+        ...state,
+        banners: filterBanners,
+      });
+      localStorage.setItem("settings", storageSettings);
+
+      return {
+        ...state,
+        banners: filterBanners,
+      };
+    },
+    fetchSettingsFromLocalStorage: (state, action) => {
+      return { ...state, ...action.payload };
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchBannerSettings.fulfilled, (state, action) => {
+        const settings = JSON.parse(localStorage.getItem("settings"));
+        let storageSettings;
+        if (settings) {
+          storageSettings = JSON.stringify({
+            ...settings,
+            banners: action.payload,
+          });
+        } else {
+          storageSettings = JSON.stringify({ banners: action.payload });
+        }
+
+        localStorage.setItem("settings", storageSettings);
+
+        return { ...state, banners: action.payload };
+      })
+      .addCase(fetchNotificationsSettings.fulfilled, (state, action) => {
+        const settings = JSON.parse(localStorage.getItem("settings"));
+        let storageSettings;
+        if (settings) {
+          storageSettings = JSON.stringify({
+            ...settings,
+            notifications: action.payload,
+          });
+        } else {
+          storageSettings = JSON.stringify({ notifications: action.payload });
+        }
+
+        localStorage.setItem("settings", storageSettings);
+
+        return { ...state, notifications: action.payload };
+      })
+      .addCase(fetchWhatsAppSettings.fulfilled, (state, action) => {
+        const settings = JSON.parse(localStorage.getItem("settings"));
+        let storageSettings;
+        if (settings) {
+          storageSettings = JSON.stringify({
+            ...settings,
+            whatsAppURL: action.payload,
+          });
+        } else {
+          storageSettings = JSON.stringify({ whatsAppURL: action.payload });
+        }
+
+        localStorage.setItem("settings", storageSettings);
+
+        return { ...state, whatsAppURL: action.payload };
+      })
+      .addCase(fetchRegisterVideoSettings.fulfilled, (state, action) => {
+        const settings = JSON.parse(localStorage.getItem("settings"));
+        let storageSettings;
+        if (settings) {
+          storageSettings = JSON.stringify({
+            ...settings,
+            registerVideo: action.payload,
+          });
+        } else {
+          storageSettings = JSON.stringify({ registerVideo: action.payload });
+        }
+
+        localStorage.setItem("settings", storageSettings);
+
+        return { ...state, registerVideo: action.payload };
+      })
+      .addCase(fetchActualClassSettings.fulfilled, (state, action) => {
+        const settings = JSON.parse(localStorage.getItem("settings"));
+        let storageSettings;
+        if (settings) {
+          storageSettings = JSON.stringify({
+            ...settings,
+            actualClass: action.payload,
+          });
+        } else {
+          storageSettings = JSON.stringify({ actualClass: action.payload });
+        }
+
+        localStorage.setItem("settings", storageSettings);
+
+        return { ...state, actualClass: action.payload };
+      });
+  },
+});
+
+export default settingsReducer.reducer;

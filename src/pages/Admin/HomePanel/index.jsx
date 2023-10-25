@@ -1,9 +1,10 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  fetchBanners,
-  fetchBannersFromLocalStorage,
-} from "../../../redux/modules/banners/actions";
+  fetchBannerSettings,
+  fetchSettingsFromLocalStorage,
+} from "../../../redux/modules/settings/actions";
+import useCheckUpdate from "../../../hooks/useCheckUpdate";
 import { Link } from "react-router-dom";
 
 import BannerCardAdmin from "../../../components/Admin/BannerCardAdmin";
@@ -17,29 +18,28 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { MdAddCircleOutline } from "react-icons/md";
-import useCheckUpdate from "../../../hooks/useCheckUpdate";
 
 export default function HomePanel() {
-  const { banners } = useSelector((state) => state.banners);
+  const settings = useSelector((state) => state.settings);
 
-  const { verifyBannersUpdate } = useCheckUpdate();
+  const { verifySettingsUpdate } = useCheckUpdate();
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchBannersData = async () => {
+    const fetchSettingsData = async () => {
       try {
-        const firestoreBannersUpdate = await verifyBannersUpdate();
-        const lastBannersUpdate =
-          new Date(JSON.parse(localStorage.getItem("lastBannersUpdate"))) || 0;
+        const fireStoreSettingsUpdate = await verifySettingsUpdate();
+        const lastSettingsUpdate =
+          new Date(JSON.parse(localStorage.getItem("lastSettingsUpdate"))) || 0;
 
-        const calcCourse = firestoreBannersUpdate - lastBannersUpdate;
+        const calcCourse = fireStoreSettingsUpdate - lastSettingsUpdate;
 
         if (calcCourse !== 0) {
-          dispatch(fetchBanners());
+          dispatch(fetchBannerSettings());
         } else {
-          const banners = JSON.parse(localStorage.getItem("banners"));
-          dispatch(fetchBannersFromLocalStorage(banners));
+          const settings = JSON.parse(localStorage.getItem("settings"));
+          dispatch(fetchSettingsFromLocalStorage(settings));
         }
       } catch (error) {
         console.error(
@@ -49,8 +49,10 @@ export default function HomePanel() {
       }
     };
 
-    fetchBannersData();
+    fetchSettingsData();
   }, []);
+
+  console.log(settings);
 
   return (
     <Accordion
@@ -69,14 +71,14 @@ export default function HomePanel() {
 
         <AccordionPanel>
           <Box className="flex w-full justify-end">
-            <Link to="/dashboard/home/banners/new" className="add-btn">
+            <Link to="/dashboard/settings/banners/new" className="add-btn">
               <MdAddCircleOutline size={20} />
               <span className="font-bold">Novo banner</span>
             </Link>
           </Box>
 
           <ul className="flex flex-col gap-4 py-6 ">
-            {banners
+            {settings?.banners
               ?.slice()
               .sort((a, b) => a.order - b.order)
               .map((banner) => (

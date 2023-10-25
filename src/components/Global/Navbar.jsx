@@ -268,7 +268,7 @@ export default function Navbar({ title }) {
               className="!border-none !outline-none focus:!bg-white"
             >
               <Link
-                to="/dashboard/home"
+                to="/dashboard/settings"
                 className="flex items-center gap-3 font-normal leading-[14px]"
               >
                 <IoMdSettings size={20} />

@@ -1,24 +1,24 @@
-import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
-  fetchBannersFromLocalStorage,
-  fetchBanners,
-} from '../../../../../redux/modules/banners/actions';
-import useBanner from '../../../../../hooks/useBanner';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { BannerSchema } from '../NewBanner/BannerSchema';
-import { useNavigate, useParams } from 'react-router-dom';
+  fetchSettingsFromLocalStorage,
+  fetchBannerSettings,
+} from "../../../../../redux/modules/settings/actions";
+import useSettings from "../../../../../hooks/useSettings";
+import useCheckUpdate from "../../../../../hooks/useCheckUpdate";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { BannerSchema } from "../NewBanner/BannerSchema";
+import { useNavigate, useParams } from "react-router-dom";
 
-import { Box, Flex } from '@chakra-ui/react';
-import Input from '../../../../../components/Global/Input';
-import ButtonSubmit from '../../../../../components/Global/ButtonSubmit';
-import ConfirmModal from '../../../../../components/Global/ConfirmModal';
-import useCheckUpdate from '../../../../../hooks/useCheckUpdate';
+import { Box, Flex } from "@chakra-ui/react";
+import Input from "../../../../../components/Global/Input";
+import ButtonSubmit from "../../../../../components/Global/ButtonSubmit";
+import ConfirmModal from "../../../../../components/Global/ConfirmModal";
 
 export default function EditBanner() {
   const { id } = useParams();
-  const { banners } = useSelector((state) => state.banners);
+  const { banners } = useSelector((state) => state.settings);
   const banner = banners?.find((banner) => banner.id === id);
 
   const [openConfirmModal, setOpenConfirmModal] = useState();
@@ -32,8 +32,8 @@ export default function EditBanner() {
     resolver: zodResolver(BannerSchema),
   });
 
-  const { updateBanner, deleteBanner, loading } = useBanner();
-  const { verifyBannersUpdate } = useCheckUpdate();
+  const { updateBanner, deleteBanner, loading } = useSettings();
+  const { verifySettingsUpdate } = useCheckUpdate();
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -44,104 +44,104 @@ export default function EditBanner() {
 
   const handleDeleteBanner = () => {
     deleteBanner(id);
-    navigate('/dashboard/home');
+    navigate("/dashboard/settings");
   };
 
   useEffect(() => {
-    const fetchBannersData = async () => {
+    const fetchSettingsData = async () => {
       try {
-        const firestoreBannersUpdate = await verifyBannersUpdate();
-        const lastBannersUpdate =
-          new Date(JSON.parse(localStorage.getItem('lastBannersUpdate'))) || 0;
+        const fireStoreSettingsUpdate = await verifySettingsUpdate();
+        const lastSettingsUpdate =
+          new Date(JSON.parse(localStorage.getItem("lastSettingsUpdate"))) || 0;
 
-        const calcCourse = firestoreBannersUpdate - lastBannersUpdate;
+        const calcCourse = fireStoreSettingsUpdate - lastSettingsUpdate;
 
         if (calcCourse !== 0) {
-          dispatch(fetchBanners());
+          dispatch(fetchBannerSettings());
         } else {
-          const banners = JSON.parse(localStorage.getItem('banners'));
-          dispatch(fetchBannersFromLocalStorage(banners));
+          const settings = JSON.parse(localStorage.getItem("settings"));
+          dispatch(fetchSettingsFromLocalStorage(settings));
         }
       } catch (error) {
         console.error(
-          'Erro ao buscar a última atualização dos banners:',
+          "Erro ao buscar a última atualização dos banners:",
           error,
         );
       }
     };
 
-    fetchBannersData();
+    fetchSettingsData();
   }, []);
 
   return (
-    <Box className='main-container !flex !flex-col'>
+    <Box className="main-container !flex !flex-col">
       <form
-        id='newBannerForm'
-        className='flex flex-col gap-4 flex-grow'
+        id="newBannerForm"
+        className="flex flex-grow flex-col gap-4"
         onSubmit={handleSubmit(handleAddBanner)}
       >
         <Input
-          theme={'light'}
-          type={'number'}
-          label={'Ordem'}
-          placeholder={'0'}
+          theme={"light"}
+          type={"number"}
+          label={"Ordem"}
+          placeholder={"0"}
           register={register}
-          id={'order'}
+          id={"order"}
           error={errors?.order?.message}
           watch={watch}
           defaultValue={banner?.order}
         />
         <Input
-          theme={'light'}
-          type={'text'}
-          label={'Imagem'}
-          placeholder={'www.exemplo.com'}
+          theme={"light"}
+          type={"text"}
+          label={"Imagem"}
+          placeholder={"www.exemplo.com"}
           register={register}
-          id={'imageURL'}
+          id={"imageURL"}
           error={errors?.imageURL?.message}
           watch={watch}
           defaultValue={banner?.imageURL}
         />
         <Input
-          theme={'light'}
-          type={'text'}
-          label={'Título'}
-          placeholder={'Digite o título aqui'}
+          theme={"light"}
+          type={"text"}
+          label={"Título"}
+          placeholder={"Digite o título aqui"}
           register={register}
-          id={'title'}
+          id={"title"}
           error={errors?.title?.message}
           watch={watch}
           defaultValue={banner?.title}
         />
         <Input
-          theme={'light'}
-          type={'text'}
-          label={'Subtítulo'}
-          placeholder={'Digite o subtítulo aqui'}
+          theme={"light"}
+          type={"text"}
+          label={"Subtítulo"}
+          placeholder={"Digite o subtítulo aqui"}
           register={register}
-          id={'subtitle'}
+          id={"subtitle"}
           error={errors?.subtitle?.message}
           watch={watch}
           defaultValue={banner?.subtitle}
         />
         <Input
-          theme={'light'}
-          type={'text'}
-          label={'URL'}
-          placeholder={'www.exemplo.com'}
+          theme={"light"}
+          type={"text"}
+          label={"URL"}
+          placeholder={"www.exemplo.com"}
           register={register}
-          id={'url'}
+          id={"url"}
           error={errors?.url?.message}
           watch={watch}
           defaultValue={banner?.url}
         />
       </form>
 
-      <Flex flexDirection={'column'} gap={2}>
+      <Flex flexDirection={"column"} gap={2}>
         <ButtonSubmit
-          form='newBannerForm'
+          form="newBannerForm"
           disabled={false}
-          text={'Editar'}
+          text={"Editar"}
           loading={loading}
         />
         <ConfirmModal
