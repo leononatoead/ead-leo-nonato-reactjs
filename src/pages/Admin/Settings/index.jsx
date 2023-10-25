@@ -9,7 +9,7 @@ import {
 import useCheckUpdate from "../../../hooks/useCheckUpdate";
 import { Link } from "react-router-dom";
 
-import BannerCard from "./Cards/BannerCard";
+import BannerCard from "./BannerCard";
 import {
   Accordion,
   AccordionButton,
