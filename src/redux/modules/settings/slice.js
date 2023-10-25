@@ -14,19 +14,19 @@ const settingsReducer = createSlice({
     newBanner: (state, action) => {
       const settings = JSON.parse(JSON.stringify(state));
 
-      let storageSettings;
+      let updateSettings;
 
       if (settings) {
-        storageSettings = JSON.stringify({
+        updateSettings = {
           ...settings,
           banners: [...settings.banners, action.payload],
-        });
+        };
       } else {
-        storageSettings = JSON.stringify({ banners: [action.payload] });
+        updateSettings = { banners: [action.payload] };
       }
-      localStorage.setItem("settings", storageSettings);
+      localStorage.setItem("settings", JSON.stringify(updateSettings));
 
-      return { ...state, banners: [...settings.banners, action.payload] };
+      return { ...state, banners: updateSettings.banners };
     },
     editBanner: (state, action) => {
       const settings = JSON.parse(JSON.stringify(state));
