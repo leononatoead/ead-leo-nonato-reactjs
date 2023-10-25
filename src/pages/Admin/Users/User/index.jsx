@@ -7,6 +7,7 @@ import {
   AccordionIcon,
   AccordionItem,
   AccordionPanel,
+  Avatar,
   Box,
   Text,
 } from "@chakra-ui/react";
@@ -52,10 +53,10 @@ export default function User() {
       });
     }
   }, [user, courses]);
-
   return (
     <Box className="main-container flex flex-col gap-2 bg-gray-200 p-4">
       <Box className="flex flex-col gap-2">
+        <Avatar src={user?.profileImage} />
         <Text className="w-full text-center font-poppins text-large font-bold text-primary-500">
           {user?.name}
         </Text>
@@ -82,7 +83,7 @@ export default function User() {
                   <AccordionIcon />
                 </AccordionButton>
 
-                <AccordionPanel className="flex flex-col gap-2">
+                <AccordionPanel className="flex flex-col gap-3">
                   {course?.videos?.map((video) => (
                     <Box
                       key={video.id}
@@ -106,33 +107,6 @@ export default function User() {
                       </Box>
                     </Box>
                   ))}
-
-                  {/* <Accordion allowToggle>
-                    {course?.videos?.map((video) => (
-                      <AccordionItem key={video.id}>
-                        <AccordionButton
-                          px={0}
-                          py={4}
-                          className="hover:!bg-gray-200"
-                        >
-                          <Box as="span" flex="1" textAlign="left">
-                            <Text className={`!text-base font-bold !leading-5`}>
-                              {getVideoName(course?.id, video?.id)}
-                            </Text>
-                          </Box>
-                          <AccordionIcon />
-                        </AccordionButton>
-
-                        <AccordionPanel>
-                          <Text>
-                            {video.rating ? video.rating : "Não avaliado"}
-                          </Text>
-                          <Text>{video.concluded ? "Sim" : "Não"}</Text>
-                        </AccordionPanel>
-                      </AccordionItem>
-                    ))}
-                  </Accordion>
-                   */}
                 </AccordionPanel>
               </AccordionItem>
             ))}

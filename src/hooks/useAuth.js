@@ -19,7 +19,7 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 
-import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { Timestamp, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import {
   deleteObject,
   getDownloadURL,
@@ -27,10 +27,13 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { v4 } from "uuid";
+import useCheckUpdate from "./useCheckUpdate";
 
 const useAuth = () => {
   const [loadingAuth, setLoadingAuth] = useState(true);
   const [loading, setLoading] = useState(false);
+
+  const { verifyUsersUpdate } = useCheckUpdate();
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -59,9 +62,15 @@ const useAuth = () => {
       if (user) {
         const storageData = JSON.parse(localStorage.getItem("user"));
 
+        const firestoreUserUpdate = await verifyUsersUpdate(user.uid);
+        const lastUserUpdate =
+          new Date(JSON.parse(localStorage.getItem("lastUserUpdate"))) || 0;
+
+        const calcUser = firestoreUserUpdate - lastUserUpdate;
+
         let userData;
 
-        if (!storageData) {
+        if (!storageData || calcUser > 0) {
           const collectionData = await getUserData(user.uid);
           userData = {
             ...collectionData,
@@ -124,12 +133,26 @@ const useAuth = () => {
       const userData = {
         admin: false,
         name: registerData.name,
+        email: registerData.email,
         cpf: registerData.cpf,
       };
 
       await setDoc(doc(database, "users", user.uid), userData);
 
       sendEmailVerification(user, actionCodeSettings);
+
+      const updateTime = Timestamp.now();
+      const updateCollection = doc(
+        database,
+        "updates",
+        "users",
+        "updates",
+        user.uid,
+      );
+
+      setDoc(updateCollection, { lastUserUpdate: updateTime });
+      const updatedAt = JSON.stringify(new Date(updateTime.toMillis()));
+      localStorage.setItem("lastUserUpdate", updatedAt);
 
       navigate("/verify-phone");
     } catch (error) {

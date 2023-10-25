@@ -408,6 +408,19 @@ const useCourse = () => {
       }
 
       dispatch(updtateUserCourses(courses));
+
+      const updateTime = Timestamp.now();
+      const updateCollection = doc(
+        database,
+        "updates",
+        "users",
+        "updates",
+        userId,
+      );
+
+      updateDoc(updateCollection, { lastUserUpdate: updateTime });
+      const updatedAt = JSON.stringify(new Date(updateTime.toMillis()));
+      localStorage.setItem("lastUserUpdate", updatedAt);
     } catch (error) {
       toast({
         description: error.message,
@@ -424,6 +437,19 @@ const useCourse = () => {
       await updateDoc(userRef, { courses: coursesData });
 
       dispatch(updtateUserCoursesVideos(coursesData));
+
+      const updateTime = Timestamp.now();
+      const updateCollection = doc(
+        database,
+        "updates",
+        "users",
+        "updates",
+        userId,
+      );
+
+      updateDoc(updateCollection, { lastUserUpdate: updateTime });
+      const updatedAt = JSON.stringify(new Date(updateTime.toMillis()));
+      localStorage.setItem("lastUserUpdate", updatedAt);
     } catch (error) {
       toast({
         description: error.message,
@@ -440,6 +466,19 @@ const useCourse = () => {
       await updateDoc(userRef, { courses: coursesData });
 
       dispatch(updateConludedVideoState(coursesData));
+
+      const updateTime = Timestamp.now();
+      const updateCollection = doc(
+        database,
+        "updates",
+        "users",
+        "updates",
+        userId,
+      );
+
+      updateDoc(updateCollection, { lastUserUpdate: updateTime });
+      const updatedAt = JSON.stringify(new Date(updateTime.toMillis()));
+      localStorage.setItem("lastUserUpdate", updatedAt);
     } catch (error) {
       toast({
         description: error.message,
@@ -466,6 +505,19 @@ const useCourse = () => {
       await updateDoc(userRef, { courses: coursesData });
 
       dispatch(updateRating(coursesData));
+
+      const updateTime = Timestamp.now();
+      const updateCollection = doc(
+        database,
+        "updates",
+        "users",
+        "updates",
+        userId,
+      );
+
+      updateDoc(updateCollection, { lastUserUpdate: updateTime });
+      const updatedAt = JSON.stringify(new Date(updateTime.toMillis()));
+      localStorage.setItem("lastUserUpdate", updatedAt);
     } catch (error) {
       toast({
         description: error.message,

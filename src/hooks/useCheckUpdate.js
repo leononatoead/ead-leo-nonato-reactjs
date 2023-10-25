@@ -1,9 +1,26 @@
-import { database } from '../firebase/config';
-import { doc, getDoc } from 'firebase/firestore';
+import { database } from "../firebase/config";
+import { doc, getDoc } from "firebase/firestore";
 
 const useCheckUpdate = () => {
+  const verifyUsersUpdate = async (id) => {
+    const userUpdate = doc(database, "updates", "users", "updates", id);
+
+    const document = await getDoc(userUpdate);
+
+    const lastUpdate = document.data()?.lastUserUpdate?.toMillis();
+
+    let time;
+    if (lastUpdate) {
+      time = new Date(document.data()?.lastUserUpdate?.toMillis());
+    } else {
+      time = null;
+    }
+
+    return time;
+  };
+
   const verifyCourseUpdate = async () => {
-    const courseUpdate = doc(database, 'updates', 'courses');
+    const courseUpdate = doc(database, "updates", "courses");
 
     const document = await getDoc(courseUpdate);
 
@@ -20,7 +37,7 @@ const useCheckUpdate = () => {
   };
 
   const verifyPostsUpdate = async () => {
-    const postsUpdate = doc(database, 'updates', 'posts');
+    const postsUpdate = doc(database, "updates", "posts");
 
     const document = await getDoc(postsUpdate);
     const lastUpdate = document.data()?.lastPostsUpdate?.toMillis();
@@ -36,7 +53,7 @@ const useCheckUpdate = () => {
   };
 
   const verifyBannersUpdate = async () => {
-    const bannersUpdate = doc(database, 'updates', 'banners');
+    const bannersUpdate = doc(database, "updates", "banners");
 
     const document = await getDoc(bannersUpdate);
     const lastUpdate = document.data()?.lastBannersUpdate?.toMillis();
@@ -51,7 +68,12 @@ const useCheckUpdate = () => {
     return time;
   };
 
-  return { verifyCourseUpdate, verifyBannersUpdate, verifyPostsUpdate };
+  return {
+    verifyUsersUpdate,
+    verifyCourseUpdate,
+    verifyBannersUpdate,
+    verifyPostsUpdate,
+  };
 };
 
 export default useCheckUpdate;
