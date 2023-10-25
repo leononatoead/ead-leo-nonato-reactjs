@@ -109,6 +109,18 @@ export default function HomePanel() {
 
         <AccordionPanel></AccordionPanel>
       </AccordionItem>
+      <AccordionItem className="!border-b-[1px] !border-t-0 !border-gray-200 ">
+        <AccordionButton px={0} py={4} className="hover:!bg-gray-200">
+          <Box as="span" flex="1" textAlign="left">
+            <Text className={`!text-base font-bold !leading-5`}>
+              Vídeo de cadastro
+            </Text>
+          </Box>
+          <AccordionIcon />
+        </AccordionButton>
+
+        <AccordionPanel></AccordionPanel>
+      </AccordionItem>
     </Accordion>
   );
 }

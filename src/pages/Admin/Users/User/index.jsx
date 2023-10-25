@@ -43,7 +43,7 @@ export default function User() {
   useEffect(() => {
     if (!user) return;
 
-    if (user.courses.length > 0 && courses) {
+    if (user?.courses?.length > 0 && courses) {
       user?.courses?.forEach((course) => {
         const findCourse = courses?.find((c) => c.id === course.id);
 
@@ -53,14 +53,18 @@ export default function User() {
       });
     }
   }, [user, courses]);
+
   return (
     <Box className="main-container flex flex-col gap-2 bg-gray-200 p-4">
       <Box className="flex flex-col gap-2">
-        <Avatar src={user?.profileImage} />
         <Text className="w-full text-center font-poppins text-large font-bold text-primary-500">
           {user?.name}
         </Text>
         <Text className="text-base font-medium">{user?.cpf}</Text>
+        <Text className="text-base font-medium">{user?.email}</Text>
+        <Text className="text-base font-medium">
+          {user?.admin ? "Admin" : "Aluno"}
+        </Text>
       </Box>
 
       <Box>
