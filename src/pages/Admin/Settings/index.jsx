@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchBannerSettings,
+  fetchRegisterVideoSettings,
   fetchSettingsFromLocalStorage,
   fetchWhatsAppSettings,
 } from "../../../redux/modules/settings/actions";
@@ -21,6 +22,7 @@ import {
 import { MdAddCircleOutline } from "react-icons/md";
 import { BiEdit } from "react-icons/bi";
 import { BsWhatsapp } from "react-icons/bs";
+import { PiTelevisionSimpleBold } from "react-icons/pi";
 
 export default function Settings() {
   const settings = useSelector((state) => state.settings);
@@ -37,13 +39,26 @@ export default function Settings() {
           new Date(JSON.parse(localStorage.getItem("lastSettingsUpdate"))) || 0;
 
         const calcCourse = fireStoreSettingsUpdate - lastSettingsUpdate;
+        const localSettings = JSON.parse(localStorage.getItem("settings"));
 
-        if (calcCourse !== 0) {
+        if (calcCourse !== 0 && !localSettings) {
           dispatch(fetchBannerSettings());
           dispatch(fetchWhatsAppSettings());
+          dispatch(fetchRegisterVideoSettings());
         } else {
-          const settings = JSON.parse(localStorage.getItem("settings"));
-          dispatch(fetchSettingsFromLocalStorage(settings));
+          dispatch(fetchSettingsFromLocalStorage(localSettings));
+
+          if (!settings.banners && !localSettings.banners) {
+            dispatch(fetchBannerSettings());
+          }
+
+          if (!settings.whatsAppURL && !localSettings.whatsAppURL) {
+            dispatch(fetchWhatsAppSettings());
+          }
+
+          if (!settings.registerVideoURL && !localSettings.registerVideoURL) {
+            dispatch(fetchRegisterVideoSettings());
+          }
         }
       } catch (error) {
         console.error(
@@ -122,24 +137,28 @@ export default function Settings() {
         </AccordionButton>
 
         <AccordionPanel pb={0}>
-          <Box className="flex w-full justify-end">
-            <Link to="/dashboard/settings/whatsapp/new" className="add-btn">
-              <MdAddCircleOutline size={20} />
-              <span className="font-bold">Novo URL</span>
-            </Link>
-          </Box>
-          <Box className="flex flex-col gap-4 py-6 ">
-            <Link
-              to={`/dashboard/settings/whatsapp/edit/`}
-              className="flex w-full items-center gap-3 rounded-lg bg-white p-3 shadow-md"
-            >
-              <BsWhatsapp size={15} />
-              <Text>Alterar WhatsApp URL</Text>
-              <Box className="flex flex-1 items-center justify-end">
-                <BiEdit size={18} className="text-primary-600" />
-              </Box>
-            </Link>
-          </Box>
+          {!settings?.whatsAppURL?.url && (
+            <Box className="flex w-full justify-end">
+              <Link to="/dashboard/settings/whatsapp/edit" className="add-btn">
+                <MdAddCircleOutline size={20} />
+                <span className="font-bold">Novo URL</span>
+              </Link>
+            </Box>
+          )}
+          {settings?.whatsAppURL?.url && (
+            <Box className="flex flex-col gap-4 py-6 ">
+              <Link
+                to={`/dashboard/settings/whatsapp/edit/`}
+                className="flex w-full items-center gap-3 rounded-lg bg-white p-3 shadow-md"
+              >
+                <BsWhatsapp size={15} />
+                <Text>Alterar WhatsApp URL</Text>
+                <Box className="flex flex-1 items-center justify-end">
+                  <BiEdit size={18} className="text-primary-600" />
+                </Box>
+              </Link>
+            </Box>
+          )}
         </AccordionPanel>
       </AccordionItem>
       <AccordionItem className="!border-b-[1px] !border-t-0 !border-gray-200 ">
@@ -152,7 +171,33 @@ export default function Settings() {
           <AccordionIcon />
         </AccordionButton>
 
-        <AccordionPanel pb={0}></AccordionPanel>
+        <AccordionPanel pb={0}>
+          {!settings?.registerVideoURL?.url && (
+            <Box className="flex w-full justify-end">
+              <Link
+                to="/dashboard/settings/registervideo/edit"
+                className="add-btn"
+              >
+                <MdAddCircleOutline size={20} />
+                <span className="font-bold">Novo vídeo</span>
+              </Link>
+            </Box>
+          )}
+          {settings?.registerVideoURL?.url && (
+            <Box className="flex flex-col gap-4 py-6 ">
+              <Link
+                to={`/dashboard/settings/registervideo/edit/`}
+                className="flex w-full items-center gap-3 rounded-lg bg-white p-3 shadow-md"
+              >
+                <PiTelevisionSimpleBold size={15} />
+                <Text>Alterar vídeo de cadastro</Text>
+                <Box className="flex flex-1 items-center justify-end">
+                  <BiEdit size={18} className="text-primary-600" />
+                </Box>
+              </Link>
+            </Box>
+          )}
+        </AccordionPanel>
       </AccordionItem>
     </Accordion>
   );

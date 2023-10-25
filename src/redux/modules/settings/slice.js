@@ -28,7 +28,6 @@ const settingsReducer = createSlice({
 
       return { ...state, banners: [...settings.banners, action.payload] };
     },
-
     editBanner: (state, action) => {
       const settings = JSON.parse(JSON.stringify(state));
 
@@ -66,7 +65,6 @@ const settingsReducer = createSlice({
         banners: filterBanners,
       };
     },
-
     newWhatsAppURL: (state, action) => {
       const settings = JSON.parse(JSON.stringify(state));
 
@@ -83,6 +81,26 @@ const settingsReducer = createSlice({
       localStorage.setItem("settings", storageSettings);
 
       return { ...state, whatsAppURL: action.payload };
+    },
+    fetchSettingsFromLocalStorage: (state, action) => {
+      return { ...state, ...action.payload };
+    },
+    newRegisterVideoURL: (state, action) => {
+      const settings = JSON.parse(JSON.stringify(state));
+
+      let storageSettings;
+
+      if (settings) {
+        storageSettings = JSON.stringify({
+          ...settings,
+          registerVideoURL: action.payload,
+        });
+      } else {
+        storageSettings = JSON.stringify({ registerVideoURL: action.payload });
+      }
+      localStorage.setItem("settings", storageSettings);
+
+      return { ...state, registerVideoURL: action.payload };
     },
     fetchSettingsFromLocalStorage: (state, action) => {
       return { ...state, ...action.payload };
@@ -144,15 +162,17 @@ const settingsReducer = createSlice({
         if (settings) {
           storageSettings = JSON.stringify({
             ...settings,
-            registerVideo: action.payload,
+            registerVideoURL: action.payload,
           });
         } else {
-          storageSettings = JSON.stringify({ registerVideo: action.payload });
+          storageSettings = JSON.stringify({
+            registerVideoURL: action.payload,
+          });
         }
 
         localStorage.setItem("settings", storageSettings);
 
-        return { ...state, registerVideo: action.payload };
+        return { ...state, registerVideoURL: action.payload };
       })
       .addCase(fetchStudantClassesSettings.fulfilled, (state, action) => {
         const settings = JSON.parse(localStorage.getItem("settings"));

@@ -33,6 +33,9 @@ import EditBanner from "../pages/Admin/Settings/Banners/EditBanner";
 import WhatsAppURL from "../pages/Admin/Settings/WhatsAppURL";
 import Users from "../pages/Admin/Users";
 import User from "../pages/Admin/Users/User";
+import RegisterVideo from "../pages/Admin/Settings/RegisterVideo";
+
+import Register from "../pages/Auth/Register";
 
 export default function AdminRoutes() {
   return (
@@ -53,8 +56,11 @@ export default function AdminRoutes() {
         <Route path="settings" element={<Settings />} />
         <Route path="settings/banners/new" element={<NewBanner />} />
         <Route path="settings/banners/edit/:id" element={<EditBanner />} />
-        <Route path="settings/whatsapp/new" element={<WhatsAppURL />} />
         <Route path="settings/whatsapp/edit/" element={<WhatsAppURL />} />
+        <Route
+          path="settings/registervideo/edit/"
+          element={<RegisterVideo />}
+        />
         <Route path="courses" element={<Courses />} />
         <Route path="courses/:id" element={<CourseDetails />} />
         <Route path="courses/new" element={<NewCourse />} />
@@ -73,6 +79,8 @@ export default function AdminRoutes() {
         <Route path="faq/new" element={<NewQuestion />} />
         <Route path="faq/edit/:id" element={<EditQuestion />} />
       </Route>
+
+      <Route path="teste2" element={<Register />} />
 
       <Route path="/*" element={<Navigate to="/" />} />
     </Routes>

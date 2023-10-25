@@ -52,10 +52,16 @@ export default function VerifySucess() {
         const calcCourse = fireStoreSettingsUpdate - lastSettingsUpdate;
 
         if (calcCourse !== 0 || !settings.whatsAppURL) {
-          dispatch(fetchWhatsAppSettings());
+          const localSettings = JSON.parse(localStorage.getItem("settings"));
+
+          if (localSettings && localSettings.whatsAppURL) {
+            dispatch(fetchSettingsFromLocalStorage(localSettings));
+          } else {
+            dispatch(fetchWhatsAppSettings());
+          }
         } else {
-          const settings = JSON.parse(localStorage.getItem("settings"));
-          dispatch(fetchSettingsFromLocalStorage(settings));
+          const localSettings = JSON.parse(localStorage.getItem("settings"));
+          dispatch(fetchSettingsFromLocalStorage(localSettings));
         }
       } catch (error) {
         console.error(

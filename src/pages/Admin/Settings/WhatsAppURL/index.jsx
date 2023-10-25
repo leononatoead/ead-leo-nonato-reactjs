@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  fetchBannerSettings,
   fetchSettingsFromLocalStorage,
+  fetchWhatsAppSettings,
 } from "../../../../redux/modules/settings/actions";
 import useSettings from "../../../../hooks/useSettings";
 import useCheckUpdate from "../../../../hooks/useCheckUpdate";
@@ -42,14 +42,20 @@ export default function WhatsAppURL() {
         const calcCourse = fireStoreSettingsUpdate - lastSettingsUpdate;
 
         if (calcCourse !== 0 || !settings.whatsAppURL) {
-          dispatch(fetchBannerSettings());
+          const localSettings = JSON.parse(localStorage.getItem("settings"));
+
+          if (localSettings && localSettings.whatsAppURL) {
+            dispatch(fetchSettingsFromLocalStorage(localSettings));
+          } else {
+            dispatch(fetchWhatsAppSettings());
+          }
         } else {
-          const settings = JSON.parse(localStorage.getItem("settings"));
-          dispatch(fetchSettingsFromLocalStorage(settings));
+          const localSettings = JSON.parse(localStorage.getItem("settings"));
+          dispatch(fetchSettingsFromLocalStorage(localSettings));
         }
       } catch (error) {
         console.error(
-          "Erro ao buscar a última atualização dos banners:",
+          "Erro ao buscar a última atualização do URL de WhatsApp:",
           error,
         );
       }

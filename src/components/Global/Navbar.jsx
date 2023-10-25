@@ -50,7 +50,11 @@ export default function Navbar({ title }) {
 
     removeBlank.pop();
 
-    if (removeBlank.includes("edit") || removeBlank.includes("whatsapp")) {
+    if (
+      removeBlank.includes("edit") ||
+      removeBlank.includes("whatsapp") ||
+      removeBlank.includes("registervideo")
+    ) {
       removeBlank.pop();
     }
 

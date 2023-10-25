@@ -36,17 +36,26 @@ export default function Home() {
   useEffect(() => {
     const fetchSettingsData = async () => {
       try {
-        const firestoreSettingsUpdate = await verifySettingsUpdate();
+        const fireStoreSettingsUpdate = await verifySettingsUpdate();
         const lastSettingsUpdate =
           new Date(JSON.parse(localStorage.getItem("lastSettingsUpdate"))) || 0;
 
-        const calcCourse = firestoreSettingsUpdate - lastSettingsUpdate;
+        const calcCourse = fireStoreSettingsUpdate - lastSettingsUpdate;
+        const localSettings = JSON.parse(localStorage.getItem("settings"));
 
-        if (calcCourse !== 0 || !settings.banners) {
+        if (calcCourse !== 0 && !localSettings) {
           dispatch(fetchBannerSettings());
+          // dispatch(fetchWhatsAppSettings());
         } else {
-          const settings = JSON.parse(localStorage.getItem("settings"));
-          dispatch(fetchSettingsFromLocalStorage(settings));
+          dispatch(fetchSettingsFromLocalStorage(localSettings));
+
+          // if (!settings.whatsAppURL && !localSettings.whatsAppURL) {
+          //   dispatch(fetchWhatsAppSettings());
+          // }
+
+          if (!settings.banners && !localSettings.banners) {
+            dispatch(fetchBannerSettings());
+          }
         }
       } catch (error) {
         console.error(

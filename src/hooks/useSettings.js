@@ -19,6 +19,7 @@ import {
   editBanner,
   newBanner,
   newWhatsAppURL,
+  newRegisterVideoURL,
 } from "../redux/modules/settings/actions";
 
 const useSettings = () => {
@@ -135,10 +136,10 @@ const useSettings = () => {
 
     try {
       const whatsAppRef = collection(database, "settings/data/whatsAppURL/");
-      const whatsAppDoc = doc(whatsAppRef, "amQuhXkN7iTagP5dWsGA");
+      const whatsAppDoc = doc(whatsAppRef, "whatsAppURLid");
       await setDoc(whatsAppDoc, { url: url });
 
-      const data = { id: "amQuhXkN7iTagP5dWsGA", url: url };
+      const data = { id: "whatsAppURLid", url: url };
 
       const updateTime = Timestamp.now();
       const updateCollection = doc(database, "updates", "settings");
@@ -166,8 +167,54 @@ const useSettings = () => {
       setLoading(false);
     }
   };
+  const addRegisterVideoURL = async (url) => {
+    setLoading(true);
 
-  return { addBanner, updateBanner, deleteBanner, addWhatsAppURL, loading };
+    try {
+      const registerVideoRef = collection(
+        database,
+        "settings/data/registerVideoURL/",
+      );
+      const registerVideoDoc = doc(registerVideoRef, "registerVideoURLid");
+      await setDoc(registerVideoDoc, { url: url });
+
+      const data = { id: "registerVideoURLid", url: url };
+
+      const updateTime = Timestamp.now();
+      const updateCollection = doc(database, "updates", "settings");
+      setDoc(updateCollection, { lastSettingsUpdate: updateTime });
+      const updatedAt = JSON.stringify(new Date(updateTime.toMillis()));
+      localStorage.setItem("lastSettingsUpdate", updatedAt);
+
+      dispatch(newRegisterVideoURL(data));
+
+      toast({
+        description: "URL adicionado com sucesso!",
+        status: "success",
+        duration: "3000",
+        isClosable: true,
+      });
+    } catch (error) {
+      toast({
+        description: error.message,
+        status: "error",
+        duration: "3000",
+        isClosable: true,
+      });
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return {
+    addBanner,
+    updateBanner,
+    deleteBanner,
+    addWhatsAppURL,
+    addRegisterVideoURL,
+    loading,
+  };
 };
 
 export default useSettings;

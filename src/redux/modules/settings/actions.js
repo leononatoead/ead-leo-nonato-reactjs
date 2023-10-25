@@ -93,6 +93,7 @@ export const fetchNotificationsSettings = createAsyncThunk(
     }
   },
 );
+
 export const fetchWhatsAppSettings = createAsyncThunk(
   "settings/fetchWhatsAppSettings",
   async () => {
@@ -112,9 +113,7 @@ export const fetchWhatsAppSettings = createAsyncThunk(
               id: doc.id,
               ...doc.data(),
             }));
-            resolve(data);
-
-            console.log(data);
+            resolve(data[0]);
 
             localStorage.setItem(
               "lastSettingsUpdate",
@@ -133,6 +132,7 @@ export const fetchWhatsAppSettings = createAsyncThunk(
     }
   },
 );
+
 export const fetchRegisterVideoSettings = createAsyncThunk(
   "settings/fetchRegisterVideoSettings",
   async () => {
@@ -140,11 +140,11 @@ export const fetchRegisterVideoSettings = createAsyncThunk(
       database,
       "settings",
       "data",
-      "registerVideo",
+      "registerVideoURL",
     );
 
     try {
-      const q = query(registerVideoRef, orderBy("order", "asc"));
+      const q = query(registerVideoRef);
 
       const settingsUpdate = doc(database, "updates", "settings");
       const document = await getDoc(settingsUpdate);
@@ -157,7 +157,7 @@ export const fetchRegisterVideoSettings = createAsyncThunk(
               id: doc.id,
               ...doc.data(),
             }));
-            resolve(data);
+            resolve(data[0]);
 
             localStorage.setItem(
               "lastSettingsUpdate",
@@ -176,6 +176,7 @@ export const fetchRegisterVideoSettings = createAsyncThunk(
     }
   },
 );
+
 export const fetchStudantClassesSettings = createAsyncThunk(
   "settings/fetchStudantClassesSettings",
   async () => {
@@ -246,6 +247,13 @@ export const delBanner = (data) => async (dispatch) => {
 export const newWhatsAppURL = (data) => async (dispatch) => {
   dispatch({
     type: "settings/newWhatsAppURL",
+    payload: data,
+  });
+};
+
+export const newRegisterVideoURL = (data) => async (dispatch) => {
+  dispatch({
+    type: "settings/newRegisterVideoURL",
     payload: data,
   });
 };

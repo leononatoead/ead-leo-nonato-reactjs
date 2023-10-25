@@ -262,9 +262,9 @@ export default function EditVideo() {
           <Input
             theme={"light"}
             type={"code"}
-            label={"IFrame ou Embed URL"}
+            label={"IFrame Panda ou Youtube Embed URL"}
             placeholder={
-              "<iframe id={...} src={...}></iframe> ou https://www.youtube.com/eXeMpLo"
+              "<iframe id={...} src={...}></iframe> ou www.youtube.com/embed/"
             }
             register={register}
             id={"videoPath"}

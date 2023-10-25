@@ -1,19 +1,19 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchVideos } from '../../../../../redux/modules/courses/actions';
-import useVideo from '../../../../../hooks/useVideo';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { AddVideoSchema } from './addVideoSchema';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchVideos } from "../../../../../redux/modules/courses/actions";
+import useVideo from "../../../../../hooks/useVideo";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { AddVideoSchema } from "./addVideoSchema";
+import { useNavigate, useParams } from "react-router-dom";
 
-import ButtonSubmit from '../../../../../components/Global/ButtonSubmit';
-import Input from '../../../../../components/Global/Input';
-import Assets from '../../../../../components/Admin/NewVideo/Assets';
-import Advertisement from '../../../../../components/Admin/NewVideo/Advertisement';
-import Quiz from '../../../../../components/Admin/NewVideo/Quiz';
-import Survey from '../../../../../components/Admin/NewVideo/Survey';
-import { Box, Switch, Text, useToast } from '@chakra-ui/react';
+import ButtonSubmit from "../../../../../components/Global/ButtonSubmit";
+import Input from "../../../../../components/Global/Input";
+import Assets from "../../../../../components/Admin/NewVideo/Assets";
+import Advertisement from "../../../../../components/Admin/NewVideo/Advertisement";
+import Quiz from "../../../../../components/Admin/NewVideo/Quiz";
+import Survey from "../../../../../components/Admin/NewVideo/Survey";
+import { Box, Switch, Text, useToast } from "@chakra-ui/react";
 
 export default function NewVideo() {
   const [videoData, setVideoData] = useState({
@@ -60,22 +60,22 @@ export default function NewVideo() {
   });
 
   const handleSwitch = (type) => {
-    if (type === 'videoType') {
+    if (type === "videoType") {
       setVideoData((prev) => ({
         ...prev,
         video: { video: null, videoType: !prev.video.videoType },
       }));
-    } else if (type === 'hasAssets') {
+    } else if (type === "hasAssets") {
       setVideoData((prev) => ({
         ...prev,
         assets: { ...prev.assets, hasAssets: !prev.assets.hasAssets },
       }));
-    } else if (type === 'assetType') {
+    } else if (type === "assetType") {
       setVideoData((prev) => ({
         ...prev,
         assets: { ...prev.assets, assetType: !prev.assets.assetType },
       }));
-    } else if (type === 'hasAdvertisement') {
+    } else if (type === "hasAdvertisement") {
       setVideoData((prev) => ({
         ...prev,
         advertisement: {
@@ -83,7 +83,7 @@ export default function NewVideo() {
           hasAdvertisement: !prev.advertisement.hasAdvertisement,
         },
       }));
-    } else if (type === 'hasQuiz') {
+    } else if (type === "hasQuiz") {
       setVideoData((prev) => ({
         ...prev,
         quiz: {
@@ -91,7 +91,7 @@ export default function NewVideo() {
           hasQuiz: !prev.quiz.hasQuiz,
         },
       }));
-    } else if (type === 'hasSurvey') {
+    } else if (type === "hasSurvey") {
       setVideoData((prev) => ({
         ...prev,
         survey: {
@@ -112,47 +112,47 @@ export default function NewVideo() {
   const handleAddVideo = (formData) => {
     if (videoData.video.videoType && videoData.video.videoFile === null) {
       return toast({
-        description: 'Adicione um arquivo vídeo',
-        status: 'error',
-        duration: '3000',
+        description: "Adicione um arquivo vídeo",
+        status: "error",
+        duration: "3000",
         isClosable: true,
       });
     } else if (!videoData.video.videoType && !formData.videoPath) {
       return toast({
-        description: 'Adicione um iframe válido',
-        status: 'error',
-        duration: '3000',
+        description: "Adicione um iframe válido",
+        status: "error",
+        duration: "3000",
         isClosable: true,
       });
     }
 
     let data = { ...formData };
 
-    if (formData.videoPath?.includes('pandavideo')) {
+    if (formData.videoPath?.includes("pandavideo")) {
       const idMatch = formData.videoPath.match(/id="([^"]+)"/);
       const srcMatch = formData.videoPath.match(/src="([^"]+)"/);
 
-      const id = idMatch ? idMatch[1] : 'Nenhum ID encontrado';
-      const src = srcMatch ? srcMatch[1] : 'Nenhum SRC encontrado';
+      const id = idMatch ? idMatch[1] : "Nenhum ID encontrado";
+      const src = srcMatch ? srcMatch[1] : "Nenhum SRC encontrado";
 
       data = { ...data, videoFrame: { id, src }, videoPath: null };
     } else {
       data = { ...data, videoFrame: null };
     }
 
-    if (formData.videoPath?.includes('youtube')) {
+    if (formData.videoPath?.includes("youtube")) {
       try {
         const urlObj = new URL(formData.videoPath);
         const check =
-          urlObj.protocol === 'http:' || urlObj.protocol === 'https:';
+          urlObj.protocol === "http:" || urlObj.protocol === "https:";
         if (!check) {
           return;
         }
       } catch {
         return toast({
-          description: 'Adicione uma URL válida',
-          status: 'error',
-          duration: '3000',
+          description: "Adicione uma URL válida",
+          status: "error",
+          duration: "3000",
           isClosable: true,
         });
       }
@@ -202,7 +202,7 @@ export default function NewVideo() {
 
     uploadVideo(id, data, `courses/${id}/videos`);
 
-    reset({ videoPath: '', order: '', title: '', description: '' });
+    reset({ videoPath: "", order: "", title: "", description: "" });
   };
 
   useEffect(() => {
@@ -212,70 +212,70 @@ export default function NewVideo() {
   }, [course, id]);
 
   return (
-    <Box className='main-container'>
-      <Box className='flex justify-start items-center gap-4' mb={'5px'}>
-        <Text className='font-bold text-primary-600 text-base'>
+    <Box className="main-container">
+      <Box className="flex items-center justify-start gap-4" mb={"5px"}>
+        <Text className="text-base font-bold text-primary-600">
           Tipo de vídeo:
         </Text>
-        <Box className='flex justify-start items-center gap-4'>
+        <Box className="flex items-center justify-start gap-4">
           <Switch
-            id='videoType'
-            onChange={() => handleSwitch('videoType')}
+            id="videoType"
+            onChange={() => handleSwitch("videoType")}
             defaultChecked
           />
-          <label htmlFor={'videoType'} className='text-base leading-5'>
-            {videoData.video.videoType ? 'Arquivo' : 'URL'}
+          <label htmlFor={"videoType"} className="text-base leading-5">
+            {videoData.video.videoType ? "Arquivo" : "URL"}
           </label>
         </Box>
       </Box>
       <form
         onSubmit={handleSubmit(handleAddVideo)}
-        id='addVideoForm'
-        className='flex flex-col gap-[10px] pt-2 pb-4'
+        id="addVideoForm"
+        className="flex flex-col gap-[10px] pb-4 pt-2"
       >
         {videoData.video.videoType ? (
-          <Box className='mb-4'>
+          <Box className="mb-4">
             <label
-              htmlFor={'videoFile'}
-              className='text-base leading-5 mb-[9px] block'
+              htmlFor={"videoFile"}
+              className="mb-[9px] block text-base leading-5"
             >
               Vídeo
             </label>
             <input
-              type='file'
-              name='videoFile'
+              type="file"
+              name="videoFile"
               onChange={handleVideoInputChange}
               multiple={false}
-              accept='video/*'
-              title='Selecione um vídeo'
-              className='w-full outline-none text-base'
+              accept="video/*"
+              title="Selecione um vídeo"
+              className="w-full text-base outline-none"
             />
           </Box>
         ) : (
           <Input
-            theme={'light'}
-            type={'code'}
-            label={'IFrame ou Embed URL'}
+            theme={"light"}
+            type={"code"}
+            label={"IFrame Panda ou Youtube Embed URL"}
             placeholder={
-              '<iframe id={...} src={...}></iframe> ou www.exemplo.com'
+              "<iframe id={...} src={...}></iframe> ou www.youtube.com/embed/"
             }
             register={register}
-            id={'videoPath'}
+            id={"videoPath"}
             error={errors?.videoPath?.message}
             watch={watch}
           />
         )}
-        <Box className='pb-[5px]'>
+        <Box className="pb-[5px]">
           <label
-            htmlFor={'section'}
-            className='text-base leading-5 mb-[9px] block'
+            htmlFor={"section"}
+            className="mb-[9px] block text-base leading-5"
           >
             Seção
           </label>
           <select
-            id='section'
-            {...register('section')}
-            className={`w-full rounded-[4px] px-3 py-[5px] leading-5 text-base outline-none bg-white placeholder:text-gray-900 shadow-sm shadow-gray-900/50`}
+            id="section"
+            {...register("section")}
+            className={`w-full rounded-[4px] bg-white px-3 py-[5px] text-base leading-5 shadow-sm shadow-gray-900/50 outline-none placeholder:text-gray-900`}
           >
             {course?.sections?.map((section, i) => (
               <option key={i} value={section.sectionName}>
@@ -285,91 +285,91 @@ export default function NewVideo() {
           </select>
         </Box>
         <Input
-          theme={'light'}
-          type={'number'}
-          label={'Ordem'}
-          placeholder={'Digite aqui'}
+          theme={"light"}
+          type={"number"}
+          label={"Ordem"}
+          placeholder={"Digite aqui"}
           register={register}
-          id={'order'}
+          id={"order"}
           error={errors?.order?.message}
           watch={watch}
         />
         <Input
-          theme={'light'}
-          type={'text'}
-          label={'Título'}
-          placeholder={'Digite aqui'}
+          theme={"light"}
+          type={"text"}
+          label={"Título"}
+          placeholder={"Digite aqui"}
           register={register}
-          id={'title'}
+          id={"title"}
           error={errors?.title?.message}
           watch={watch}
         />
         <Input
-          theme={'light'}
-          type={'text'}
-          label={'Descrição'}
-          placeholder={'Digite aqui'}
+          theme={"light"}
+          type={"text"}
+          label={"Descrição"}
+          placeholder={"Digite aqui"}
           register={register}
-          id={'description'}
+          id={"description"}
           error={errors?.description?.message}
           watch={watch}
         />
       </form>
-      <Box className='flex justify-start items-center gap-4' mb={'5px'}>
-        <Text className='font-bold text-primary-600 text-base'>
+      <Box className="flex items-center justify-start gap-4" mb={"5px"}>
+        <Text className="text-base font-bold text-primary-600">
           Material Complementar
         </Text>
-        <Box className='flex justify-start items-center gap-4'>
-          <Switch id='hasAssets' onChange={() => handleSwitch('hasAssets')} />
+        <Box className="flex items-center justify-start gap-4">
+          <Switch id="hasAssets" onChange={() => handleSwitch("hasAssets")} />
         </Box>
       </Box>
       {videoData.assets.hasAssets && (
         <>
-          <Box className='flex justify-start items-center gap-4' my={'16px'}>
-            <Text className='font-bold text-primary-600 text-base'>
+          <Box className="flex items-center justify-start gap-4" my={"16px"}>
+            <Text className="text-base font-bold text-primary-600">
               Tipo de material:
             </Text>
-            <Box className='flex justify-start items-center gap-4'>
+            <Box className="flex items-center justify-start gap-4">
               <Switch
-                id='assetType'
-                onChange={() => handleSwitch('assetType')}
+                id="assetType"
+                onChange={() => handleSwitch("assetType")}
                 defaultChecked
               />
-              <label htmlFor={'assetType'} className='text-base leading-5'>
-                {videoData.assets.assetType ? 'Arquivo' : 'URL'}
+              <label htmlFor={"assetType"} className="text-base leading-5">
+                {videoData.assets.assetType ? "Arquivo" : "URL"}
               </label>
             </Box>
           </Box>
           <Assets videoData={videoData} setVideoData={setVideoData} />
         </>
       )}
-      <Box className='flex justify-start items-center gap-4' my={'16px'}>
-        <Text className='font-bold text-primary-600 text-base'>Anúncios</Text>
-        <Box className='flex justify-start items-center gap-4'>
+      <Box className="flex items-center justify-start gap-4" my={"16px"}>
+        <Text className="text-base font-bold text-primary-600">Anúncios</Text>
+        <Box className="flex items-center justify-start gap-4">
           <Switch
-            id='hasAdvertisement'
-            onChange={() => handleSwitch('hasAdvertisement')}
+            id="hasAdvertisement"
+            onChange={() => handleSwitch("hasAdvertisement")}
           />
         </Box>
       </Box>
       {videoData.advertisement.hasAdvertisement && (
         <Advertisement videoData={videoData} setVideoData={setVideoData} />
       )}
-      <Box className='flex justify-start items-center gap-4' my={'16px'}>
-        <Text className='font-bold text-primary-600 text-base'>
+      <Box className="flex items-center justify-start gap-4" my={"16px"}>
+        <Text className="text-base font-bold text-primary-600">
           Questionário
         </Text>
-        <Box className='flex justify-start items-center gap-4'>
-          <Switch id='hasQuiz' onChange={() => handleSwitch('hasQuiz')} />
+        <Box className="flex items-center justify-start gap-4">
+          <Switch id="hasQuiz" onChange={() => handleSwitch("hasQuiz")} />
         </Box>
       </Box>
       {videoData.quiz.hasQuiz && (
         <Quiz videoData={videoData} setVideoData={setVideoData} />
       )}
-      <Box className='flex justify-start items-center gap-4' my={'16px'}>
-        <Text className='font-bold text-primary-600 text-base'>Enquete</Text>
-        <Box className='flex justify-start items-center gap-4'>
-          <Switch id='hasSurvey' onChange={() => handleSwitch('hasSurvey')} />
+      <Box className="flex items-center justify-start gap-4" my={"16px"}>
+        <Text className="text-base font-bold text-primary-600">Enquete</Text>
+        <Box className="flex items-center justify-start gap-4">
+          <Switch id="hasSurvey" onChange={() => handleSwitch("hasSurvey")} />
         </Box>
       </Box>
       {videoData.survey.hasSurvey && (
@@ -377,9 +377,9 @@ export default function NewVideo() {
       )}
 
       <ButtonSubmit
-        form='addVideoForm'
+        form="addVideoForm"
         disabled={loading}
-        text={'Adicionar'}
+        text={"Adicionar"}
         loading={loading}
       />
     </Box>
