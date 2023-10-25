@@ -35,8 +35,6 @@ import Users from "../pages/Admin/Users";
 import User from "../pages/Admin/Users/User";
 import RegisterVideo from "../pages/Admin/Settings/RegisterVideo";
 
-import Register from "../pages/Auth/Register";
-
 export default function AdminRoutes() {
   return (
     <Routes>
@@ -79,8 +77,6 @@ export default function AdminRoutes() {
         <Route path="faq/new" element={<NewQuestion />} />
         <Route path="faq/edit/:id" element={<EditQuestion />} />
       </Route>
-
-      <Route path="teste2" element={<Register />} />
 
       <Route path="/*" element={<Navigate to="/" />} />
     </Routes>
