@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
-  fetchActualClassSettings,
   fetchBannerSettings,
   fetchNotificationsSettings,
   fetchRegisterVideoSettings,
+  fetchStudantClassesSettings,
   fetchWhatsAppSettings,
 } from "./actions";
 
@@ -28,6 +28,7 @@ const settingsReducer = createSlice({
 
       return { ...state, banners: [...settings.banners, action.payload] };
     },
+
     editBanner: (state, action) => {
       const settings = JSON.parse(JSON.stringify(state));
 
@@ -64,6 +65,24 @@ const settingsReducer = createSlice({
         ...state,
         banners: filterBanners,
       };
+    },
+
+    newWhatsAppURL: (state, action) => {
+      const settings = JSON.parse(JSON.stringify(state));
+
+      let storageSettings;
+
+      if (settings) {
+        storageSettings = JSON.stringify({
+          ...settings,
+          whatsAppURL: action.payload,
+        });
+      } else {
+        storageSettings = JSON.stringify({ whatsAppURL: action.payload });
+      }
+      localStorage.setItem("settings", storageSettings);
+
+      return { ...state, whatsAppURL: action.payload };
     },
     fetchSettingsFromLocalStorage: (state, action) => {
       return { ...state, ...action.payload };
@@ -135,21 +154,21 @@ const settingsReducer = createSlice({
 
         return { ...state, registerVideo: action.payload };
       })
-      .addCase(fetchActualClassSettings.fulfilled, (state, action) => {
+      .addCase(fetchStudantClassesSettings.fulfilled, (state, action) => {
         const settings = JSON.parse(localStorage.getItem("settings"));
         let storageSettings;
         if (settings) {
           storageSettings = JSON.stringify({
             ...settings,
-            actualClass: action.payload,
+            studantClasses: action.payload,
           });
         } else {
-          storageSettings = JSON.stringify({ actualClass: action.payload });
+          storageSettings = JSON.stringify({ studantClasses: action.payload });
         }
 
         localStorage.setItem("settings", storageSettings);
 
-        return { ...state, actualClass: action.payload };
+        return { ...state, studantClasses: action.payload };
       });
   },
 });

@@ -18,9 +18,10 @@ import {
   delBanner,
   editBanner,
   newBanner,
+  newWhatsAppURL,
 } from "../redux/modules/settings/actions";
 
-const useBanner = () => {
+const useSettings = () => {
   const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
@@ -129,7 +130,44 @@ const useBanner = () => {
     }
   };
 
-  return { addBanner, updateBanner, deleteBanner, loading };
+  const addWhatsAppURL = async (url) => {
+    setLoading(true);
+
+    try {
+      const whatsAppRef = collection(database, "settings/data/whatsAppURL/");
+      const whatsAppDoc = doc(whatsAppRef, "amQuhXkN7iTagP5dWsGA");
+      await setDoc(whatsAppDoc, { url: url });
+
+      const data = { id: "amQuhXkN7iTagP5dWsGA", url: url };
+
+      const updateTime = Timestamp.now();
+      const updateCollection = doc(database, "updates", "settings");
+      setDoc(updateCollection, { lastSettingsUpdate: updateTime });
+      const updatedAt = JSON.stringify(new Date(updateTime.toMillis()));
+      localStorage.setItem("lastSettingsUpdate", updatedAt);
+
+      dispatch(newWhatsAppURL(data));
+
+      toast({
+        description: "URL adicionado com sucesso!",
+        status: "success",
+        duration: "3000",
+        isClosable: true,
+      });
+    } catch (error) {
+      toast({
+        description: error.message,
+        status: "error",
+        duration: "3000",
+        isClosable: true,
+      });
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { addBanner, updateBanner, deleteBanner, addWhatsAppURL, loading };
 };
 
-export default useBanner;
+export default useSettings;

@@ -1,7 +1,13 @@
-import { Link } from 'react-router-dom';
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchSettingsFromLocalStorage,
+  fetchWhatsAppSettings,
+} from "../../../redux/modules/settings/actions";
+import useCheckUpdate from "../../../hooks/useCheckUpdate";
+import { Link } from "react-router-dom";
 
-import AuthHeader from '../../../components/Auth/AuthHeader';
-import { AiOutlineCheckCircle } from 'react-icons/ai';
+import AuthHeader from "../../../components/Auth/AuthHeader";
 import {
   Box,
   Flex,
@@ -17,13 +23,14 @@ import {
   StepTitle,
   Stepper,
   useSteps,
-} from '@chakra-ui/react';
+} from "@chakra-ui/react";
+import { AiOutlineCheckCircle } from "react-icons/ai";
 
 export default function VerifySucess() {
   const steps = [
-    { title: '', description: '' },
-    { title: '', description: '' },
-    { title: '', description: '' },
+    { title: "", description: "" },
+    { title: "", description: "" },
+    { title: "", description: "" },
   ];
 
   const { activeStep } = useSteps({
@@ -31,28 +38,58 @@ export default function VerifySucess() {
     count: steps.length,
   });
 
+  const settings = useSelector((state) => state.settings);
+  const { verifySettingsUpdate } = useCheckUpdate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const fetchSettingsData = async () => {
+      try {
+        const fireStoreSettingsUpdate = await verifySettingsUpdate();
+        const lastSettingsUpdate =
+          new Date(JSON.parse(localStorage.getItem("lastSettingsUpdate"))) || 0;
+
+        const calcCourse = fireStoreSettingsUpdate - lastSettingsUpdate;
+
+        if (calcCourse !== 0 || !settings.whatsAppURL) {
+          dispatch(fetchWhatsAppSettings());
+        } else {
+          const settings = JSON.parse(localStorage.getItem("settings"));
+          dispatch(fetchSettingsFromLocalStorage(settings));
+        }
+      } catch (error) {
+        console.error(
+          "Erro ao buscar a última atualização dos banners:",
+          error,
+        );
+      }
+    };
+
+    fetchSettingsData();
+  }, []);
+
   return (
     <Flex
-      flexDirection={'column'}
-      className='min-h-[100dvh] bg-gray-200'
-      p={{ lg: '5rem 30%' }}
+      flexDirection={"column"}
+      className="min-h-[100dvh] bg-gray-200"
+      p={{ lg: "5rem 30%" }}
     >
       <AuthHeader step={4} />
 
       <Box
-        display={'flex'}
-        flexDirection={'column'}
-        flexGrow={'1'}
-        p={{ lg: '32px 16px' }}
-        borderRadius={{ lg: '8px' }}
-        boxShadow={{ lg: '0px 8px 16px 0px rgba(0, 0, 0, 0.14)' }}
-        background={{ lg: 'white' }}
+        display={"flex"}
+        flexDirection={"column"}
+        flexGrow={"1"}
+        p={{ lg: "32px 16px" }}
+        borderRadius={{ lg: "8px" }}
+        boxShadow={{ lg: "0px 8px 16px 0px rgba(0, 0, 0, 0.14)" }}
+        background={{ lg: "white" }}
       >
         <Box px={4} mt={1}>
           <Stepper
             index={activeStep}
-            mb={'1rem'}
-            display={{ base: 'none', lg: 'flex' }}
+            mb={"1rem"}
+            display={{ base: "none", lg: "flex" }}
           >
             {steps.map((step, index) => (
               <Step key={index}>
@@ -64,7 +101,7 @@ export default function VerifySucess() {
                   />
                 </StepIndicator>
 
-                <Box flexShrink='0'>
+                <Box flexShrink="0">
                   <StepTitle>{step.title}</StepTitle>
                   <StepDescription>{step.description}</StepDescription>
                 </Box>
@@ -73,37 +110,43 @@ export default function VerifySucess() {
               </Step>
             ))}
           </Stepper>
-          <AiOutlineCheckCircle size={80} className='text-[#89D185] mb-6' />
+          <AiOutlineCheckCircle size={80} className="mb-6 text-[#89D185]" />
           <Heading
-            className='!font-bold !font-poppins !text-large !leading-6 text-primary-600'
+            className="!font-poppins !text-large !font-bold !leading-6 text-primary-600"
             mb={2}
           >
             Cadastro validado!
           </Heading>
           <Text
-            className='!font-medium !text-base !text-black !leading-5'
+            className="!text-base !font-medium !leading-5 !text-black"
             mb={6}
           >
             Agora você já pode acessar a plataforma.
           </Text>
-          <Text className='!font-medium !text-base !text-black !leading-5'>
+          <Text className="!text-base !font-medium !leading-5 !text-black">
             Não esqueça de entrar no grupo de WhatsApp para não perder novidades
             e avisos importantes.
           </Text>
         </Box>
         <Flex
-          flexDirection={'column'}
-          className='!flex-grow justify-end'
-          px={'10px'}
+          flexDirection={"column"}
+          className="!flex-grow justify-end"
+          px={"10px"}
           pb={6}
           gap={4}
         >
-          <button className='w-full bg-green-300 rounded-[4px] px-3 py-[5px] text-white text-base leading-5 text-center border-[1px] border-green-300 '>
-            Ir para o WhatsApp
-          </button>
+          {settings?.whatsAppURL && settings?.whatsAppURL[0].url && (
+            <Link
+              to={settings?.whatsAppURL[0]?.url}
+              className="w-full rounded-[4px] border-[1px] border-green-300 bg-green-300 px-3 py-[5px] text-center text-base leading-5 text-white"
+              target="_blank"
+            >
+              Ir para o WhatsApp
+            </Link>
+          )}
           <Link
-            to='/'
-            className='w-full bg-white rounded-[4px] px-3 py-[5px] text-primary-400 text-base leading-5 text-center border-[1px] border-primary-400'
+            to="/"
+            className="w-full rounded-[4px] border-[1px] border-primary-400 bg-white px-3 py-[5px] text-center text-base leading-5 text-primary-400"
           >
             Acessar plataforma
           </Link>

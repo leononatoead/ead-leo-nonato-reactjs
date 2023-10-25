@@ -27,9 +27,10 @@ import NewPost from "../pages/Admin/Posts/NewPost";
 import EditPost from "../pages/Admin/Posts/EditPost";
 import SearchPosts from "../pages/Global/SearchPosts";
 import SearchCourses from "../pages/Global/SearchCourses";
-import HomePanel from "../pages/Admin/HomePanel";
-import NewBanner from "../pages/Admin/HomePanel/Banners/NewBanner";
-import EditBanner from "../pages/Admin/HomePanel/Banners/EditBanner";
+import Settings from "../pages/Admin/Settings";
+import NewBanner from "../pages/Admin/Settings/Banners/NewBanner";
+import EditBanner from "../pages/Admin/Settings/Banners/EditBanner";
+import WhatsAppURL from "../pages/Admin/Settings/WhatsAppURL";
 import Users from "../pages/Admin/Users";
 import User from "../pages/Admin/Users/User";
 
@@ -49,9 +50,11 @@ export default function AdminRoutes() {
       <Route path="/profile" element={<Profile />} />
       <Route path="/dashboard" element={<Dashboard />}>
         <Route path="/dashboard" element={<Courses />} />
-        <Route path="settings" element={<HomePanel />} />
+        <Route path="settings" element={<Settings />} />
         <Route path="settings/banners/new" element={<NewBanner />} />
         <Route path="settings/banners/edit/:id" element={<EditBanner />} />
+        <Route path="settings/whatsapp/new" element={<WhatsAppURL />} />
+        <Route path="settings/whatsapp/edit/" element={<WhatsAppURL />} />
         <Route path="courses" element={<Courses />} />
         <Route path="courses/:id" element={<CourseDetails />} />
         <Route path="courses/new" element={<NewCourse />} />

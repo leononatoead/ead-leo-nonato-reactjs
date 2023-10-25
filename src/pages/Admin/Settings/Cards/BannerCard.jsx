@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Box, Heading, Image, Text } from "@chakra-ui/react";
 import { BiEdit } from "react-icons/bi";
 
-export default function BannerCardAdmin({ cardData }) {
+export default function BannerCard({ cardData }) {
   return (
     <Link
       to={`/dashboard/settings/banners/edit/${cardData.id}`}

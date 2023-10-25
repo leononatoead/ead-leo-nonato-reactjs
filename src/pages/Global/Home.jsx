@@ -42,7 +42,7 @@ export default function Home() {
 
         const calcCourse = firestoreSettingsUpdate - lastSettingsUpdate;
 
-        if (calcCourse !== 0) {
+        if (calcCourse !== 0 || !settings.banners) {
           dispatch(fetchBannerSettings());
         } else {
           const settings = JSON.parse(localStorage.getItem("settings"));

@@ -96,10 +96,10 @@ export const fetchNotificationsSettings = createAsyncThunk(
 export const fetchWhatsAppSettings = createAsyncThunk(
   "settings/fetchWhatsAppSettings",
   async () => {
-    const whatsAppRef = collection(database, "settings", "data", "whatsApp");
+    const whatsAppRef = collection(database, "settings", "data", "whatsAppURL");
 
     try {
-      const q = query(whatsAppRef, orderBy("order", "asc"));
+      const q = query(whatsAppRef);
 
       const settingsUpdate = doc(database, "updates", "settings");
       const document = await getDoc(settingsUpdate);
@@ -159,8 +159,6 @@ export const fetchRegisterVideoSettings = createAsyncThunk(
             }));
             resolve(data);
 
-            console.log(data);
-
             localStorage.setItem(
               "lastSettingsUpdate",
               JSON.stringify(
@@ -178,18 +176,18 @@ export const fetchRegisterVideoSettings = createAsyncThunk(
     }
   },
 );
-export const fetchActualClassSettings = createAsyncThunk(
-  "settings/fetchActualClassSettings",
+export const fetchStudantClassesSettings = createAsyncThunk(
+  "settings/fetchStudantClassesSettings",
   async () => {
-    const actualClassRef = collection(
+    const StudantClasses = collection(
       database,
       "settings",
       "data",
-      "actualClass",
+      "studantClasses",
     );
 
     try {
-      const q = query(actualClassRef, orderBy("order", "asc"));
+      const q = query(StudantClasses, orderBy("order", "asc"));
 
       const settingsUpdate = doc(database, "updates", "settings");
       const document = await getDoc(settingsUpdate);
@@ -241,6 +239,13 @@ export const editBanner = (data) => async (dispatch) => {
 export const delBanner = (data) => async (dispatch) => {
   dispatch({
     type: "settings/delBanner",
+    payload: data,
+  });
+};
+
+export const newWhatsAppURL = (data) => async (dispatch) => {
+  dispatch({
+    type: "settings/newWhatsAppURL",
     payload: data,
   });
 };
