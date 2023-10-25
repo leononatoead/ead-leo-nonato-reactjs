@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchVideos } from "../../../redux/modules/courses/actions";
-import { useLocation } from "react-router-dom";
 import useCourse from "../../../hooks/useCourse";
+import { useLocation } from "react-router-dom";
 
 import Navbar from "../../../components/Global/Navbar";
-import VideoList from "./VideoList";
 import VideoPlayer from "./VideoPlayer";
-import PremiumCourse from "../../../components/Global/PremiumCourse";
+import VideoIframe from "./VideoIframe";
+import VideoList from "./VideoList";
 import VideoContent from "./VideoContent";
 import AssetsList from "./AssetsList";
+import PremiumCourse from "../../../components/Global/PremiumCourse";
 import Quiz from "./Quiz";
 import { Box } from "@chakra-ui/react";
-import VideoIframe from "./VideoIframe";
 
 export default function CourseWatch() {
   const { pathname } = useLocation();

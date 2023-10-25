@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
+
+import ResultsList from "../ResultsList";
 import { Box, Text } from "@chakra-ui/react";
+
 import { RiCloseFill } from "react-icons/ri";
 import { BsCheckLg } from "react-icons/bs";
-import ResultsList from "./ResultsList";
 
 export default function QuizResult({ quizData, setVideoPlayer }) {
   const [results, setResults] = useState({

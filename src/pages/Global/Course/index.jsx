@@ -141,18 +141,18 @@ export default function Course() {
 
                       {userCourseData && (
                         <Text className="text-small leading-4 text-gray-800">
-                          {userCourseData?.videos.filter(
+                          {userCourseData?.videos?.filter(
                             (v) =>
                               v.concluded && v.section === section.sectionName,
                           ).length ===
-                          course?.videos.filter(
+                          course?.videos?.filter(
                             (v) => v.section === section.sectionName,
                           ).length ? (
                             "Concluído"
                           ) : (
                             <>
                               {
-                                userCourseData?.videos.filter(
+                                userCourseData?.videos?.filter(
                                   (v) =>
                                     v.concluded &&
                                     v.section === section.sectionName,
@@ -160,7 +160,7 @@ export default function Course() {
                               }{" "}
                               /{" "}
                               {
-                                course?.videos.filter(
+                                course?.videos?.filter(
                                   (v) => v.section === section.sectionName,
                                 ).length
                               }{" "}

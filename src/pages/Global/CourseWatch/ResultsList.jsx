@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
+
 import { Alert, AlertIcon, Box, Text } from "@chakra-ui/react";
+
 import { BiSolidCheckboxChecked } from "react-icons/bi";
 
 export default function ResultsList({ questionsList, setResults }) {

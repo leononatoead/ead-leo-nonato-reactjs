@@ -1,12 +1,15 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import useCourse from "../../../../hooks/useCourse";
+
+import Rating from "./Rating";
+import Survey from "./Survey";
 import { Box, Text } from "@chakra-ui/react";
-import { AiOutlineFileText, AiOutlineStar, AiFillStar } from "react-icons/ai";
+
 import { BsCheck2Circle } from "react-icons/bs";
 import { RiArrowDownSLine } from "react-icons/ri";
 import { MdFormatListNumbered } from "react-icons/md";
-import { useSelector } from "react-redux";
-import useCourse from "../../../hooks/useCourse";
-import Rating from "./Rating";
+import { AiOutlineFileText } from "react-icons/ai";
 
 export default function VideoContent({
   videoData,
@@ -69,7 +72,7 @@ export default function VideoContent({
   };
 
   return (
-    <Box className="pt-2 ">
+    <Box className="pt-2">
       <Box className="flex flex-col gap-[6px] px-4">
         <Text className="text-small leading-4">{videoData?.section}</Text>
         <Box className="flex items-center justify-between">
@@ -93,7 +96,7 @@ export default function VideoContent({
         </Text>
       </Box>
 
-      <Box className="flex items-center justify-center gap-[12px] border-b-[1px] border-b-gray-250 px-[22px] pb-6 pt-[18px]">
+      <Box className="flex items-center justify-start gap-[12px] !overflow-x-scroll border-b-[1px] border-b-gray-250 px-[22px] pb-6 pt-[18px]">
         {videoData?.assetsList?.length > 0 && (
           <button
             onClick={handleSelectMaterials}
@@ -144,6 +147,8 @@ export default function VideoContent({
             </>
           )}
         </button>
+
+        <Survey videoData={videoData} />
       </Box>
     </Box>
   );

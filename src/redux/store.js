@@ -1,10 +1,11 @@
-import { configureStore } from '@reduxjs/toolkit';
-import authReducer from './modules/auth/slice';
-import coursesReducer from './modules/courses/slice';
-import faqReducer from './modules/faq/slice';
-import formsReducer from './modules/forms/slice';
-import postsReducer from './modules/posts/slice';
-import bannersReducer from './modules/banners/slice';
+import { configureStore } from "@reduxjs/toolkit";
+import authReducer from "./modules/auth/slice";
+import coursesReducer from "./modules/courses/slice";
+import faqReducer from "./modules/faq/slice";
+import formsReducer from "./modules/forms/slice";
+import postsReducer from "./modules/posts/slice";
+import bannersReducer from "./modules/banners/slice";
+import usersDataReducer from "./modules/users/slice";
 
 const reducers = {
   auth: authReducer,
@@ -13,6 +14,7 @@ const reducers = {
   forms: formsReducer,
   posts: postsReducer,
   banners: bannersReducer,
+  usersData: usersDataReducer,
 };
 
 const store = configureStore({
