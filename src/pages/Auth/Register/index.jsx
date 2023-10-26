@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import {
   fetchRegisterVideoSettings,
   fetchSettingsFromLocalStorage,
+  fetchStudantClassesSettings,
 } from "../../../redux/modules/settings/actions";
 import { useDispatch, useSelector } from "react-redux";
 import useCheckUpdate from "../../../hooks/useCheckUpdate";
@@ -45,6 +46,10 @@ export default function Register() {
         cpf: formData.cpf,
         email: formData.email,
         password: formData.password,
+        studantClass:
+          settings?.studantClasses?.length > 0
+            ? settings?.studantClasses[0].id
+            : null,
       };
       registerUser(data);
       setCpfError("");
@@ -65,13 +70,13 @@ export default function Register() {
 
         if (calcCourse !== 0 && !localSettings) {
           dispatch(fetchRegisterVideoSettings());
-          // dispatch(fetchWhatsAppSettings());
+          dispatch(fetchStudantClassesSettings());
         } else {
           dispatch(fetchSettingsFromLocalStorage(localSettings));
 
-          // if (!settings.whatsAppURL && !localSettings.whatsAppURL) {
-          //   dispatch(fetchWhatsAppSettings());
-          // }
+          if (!settings.studantClasses && !localSettings.studantClasses) {
+            dispatch(fetchStudantClassesSettings());
+          }
 
           if (!settings.registerVideoURL && !localSettings.registerVideoURL) {
             dispatch(fetchRegisterVideoSettings());

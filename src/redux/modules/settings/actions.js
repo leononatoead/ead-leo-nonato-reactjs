@@ -4,6 +4,7 @@ import {
   collection,
   doc,
   getDoc,
+  limit,
   onSnapshot,
   orderBy,
   query,
@@ -188,7 +189,7 @@ export const fetchStudantClassesSettings = createAsyncThunk(
     );
 
     try {
-      const q = query(StudantClasses, orderBy("order", "asc"));
+      const q = query(StudantClasses, orderBy("createdAt", "desc"), limit(5));
 
       const settingsUpdate = doc(database, "updates", "settings");
       const document = await getDoc(settingsUpdate);
@@ -200,10 +201,9 @@ export const fetchStudantClassesSettings = createAsyncThunk(
             const data = querySnapshot.docs.map((doc) => ({
               id: doc.id,
               ...doc.data(),
+              createdAt: doc.data().createdAt.toMillis(),
             }));
             resolve(data);
-
-            console.log(data);
 
             localStorage.setItem(
               "lastSettingsUpdate",
@@ -254,6 +254,13 @@ export const newWhatsAppURL = (data) => async (dispatch) => {
 export const newRegisterVideoURL = (data) => async (dispatch) => {
   dispatch({
     type: "settings/newRegisterVideoURL",
+    payload: data,
+  });
+};
+
+export const newStudantClass = (data) => async (dispatch) => {
+  dispatch({
+    type: "settings/newStudantClass",
     payload: data,
   });
 };

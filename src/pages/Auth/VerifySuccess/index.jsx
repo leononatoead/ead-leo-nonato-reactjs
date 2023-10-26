@@ -141,9 +141,9 @@ export default function VerifySucess() {
           pb={6}
           gap={4}
         >
-          {settings?.whatsAppURL && settings?.whatsAppURL[0].url && (
+          {settings?.whatsAppURL && settings?.whatsAppURL.url && (
             <Link
-              to={settings?.whatsAppURL[0]?.url}
+              to={settings?.whatsAppURL.url}
               className="w-full rounded-[4px] border-[1px] border-green-300 bg-green-300 px-3 py-[5px] text-center text-base leading-5 text-white"
               target="_blank"
             >

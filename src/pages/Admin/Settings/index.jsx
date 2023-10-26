@@ -4,6 +4,7 @@ import {
   fetchBannerSettings,
   fetchRegisterVideoSettings,
   fetchSettingsFromLocalStorage,
+  fetchStudantClassesSettings,
   fetchWhatsAppSettings,
 } from "../../../redux/modules/settings/actions";
 import useCheckUpdate from "../../../hooks/useCheckUpdate";
@@ -22,7 +23,7 @@ import {
 import { MdAddCircleOutline } from "react-icons/md";
 import { BiEdit } from "react-icons/bi";
 import { BsWhatsapp } from "react-icons/bs";
-import { PiTelevisionSimpleBold } from "react-icons/pi";
+import { PiTelevisionSimpleBold, PiUsersThreeFill } from "react-icons/pi";
 
 export default function Settings() {
   const settings = useSelector((state) => state.settings);
@@ -45,6 +46,7 @@ export default function Settings() {
           dispatch(fetchBannerSettings());
           dispatch(fetchWhatsAppSettings());
           dispatch(fetchRegisterVideoSettings());
+          dispatch(fetchStudantClassesSettings());
         } else {
           dispatch(fetchSettingsFromLocalStorage(localSettings));
 
@@ -58,6 +60,10 @@ export default function Settings() {
 
           if (!settings.registerVideoURL && !localSettings.registerVideoURL) {
             dispatch(fetchRegisterVideoSettings());
+          }
+
+          if (!settings.studantClasses && !localSettings.studantClasses) {
+            dispatch(fetchStudantClassesSettings());
           }
         }
       } catch (error) {
@@ -86,7 +92,7 @@ export default function Settings() {
           <AccordionIcon />
         </AccordionButton>
 
-        <AccordionPanel pb={0}>
+        <AccordionPanel p={0}>
           <Box className="flex w-full justify-end">
             <Link to="/dashboard/settings/banners/new" className="add-btn">
               <MdAddCircleOutline size={20} />
@@ -114,7 +120,7 @@ export default function Settings() {
           <AccordionIcon />
         </AccordionButton>
 
-        <AccordionPanel pb={0}></AccordionPanel>
+        <AccordionPanel p={0}></AccordionPanel>
       </AccordionItem>
       <AccordionItem className="!border-b-[1px] !border-t-0 !border-gray-200 ">
         <AccordionButton px={0} py={4} className="hover:!bg-gray-200">
@@ -124,7 +130,29 @@ export default function Settings() {
           <AccordionIcon />
         </AccordionButton>
 
-        <AccordionPanel pb={0}></AccordionPanel>
+        <AccordionPanel p={0}>
+          <Box className="flex w-full justify-end">
+            <Link
+              to="/dashboard/settings/studantclasses/new"
+              className="add-btn"
+            >
+              <MdAddCircleOutline size={20} />
+              <span className="font-bold">Nova turma</span>
+            </Link>
+          </Box>
+
+          <ul className="flex flex-col gap-4 py-6 ">
+            {settings?.studantClasses?.map((studantClass) => (
+              <Box
+                key={studantClass.id}
+                className="flex w-full items-center gap-3 rounded-lg bg-white p-3 shadow-md"
+              >
+                <PiUsersThreeFill size={15} />
+                <Text>{studantClass.title}</Text>
+              </Box>
+            ))}
+          </ul>
+        </AccordionPanel>
       </AccordionItem>
       <AccordionItem className="!border-b-[1px] !border-t-0 !border-gray-200 ">
         <AccordionButton px={0} py={4} className="hover:!bg-gray-200">
@@ -136,7 +164,7 @@ export default function Settings() {
           <AccordionIcon />
         </AccordionButton>
 
-        <AccordionPanel pb={0}>
+        <AccordionPanel p={0}>
           {!settings?.whatsAppURL?.url && (
             <Box className="flex w-full justify-end">
               <Link to="/dashboard/settings/whatsapp/edit" className="add-btn">
@@ -171,7 +199,7 @@ export default function Settings() {
           <AccordionIcon />
         </AccordionButton>
 
-        <AccordionPanel pb={0}>
+        <AccordionPanel p={0}>
           {!settings?.registerVideoURL?.url && (
             <Box className="flex w-full justify-end">
               <Link
@@ -190,7 +218,7 @@ export default function Settings() {
                 className="flex w-full items-center gap-3 rounded-lg bg-white p-3 shadow-md"
               >
                 <PiTelevisionSimpleBold size={15} />
-                <Text>Alterar vídeo de cadastro</Text>
+                <Text>Alterar vídeo de Cadastro</Text>
                 <Box className="flex flex-1 items-center justify-end">
                   <BiEdit size={18} className="text-primary-600" />
                 </Box>

@@ -53,7 +53,8 @@ export default function Navbar({ title }) {
     if (
       removeBlank.includes("edit") ||
       removeBlank.includes("whatsapp") ||
-      removeBlank.includes("registervideo")
+      removeBlank.includes("registervideo") ||
+      removeBlank.includes("studantclasses")
     ) {
       removeBlank.pop();
     }

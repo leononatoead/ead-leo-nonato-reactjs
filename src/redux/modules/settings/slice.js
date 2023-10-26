@@ -102,6 +102,27 @@ const settingsReducer = createSlice({
 
       return { ...state, registerVideoURL: action.payload };
     },
+    newStudantClass: (state, action) => {
+      const settings = JSON.parse(JSON.stringify(state));
+
+      let updateSettings;
+
+      if (settings) {
+        updateSettings = {
+          ...settings,
+          studantClasses: [action.payload, ...settings.studantClasses],
+        };
+
+        if (updateSettings.studantClasses.length > 5) {
+          updateSettings.studantClasses.pop();
+        }
+      } else {
+        updateSettings = { studantClasses: [action.payload] };
+      }
+      localStorage.setItem("settings", JSON.stringify(updateSettings));
+
+      return { ...state, studantClasses: updateSettings.studantClasses };
+    },
     fetchSettingsFromLocalStorage: (state, action) => {
       return { ...state, ...action.payload };
     },

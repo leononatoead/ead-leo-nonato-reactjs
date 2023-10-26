@@ -20,6 +20,7 @@ import {
   newBanner,
   newWhatsAppURL,
   newRegisterVideoURL,
+  newStudantClass,
 } from "../redux/modules/settings/actions";
 
 const useSettings = () => {
@@ -150,7 +151,7 @@ const useSettings = () => {
       dispatch(newWhatsAppURL(data));
 
       toast({
-        description: "URL adicionado com sucesso!",
+        description: "URL do WhatsApp adicionado com sucesso!",
         status: "success",
         duration: "3000",
         isClosable: true,
@@ -167,6 +168,7 @@ const useSettings = () => {
       setLoading(false);
     }
   };
+
   const addRegisterVideoURL = async (url) => {
     setLoading(true);
 
@@ -189,7 +191,55 @@ const useSettings = () => {
       dispatch(newRegisterVideoURL(data));
 
       toast({
-        description: "URL adicionado com sucesso!",
+        description: "Video de cadastro adicionado com sucesso!",
+        status: "success",
+        duration: "3000",
+        isClosable: true,
+      });
+    } catch (error) {
+      toast({
+        description: error.message,
+        status: "error",
+        duration: "3000",
+        isClosable: true,
+      });
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const addNewClass = async (title) => {
+    setLoading(true);
+
+    try {
+      const studantClassRef = collection(
+        database,
+        "settings/data/studantClasses",
+      );
+      const studantClassData = {
+        title,
+        createdAt: Timestamp.now(),
+      };
+
+      const res = await addDoc(studantClassRef, studantClassData);
+
+      const data = {
+        id: res.id,
+        title,
+        createdAt: studantClassData.createdAt.toMillis(),
+      };
+
+      const updateTime = Timestamp.now();
+      const updateCollection = doc(database, "updates", "settings");
+      setDoc(updateCollection, { lastSettingsUpdate: updateTime });
+      const updatedAt = JSON.stringify(new Date(updateTime.toMillis()));
+      localStorage.setItem("lastSettingsUpdate", updatedAt);
+
+      dispatch(newStudantClass(data));
+
+      toast({
+        description: "Turma adicionada com sucesso!",
         status: "success",
         duration: "3000",
         isClosable: true,
@@ -213,6 +263,7 @@ const useSettings = () => {
     deleteBanner,
     addWhatsAppURL,
     addRegisterVideoURL,
+    addNewClass,
     loading,
   };
 };

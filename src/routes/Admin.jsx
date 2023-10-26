@@ -31,9 +31,10 @@ import Settings from "../pages/Admin/Settings";
 import NewBanner from "../pages/Admin/Settings/Banners/NewBanner";
 import EditBanner from "../pages/Admin/Settings/Banners/EditBanner";
 import WhatsAppURL from "../pages/Admin/Settings/WhatsAppURL";
+import RegisterVideo from "../pages/Admin/Settings/RegisterVideo";
+import StudantClasses from "../pages/Admin/Settings/StudantClasses";
 import Users from "../pages/Admin/Users";
 import User from "../pages/Admin/Users/User";
-import RegisterVideo from "../pages/Admin/Settings/RegisterVideo";
 
 export default function AdminRoutes() {
   return (
@@ -58,6 +59,10 @@ export default function AdminRoutes() {
         <Route
           path="settings/registervideo/edit/"
           element={<RegisterVideo />}
+        />
+        <Route
+          path="settings/studantclasses/new/"
+          element={<StudantClasses />}
         />
         <Route path="courses" element={<Courses />} />
         <Route path="courses/:id" element={<CourseDetails />} />

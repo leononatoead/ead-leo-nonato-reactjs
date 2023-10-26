@@ -135,6 +135,7 @@ const useAuth = () => {
         name: registerData.name,
         email: registerData.email,
         cpf: registerData.cpf,
+        studantClass: registerData.studantClass,
       };
 
       await setDoc(doc(database, "users", user.uid), userData);
