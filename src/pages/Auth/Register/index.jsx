@@ -48,7 +48,7 @@ export default function Register() {
         password: formData.password,
         studantClass:
           settings?.studantClasses?.length > 0
-            ? settings?.studantClasses[0].id
+            ? settings?.studantClasses[0]
             : null,
       };
       registerUser(data);

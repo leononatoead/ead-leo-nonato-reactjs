@@ -2,6 +2,7 @@ import { doc, updateDoc, Timestamp } from "firebase/firestore";
 import { database } from "../firebase/config";
 import { useDispatch } from "react-redux";
 import {
+  updateAdminState,
   updateConludedVideoState,
   updateQuizResult,
   updateRating,
@@ -10,6 +11,7 @@ import {
   updtateUserCoursesVideos,
 } from "../redux/modules/auth/actions";
 import { useToast } from "@chakra-ui/react";
+import { updateUserListWhenChangeAdminState } from "../redux/modules/users/actions";
 
 const useUserData = () => {
   const dispatch = useDispatch();
@@ -200,6 +202,42 @@ const useUserData = () => {
     }
   };
 
+  const changeAdminState = async (userId, value, actualUser) => {
+    try {
+      const userRef = doc(database, "users", userId);
+      await updateDoc(userRef, { admin: value });
+
+      if (actualUser.uid === userId) {
+        dispatch(updateAdminState(value));
+      }
+
+      dispatch(
+        updateUserListWhenChangeAdminState({ id: userId, admin: value }),
+      );
+
+      const updateTime = Timestamp.now();
+      const updateCollection = doc(
+        database,
+        "updates",
+        "users",
+        "updates",
+        userId,
+      );
+
+      updateDoc(updateCollection, { lastUserUpdate: updateTime });
+      const updatedAt = JSON.stringify(new Date(updateTime.toMillis()));
+      localStorage.setItem("lastUserUpdate", updatedAt);
+    } catch (error) {
+      toast({
+        description: error.message,
+        status: "error",
+        duration: "3000",
+        isClosable: true,
+      });
+      console.log(error);
+    }
+  };
+
   return {
     addCourseToUser,
     addCourseVideosToUser,
@@ -207,6 +245,7 @@ const useUserData = () => {
     ratingVideo,
     changeQuizResult,
     changeSurveyAnswer,
+    changeAdminState,
   };
 };
 

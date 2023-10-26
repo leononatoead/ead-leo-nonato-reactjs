@@ -27,3 +27,10 @@ export const fetchUsers = createAsyncThunk("usersData/fetchUsers", async () => {
     console.log(error.message);
   }
 });
+
+export const updateUserListWhenChangeAdminState = (data) => {
+  return {
+    type: "usersData/updateUserListWhenChangeAdminState",
+    payload: data,
+  };
+};

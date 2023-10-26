@@ -13,6 +13,7 @@ import {
   UPDATE_USER_SURVEY_ANSWER,
   ADD_LIKED_POST_TO_USER,
   REMOVE_LIKED_POST_FROM_USER,
+  UPDATE_USER_ADMIN_STATE,
 } from "./slice";
 
 export const verifyAuthentication = (user) => (dispatch) => {
@@ -77,6 +78,13 @@ export const updateQuizResult = (data) => async (dispatch) => {
 export const updateSurveyAnswer = (data) => async (dispatch) => {
   dispatch({
     type: UPDATE_USER_SURVEY_ANSWER,
+    payload: data,
+  });
+};
+
+export const updateAdminState = (data) => async (dispatch) => {
+  dispatch({
+    type: UPDATE_USER_ADMIN_STATE,
     payload: data,
   });
 };

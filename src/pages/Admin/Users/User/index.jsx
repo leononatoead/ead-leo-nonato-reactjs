@@ -14,8 +14,7 @@ import {
 import { fetchUsers } from "../../../../redux/modules/users/actions";
 import { fetchVideos } from "../../../../redux/modules/courses/actions";
 
-import { MdAdminPanelSettings } from "react-icons/md";
-import { RiUserFill } from "react-icons/ri";
+import ChangeAdminState from "./ChangeAdminState";
 
 export default function User() {
   const { id } = useParams();
@@ -36,8 +35,6 @@ export default function User() {
     const video = course?.videos?.find((video) => video.id === videoId);
     return video?.title;
   };
-
-  // TODO: FUNÇÃO PARA TORNAR USUÁRIO ADMIN OU NAO ADMIN
 
   useEffect(() => {
     if (!userList) {
@@ -66,25 +63,8 @@ export default function User() {
           <Text className="w-full text-center font-poppins text-large font-bold text-primary-500">
             {user?.name}
           </Text>
-          {user?.admin ? (
-            <Flex
-              alignItems={"center"}
-              gap={1}
-              className="flex w-20 items-center justify-center rounded-full bg-green-200  text-white"
-            >
-              <MdAdminPanelSettings className="text-white" />
-              <Text className="text-base font-normal">Admin</Text>
-            </Flex>
-          ) : (
-            <Flex
-              alignItems={"center"}
-              gap={1}
-              className="flex w-20 items-center justify-center rounded-full bg-gray-250  text-gray-700"
-            >
-              <RiUserFill className="text-gray-700" />
-              <Text className="text-base font-normal">Aluno</Text>
-            </Flex>
-          )}
+
+          <ChangeAdminState user={user} />
         </Box>
         <Flex py={4} flexDirection={"column"} gap={2}>
           <Text className="text-base font-medium">
@@ -94,6 +74,10 @@ export default function User() {
           <Text className="text-base font-medium">
             <span className="font-bold">CPF: </span>
             {user?.cpf}
+          </Text>
+          <Text className="text-base font-medium">
+            <span className="font-bold">Turma: </span>
+            {user?.studantClass ? user?.studantClass.title : "Nenhuma"}
           </Text>
         </Flex>
       </Box>
@@ -110,7 +94,6 @@ export default function User() {
                 className="mb-2 !border-b-[1px] !border-t-0 !border-gray-200"
               >
                 <AccordionButton
-                  // px={2}
                   py={4}
                   className="rounded-md bg-white hover:!bg-white"
                 >
