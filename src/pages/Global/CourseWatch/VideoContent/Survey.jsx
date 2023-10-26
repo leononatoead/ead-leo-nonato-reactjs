@@ -1,4 +1,7 @@
-import useCourse from "../../../../hooks/useCourse";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import useUserData from "../../../../hooks/useUserData";
+import { useLocation } from "react-router-dom";
 
 import {
   Modal,
@@ -16,35 +19,46 @@ import {
 
 import { RiSurveyLine } from "react-icons/ri";
 
-export default function Survey({
-  videoData,
-  courses,
-  courseId,
-  video,
-  userId,
-}) {
+export default function Survey({ videoData }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  // const { ratingVideo } = useCourse();
+  const [userAnswer, setUserAnswer] = useState();
 
-  // const handleSelectRating = (rating) => {
-  //   const videoData = { ...video, rating };
+  const { pathname } = useLocation();
+  const pathParams = pathname.split("/");
+  const courseId = pathParams[2];
+  const videoId = pathParams[3];
 
-  //   const updatedCourse = courses.map((c) => {
-  //     if (c.id === courseId) {
-  //       const videoList = c.videos.filter((v) => v.id !== video.id);
-  //       const update = { ...c, videos: [...videoList, videoData] };
-  //       return update;
-  //     } else {
-  //       return c;
-  //     }
-  //   });
+  const { user } = useSelector((state) => state.auth);
+  const course = user?.courses?.find((course) => course.id === courseId);
+  const video = course?.videos?.find((video) => video.id === videoId);
 
-  //   ratingVideo(userId, updatedCourse, rating, courseId, video.id);
-  // };
+  const { changeSurveyAnswer } = useUserData();
 
   const handleSelectAnswer = (answer) => {
-    console.log(answer);
+    setUserAnswer(answer);
+  };
+
+  const handleSubmitAnswer = () => {
+    const data = {
+      ...video,
+      surveyAnswer: {
+        question: videoData?.survey?.question,
+        answer: userAnswer,
+      },
+    };
+
+    const updatedCourse = user?.courses?.map((c) => {
+      if (c.id === courseId) {
+        const videoList = c.videos.filter((v) => v.id !== video.id);
+        const update = { ...c, videos: [...videoList, data] };
+        return update;
+      } else {
+        return c;
+      }
+    });
+
+    changeSurveyAnswer(user.uid, updatedCourse);
   };
 
   return (
@@ -124,6 +138,13 @@ export default function Survey({
                 )}
               </RadioGroup>
             </Box>
+            <button
+              onClick={handleSubmitAnswer}
+              className="w-full rounded-sm bg-primary-400 py-[6px] text-base  leading-5 text-white disabled:bg-gray-700"
+              disabled={!userAnswer}
+            >
+              Responder
+            </button>
           </ModalBody>
         </ModalContent>
       </Modal>

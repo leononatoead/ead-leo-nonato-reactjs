@@ -1,4 +1,4 @@
-import useCourse from "../../../../hooks/useCourse";
+import useUserData from "../../../../hooks/useUserData";
 
 import {
   Modal,
@@ -17,7 +17,7 @@ import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 export default function Rating({ courses, courseId, video, userId }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const { ratingVideo } = useCourse();
+  const { ratingVideo } = useUserData();
 
   const handleSelectRating = (rating) => {
     const videoData = { ...video, rating };
@@ -32,7 +32,7 @@ export default function Rating({ courses, courseId, video, userId }) {
       }
     });
 
-    ratingVideo(userId, updatedCourse, rating, courseId, video.id);
+    ratingVideo(userId, updatedCourse);
   };
 
   return (

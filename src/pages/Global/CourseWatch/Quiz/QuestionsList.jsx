@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+
 import { Box, Radio, RadioGroup, Text } from "@chakra-ui/react";
 import { RiCloseFill } from "react-icons/ri";
+import { useLocation } from "react-router-dom";
+import useUserData from "../../../../hooks/useUserData";
 
 export default function QuestionsList({
   questionsList,
@@ -9,6 +13,17 @@ export default function QuestionsList({
 }) {
   const [questions, setQuestions] = useState({});
   const [active, setActive] = useState({});
+
+  const { pathname } = useLocation();
+  const pathParams = pathname.split("/");
+  const courseId = pathParams[2];
+  const videoId = pathParams[3];
+
+  const { user } = useSelector((state) => state.auth);
+  const course = user?.courses?.find((course) => course.id === courseId);
+  const video = course?.videos?.find((video) => video.id === videoId);
+
+  const { changeQuizResult } = useUserData();
 
   const handleCloseList = () => {
     setVideoPlayer((prev) => ({
@@ -49,6 +64,24 @@ export default function QuestionsList({
   };
 
   const handleFinish = () => {
+    const rightAnswers = questions.filter(
+      (question) => question.question.rightAnswer === question.userAnswer,
+    );
+
+    const result = (rightAnswers.length / questions.length) * 100;
+    const videoData = { ...video, quizResult: result };
+
+    const updatedCourse = user?.courses?.map((c) => {
+      if (c.id === courseId) {
+        const videoList = c.videos.filter((v) => v.id !== video.id);
+        const update = { ...c, videos: [...videoList, videoData] };
+        return update;
+      } else {
+        return c;
+      }
+    });
+
+    changeQuizResult(user.uid, updatedCourse);
     setQuizData((prev) => ({ ...prev, isFinished: true, results: questions }));
   };
 

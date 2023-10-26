@@ -27,12 +27,6 @@ import {
   delCourse,
   editCourse,
 } from "../redux/modules/courses/actions";
-import {
-  updateConludedVideoState,
-  updateRating,
-  updtateUserCourses,
-  updtateUserCoursesVideos,
-} from "../redux/modules/auth/actions";
 
 const useCourse = () => {
   const [progress, setProgress] = useState(0);
@@ -394,150 +388,11 @@ const useCourse = () => {
     }
   };
 
-  const addCourseToUser = async (userId, courseData, prevCourses) => {
-    try {
-      const userRef = doc(database, "users", userId);
-
-      let courses;
-      if (prevCourses) {
-        courses = { courses: [...prevCourses, courseData] };
-        await updateDoc(userRef, courses);
-      } else {
-        courses = { courses: [courseData] };
-        await updateDoc(userRef, courses);
-      }
-
-      dispatch(updtateUserCourses(courses));
-
-      const updateTime = Timestamp.now();
-      const updateCollection = doc(
-        database,
-        "updates",
-        "users",
-        "updates",
-        userId,
-      );
-
-      updateDoc(updateCollection, { lastUserUpdate: updateTime });
-      const updatedAt = JSON.stringify(new Date(updateTime.toMillis()));
-      localStorage.setItem("lastUserUpdate", updatedAt);
-    } catch (error) {
-      toast({
-        description: error.message,
-        status: "error",
-        duration: "3000",
-        isClosable: true,
-      });
-    }
-  };
-
-  const addCourseVideosToUser = async (userId, coursesData) => {
-    try {
-      const userRef = doc(database, "users", userId);
-      await updateDoc(userRef, { courses: coursesData });
-
-      dispatch(updtateUserCoursesVideos(coursesData));
-
-      const updateTime = Timestamp.now();
-      const updateCollection = doc(
-        database,
-        "updates",
-        "users",
-        "updates",
-        userId,
-      );
-
-      updateDoc(updateCollection, { lastUserUpdate: updateTime });
-      const updatedAt = JSON.stringify(new Date(updateTime.toMillis()));
-      localStorage.setItem("lastUserUpdate", updatedAt);
-    } catch (error) {
-      toast({
-        description: error.message,
-        status: "error",
-        duration: "3000",
-        isClosable: true,
-      });
-    }
-  };
-
-  const changeConcludedVideoState = async (userId, coursesData) => {
-    try {
-      const userRef = doc(database, "users", userId);
-      await updateDoc(userRef, { courses: coursesData });
-
-      dispatch(updateConludedVideoState(coursesData));
-
-      const updateTime = Timestamp.now();
-      const updateCollection = doc(
-        database,
-        "updates",
-        "users",
-        "updates",
-        userId,
-      );
-
-      updateDoc(updateCollection, { lastUserUpdate: updateTime });
-      const updatedAt = JSON.stringify(new Date(updateTime.toMillis()));
-      localStorage.setItem("lastUserUpdate", updatedAt);
-    } catch (error) {
-      toast({
-        description: error.message,
-        status: "error",
-        duration: "3000",
-        isClosable: true,
-      });
-    }
-  };
-
-  const ratingVideo = async (
-    userId,
-    coursesData,
-    // rating,
-    // courseId,
-    // videoId,
-  ) => {
-    try {
-      // const videoRatingRef = collection(database, "ratings");
-      // const videoDoc = doc(videoRatingRef, courseId);
-      // await setDoc(videoDoc, { videos: videoId });
-
-      const userRef = doc(database, "users", userId);
-      await updateDoc(userRef, { courses: coursesData });
-
-      dispatch(updateRating(coursesData));
-
-      const updateTime = Timestamp.now();
-      const updateCollection = doc(
-        database,
-        "updates",
-        "users",
-        "updates",
-        userId,
-      );
-
-      updateDoc(updateCollection, { lastUserUpdate: updateTime });
-      const updatedAt = JSON.stringify(new Date(updateTime.toMillis()));
-      localStorage.setItem("lastUserUpdate", updatedAt);
-    } catch (error) {
-      toast({
-        description: error.message,
-        status: "error",
-        duration: "3000",
-        isClosable: true,
-      });
-      console.log(error);
-    }
-  };
-
   return {
     addNewCourse,
     editCourseWithImage,
     editCourseWithoutImage,
     deleteCourse,
-    addCourseToUser,
-    addCourseVideosToUser,
-    changeConcludedVideoState,
-    ratingVideo,
     loading,
     progress,
   };

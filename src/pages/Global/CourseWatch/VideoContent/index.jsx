@@ -148,7 +148,9 @@ export default function VideoContent({
           )}
         </button>
 
-        <Survey videoData={videoData} />
+        {videoData.survey && !video?.surveyAnswer && (
+          <Survey videoData={videoData} />
+        )}
       </Box>
     </Box>
   );

@@ -3,9 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchUsers } from "../../../redux/modules/users/actions";
 import { Link } from "react-router-dom";
 
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
 
 import { IoIosSearch, IoMdEye } from "react-icons/io";
+import { MdAdminPanelSettings } from "react-icons/md";
 
 export default function Users() {
   const [search, setSearch] = useState("");
@@ -49,7 +50,19 @@ export default function Users() {
               to={`/dashboard/users/${user.id}/`}
               className="flex w-full items-center justify-between rounded-md bg-white px-4 py-2 font-medium"
             >
-              <Text>{user.name}</Text>
+              <Flex alignItems={"center"} gap={3}>
+                <Text>{user.name}</Text>
+                {user.admin && (
+                  <Flex
+                    alignItems={"center"}
+                    gap={1}
+                    className="flex w-20 items-center justify-center rounded-full bg-green-200  text-white"
+                  >
+                    <MdAdminPanelSettings className="text-white" />
+                    <Text className="text-base font-normal">Admin</Text>
+                  </Flex>
+                )}
+              </Flex>
               <IoMdEye size={18} className="text-primary-600" />
             </Link>
           ))
@@ -59,7 +72,19 @@ export default function Users() {
               to={`/dashboard/users/${user.id}/`}
               className="flex w-full items-center justify-between rounded-md bg-white px-4 py-2 font-medium"
             >
-              <Text>{user.name}</Text>
+              <Flex alignItems={"center"} gap={3}>
+                <Text>{user.name}</Text>
+                {user.admin && (
+                  <Flex
+                    alignItems={"center"}
+                    gap={1}
+                    className="flex w-20 items-center justify-center rounded-full bg-green-200  text-white"
+                  >
+                    <MdAdminPanelSettings className="text-white" />
+                    <Text className="text-base font-normal">Admin</Text>
+                  </Flex>
+                )}
+              </Flex>
               <IoMdEye size={18} className="text-primary-600" />
             </Link>
           ))}

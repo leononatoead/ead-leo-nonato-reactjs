@@ -34,6 +34,10 @@ export default function User() {
     return video?.title;
   };
 
+  // TODO: FUNÇÃO PARA TORNAR USUÁRIO ADMIN OU NAO ADMIN
+  // TODO: INCLUIR RESPOSTA DA ENQUETE
+  // TODO: INCLUIR RESPOSTA DO QUESTIONÁRIO
+
   useEffect(() => {
     if (!userList) {
       dispatch(fetchUsers());

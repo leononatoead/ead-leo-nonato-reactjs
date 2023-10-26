@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchVideos } from "../../../redux/modules/courses/actions";
-import useCourse from "../../../hooks/useCourse";
+import useUserData from "../../../hooks/useUserData";
 import { useLocation } from "react-router-dom";
 
 import Navbar from "../../../components/Global/Navbar";
@@ -24,7 +24,7 @@ export default function CourseWatch() {
   const { courses } = useSelector((state) => state.courses);
   const course = courses?.find((course) => course.id === id);
 
-  const { addCourseToUser, addCourseVideosToUser } = useCourse();
+  const { addCourseToUser, addCourseVideosToUser } = useUserData();
 
   const [videoPlayer, setVideoPlayer] = useState({
     active: {},
@@ -138,23 +138,9 @@ export default function CourseWatch() {
         addCourseVideosToUser(user.uid, updatedCourse);
       }
     }
-
-    // if (user && videoPlayer.active?.isPremium) {
-    //   const purchased = user.purchased?.find((ref) => ref === course.courseRef);
-    //   if (!purchased) {
-    //     setLocked(true);
-    //   }
-
-    //   // if (user && !user?.courses && course?.isPremium) {
-    //   //   //TODO: add course to user if he payed
-    //   //   if (purchased) {
-    //   //     const courseData = {
-    //   //       id: course?.id,
-    //   //       videos: [],
-    //   //     };
-    //   //   }
-    // }
   }, [courses, user, videoId]);
+
+  //TODO: ANUNCIOS NOS VIDEOS
 
   return (
     <main className="flex min-h-[100dvh] flex-col bg-[#F3F3F3]">

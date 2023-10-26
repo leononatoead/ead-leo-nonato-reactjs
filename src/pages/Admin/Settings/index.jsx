@@ -142,13 +142,24 @@ export default function Settings() {
           </Box>
 
           <ul className="flex flex-col gap-4 py-6 ">
-            {settings?.studantClasses?.map((studantClass) => (
+            {settings?.studantClasses?.map((studantClass, i) => (
               <Box
                 key={studantClass.id}
-                className="flex w-full items-center gap-3 rounded-lg bg-white p-3 shadow-md"
+                className="flex w-full items-center justify-between rounded-lg bg-white p-3 shadow-md"
               >
-                <PiUsersThreeFill size={15} />
-                <Text>{studantClass.title}</Text>
+                <Box className="flex items-center gap-3">
+                  <PiUsersThreeFill size={15} />
+                  <Text>{studantClass.title}</Text>
+                </Box>
+                {i === 0 ? (
+                  <Text className="w-24 rounded-md bg-green-200 py-1 text-center  text-white">
+                    Ativa
+                  </Text>
+                ) : (
+                  <Text className="w-24 rounded-md bg-gray-200 py-1 text-center text-gray-800">
+                    Inativa
+                  </Text>
+                )}
               </Box>
             ))}
           </ul>

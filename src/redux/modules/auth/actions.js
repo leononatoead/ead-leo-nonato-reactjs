@@ -9,6 +9,8 @@ import {
   UPDATE_USER_COURSE_VIDEOS,
   UPDATE_USER_CONCLUDED_VIDEOS,
   UPDATE_USER_VIDEO_RATING,
+  UPDATE_USER_QUIZ_RESULT,
+  UPDATE_USER_SURVEY_ANSWER,
   ADD_LIKED_POST_TO_USER,
   REMOVE_LIKED_POST_FROM_USER,
 } from "./slice";
@@ -61,6 +63,20 @@ export const updateConludedVideoState = (data) => async (dispatch) => {
 export const updateRating = (data) => async (dispatch) => {
   dispatch({
     type: UPDATE_USER_VIDEO_RATING,
+    payload: data,
+  });
+};
+
+export const updateQuizResult = (data) => async (dispatch) => {
+  dispatch({
+    type: UPDATE_USER_QUIZ_RESULT,
+    payload: data,
+  });
+};
+
+export const updateSurveyAnswer = (data) => async (dispatch) => {
+  dispatch({
+    type: UPDATE_USER_SURVEY_ANSWER,
     payload: data,
   });
 };
