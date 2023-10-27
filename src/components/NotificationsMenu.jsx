@@ -12,6 +12,7 @@ import { VscBell, VscBellDot } from "react-icons/vsc";
 
 export default function NotificationsMenu({ notifications }) {
   const [readNotifications, setReadNotifications] = useState(false);
+  const [updater, setUpdater] = useState(false);
 
   useEffect(() => {
     const storageNotifications = JSON.parse(
@@ -34,7 +35,7 @@ export default function NotificationsMenu({ notifications }) {
         setReadNotifications(false);
       }
     }
-  }, [notifications]);
+  }, [notifications, updater]);
 
   return (
     <Menu>
@@ -52,7 +53,10 @@ export default function NotificationsMenu({ notifications }) {
       >
         {notifications?.map((notification) => (
           <MenuItem key={notification.id} p={0}>
-            <NotificationModal notification={notification} />
+            <NotificationModal
+              notification={notification}
+              updater={setUpdater}
+            />
           </MenuItem>
         ))}
       </MenuList>

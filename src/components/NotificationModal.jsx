@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { PiEye, PiEyeSlash } from "react-icons/pi";
 
-export default function NotificationModal({ notification }) {
+export default function NotificationModal({ notification, updater }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [read, setRead] = useState(false);
 
@@ -33,6 +33,7 @@ export default function NotificationModal({ notification }) {
       }
 
       localStorage.setItem("readNotifications", JSON.stringify(data));
+      updater((prev) => !prev);
     }
 
     if (storageNotifications) {
