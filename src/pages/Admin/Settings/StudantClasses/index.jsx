@@ -10,8 +10,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { NewClassSchema } from "./NewClassSchema";
 
-import Input from "../../../../components/Global/Input";
-import ButtonSubmit from "../../../../components/Global/ButtonSubmit";
+import Input from "../../../../components/Input";
+import ButtonSubmit from "../../../../components/ButtonSubmit";
 import { Box } from "@chakra-ui/react";
 
 export default function ActualClass() {

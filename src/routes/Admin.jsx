@@ -8,6 +8,8 @@ import CourseWatch from "../pages/Global/CourseWatch";
 import Newsletter from "../pages/Global/Newsletter";
 import NewsletterPost from "../pages/Global/Newsletter/NewsletterPost";
 import FAQ from "../pages/Global/FAQ";
+import SearchPosts from "../pages/Global/SearchPosts";
+import SearchCourses from "../pages/Global/SearchCourses";
 
 import Dashboard from "../pages/Admin/Dashboard";
 import Courses from "../pages/Admin/Courses";
@@ -25,8 +27,6 @@ import EditForm from "../pages/Admin/Forms/EditForm";
 import Posts from "../pages/Admin/Posts";
 import NewPost from "../pages/Admin/Posts/NewPost";
 import EditPost from "../pages/Admin/Posts/EditPost";
-import SearchPosts from "../pages/Global/SearchPosts";
-import SearchCourses from "../pages/Global/SearchCourses";
 import Settings from "../pages/Admin/Settings";
 import NewBanner from "../pages/Admin/Settings/Banners/NewBanner";
 import EditBanner from "../pages/Admin/Settings/Banners/EditBanner";

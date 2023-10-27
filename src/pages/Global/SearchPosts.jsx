@@ -1,12 +1,12 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { searchPosts } from '../../redux/modules/posts/actions';
-import { useParams } from 'react-router-dom';
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { searchPosts } from "../../redux/modules/posts/actions";
+import { useParams } from "react-router-dom";
 
-import Navbar from '../../components/Global/Navbar';
-import PostCard from '../../components/Global/Newsletter/PostCard';
-import SearchBar from '../../components/Global/SearchBar';
-import { Box, Text } from '@chakra-ui/react';
+import Navbar from "../../components/Navbar";
+import PostCard from "../../components/Global/Newsletter/PostCard";
+import SearchBar from "../../components/SearchBar";
+import { Box, Text } from "@chakra-ui/react";
 
 export default function SearchResults() {
   const { id } = useParams();
@@ -17,32 +17,32 @@ export default function SearchResults() {
   useEffect(() => {
     const search = id
       .toLowerCase()
-      .replace(/[áàãâä]/g, 'a')
-      .replace(/[éèêë]/g, 'e')
-      .replace(/[íìîï]/g, 'i')
-      .replace(/[óòõôö]/g, 'o')
-      .replace(/[úùûü]/g, 'u')
-      .replace(/ç/g, 'c')
-      .replace(/[^\w\s]/gi, '')
-      .split('-');
+      .replace(/[áàãâä]/g, "a")
+      .replace(/[éèêë]/g, "e")
+      .replace(/[íìîï]/g, "i")
+      .replace(/[óòõôö]/g, "o")
+      .replace(/[úùûü]/g, "u")
+      .replace(/ç/g, "c")
+      .replace(/[^\w\s]/gi, "")
+      .split("-");
 
     dispatch(searchPosts(search));
   }, [id]);
 
   return (
-    <Box className='min-h-[100dvh] bg-gray-200 flex flex-col'>
-      <Navbar title={'Pesquisa'} />
+    <Box className="flex min-h-[100dvh] flex-col bg-gray-200">
+      <Navbar title={"Pesquisa"} />
 
-      <SearchBar type='post' />
+      <SearchBar type="post" />
 
       {searchResults?.length > 0 ? (
-        <ul className='px-4 py-6 flex flex-col gap-4'>
+        <ul className="flex flex-col gap-4 px-4 py-6">
           {searchResults.map((post) => (
             <PostCard post={post} key={post.id} />
           ))}
         </ul>
       ) : (
-        <Box className='px-4 py-6 flex flex-col items-center justify-center gap-4 flex-1'>
+        <Box className="flex flex-1 flex-col items-center justify-center gap-4 px-4 py-6">
           <Text>Nenhuma postagem encontrada.</Text>
         </Box>
       )}

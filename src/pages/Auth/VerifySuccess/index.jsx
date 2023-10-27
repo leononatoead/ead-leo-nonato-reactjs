@@ -7,7 +7,7 @@ import {
 import useCheckUpdate from "../../../hooks/useCheckUpdate";
 import { Link } from "react-router-dom";
 
-import AuthHeader from "../../../components/Auth/AuthHeader";
+import AuthHeader from "../AuthHeader";
 import {
   Box,
   Flex,

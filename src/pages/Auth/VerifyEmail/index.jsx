@@ -4,7 +4,7 @@ import { logoutUser } from "../../../redux/modules/auth/actions";
 import useAuth from "../../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 
-import AuthHeader from "../../../components/Auth/AuthHeader";
+import AuthHeader from "../AuthHeader";
 import {
   Box,
   Flex,

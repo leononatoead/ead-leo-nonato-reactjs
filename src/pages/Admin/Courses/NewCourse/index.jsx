@@ -1,14 +1,14 @@
-import { useState } from 'react';
-import useCourse from '../../../../hooks/useCourse';
-import { AddCourseSchema } from './addCourseSchema';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { useState } from "react";
+import useCourse from "../../../../hooks/useCourse";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { AddCourseSchema } from "./addCourseSchema";
+import { useNavigate } from "react-router-dom";
 
-import Input from '../../../../components/Global/Input';
-import ButtonSubmit from '../../../../components/Global/ButtonSubmit';
-import Sections from '../../../../components/Admin/NewCourse/Sections';
-import { Box, Switch, Text, useToast } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
+import Input from "../../../../components/Input";
+import ButtonSubmit from "../../../../components/ButtonSubmit";
+import Sections from "./Sections";
+import { Box, Switch, Text, useToast } from "@chakra-ui/react";
 
 export default function NewCourse() {
   const [switchStates, setSwitchStates] = useState({
@@ -19,11 +19,11 @@ export default function NewCourse() {
   });
 
   const [error, setError] = useState({
-    image: '',
-    price: '',
-    paymentRef: '',
-    paymentURL: '',
-    formRef: '',
+    image: "",
+    price: "",
+    paymentRef: "",
+    paymentURL: "",
+    formRef: "",
   });
 
   const [imageFile, setImageFile] = useState();
@@ -44,56 +44,56 @@ export default function NewCourse() {
   });
 
   const handleSwitch = (type) => {
-    if (type === 'isPremium') {
+    if (type === "isPremium") {
       setSwitchStates((prev) => ({ ...prev, isPremium: !prev.isPremium }));
-    } else if (type === 'needAuth') {
+    } else if (type === "needAuth") {
       setSwitchStates((prev) => ({ ...prev, needAuth: !prev.needAuth }));
-    } else if (type === 'isHidden') {
+    } else if (type === "isHidden") {
       setSwitchStates((prev) => ({ ...prev, isHidden: !prev.isHidden }));
-    } else if (type === 'needForm') {
+    } else if (type === "needForm") {
       setSwitchStates((prev) => ({ ...prev, needForm: !prev.needForm }));
     }
   };
 
   const handlAddCourse = async (formData) => {
     setError({
-      image: '',
-      price: '',
-      paymentRef: '',
-      paymentURL: '',
-      formRef: '',
+      image: "",
+      price: "",
+      paymentRef: "",
+      paymentURL: "",
+      formRef: "",
     });
 
     if (sections.length < 1) {
       toast({
-        description: 'Adicione ao menos uma seção!',
-        status: 'error',
-        duration: '3000',
+        description: "Adicione ao menos uma seção!",
+        status: "error",
+        duration: "3000",
         isClosable: true,
       });
       return;
     }
 
     if (!imageFile) {
-      setError((prev) => ({ ...prev, image: 'Envie uma imagem!' }));
+      setError((prev) => ({ ...prev, image: "Envie uma imagem!" }));
       return;
     }
 
     if (switchStates.isPremium) {
       if (!formData.price || !formData.paymentRef || !formData.paymentURL) {
         if (!formData.price) {
-          setError((prev) => ({ ...prev, price: 'Digite um preço válido' }));
+          setError((prev) => ({ ...prev, price: "Digite um preço válido" }));
         }
         if (!formData.paymentRef) {
           setError((prev) => ({
             ...prev,
-            paymentRef: 'Digite uma referência válida',
+            paymentRef: "Digite uma referência válida",
           }));
         }
         if (!formData.paymentURL) {
           setError((prev) => ({
             ...prev,
-            paymentURL: 'Digite um URL válido',
+            paymentURL: "Digite um URL válido",
           }));
         }
         return;
@@ -104,7 +104,7 @@ export default function NewCourse() {
       if (!formData.formRef) {
         setError((prev) => ({
           ...prev,
-          formRef: 'Digite uma referência válida',
+          formRef: "Digite uma referência válida",
         }));
 
         return;
@@ -119,16 +119,16 @@ export default function NewCourse() {
       needForm: switchStates.needForm,
       sections,
     };
-    addNewCourse(data, 'courses', imageFile);
+    addNewCourse(data, "courses", imageFile);
 
     reset({
-      name: '',
-      description: '',
-      author: '',
-      price: '',
-      paymentRef: '',
-      paymentURL: '',
-      formRef: '',
+      name: "",
+      description: "",
+      author: "",
+      price: "",
+      paymentRef: "",
+      paymentURL: "",
+      formRef: "",
     });
 
     setSwitchStates({
@@ -138,61 +138,61 @@ export default function NewCourse() {
       needForm: false,
     });
 
-    navigate('/dashboard/courses');
+    navigate("/dashboard/courses");
   };
 
   return (
-    <Box className='main-container flex flex-col'>
-      <Box className='flex flex-col gap-4 flex-grow'>
+    <Box className="main-container flex flex-col">
+      <Box className="mb-4 flex flex-grow flex-col gap-4">
         <form
-          id='addCourseForm'
+          id="addCourseForm"
           onSubmit={handleSubmit(handlAddCourse)}
-          className='flex flex-col gap-[10px]'
+          className="flex flex-col gap-[10px]"
         >
-          <Box className='mb-[6px]'>
+          <Box className="mb-[6px]">
             <label
-              htmlFor={'image'}
-              className='text-base leading-5 !mb-[9px] block'
+              htmlFor={"image"}
+              className="!mb-[9px] block text-base leading-5"
             >
               Imagem
             </label>
             <input
-              id='image'
-              type='file'
-              accept='image/*'
+              id="image"
+              type="file"
+              accept="image/*"
               multiple={false}
-              className='w-full outline-none text-base'
+              className="w-full text-base outline-none"
               onChange={(e) => setImageFile(e.target.files[0])}
             />
-            <span className='errorText'>{error?.image && error.image}</span>
+            <span className="errorText">{error?.image && error.image}</span>
           </Box>
           <Input
-            theme={'light'}
-            type={'text'}
-            label={'Nome'}
-            placeholder={'Digite aqui'}
+            theme={"light"}
+            type={"text"}
+            label={"Nome"}
+            placeholder={"Digite aqui"}
             register={register}
-            id={'name'}
+            id={"name"}
             error={errors?.name?.message}
             watch={watch}
           />
           <Input
-            theme={'light'}
-            type={'text'}
-            label={'Descrição'}
-            placeholder={'Digite aqui'}
+            theme={"light"}
+            type={"text"}
+            label={"Descrição"}
+            placeholder={"Digite aqui"}
             register={register}
-            id={'description'}
+            id={"description"}
             error={errors?.description?.message}
             watch={watch}
           />
           <Input
-            theme={'light'}
-            type={'text'}
-            label={'Autor'}
-            placeholder={'Digite aqui'}
+            theme={"light"}
+            type={"text"}
+            label={"Autor"}
+            placeholder={"Digite aqui"}
             register={register}
-            id={'author'}
+            id={"author"}
             error={errors?.author?.message}
             watch={watch}
           />
@@ -200,32 +200,32 @@ export default function NewCourse() {
           {switchStates.isPremium && (
             <>
               <Input
-                theme={'light'}
-                type={'number'}
-                label={'Preço'}
+                theme={"light"}
+                type={"number"}
+                label={"Preço"}
                 register={register}
-                id={'price'}
+                id={"price"}
                 error={error.price}
                 watch={watch}
                 defaultValue={0}
               />
               <Input
-                theme={'light'}
-                type={'text'}
-                label={'Referência de pagamento'}
-                placeholder={'Digite aqui'}
+                theme={"light"}
+                type={"text"}
+                label={"Referência de pagamento"}
+                placeholder={"Digite aqui"}
                 register={register}
-                id={'paymentRef'}
+                id={"paymentRef"}
                 error={error?.paymentRef}
                 watch={watch}
               />
               <Input
-                theme={'light'}
-                type={'text'}
-                label={'Checkout de pagamento (URL)'}
-                placeholder={'https://exemplo.com/'}
+                theme={"light"}
+                type={"text"}
+                label={"Checkout de pagamento (URL)"}
+                placeholder={"https://exemplo.com/"}
                 register={register}
-                id={'paymentURL'}
+                id={"paymentURL"}
                 error={error?.paymentURL}
                 watch={watch}
               />
@@ -233,68 +233,68 @@ export default function NewCourse() {
           )}
           {switchStates.needForm && (
             <Input
-              theme={'light'}
-              type={'text'}
-              label={'Referência do formulário de cadastro'}
-              placeholder={'Digite aqui'}
+              theme={"light"}
+              type={"text"}
+              label={"Referência do formulário de cadastro"}
+              placeholder={"Digite aqui"}
               register={register}
-              id={'formRef'}
+              id={"formRef"}
               error={error?.formRef}
               watch={watch}
             />
           )}
-          <Box className='flex justify-start items-center gap-4' mb={'5px'}>
-            <Text className='font-bold text-primary-600 text-base'>
+          <Box className="flex items-center justify-start gap-4" mb={"5px"}>
+            <Text className="text-base font-bold text-primary-600">
               Curso pago:
             </Text>
-            <Box className='flex justify-start items-center gap-4'>
+            <Box className="flex items-center justify-start gap-4">
               <Switch
-                id='isPremium'
-                onChange={() => handleSwitch('isPremium')}
+                id="isPremium"
+                onChange={() => handleSwitch("isPremium")}
               />
-              <label htmlFor={'isPremium'} className='text-base leading-5'>
-                {switchStates.isPremium ? 'Sim' : 'Não'}
+              <label htmlFor={"isPremium"} className="text-base leading-5">
+                {switchStates.isPremium ? "Sim" : "Não"}
               </label>
             </Box>
           </Box>
-          <Box className='flex justify-start items-center gap-4' mb={'5px'}>
-            <Text className='font-bold text-primary-600 text-base'>
+          <Box className="flex items-center justify-start gap-4" mb={"5px"}>
+            <Text className="text-base font-bold text-primary-600">
               Formulário de cadastro:
             </Text>
-            <Box className='flex justify-start items-center gap-4'>
-              <Switch id='needForm' onChange={() => handleSwitch('needForm')} />
-              <label htmlFor={'needForm'} className='text-base leading-5'>
-                {switchStates.needForm ? 'Ativado' : 'Desativado'}
+            <Box className="flex items-center justify-start gap-4">
+              <Switch id="needForm" onChange={() => handleSwitch("needForm")} />
+              <label htmlFor={"needForm"} className="text-base leading-5">
+                {switchStates.needForm ? "Ativado" : "Desativado"}
               </label>
             </Box>
           </Box>
-          <Box className='flex justify-start items-center gap-4' mb={'5px'}>
-            <Text className='font-bold text-primary-600 text-base'>
+          <Box className="flex items-center justify-start gap-4" mb={"5px"}>
+            <Text className="text-base font-bold text-primary-600">
               Requer cadastro:
             </Text>
-            <Box className='flex justify-start items-center gap-4'>
+            <Box className="flex items-center justify-start gap-4">
               <Switch
-                id='needAuth'
+                id="needAuth"
                 defaultChecked
-                onChange={() => handleSwitch('needAuth')}
+                onChange={() => handleSwitch("needAuth")}
               />
-              <label htmlFor={'needAuth'} className='text-base leading-5'>
-                {switchStates.needAuth ? 'Sim' : 'Não'}
+              <label htmlFor={"needAuth"} className="text-base leading-5">
+                {switchStates.needAuth ? "Sim" : "Não"}
               </label>
             </Box>
           </Box>
-          <Box className='flex justify-start items-center gap-4' mb={4}>
-            <Text className='font-bold text-primary-600 text-base'>
+          <Box className="flex items-center justify-start gap-4" mb={4}>
+            <Text className="text-base font-bold text-primary-600">
               Visibilidade:
             </Text>
-            <Box className='flex justify-start items-center gap-4'>
+            <Box className="flex items-center justify-start gap-4">
               <Switch
-                id='isHidden'
+                id="isHidden"
                 defaultChecked
-                onChange={() => handleSwitch('isHidden')}
+                onChange={() => handleSwitch("isHidden")}
               />
-              <label htmlFor={'isHidden'} className='text-base leading-5'>
-                {switchStates.isHidden ? 'Privado' : 'Público'}
+              <label htmlFor={"isHidden"} className="text-base leading-5">
+                {switchStates.isHidden ? "Privado" : "Público"}
               </label>
             </Box>
           </Box>
@@ -302,9 +302,9 @@ export default function NewCourse() {
         <Sections sections={sections} setSections={setSections} />
       </Box>
       <ButtonSubmit
-        form='addCourseForm'
+        form="addCourseForm"
         disabled={loading ? true : false}
-        text={'Adicionar'}
+        text={"Adicionar"}
         loading={loading}
       />
     </Box>

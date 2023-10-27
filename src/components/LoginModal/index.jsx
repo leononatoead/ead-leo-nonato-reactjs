@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useState } from "react";
 
-import LoginForm from './LoginForm';
-import ResetPasswordForm from './ResetPasswordForm';
-import ModalComponent from '../../Global/ModalComponent';
+import LoginForm from "./LoginForm";
+import ResetPasswordForm from "./ResetPasswordForm";
+import ModalComponent from "../ModalComponent";
 
 export default function LoginModal({ openLoginModal, setOpenLoginModal }) {
   const [showResetPass, setShowResetPass] = useState(false);

@@ -12,9 +12,9 @@ import { BannerSchema } from "../NewBanner/BannerSchema";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { Box, Flex } from "@chakra-ui/react";
-import Input from "../../../../../components/Global/Input";
-import ButtonSubmit from "../../../../../components/Global/ButtonSubmit";
-import ConfirmModal from "../../../../../components/Global/ConfirmModal";
+import Input from "../../../../../components/Input";
+import ButtonSubmit from "../../../../../components/ButtonSubmit";
+import ConfirmModal from "../../../../../components/ConfirmModal";
 
 export default function EditBanner() {
   const { id } = useParams();

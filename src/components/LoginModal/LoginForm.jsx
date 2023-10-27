@@ -1,11 +1,11 @@
-import useAuth from '../../../hooks/useAuth';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { LoginSchema } from './loginSchema';
-import { Link } from 'react-router-dom';
+import useAuth from "../../hooks/useAuth";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { LoginSchema } from "./loginSchema";
+import { Link } from "react-router-dom";
 
-import Input from '../../Global/Input';
-import ButtonSubmit from '../../Global/ButtonSubmit';
+import Input from "../Input";
+import ButtonSubmit from "../ButtonSubmit";
 import {
   Box,
   Heading,
@@ -13,7 +13,7 @@ import {
   ModalFooter,
   ModalHeader,
   Text,
-} from '@chakra-ui/react';
+} from "@chakra-ui/react";
 
 export default function LoginForm({ show }) {
   const { loginUser, loading } = useAuth();
@@ -34,41 +34,41 @@ export default function LoginForm({ show }) {
   return (
     <>
       <ModalHeader p={0} mb={6}>
-        <Heading className='w-full text-center text-primary-500 !text-large font-bold !font-poppins'>
+        <Heading className="w-full text-center !font-poppins !text-large font-bold text-primary-500">
           Acessar sua conta
         </Heading>
       </ModalHeader>
       <ModalBody p={0}>
         <form
-          id='loginForm'
+          id="loginForm"
           onSubmit={handleSubmit(handleLogin)}
-          className='flex flex-col gap-4 px-4'
+          className="flex flex-col gap-4 px-4"
         >
           <Input
-            theme={'light'}
-            type={'email'}
-            label={'E-mail'}
-            placeholder={'exemplo@exemplo.com'}
+            theme={"light"}
+            type={"email"}
+            label={"E-mail"}
+            placeholder={"exemplo@exemplo.com"}
             register={register}
-            id={'email'}
+            id={"email"}
             error={errors?.email?.message}
             watch={watch}
           />
           <Input
-            theme={'light'}
-            type={'password'}
-            label={'Senha'}
-            placeholder={'********'}
+            theme={"light"}
+            type={"password"}
+            label={"Senha"}
+            placeholder={"********"}
             register={register}
-            id={'password'}
+            id={"password"}
             error={errors?.password?.message}
             watch={watch}
           />
 
-          <Box className='-mt-4 mb-8'>
+          <Box className="-mt-4 mb-8">
             <button
-              type='button'
-              className='text-primary-400 text-base leading-6 mb-7'
+              type="button"
+              className="mb-7 text-base leading-6 text-primary-400"
               onClick={() => {
                 show(true);
               }}
@@ -76,19 +76,19 @@ export default function LoginForm({ show }) {
               Esqueci minha senha
             </button>
 
-            <Text className='text-base font-medium leading-5'>
-              Não tem uma conta?{' '}
-              <Link to='/register' className='text-primary-400'>
+            <Text className="text-base font-medium leading-5">
+              Não tem uma conta?{" "}
+              <Link to="/register" className="text-primary-400">
                 Cadastre-se agora
               </Link>
             </Text>
           </Box>
         </form>
-        <ModalFooter p={0} px={'10px'}>
+        <ModalFooter p={0} px={"10px"}>
           <ButtonSubmit
-            form='loginForm'
+            form="loginForm"
             disabled={false}
-            text={'Acessar'}
+            text={"Acessar"}
             loading={loading}
           />
         </ModalFooter>

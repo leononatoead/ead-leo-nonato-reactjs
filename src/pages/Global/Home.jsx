@@ -7,13 +7,13 @@ import {
 import useCheckUpdate from "../../hooks/useCheckUpdate";
 import { Link } from "react-router-dom";
 
-import Navbar from "../../components/Global/Navbar";
-import LoginModal from "../../components/Auth/LoginModal";
-import VideoCard from "../../components/Global/Home/VideoCard";
-import SearchBar from "../../components/Global/SearchBar";
-import Banner from "../../components/Global/Home/Banner";
-import Footer from "../../components/Global/Footer";
-import PostCard from "../../components/Global/Home/PostCard";
+import Navbar from "../../components/Navbar";
+import LoginModal from "../../components/LoginModal";
+import VideoCard from "../../components/Home/VideoCard";
+import SearchBar from "../../components/SearchBar";
+import Banner from "../../components/Home/Banner";
+import Footer from "../../components/Footer";
+import PostCard from "../../components/Home/PostCard";
 import { Box, Heading } from "@chakra-ui/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";

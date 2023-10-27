@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { logoutUser } from "../../redux/modules/auth/actions";
+import { logoutUser } from "../redux/modules/auth/actions";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
-import LoginModal from "../Auth/LoginModal";
+import LoginModal from "./LoginModal";
 import ShareBtn from "./ShareBtn";
 import {
   Box,

@@ -70,7 +70,7 @@ export default function SectionList({ sections, setSections }) {
       inputValue = 999;
     }
 
-    setEdit((prev) => ({ ...prev, order: inputValue }));
+    setEdit((prev) => ({ ...prev, order: Number(inputValue) }));
   };
 
   const handleDeleteSection = (name) => {
@@ -84,7 +84,7 @@ export default function SectionList({ sections, setSections }) {
       <button
         type="button"
         onClick={onOpen}
-        className="mt-2 w-[50%] rounded-[4px] border-[1px] border-primary-600 bg-white px-3 py-[5px] text-base leading-5 text-primary-600"
+        className="w-[50%] rounded-[4px] border-[1px] border-primary-600 bg-white px-3 py-[5px] text-base leading-5 text-primary-600"
       >
         Ver inclusos
       </button>

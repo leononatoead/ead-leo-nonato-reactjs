@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   fetchRegisterVideoSettings,
   fetchSettingsFromLocalStorage,
   fetchStudantClassesSettings,
 } from "../../../redux/modules/settings/actions";
-import { useDispatch, useSelector } from "react-redux";
 import useCheckUpdate from "../../../hooks/useCheckUpdate";
 import useAuth from "../../../hooks/useAuth";
 import { useForm } from "react-hook-form";
@@ -13,8 +13,8 @@ import { RegisterSchema } from "./registerSchema";
 import { cpf } from "cpf-cnpj-validator";
 import { Link } from "react-router-dom";
 
-import Input from "../../../components/Global/Input";
-import ButtonSubmit from "../../../components/Global/ButtonSubmit";
+import Input from "../../../components/Input";
+import ButtonSubmit from "../../../components/ButtonSubmit";
 import { Box, Heading, Image, Text, useMediaQuery } from "@chakra-ui/react";
 import logo from "../../../assets/auth-logo-black.svg";
 

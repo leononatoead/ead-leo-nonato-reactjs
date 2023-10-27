@@ -1,37 +1,37 @@
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
-import AuthHeader from '../../../components/Auth/AuthHeader';
-import { AiOutlineCheckCircle } from 'react-icons/ai';
-import { Box, Flex, Heading, Text } from '@chakra-ui/react';
+import AuthHeader from "../AuthHeader";
+import { AiOutlineCheckCircle } from "react-icons/ai";
+import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 
 export default function ChangePasswordSuccess() {
   return (
-    <Flex flexDirection={'column'} className='min-h-[100dvh] bg-gray-200'>
+    <Flex flexDirection={"column"} className="min-h-[100dvh] bg-gray-200">
       <AuthHeader />
 
       <Box px={4} mt={1}>
-        <AiOutlineCheckCircle size={80} className='text-[#89D185] mb-6' />
+        <AiOutlineCheckCircle size={80} className="mb-6 text-[#89D185]" />
         <Heading
-          className='!font-bold !font-poppins !text-large !leading-6 text-primary-600'
+          className="!font-poppins !text-large !font-bold !leading-6 text-primary-600"
           mb={2}
         >
           Senha alterada!
         </Heading>
-        <Text className='!font-medium !text-base !text-black !leading-5' mb={6}>
+        <Text className="!text-base !font-medium !leading-5 !text-black" mb={6}>
           Agora você já pode retornar à plataforma e fazer o login com sua nova
           senha.
         </Text>
       </Box>
       <Flex
-        flexDirection={'column'}
-        className='!flex-grow justify-end'
-        px={'10px'}
+        flexDirection={"column"}
+        className="!flex-grow justify-end"
+        px={"10px"}
         pb={6}
         gap={4}
       >
         <Link
-          to='/'
-          className='w-full bg-primary-400 rounded-[4px] px-3 py-[5px] text-white text-base leading-5 text-center'
+          to="/"
+          className="w-full rounded-[4px] bg-primary-400 px-3 py-[5px] text-center text-base leading-5 text-white"
         >
           Retornar à plataforma
         </Link>

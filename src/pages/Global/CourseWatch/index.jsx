@@ -4,13 +4,13 @@ import { fetchVideos } from "../../../redux/modules/courses/actions";
 import useUserData from "../../../hooks/useUserData";
 import { useLocation } from "react-router-dom";
 
-import Navbar from "../../../components/Global/Navbar";
+import Navbar from "../../../components/Navbar";
 import VideoPlayer from "./VideoPlayer";
 import VideoIframe from "./VideoIframe";
 import VideoList from "./VideoList";
 import VideoContent from "./VideoContent";
 import AssetsList from "./AssetsList";
-import PremiumCourse from "../../../components/Global/PremiumCourse";
+import PremiumCourse from "../../../components/PremiumCourse";
 import Quiz from "./Quiz";
 import { Box } from "@chakra-ui/react";
 

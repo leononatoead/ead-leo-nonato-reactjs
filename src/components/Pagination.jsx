@@ -1,8 +1,8 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { changePage, fetchMorePosts } from '../../redux/modules/posts/actions';
+import { useDispatch, useSelector } from "react-redux";
+import { changePage, fetchMorePosts } from "../redux/modules/posts/actions";
 
-import { Box } from '@chakra-ui/react';
-import { RiArrowLeftSLine, RiArrowRightSLine } from 'react-icons/ri';
+import { Box } from "@chakra-ui/react";
+import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri";
 
 export default function Pagination() {
   const { pages, currentPage } = useSelector((state) => state.posts);
@@ -27,12 +27,12 @@ export default function Pagination() {
     dispatch(changePage(currentPage - 1));
   };
   return (
-    <Box className='flex justify-center items-center gap-6 text-small pt-4 w-full'>
+    <Box className="flex w-full items-center justify-center gap-6 pt-4 text-small">
       {currentPage > 1 && (
         <button
           onClick={handleBackPage}
           //   className='w-full bg-primary-400 px-4 py-2 mt-2 text-white font-bold rounded-md'
-          className='flex items-center font-bold text-primary-600 gap-1 '
+          className="flex items-center gap-1 font-bold text-primary-600 "
         >
           <RiArrowLeftSLine size={15} /> Voltar
         </button>
@@ -40,7 +40,7 @@ export default function Pagination() {
       {page?.posts.length > 0 && (
         <button
           onClick={handleLoadMore}
-          className='flex items-center font-bold text-primary-600 gap-1 '
+          className="flex items-center gap-1 font-bold text-primary-600 "
         >
           Próximo <RiArrowRightSLine size={15} />
         </button>

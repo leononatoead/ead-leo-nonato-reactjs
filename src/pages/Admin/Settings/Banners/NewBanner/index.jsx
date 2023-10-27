@@ -10,9 +10,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { BannerSchema } from "./BannerSchema";
 
-import Input from "../../../../../components/Global/Input";
-import ButtonSubmit from "../../../../../components/Global/ButtonSubmit";
+import Input from "../../../../../components/Input";
+import ButtonSubmit from "../../../../../components/ButtonSubmit";
 import { Box } from "@chakra-ui/react";
+import OrderInput from "../../../../../components/OrderInput";
 
 export default function NewBanner() {
   const {
@@ -68,38 +69,7 @@ export default function NewBanner() {
         className="flex flex-grow flex-col gap-4"
         onSubmit={handleSubmit(handleAddBanner)}
       >
-        <Box className={`flex flex-col gap-[9px]`}>
-          <label htmlFor={"order"} className="text-base leading-5">
-            Ordem
-          </label>
-          <Box
-            className={`relative w-full overflow-hidden rounded-[4px] after:absolute after:bottom-0 after:left-1/2 after:h-[2px]  after:-translate-x-1/2 after:bg-cian after:content-[''] ${
-              watch("order") ? "after:w-full" : "after:w-0"
-            } animation hover:after:w-full ${
-              errors?.order?.message && "after:w-full after:bg-red-500"
-            } shadow-sm shadow-gray-900/50 `}
-          >
-            <input
-              id={"order"}
-              type="number"
-              placeholder={"0"}
-              {...register("order", { valueAsNumber: true })}
-              className={`w-full rounded-[4px] bg-white px-3 py-[5px] text-base leading-5 outline-none placeholder:text-gray-900`}
-              autoComplete="false"
-              min={0}
-              max={999}
-              step={1}
-            />
-            {errors?.order?.message && (
-              <Box className={`absolute right-1 top-1 text-red-500`}>
-                <AiOutlineWarning size={20} className="text-red-500" />
-              </Box>
-            )}
-          </Box>
-          <span className="-mt-1 text-small text-red-500">
-            {errors?.order?.message}
-          </span>
-        </Box>
+        <OrderInput register={register} watch={watch} />
         <Input
           theme={"light"}
           type={"text"}

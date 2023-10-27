@@ -1,12 +1,12 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchPosts } from '../../../redux/modules/posts/actions';
-import { Link } from 'react-router-dom';
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchPosts } from "../../../redux/modules/posts/actions";
+import { Link } from "react-router-dom";
 
-import PostCardAdmin from '../../../components/Admin/PostCardAdmin';
-import Pagination from '../../../components/Global/Pagination';
-import { Box, Text } from '@chakra-ui/react';
-import { MdAddCircleOutline } from 'react-icons/md';
+import PostCard from "./PostCard";
+import Pagination from "../../../components/Pagination";
+import { Box, Text } from "@chakra-ui/react";
+import { MdAddCircleOutline } from "react-icons/md";
 
 export default function Posts() {
   const { posts, pages, currentPage } = useSelector((state) => state.posts);
@@ -21,18 +21,18 @@ export default function Posts() {
   }, []);
 
   return (
-    <Box className='main-container flex flex-col'>
-      <Box className='w-full flex justify-end'>
-        <Link to='/dashboard/posts/new' className='add-btn'>
+    <Box className="main-container flex flex-col">
+      <Box className="flex w-full justify-end">
+        <Link to="/dashboard/posts/new" className="add-btn">
           <MdAddCircleOutline size={20} />
-          <span className='font-bold'>Novo Post</span>
+          <span className="font-bold">Novo Post</span>
         </Link>
       </Box>
 
       {page && page.posts.length > 0 ? (
-        <ul className='flex flex-col gap-4 pt-6 flex-grow'>
+        <ul className="flex flex-grow flex-col gap-4 pt-6">
           {page.posts?.map((post) => (
-            <PostCardAdmin post={post} key={post.id} />
+            <PostCard post={post} key={post.id} />
           ))}
         </ul>
       ) : (

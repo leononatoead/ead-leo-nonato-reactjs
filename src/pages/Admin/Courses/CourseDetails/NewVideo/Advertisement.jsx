@@ -1,10 +1,10 @@
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { AdvertisementSchema } from './extraSchemas';
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { AdvertisementSchema } from "./extraSchemas";
 
-import Input from '../../Global/Input';
-import { Box } from '@chakra-ui/react';
-import AdvertisementList from './AdvertisementList';
+import Input from "../../../../../components/Input";
+import { Box } from "@chakra-ui/react";
+import AdvertisementList from "./AdvertisementList";
 
 export default function Advertisement({ videoData, setVideoData }) {
   const {
@@ -27,66 +27,66 @@ export default function Advertisement({ videoData, setVideoData }) {
     }));
 
     reset({
-      advertisementName: '',
-      advertisementTime: '',
-      advertisementPath: '',
-      advertisementImage: '',
+      advertisementName: "",
+      advertisementTime: "",
+      advertisementPath: "",
+      advertisementImage: "",
     });
   };
 
   return (
     <form
       onSubmit={handleSubmit(handleAddAdvertisement)}
-      id='AddAdvertisementForm'
-      className='flex flex-col gap-[10px] pb-4'
+      id="AddAdvertisementForm"
+      className="flex flex-col gap-[10px] pb-4"
     >
       <Input
-        theme={'light'}
-        type={'text'}
-        label={'URL da imagem'}
-        placeholder={'www.exemplo.com'}
+        theme={"light"}
+        type={"text"}
+        label={"URL da imagem"}
+        placeholder={"www.exemplo.com"}
         register={register}
-        id={'advertisementImage'}
+        id={"advertisementImage"}
         error={errors?.advertisementImage?.message}
         watch={watch}
       />
       <Input
-        theme={'light'}
-        type={'text'}
-        label={'Nome'}
-        placeholder={'Digite aqui'}
+        theme={"light"}
+        type={"text"}
+        label={"Nome"}
+        placeholder={"Digite aqui"}
         register={register}
-        id={'advertisementName'}
+        id={"advertisementName"}
         error={errors?.advertisementName?.message}
         watch={watch}
       />
       <Input
-        theme={'light'}
-        type={'text'}
-        label={'Tempo do Vídeo'}
-        placeholder={'Digite aqui'}
+        theme={"light"}
+        type={"text"}
+        label={"Tempo do Vídeo"}
+        placeholder={"Digite aqui"}
         register={register}
-        id={'advertisementTime'}
+        id={"advertisementTime"}
         error={errors?.advertisementTime?.message}
         watch={watch}
       />
 
       <Input
-        theme={'light'}
-        type={'text'}
-        label={'URL de redirecionamento'}
-        placeholder={'www.exemplo.com'}
+        theme={"light"}
+        type={"text"}
+        label={"URL de redirecionamento"}
+        placeholder={"www.exemplo.com"}
         register={register}
-        id={'advertisementPath'}
+        id={"advertisementPath"}
         error={errors?.advertisementPath?.message}
         watch={watch}
       />
 
-      <Box className='flex items-center gap-4 justify-start'>
+      <Box className="flex items-center justify-start gap-4">
         <button
-          className='w-[50%] bg-white rounded-[4px] px-3 py-[5px] text-primary-600 border-[1px] border-primary-600 text-base leading-5 mt-2'
-          type='submit'
-          form='AddAdvertisementForm'
+          className="mt-2 w-[50%] rounded-[4px] border-[1px] border-primary-600 bg-white px-3 py-[5px] text-base leading-5 text-primary-600"
+          type="submit"
+          form="AddAdvertisementForm"
         >
           Incluir
         </button>

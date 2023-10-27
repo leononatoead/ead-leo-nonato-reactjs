@@ -1,11 +1,11 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   fetchFAQFromLocalStorage,
   fetchQuestions,
-} from '../../redux/modules/faq/actions';
+} from "../../redux/modules/faq/actions";
 
-import Navbar from '../../components/Global/Navbar';
+import Navbar from "../../components/Navbar";
 import {
   Accordion,
   AccordionItem,
@@ -14,8 +14,8 @@ import {
   AccordionIcon,
   Box,
   Image,
-} from '@chakra-ui/react';
-import background from '../../assets/auth-background.png';
+} from "@chakra-ui/react";
+import background from "../../assets/auth-background.png";
 
 export default function FAQ() {
   const { questions } = useSelector((state) => state.faq);
@@ -23,7 +23,7 @@ export default function FAQ() {
 
   useEffect(() => {
     const lastFAQUpdate = new Date(
-      JSON.parse(localStorage.getItem('lastFAQUpdate')),
+      JSON.parse(localStorage.getItem("lastFAQUpdate")),
     );
     const actualTime = new Date();
     const verifyFAQUpdate = Math.abs(actualTime - lastFAQUpdate);
@@ -32,37 +32,37 @@ export default function FAQ() {
     if (FAQMinutesDifference > 30) {
       dispatch(fetchQuestions());
     } else {
-      const FAQ = JSON.parse(localStorage.getItem('FAQ'));
+      const FAQ = JSON.parse(localStorage.getItem("FAQ"));
       dispatch(fetchFAQFromLocalStorage(FAQ));
     }
   }, []);
 
   return (
-    <Box className='min-h-[100dvh] bg-gray-200'>
-      <Navbar title={'FAQ'} />
+    <Box className="min-h-[100dvh] bg-gray-200">
+      <Navbar title={"FAQ"} />
       <Box>
         <Image
           src={background}
-          alt='background'
-          className='rounded-br-[16px] rounded-bl-[16px] h-[120px] w-full object-cover'
+          alt="background"
+          className="h-[120px] w-full rounded-bl-[16px] rounded-br-[16px] object-cover"
         />
       </Box>
-      <Box className='px-4' mt={-4}>
-        <Accordion className='flex flex-col' gap={1} allowToggle>
+      <Box className="px-4" mt={-4}>
+        <Accordion className="flex flex-col" gap={1} allowToggle>
           {questions
             ?.slice()
             .sort((a, b) => a.order - b.order)
             .map((question, i) => (
               <AccordionItem
                 key={i}
-                className='!border-[1px] !rounded-md !shadow-sm overflow-hidden'
+                className="overflow-hidden !rounded-md !border-[1px] !shadow-sm"
               >
-                <AccordionButton px={4} py={3} className='!bg-white'>
+                <AccordionButton px={4} py={3} className="!bg-white">
                   <Box
-                    as='span'
-                    flex='1'
-                    textAlign='left'
-                    className='!text-base !leading-5 '
+                    as="span"
+                    flex="1"
+                    textAlign="left"
+                    className="!text-base !leading-5 "
                   >
                     {question.question}
                   </Box>
@@ -70,9 +70,9 @@ export default function FAQ() {
                 </AccordionButton>
 
                 <AccordionPanel
-                  className='!bg-zinc-100 !text-base text-justify'
+                  className="!bg-zinc-100 text-justify !text-base"
                   px={4}
-                  py={'7px'}
+                  py={"7px"}
                 >
                   {question.answer}
                 </AccordionPanel>

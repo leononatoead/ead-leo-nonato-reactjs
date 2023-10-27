@@ -1,14 +1,14 @@
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useState } from "react";
+import { useSelector } from "react-redux";
 
-import Navbar from '../../../components/Global/Navbar';
-import PostCard from '../../../components/Global/Newsletter/PostCard';
-import Pagination from '../../../components/Global/Pagination';
-import SearchBar from '../../../components/Global/SearchBar';
-import CategoriesFilter from '../../../components/Global/Newsletter/CategoriesFilter';
-import LoginModal from '../../../components/Auth/LoginModal';
-import { Box, Flex, Text } from '@chakra-ui/react';
-import { IoMdStar } from 'react-icons/io';
+import PostCard from "../../../components/Global/Newsletter/PostCard";
+import CategoriesFilter from "../../../components/Global/Newsletter/CategoriesFilter";
+import Navbar from "../../../components/Navbar";
+import Pagination from "../../../components/Pagination";
+import SearchBar from "../../../components/SearchBar";
+import LoginModal from "../../../components/LoginModal";
+import { Box, Flex, Text } from "@chakra-ui/react";
+import { IoMdStar } from "react-icons/io";
 
 export default function Newsletter() {
   const { user } = useSelector((state) => state.auth);
@@ -19,17 +19,17 @@ export default function Newsletter() {
   const [openLoginModal, setOpenLoginModal] = useState(false);
 
   return (
-    <Box className='min-h-[100dvh] bg-gray-200'>
-      <Navbar title='Newsletter' />
-      <SearchBar type='post' />
+    <Box className="min-h-[100dvh] bg-gray-200">
+      <Navbar title="Newsletter" />
+      <SearchBar type="post" />
 
       {!user && (
-        <Flex className='p-2 !items-start bg-gray-250 gap-1'>
-          <IoMdStar size={20} className='text-orange -mt-[2px]' />
-          <Text className=' text-small leading-4'>
-            Tenha acesso ilimitado a todo o conteúdo e cresça como investidor.{' '}
+        <Flex className="!items-start gap-1 bg-gray-250 p-2">
+          <IoMdStar size={20} className="-mt-[2px] text-orange" />
+          <Text className=" text-small leading-4">
+            Tenha acesso ilimitado a todo o conteúdo e cresça como investidor.{" "}
             <button
-              className='text-primary-400'
+              className="text-primary-400"
               onClick={() => setOpenLoginModal(true)}
             >
               Entre ou cadastre-se agora.
@@ -40,15 +40,15 @@ export default function Newsletter() {
 
       <CategoriesFilter />
 
-      <Box className='px-4 py-6'>
+      <Box className="px-4 py-6">
         {selectedCategory ? (
-          <ul className='flex flex-col gap-4 flex-grow'>
+          <ul className="flex flex-grow flex-col gap-4">
             {selectedCategory?.map((post) => (
               <PostCard post={post} key={post.id} />
             ))}
           </ul>
         ) : page && page.posts.length > 0 ? (
-          <ul className='flex flex-col gap-4 flex-grow'>
+          <ul className="flex flex-grow flex-col gap-4">
             {page.posts?.map((post) => (
               <PostCard post={post} key={post.id} />
             ))}

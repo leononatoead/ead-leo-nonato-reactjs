@@ -7,14 +7,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { AddVideoSchema } from "../NewVideo/addVideoSchema";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import ButtonSubmit from "../../../../../components/Global/ButtonSubmit";
-import Input from "../../../../../components/Global/Input";
-import Assets from "../../../../../components/Admin/NewVideo/Assets";
-import Advertisement from "../../../../../components/Admin/NewVideo/Advertisement";
-import Quiz from "../../../../../components/Admin/NewVideo/Quiz";
-import Survey from "../../../../../components/Admin/NewVideo/Survey";
+import Assets from "../NewVideo/Assets";
+import Advertisement from "../NewVideo/Advertisement";
+import Quiz from "../NewVideo/Quiz";
+import Survey from "../NewVideo/Survey";
+import ButtonSubmit from "../../../../../components/ButtonSubmit";
+import Input from "../../../../../components/Input";
+import ConfirmModal from "../../../../../components/ConfirmModal";
+import OrderInput from "../../../../../components/OrderInput";
 import { Box, Flex, Switch, Text } from "@chakra-ui/react";
-import ConfirmModal from "../../../../../components/Global/ConfirmModal";
 
 export default function EditVideo() {
   const { pathname } = useLocation();
@@ -272,37 +273,34 @@ export default function EditVideo() {
             watch={watch}
           />
         )}
-        <Box className="pb-[5px]">
-          <label
-            htmlFor={"section"}
-            className="mb-[9px] block text-base leading-5"
-          >
-            Seção
-          </label>
-          <select
-            id="section"
-            {...register("section")}
-            className={`w-full rounded-[4px] bg-white px-3 py-[5px] text-base leading-5 shadow-sm shadow-gray-900/50 outline-none placeholder:text-gray-900`}
-            defaultValue={video?.section}
-          >
-            {course?.sections?.map((section, i) => (
-              <option key={i} value={section.sectionName}>
-                {section.sectionName}
-              </option>
-            ))}
-          </select>
+        <Box className="flex items-start gap-2">
+          <OrderInput
+            register={register}
+            watch={watch}
+            error={errors?.order?.message}
+            defaultValue={video?.order}
+          />
+          <Box className="w-full pb-[5px]">
+            <label
+              htmlFor={"section"}
+              className="mb-[9px] block text-base leading-5"
+            >
+              Seção
+            </label>
+            <select
+              id="section"
+              {...register("section")}
+              className={`w-full rounded-[4px] bg-white px-3 py-[6px] text-base leading-5 shadow-sm shadow-gray-900/50 outline-none placeholder:text-gray-900`}
+              defaultValue={video?.section}
+            >
+              {course?.sections?.map((section, i) => (
+                <option key={i} value={section.sectionName}>
+                  {section.sectionName}
+                </option>
+              ))}
+            </select>
+          </Box>
         </Box>
-        <Input
-          theme={"light"}
-          type={"number"}
-          label={"Ordem"}
-          placeholder={"Digite aqui"}
-          register={register}
-          id={"order"}
-          error={errors?.order?.message}
-          watch={watch}
-          defaultValue={video?.order}
-        />
         <Input
           theme={"light"}
           type={"text"}

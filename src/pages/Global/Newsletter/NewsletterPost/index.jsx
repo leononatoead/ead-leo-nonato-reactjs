@@ -1,21 +1,21 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   fetchPost,
   fetchPosts,
   setCurrentPost,
-} from '../../../../redux/modules/posts/actions';
-import { useLocation, useParams } from 'react-router-dom';
-import useFormat from '../../../../hooks/useFormat';
-import { Editor } from 'react-draft-wysiwyg';
-import { EditorState, convertFromRaw } from 'draft-js';
+} from "../../../../redux/modules/posts/actions";
+import useFormat from "../../../../hooks/useFormat";
+import { Editor } from "react-draft-wysiwyg";
+import { EditorState, convertFromRaw } from "draft-js";
+import { useLocation, useParams } from "react-router-dom";
 
-import Navbar from '../../../../components/Global/Navbar';
-import PostComments from '../../../../components/Global/Newsletter/PostComments';
-import PremiumPost from '../../../../components/Global/PremiumPost';
-import { Box, Heading, Image, Text } from '@chakra-ui/react';
-import Like from '../../../../components/Global/Newsletter/Like';
-import ShareBtn from '../../../../components/Global/ShareBtn';
+import Like from "../../../../components/Global/Newsletter/Like";
+import PostComments from "../../../../components/Global/Newsletter/PostComments";
+import Navbar from "../../../../components/Navbar";
+import PremiumPost from "../../../../components/PremiumPost";
+import ShareBtn from "../../../../components/ShareBtn";
+import { Box, Heading, Image, Text } from "@chakra-ui/react";
 
 export default function NewsletterPost() {
   const { id } = useParams();
@@ -56,10 +56,10 @@ export default function NewsletterPost() {
           setOpenPremiumModal(true);
         }
       };
-      window.addEventListener('scroll', handleScroll);
+      window.addEventListener("scroll", handleScroll);
 
       return () => {
-        window.removeEventListener('scroll', handleScroll);
+        window.removeEventListener("scroll", handleScroll);
       };
     }
   }, []);
@@ -71,23 +71,23 @@ export default function NewsletterPost() {
   }, []);
 
   return (
-    <Box className='min-h-[100dvh]'>
+    <Box className="min-h-[100dvh]">
       <Navbar title={currentPost?.category} />
-      <Box className='px-4 py-6'>
-        <Heading className='!font-poppins !text-large !font-bold !leading-6 text-primary-600'>
+      <Box className="px-4 py-6">
+        <Heading className="!font-poppins !text-large !font-bold !leading-6 text-primary-600">
           {currentPost?.title}
         </Heading>
-        <Box className='flex items-center justify-start gap-2 text-small leading-4 text-gray-700 py-2'>
+        <Box className="flex items-center justify-start gap-2 py-2 text-small leading-4 text-gray-700">
           <Text>{currentPost?.author}</Text>
           {`|`}
           <Text>{formatDate(currentPost?.createdAt)}</Text>
           <ShareBtn url={url} />
         </Box>
-        <Box className='w-full bg-gray-200 h-[1px] mb-4'></Box>
+        <Box className="mb-4 h-[1px] w-full bg-gray-200"></Box>
         <Image
           src={currentPost?.thumb}
-          alt='thumbnail'
-          className='h-52 w-full object-cover rounded-2xl mb-4'
+          alt="thumbnail"
+          className="mb-4 h-52 w-full rounded-2xl object-cover"
         />
         <Editor
           editorState={editorState}

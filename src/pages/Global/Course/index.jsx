@@ -4,8 +4,8 @@ import { fetchVideos } from "../../../redux/modules/courses/actions";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import useFormat from "../../../hooks/useFormat";
 
-import Navbar from "../../../components/Global/Navbar";
-import PremiumCourse from "../../../components/Global/PremiumCourse";
+import Navbar from "../../../components/Navbar";
+import PremiumCourse from "../../../components/PremiumCourse";
 import {
   Accordion,
   AccordionItem,
