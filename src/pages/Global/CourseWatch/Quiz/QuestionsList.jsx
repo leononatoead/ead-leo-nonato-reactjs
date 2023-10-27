@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-
-import { Box, Radio, RadioGroup, Text } from "@chakra-ui/react";
-import { RiCloseFill } from "react-icons/ri";
-import { useLocation } from "react-router-dom";
 import useUserData from "../../../../hooks/useUserData";
+import { useLocation } from "react-router-dom";
+
+import RadioGroupComponent from "./RadioGroup";
+import { Box, Radio, Text } from "@chakra-ui/react";
+import { RiCloseFill } from "react-icons/ri";
 
 export default function QuestionsList({
   questionsList,
@@ -110,47 +111,65 @@ export default function QuestionsList({
           <Box>
             <Text className="px-4 pb-8 pt-4">{active?.question?.question}</Text>
             <Box className="w-full border-b bg-gray-950"></Box>
-            <RadioGroup
-              className="flex flex-col gap-4 px-4 py-6"
-              onChange={handleSelectAnswer}
-            >
-              <Box className="flex gap-4 border-l-[5px] border-l-gray-450 !bg-gray-150 px-5 py-4">
-                <Radio
-                  value="1"
-                  size="lg"
-                  colorScheme="gray"
-                  className="!border-[3px] !border-gray-450 "
-                ></Radio>
-                <Text>{active?.question?.firstAnswer}</Text>
-              </Box>
-              <Box className="flex gap-4 border-l-[5px] border-l-gray-450 !bg-gray-150 px-5 py-4">
-                <Radio
-                  value="2"
-                  size="lg"
-                  colorScheme="gray"
-                  className="!border-[3px] !border-gray-450"
-                ></Radio>
-                <Text>{active?.question?.secondAnswer}</Text>
-              </Box>
-              <Box className="flex gap-4 border-l-[5px] border-l-gray-450 !bg-gray-150 px-5 py-4">
-                <Radio
-                  value="3"
-                  size="lg"
-                  colorScheme="gray"
-                  className="!border-[3px] !border-gray-450"
-                ></Radio>
-                <Text>{active?.question?.thirdAnswer}</Text>
-              </Box>
-              <Box className="flex gap-4 border-l-[5px] border-l-gray-450 !bg-gray-150 px-5 py-4">
-                <Radio
-                  value="4"
-                  size="lg"
-                  colorScheme="gray"
-                  className="!border-[3px] !border-gray-450"
-                ></Radio>
-                <Text>{active?.question?.fourthAnswer}</Text>{" "}
-              </Box>
-            </RadioGroup>
+            <RadioGroupComponent
+              question={active.question}
+              handleSelectAnswer={handleSelectAnswer}
+            />
+            {
+              // <RadioGroup
+              //   className="flex flex-col gap-4 px-4 py-6"
+              //   onChange={handleSelectAnswer}
+              // >
+              //   <Box className="flex gap-4 border-l-[5px] border-l-gray-450 !bg-gray-150 px-5 py-4">
+              //     <Radio
+              //       value="1"
+              //       size="lg"
+              //       colorScheme="gray"
+              //       className="!border-[3px] !border-gray-450 "
+              //     >
+              //       <Text className="ml-4 text-normal">
+              //         {active?.question?.firstAnswer}
+              //       </Text>
+              //     </Radio>
+              //   </Box>
+              //   <Box className="flex gap-4 border-l-[5px] border-l-gray-450 !bg-gray-150 px-5 py-4">
+              //     <Radio
+              //       value="2"
+              //       size="lg"
+              //       colorScheme="gray"
+              //       className="!border-[3px] !border-gray-450"
+              //     >
+              //       <Text className="ml-4 text-normal">
+              //         {active?.question?.secondAnswer}
+              //       </Text>
+              //     </Radio>
+              //   </Box>
+              //   <Box className="flex gap-4 border-l-[5px] border-l-gray-450 !bg-gray-150 px-5 py-4">
+              //     <Radio
+              //       value="3"
+              //       size="lg"
+              //       colorScheme="gray"
+              //       className="!border-[3px] !border-gray-450"
+              //     >
+              //       <Text className="ml-4 text-normal">
+              //         {active?.question?.thirdAnswer}
+              //       </Text>
+              //     </Radio>
+              //   </Box>
+              //   <Box className="flex gap-4 border-l-[5px] border-l-gray-450 !bg-gray-150 px-5 py-4">
+              //     <Radio
+              //       value="4"
+              //       size="lg"
+              //       colorScheme="gray"
+              //       className="!border-[3px] !border-gray-450"
+              //     >
+              //       <Text className="ml-4 text-normal">
+              //         {active?.question?.fourthAnswer}
+              //       </Text>
+              //     </Radio>
+              //   </Box>
+              // </RadioGroup>
+            }
             <Box
               className={`flex w-full gap-4  px-4 ${
                 questions[0]?.question === active?.question

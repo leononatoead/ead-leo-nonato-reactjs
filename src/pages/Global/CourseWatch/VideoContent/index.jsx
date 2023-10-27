@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import useCourse from "../../../../hooks/useCourse";
+import useUserData from "../../../../hooks/useUserData";
 
 import Rating from "./Rating";
 import Survey from "./Survey";
@@ -23,7 +23,7 @@ export default function VideoContent({
   const course = user?.courses?.find((course) => course.id === courseId);
   const video = course?.videos?.find((video) => video.id === videoId);
 
-  const { changeConcludedVideoState } = useCourse();
+  const { changeConcludedVideoState } = useUserData();
 
   const handleSelectMaterials = () => {
     setVideoData((prev) => ({
