@@ -73,7 +73,7 @@ const settingsReducer = createSlice({
       if (settings) {
         updateSettings = {
           ...settings,
-          notifications: [...settings?.notifications, action.payload],
+          notifications: [action.payload, ...settings?.notifications],
         };
 
         if (updateSettings.notifications.length > 5) {

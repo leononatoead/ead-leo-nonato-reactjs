@@ -24,21 +24,16 @@ import {
 } from "react-icons/io5";
 import { IoMdSettings } from "react-icons/io";
 import { BiBook, BiNews } from "react-icons/bi";
-import {
-  MdContentPaste,
-  MdOutlineNotificationsNone,
-  MdOutlineSpaceDashboard,
-} from "react-icons/md";
+import { MdContentPaste, MdOutlineSpaceDashboard } from "react-icons/md";
 import { BsPersonAdd } from "react-icons/bs";
 import { FiUsers } from "react-icons/fi";
 import { PiTelevisionSimpleBold } from "react-icons/pi";
+import NotificationsModal from "./NotificationsModal";
 
 export default function Navbar({ title, notifications }) {
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  console.log(notifications);
 
   const path = useLocation();
 
@@ -111,6 +106,7 @@ export default function Navbar({ title, notifications }) {
           >
             Leo Nonato
           </Link>
+          {user && <NotificationsModal notifications={notifications} />}
         </Flex>
       ) : (
         <span className="block flex-1 px-1 text-center font-poppins text-[17px] font-normal leading-[22px]">

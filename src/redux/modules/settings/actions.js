@@ -74,6 +74,7 @@ export const fetchNotificationsSettings = createAsyncThunk(
               ...doc.data(),
             }));
             resolve(data);
+            console.log(data);
 
             localStorage.setItem(
               "lastSettingsUpdate",
