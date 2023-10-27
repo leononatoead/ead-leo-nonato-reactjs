@@ -1,6 +1,8 @@
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+
 import {
   Box,
-  Flex,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -10,13 +12,41 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import React from "react";
 import { PiEye, PiEyeSlash } from "react-icons/pi";
-import { Link } from "react-router-dom";
 
 export default function NotificationModal({ notification }) {
-  console.log(notification);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [read, setRead] = useState(false);
+
+  useEffect(() => {
+    const storageNotifications = JSON.parse(
+      localStorage.getItem("readNotifications"),
+    );
+
+    if (isOpen) {
+      let data;
+
+      if (storageNotifications) {
+        data = [...storageNotifications, notification.id];
+      } else {
+        data = [notification.id];
+      }
+
+      localStorage.setItem("readNotifications", JSON.stringify(data));
+    }
+
+    if (storageNotifications) {
+      const verify = storageNotifications.find(
+        (ntf) => ntf === notification.id,
+      );
+      if (verify) {
+        setRead(true);
+      } else {
+        setRead(false);
+      }
+    }
+  }, [isOpen]);
+
   return (
     <>
       <Box
@@ -24,14 +54,17 @@ export default function NotificationModal({ notification }) {
         className="flex w-full !min-w-[275px] !max-w-[275px] items-center gap-2 rounded-md !bg-gray-200 px-2 transition-all hover:!bg-gray-150"
       >
         <Box className="flex w-7 items-center justify-center">
-          <PiEye size={20} />
-          {/* <PiEyeSlash size={20} /> */}
+          {read ? (
+            <PiEye size={20} className="text-gray-800" />
+          ) : (
+            <PiEyeSlash size={20} className="text-primary-400" />
+          )}
         </Box>
         <Box className="flex w-full flex-1 flex-col items-start justify-center">
           <Text className="w-full text-start text-base">
             {notification.title}
           </Text>
-          <Text className="!max-w-[184px] !truncate text-start text-small font-normal leading-4">
+          <Text className="!max-w-[184px] !truncate text-start text-small font-normal leading-4 text-gray-800">
             {notification.subtitle}
           </Text>
         </Box>

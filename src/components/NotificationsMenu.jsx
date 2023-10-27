@@ -1,3 +1,6 @@
+import { useEffect, useState } from "react";
+
+import NotificationModal from "./NotificationModal";
 import {
   Menu,
   MenuButton,
@@ -6,15 +9,39 @@ import {
   MenuItem,
 } from "@chakra-ui/react";
 import { VscBell, VscBellDot } from "react-icons/vsc";
-import NotificationModal from "./NotificationModal";
 
 export default function NotificationsMenu({ notifications }) {
+  const [readNotifications, setReadNotifications] = useState(false);
+
+  useEffect(() => {
+    const storageNotifications = JSON.parse(
+      localStorage.getItem("readNotifications"),
+    );
+
+    if (storageNotifications) {
+      const verify = [];
+      storageNotifications.map((ntf) => {
+        const find = notifications?.find((n) => n.id === ntf);
+
+        if (find) {
+          verify.push(find);
+        }
+      });
+
+      if (verify) {
+        setReadNotifications(true);
+      } else {
+        setReadNotifications(false);
+      }
+    }
+  }, [notifications]);
+
   return (
     <Menu>
       <MenuButton
         as={IconButton}
         aria-label="Options"
-        icon={notifications ? <VscBellDot /> : <VscBell />}
+        icon={readNotifications ? <VscBell /> : <VscBellDot />}
         variant="outline"
         className=" !border-none !bg-transparent !outline-none focus:!border-none"
       />
