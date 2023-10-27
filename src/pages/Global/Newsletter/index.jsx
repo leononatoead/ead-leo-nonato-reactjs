@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 
-import PostCard from "../../../components/Global/Newsletter/PostCard";
-import CategoriesFilter from "../../../components/Global/Newsletter/CategoriesFilter";
+import PostCard from "./PostCard";
+import CategoriesFilter from "./CategoriesFilter";
 import Navbar from "../../../components/Navbar";
 import Pagination from "../../../components/Pagination";
 import SearchBar from "../../../components/SearchBar";

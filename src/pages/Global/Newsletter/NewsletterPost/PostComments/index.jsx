@@ -1,14 +1,14 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import usePosts from "../../../../hooks/usePosts";
-import useFormat from "../../../../hooks/useFormat";
-import { fetchComments } from "../../../../redux/modules/posts/actions";
+import usePosts from "../../../../../hooks/usePosts";
+import useFormat from "../../../../../hooks/useFormat";
+import { fetchComments } from "../../../../../redux/modules/posts/actions";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CommentSchema } from "./CommentSchema";
 
-import Input from "../../../Input";
-import ButtonSubmit from "../../../ButtonSubmit";
+import Input from "../../../../../components/Input";
+import ButtonSubmit from "../../../../../components/ButtonSubmit";
 import { Box, Heading, Text } from "@chakra-ui/react";
 
 import { IoTrashBinSharp } from "react-icons/io5";

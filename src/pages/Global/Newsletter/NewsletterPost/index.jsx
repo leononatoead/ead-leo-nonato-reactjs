@@ -10,8 +10,8 @@ import { Editor } from "react-draft-wysiwyg";
 import { EditorState, convertFromRaw } from "draft-js";
 import { useLocation, useParams } from "react-router-dom";
 
-import Like from "../../../../components/Global/Newsletter/Like";
-import PostComments from "../../../../components/Global/Newsletter/PostComments";
+import Like from "./Like";
+import PostComments from "./PostComments";
 import Navbar from "../../../../components/Navbar";
 import PremiumPost from "../../../../components/PremiumPost";
 import ShareBtn from "../../../../components/ShareBtn";

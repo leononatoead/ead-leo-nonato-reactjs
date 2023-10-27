@@ -5,9 +5,6 @@ import ModalComponent from "./ModalComponent";
 import LoginModal from "./LoginModal";
 
 import { Image, ModalBody, Flex, Heading, Text } from "@chakra-ui/react";
-// import { Image } from "@chakra-ui/image";
-// import { ModalBody } from "@chakra-ui/modal";
-// import { Flex, Heading, Text } from "@chakra-ui/layout";
 import locker from "../assets/premium.png";
 
 export default function PremiumPost({ open, close }) {

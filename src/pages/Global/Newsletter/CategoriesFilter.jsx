@@ -1,19 +1,19 @@
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 
-import { selectCategory } from '../../../redux/modules/posts/actions';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { selectCategory } from "../../../redux/modules/posts/actions";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 export default function CategoriesFilter() {
   const [categories, setCategories] = useState({
-    selectedCategory: 'Todos',
-    categories: ['Todos', 'Ações', 'Dólar', 'Fundos', 'Investimentos'],
+    selectedCategory: "Todos",
+    categories: ["Todos", "Ações", "Dólar", "Fundos", "Investimentos"],
   });
 
   const dispatch = useDispatch();
 
   const handleSelectCategory = (category) => {
-    if (category === 'Todos') {
+    if (category === "Todos") {
       dispatch(selectCategory(null));
     } else {
       dispatch(selectCategory(category));
@@ -25,7 +25,7 @@ export default function CategoriesFilter() {
     <Swiper
       spaceBetween={5}
       slidesPerView={3}
-      className='pl-4 pt-5'
+      className="pl-4 pt-5"
       freeMode={true}
     >
       {categories.categories?.map((category, index) => {
@@ -33,15 +33,15 @@ export default function CategoriesFilter() {
           <SwiperSlide
             key={index}
             className={`${
-              index === categories.categories.length - 1 && 'mr-10'
-            } max-w-max min-w-max`}
+              index === categories.categories.length - 1 && "mr-10"
+            } min-w-max max-w-max`}
           >
             <button
               onClick={() => handleSelectCategory(category)}
-              className={`max-w-max min-w-max px-4 py-2 rounded-full text-center border-[1px] ${
+              className={`min-w-max max-w-max rounded-full border-[1px] px-4 py-2 text-center ${
                 categories.selectedCategory === category
-                  ? 'bg-primary-400 border-primary-400 text-white'
-                  : 'bg-white border-gray-300/20 font-medium'
+                  ? "border-primary-400 bg-primary-400 text-white"
+                  : "border-gray-300/20 bg-white font-medium"
               }`}
             >
               {category}

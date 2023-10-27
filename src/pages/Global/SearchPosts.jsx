@@ -4,7 +4,7 @@ import { searchPosts } from "../../redux/modules/posts/actions";
 import { useParams } from "react-router-dom";
 
 import Navbar from "../../components/Navbar";
-import PostCard from "../../components/Global/Newsletter/PostCard";
+import PostCard from "./Newsletter/PostCard";
 import SearchBar from "../../components/SearchBar";
 import { Box, Text } from "@chakra-ui/react";
 

@@ -1,8 +1,8 @@
-import { useSelector } from 'react-redux';
-import usePosts from '../../../hooks/usePosts';
+import { useSelector } from "react-redux";
+import usePosts from "../../../../hooks/usePosts";
 
-import { Flex, Text } from '@chakra-ui/react';
-import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
+import { Flex, Text } from "@chakra-ui/react";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 
 export default function Like({ id }) {
   const { user } = useSelector((state) => state.auth);
@@ -18,19 +18,19 @@ export default function Like({ id }) {
   };
 
   return (
-    <Flex className='gap-2 px-4' alignItems={'center'}>
+    <Flex className="gap-2 px-4" alignItems={"center"}>
       {user ? (
         <>
           {user?.likedPosts?.includes(post.id) ? (
             <AiFillHeart
               size={20}
-              className='text-primary-600 cursor-pointer'
+              className="cursor-pointer text-primary-600"
               onClick={handleDislikePost}
             />
           ) : (
             <AiOutlineHeart
               size={20}
-              className='text-primary-600 cursor-pointer'
+              className="cursor-pointer text-primary-600"
               onClick={handleLikePost}
             />
           )}
@@ -38,14 +38,14 @@ export default function Like({ id }) {
       ) : (
         <AiOutlineHeart
           size={20}
-          className='text-primary-600 cursor-pointer'
+          className="cursor-pointer text-primary-600"
           onClick={handleLikePost}
         />
       )}
-      <Text className='text-gray-400 text-small'>
+      <Text className="text-small text-gray-400">
         {post?.likesCount
-          ? `${post.likesCount} ${post.likesCount > 1 ? 'Curtidas' : 'Curtida'}`
-          : 'Nenhuma curtida'}
+          ? `${post.likesCount} ${post.likesCount > 1 ? "Curtidas" : "Curtida"}`
+          : "Nenhuma curtida"}
       </Text>
     </Flex>
   );
