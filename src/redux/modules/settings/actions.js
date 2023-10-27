@@ -60,7 +60,7 @@ export const fetchNotificationsSettings = createAsyncThunk(
     );
 
     try {
-      const q = query(notificationsRef, orderBy("order", "asc"));
+      const q = query(notificationsRef, orderBy("createdAt", "desc"), limit(5));
 
       const settingsUpdate = doc(database, "updates", "settings");
       const document = await getDoc(settingsUpdate);
@@ -74,8 +74,6 @@ export const fetchNotificationsSettings = createAsyncThunk(
               ...doc.data(),
             }));
             resolve(data);
-
-            console.log(data);
 
             localStorage.setItem(
               "lastSettingsUpdate",
@@ -261,6 +259,27 @@ export const newRegisterVideoURL = (data) => async (dispatch) => {
 export const newStudantClass = (data) => async (dispatch) => {
   dispatch({
     type: "settings/newStudantClass",
+    payload: data,
+  });
+};
+
+export const newNotification = (data) => async (dispatch) => {
+  dispatch({
+    type: "settings/newNotification",
+    payload: data,
+  });
+};
+
+export const editNotification = (data) => async (dispatch) => {
+  dispatch({
+    type: "settings/editNotification",
+    payload: data,
+  });
+};
+
+export const delNotification = (data) => async (dispatch) => {
+  dispatch({
+    type: "settings/delNotification",
     payload: data,
   });
 };

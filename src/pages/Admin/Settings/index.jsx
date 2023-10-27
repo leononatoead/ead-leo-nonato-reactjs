@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchBannerSettings,
+  fetchNotificationsSettings,
   fetchRegisterVideoSettings,
   fetchSettingsFromLocalStorage,
   fetchStudantClassesSettings,
@@ -24,6 +25,7 @@ import { MdAddCircleOutline } from "react-icons/md";
 import { BiEdit } from "react-icons/bi";
 import { BsWhatsapp } from "react-icons/bs";
 import { PiTelevisionSimpleBold, PiUsersThreeFill } from "react-icons/pi";
+import NotificationCard from "./NotificationCard";
 
 export default function Settings() {
   const settings = useSelector((state) => state.settings);
@@ -47,6 +49,7 @@ export default function Settings() {
           dispatch(fetchWhatsAppSettings());
           dispatch(fetchRegisterVideoSettings());
           dispatch(fetchStudantClassesSettings());
+          dispatch(fetchNotificationsSettings());
         } else {
           dispatch(fetchSettingsFromLocalStorage(localSettings));
 
@@ -64,6 +67,10 @@ export default function Settings() {
 
           if (!settings.studantClasses && !localSettings.studantClasses) {
             dispatch(fetchStudantClassesSettings());
+          }
+
+          if (!settings.notifications && !localSettings.notifications) {
+            dispatch(fetchNotificationsSettings());
           }
         }
       } catch (error) {
@@ -120,7 +127,23 @@ export default function Settings() {
           <AccordionIcon />
         </AccordionButton>
 
-        <AccordionPanel p={0}></AccordionPanel>
+        <AccordionPanel p={0}>
+          <Box className="flex w-full justify-end">
+            <Link
+              to="/dashboard/settings/notifications/new"
+              className="add-btn"
+            >
+              <MdAddCircleOutline size={20} />
+              <span className="font-bold">Nova notificação</span>
+            </Link>
+          </Box>
+
+          <ul className="flex flex-col gap-4 py-6 ">
+            {settings?.notifications?.map((notification) => (
+              <NotificationCard key={notification.id} cardData={notification} />
+            ))}
+          </ul>
+        </AccordionPanel>
       </AccordionItem>
       <AccordionItem className="!border-b-[1px] !border-t-0 !border-gray-200 ">
         <AccordionButton px={0} py={4} className="hover:!bg-gray-200">

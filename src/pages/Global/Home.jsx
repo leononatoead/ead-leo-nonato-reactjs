@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   fetchSettingsFromLocalStorage,
   fetchBannerSettings,
+  fetchNotificationsSettings,
 } from "../../redux/modules/settings/actions";
 import useCheckUpdate from "../../hooks/useCheckUpdate";
 import { Link } from "react-router-dom";
@@ -21,7 +22,6 @@ import "swiper/css";
 export default function Home() {
   const [openLoginModal, setOpenLoginModal] = useState(false);
 
-  // const { user } = useSelector((state) => state.auth);
   const { pages } = useSelector((state) => state.posts);
   const { courses } = useSelector((state) => state.courses);
   const settings = useSelector((state) => state.settings);
@@ -45,13 +45,13 @@ export default function Home() {
 
         if (calcCourse !== 0 && !localSettings) {
           dispatch(fetchBannerSettings());
-          // dispatch(fetchWhatsAppSettings());
+          dispatch(fetchNotificationsSettings());
         } else {
           dispatch(fetchSettingsFromLocalStorage(localSettings));
 
-          // if (!settings.whatsAppURL && !localSettings.whatsAppURL) {
-          //   dispatch(fetchWhatsAppSettings());
-          // }
+          if (!settings.notifications && !localSettings.notifications) {
+            dispatch(fetchNotificationsSettings());
+          }
 
           if (!settings.banners && !localSettings.banners) {
             dispatch(fetchBannerSettings());
@@ -70,7 +70,7 @@ export default function Home() {
 
   return (
     <main className="h-[100dvh] overflow-y-auto bg-[#f0f0f0]">
-      <Navbar title={"Início"} />
+      <Navbar title={"Início"} notifications={settings?.notifications} />
 
       <SearchBar type="course" />
 

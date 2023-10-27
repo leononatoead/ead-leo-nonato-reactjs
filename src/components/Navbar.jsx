@@ -7,6 +7,7 @@ import LoginModal from "./LoginModal";
 import ShareBtn from "./ShareBtn";
 import {
   Box,
+  Flex,
   IconButton,
   Menu,
   MenuButton,
@@ -32,10 +33,12 @@ import { BsPersonAdd } from "react-icons/bs";
 import { FiUsers } from "react-icons/fi";
 import { PiTelevisionSimpleBold } from "react-icons/pi";
 
-export default function Navbar({ title }) {
+export default function Navbar({ title, notifications }) {
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  console.log(notifications);
 
   const path = useLocation();
 
@@ -56,6 +59,10 @@ export default function Navbar({ title }) {
       removeBlank.includes("registervideo") ||
       removeBlank.includes("studantclasses")
     ) {
+      removeBlank.pop();
+    }
+
+    if (removeBlank.includes("notifications")) {
       removeBlank.pop();
     }
 
@@ -93,12 +100,18 @@ export default function Navbar({ title }) {
         </button>
       )}
       {path.pathname === "/" ? (
-        <Link
-          to="/"
-          className="poppins block flex-1 text-left font-poppins text-large font-bold leading-6"
+        <Flex
+          alignItems={"center"}
+          justifyContent={"space-between"}
+          className="flex-1"
         >
-          Leo Nonato
-        </Link>
+          <Link
+            to="/"
+            className="poppins block text-left font-poppins text-large font-bold leading-6"
+          >
+            Leo Nonato
+          </Link>
+        </Flex>
       ) : (
         <span className="block flex-1 px-1 text-center font-poppins text-[17px] font-normal leading-[22px]">
           {title}

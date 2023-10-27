@@ -21,6 +21,9 @@ import {
   newWhatsAppURL,
   newRegisterVideoURL,
   newStudantClass,
+  newNotification,
+  editNotification,
+  delNotification,
 } from "../redux/modules/settings/actions";
 
 const useSettings = () => {
@@ -116,6 +119,141 @@ const useSettings = () => {
 
       toast({
         description: "Banner removido com sucesso!",
+        status: "success",
+        duration: "3000",
+        isClosable: true,
+      });
+    } catch (error) {
+      toast({
+        description: error.message,
+        status: "error",
+        duration: "3000",
+        isClosable: true,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const addNotification = async (notification, notificationList) => {
+    setLoading(true);
+
+    try {
+      const notificationData = {
+        ...notification,
+        createdAt: Timestamp.now().toMillis(),
+      };
+
+      const res = await addDoc(
+        collection(database, "settings", "data", "notifications"),
+        notificationData,
+      );
+
+      const data = {
+        id: res.id,
+        ...notification,
+        createdAt: notificationData.createdAt,
+      };
+
+      const updateTime = Timestamp.now();
+      const updateCollection = doc(database, "updates", "settings");
+      setDoc(updateCollection, { lastSettingsUpdate: updateTime });
+      const updatedAt = JSON.stringify(new Date(updateTime.toMillis()));
+      localStorage.setItem("lastSettingsUpdate", updatedAt);
+
+      if (notificationList?.length === 5) {
+        const deleteRef = doc(
+          database,
+          "settings",
+          "data",
+          "notifications",
+          notificationList[4].id,
+        );
+        await deleteDoc(deleteRef);
+      }
+
+      dispatch(newNotification(data));
+
+      toast({
+        description: "Notificação adicionada com sucesso!",
+        status: "success",
+        duration: "3000",
+        isClosable: true,
+      });
+    } catch (error) {
+      toast({
+        description: error.message,
+        status: "error",
+        duration: "3000",
+        isClosable: true,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const updateNotification = async (id, notification) => {
+    setLoading(true);
+
+    try {
+      const settingsRef = doc(
+        database,
+        "settings",
+        "data",
+        "notifications",
+        id,
+      );
+      await updateDoc(settingsRef, notification);
+
+      const data = { id, ...notification };
+
+      const updateTime = Timestamp.now();
+      const updateCollection = doc(database, "updates", "settings");
+      setDoc(updateCollection, { lastSettingsUpdate: updateTime });
+      const updatedAt = JSON.stringify(new Date(updateTime.toMillis()));
+      localStorage.setItem("lastSettingsUpdate", updatedAt);
+
+      dispatch(editNotification(data));
+
+      toast({
+        description: "Notificação atualizada com sucesso!",
+        status: "success",
+        duration: "3000",
+        isClosable: true,
+      });
+    } catch (error) {
+      toast({
+        description: error.message,
+        status: "error",
+        duration: "3000",
+        isClosable: true,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const deleteNotification = async (id) => {
+    try {
+      const settingsRef = doc(
+        database,
+        "settings",
+        "data",
+        "notifications",
+        id,
+      );
+      await deleteDoc(settingsRef);
+
+      dispatch(delNotification(id));
+
+      const updateTime = Timestamp.now();
+      const updateCollection = doc(database, "updates", "settings");
+      setDoc(updateCollection, { lastSettingsUpdate: updateTime });
+      const updatedAt = JSON.stringify(new Date(updateTime.toMillis()));
+      localStorage.setItem("lastSettingsUpdate", updatedAt);
+
+      toast({
+        description: "Notificação removida com sucesso!",
         status: "success",
         duration: "3000",
         isClosable: true,
@@ -264,6 +402,9 @@ const useSettings = () => {
     addWhatsAppURL,
     addRegisterVideoURL,
     addNewClass,
+    addNotification,
+    updateNotification,
+    deleteNotification,
     loading,
   };
 };

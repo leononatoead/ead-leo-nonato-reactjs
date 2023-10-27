@@ -19,7 +19,7 @@ const settingsReducer = createSlice({
       if (settings) {
         updateSettings = {
           ...settings,
-          banners: [...settings.banners, action.payload],
+          banners: [...settings?.banners, action.payload],
         };
       } else {
         updateSettings = { banners: [action.payload] };
@@ -63,6 +63,64 @@ const settingsReducer = createSlice({
       return {
         ...state,
         banners: filterBanners,
+      };
+    },
+    newNotification: (state, action) => {
+      const settings = JSON.parse(JSON.stringify(state));
+
+      let updateSettings;
+
+      if (settings) {
+        updateSettings = {
+          ...settings,
+          notifications: [...settings?.notifications, action.payload],
+        };
+
+        if (updateSettings.notifications.length > 5) {
+          updateSettings.notifications.pop();
+        }
+      } else {
+        updateSettings = { notifications: [action.payload] };
+      }
+      localStorage.setItem("settings", JSON.stringify(updateSettings));
+
+      return { ...state, notifications: updateSettings.notifications };
+    },
+    editNotification: (state, action) => {
+      const settings = JSON.parse(JSON.stringify(state));
+
+      const updateNotifications = settings.notifications.map((notification) => {
+        if (notification.id === action.payload.id) {
+          return action.payload;
+        } else {
+          return notification;
+        }
+      });
+
+      const storageSettings = JSON.stringify({
+        ...state,
+        notifications: updateNotifications,
+      });
+      localStorage.setItem("settings", storageSettings);
+
+      return { ...state, notifications: updateNotifications };
+    },
+    delNotification: (state, action) => {
+      const settings = JSON.parse(JSON.stringify(state));
+
+      const filterNotifications = settings.notifications.filter(
+        (banner) => banner.id !== action.payload,
+      );
+
+      const storageSettings = JSON.stringify({
+        ...state,
+        notifications: filterNotifications,
+      });
+      localStorage.setItem("settings", storageSettings);
+
+      return {
+        ...state,
+        notifications: filterNotifications,
       };
     },
     newWhatsAppURL: (state, action) => {

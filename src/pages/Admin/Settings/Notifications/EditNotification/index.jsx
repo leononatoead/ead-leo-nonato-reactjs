@@ -1,25 +1,27 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  fetchNotificationsSettings,
   fetchSettingsFromLocalStorage,
-  fetchBannerSettings,
 } from "../../../../../redux/modules/settings/actions";
 import useSettings from "../../../../../hooks/useSettings";
 import useCheckUpdate from "../../../../../hooks/useCheckUpdate";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { BannerSchema } from "../NewBanner/BannerSchema";
+import { NotificationSchema } from "../NewNotification/NotificationSchema";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { Box, Flex } from "@chakra-ui/react";
 import Input from "../../../../../components/Input";
 import ButtonSubmit from "../../../../../components/ButtonSubmit";
 import ConfirmModal from "../../../../../components/ConfirmModal";
+import { Box, Flex } from "@chakra-ui/react";
 
-export default function EditBanner() {
+export default function EditNotification() {
   const { id } = useParams();
-  const { banners } = useSelector((state) => state.settings);
-  const banner = banners?.find((banner) => banner.id === id);
+  const { notifications } = useSelector((state) => state.settings);
+  const notification = notifications?.find(
+    (notification) => notification.id === id,
+  );
 
   const [openConfirmModal, setOpenConfirmModal] = useState();
 
@@ -29,21 +31,21 @@ export default function EditBanner() {
     formState: { errors },
     watch,
   } = useForm({
-    resolver: zodResolver(BannerSchema),
+    resolver: zodResolver(NotificationSchema),
   });
 
-  const { updateBanner, deleteBanner, loading } = useSettings();
+  const { updateNotification, deleteNotification, loading } = useSettings();
   const { verifySettingsUpdate } = useCheckUpdate();
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleEditBanner = (formData) => {
-    updateBanner(id, formData);
+  const handleEditNotification = (formData) => {
+    updateNotification(id, formData);
   };
 
-  const handleDeleteBanner = () => {
-    deleteBanner(id);
+  const handleDeleteNotification = () => {
+    deleteNotification(id);
     navigate("/dashboard/settings");
   };
 
@@ -57,14 +59,14 @@ export default function EditBanner() {
         const calcCourse = fireStoreSettingsUpdate - lastSettingsUpdate;
 
         if (calcCourse !== 0) {
-          dispatch(fetchBannerSettings());
+          dispatch(fetchNotificationsSettings());
         } else {
           const settings = JSON.parse(localStorage.getItem("settings"));
           dispatch(fetchSettingsFromLocalStorage(settings));
         }
       } catch (error) {
         console.error(
-          "Erro ao buscar a última atualização dos banners:",
+          "Erro ao buscar a última atualização dos notificações:",
           error,
         );
       }
@@ -76,43 +78,10 @@ export default function EditBanner() {
   return (
     <Box className="main-container !flex !flex-col">
       <form
-        id="editBannerForm"
+        id="editNotificationForm"
         className="flex flex-grow flex-col gap-4"
-        onSubmit={handleSubmit(handleEditBanner)}
+        onSubmit={handleSubmit(handleEditNotification)}
       >
-        <Box className={`flex flex-col gap-[9px]`}>
-          <label htmlFor={"order"} className="text-base leading-5">
-            Ordem
-          </label>
-          <Box
-            className={`relative w-full overflow-hidden rounded-[4px] after:absolute after:bottom-0 after:left-1/2 after:h-[2px]  after:-translate-x-1/2 after:bg-cian after:content-[''] ${
-              watch("order") ? "after:w-full" : "after:w-0"
-            } animation hover:after:w-full ${
-              errors?.order?.message && "after:w-full after:bg-red-500"
-            } shadow-sm shadow-gray-900/50 `}
-          >
-            <input
-              id={"order"}
-              type="number"
-              placeholder={"0"}
-              {...register("order", { valueAsNumber: true })}
-              className={`w-full rounded-[4px] bg-white px-3 py-[5px] text-base leading-5 outline-none placeholder:text-gray-900`}
-              autoComplete="false"
-              min={0}
-              max={999}
-              step={1}
-              defaultValue={banner?.order}
-            />
-            {errors?.order?.message && (
-              <Box className={`absolute right-1 top-1 text-red-500`}>
-                <AiOutlineWarning size={20} className="text-red-500" />
-              </Box>
-            )}
-          </Box>
-          <span className="-mt-1 text-small text-red-500">
-            {errors?.order?.message}
-          </span>
-        </Box>
         <Input
           theme={"light"}
           type={"text"}
@@ -122,7 +91,7 @@ export default function EditBanner() {
           id={"imageURL"}
           error={errors?.imageURL?.message}
           watch={watch}
-          defaultValue={banner?.imageURL}
+          defaultValue={notification?.imageURL}
         />
         <Input
           theme={"light"}
@@ -133,7 +102,7 @@ export default function EditBanner() {
           id={"title"}
           error={errors?.title?.message}
           watch={watch}
-          defaultValue={banner?.title}
+          defaultValue={notification?.title}
         />
         <Input
           theme={"light"}
@@ -144,7 +113,17 @@ export default function EditBanner() {
           id={"subtitle"}
           error={errors?.subtitle?.message}
           watch={watch}
-          defaultValue={banner?.subtitle}
+          defaultValue={notification?.subtitle}
+        />
+        <Input
+          theme={"light"}
+          type={"textarea"}
+          label={"Conteúdo"}
+          placeholder={"Digite o texto aqui"}
+          register={register}
+          id={"text"}
+          error={errors?.text?.message}
+          watch={watch}
         />
         <Input
           theme={"light"}
@@ -155,19 +134,19 @@ export default function EditBanner() {
           id={"url"}
           error={errors?.url?.message}
           watch={watch}
-          defaultValue={banner?.url}
+          defaultValue={notification?.url}
         />
       </form>
 
       <Flex flexDirection={"column"} gap={2}>
         <ButtonSubmit
-          form="editBannerForm"
+          form="editNotificationForm"
           disabled={false}
           text={"Editar"}
           loading={loading}
         />
         <ConfirmModal
-          deleteFunction={handleDeleteBanner}
+          deleteFunction={handleDeleteNotification}
           open={openConfirmModal}
           setOpen={setOpenConfirmModal}
         />

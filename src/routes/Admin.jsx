@@ -33,6 +33,8 @@ import EditBanner from "../pages/Admin/Settings/Banners/EditBanner";
 import WhatsAppURL from "../pages/Admin/Settings/WhatsAppURL";
 import RegisterVideo from "../pages/Admin/Settings/RegisterVideo";
 import StudantClasses from "../pages/Admin/Settings/StudantClasses";
+import NewNotification from "../pages/Admin/Settings/Notifications/NewNotification";
+import EditNotification from "../pages/Admin/Settings/Notifications/EditNotification";
 import Users from "../pages/Admin/Users";
 import User from "../pages/Admin/Users/User";
 
@@ -63,6 +65,14 @@ export default function AdminRoutes() {
         <Route
           path="settings/studantclasses/new/"
           element={<StudantClasses />}
+        />
+        <Route
+          path="settings/notifications/new/"
+          element={<NewNotification />}
+        />
+        <Route
+          path="settings/notifications/edit/:id"
+          element={<EditNotification />}
         />
         <Route path="courses" element={<Courses />} />
         <Route path="courses/:id" element={<CourseDetails />} />

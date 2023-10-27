@@ -1,21 +1,20 @@
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
-  fetchBannerSettings,
+  fetchNotificationsSettings,
   fetchSettingsFromLocalStorage,
 } from "../../../../../redux/modules/settings/actions";
 import useSettings from "../../../../../hooks/useSettings";
 import useCheckUpdate from "../../../../../hooks/useCheckUpdate";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { BannerSchema } from "./BannerSchema";
+import { NotificationSchema } from "./NotificationSchema";
 
 import Input from "../../../../../components/Input";
 import ButtonSubmit from "../../../../../components/ButtonSubmit";
 import { Box } from "@chakra-ui/react";
-import OrderInput from "../../../../../components/OrderInput";
 
-export default function NewBanner() {
+export default function NewNotification() {
   const {
     register,
     handleSubmit,
@@ -23,17 +22,25 @@ export default function NewBanner() {
     reset,
     watch,
   } = useForm({
-    resolver: zodResolver(BannerSchema),
+    resolver: zodResolver(NotificationSchema),
   });
 
-  const { addBanner, loading } = useSettings();
+  const { addNotification, loading } = useSettings();
   const { verifySettingsUpdate } = useCheckUpdate();
+  const { notifications } = useSelector((state) => state.settings);
 
   const dispatch = useDispatch();
 
-  const handleAddBanner = (formData) => {
-    addBanner(formData);
-    reset({ order: "", imageURL: "", title: "", subtitle: "", url: "" });
+  const handleAddNotification = (formData) => {
+    addNotification(formData, notifications);
+
+    reset({
+      imageURL: "",
+      title: "",
+      subtitle: "",
+      text: "",
+      url: "",
+    });
   };
 
   useEffect(() => {
@@ -46,7 +53,7 @@ export default function NewBanner() {
         const calcCourse = fireStoreSettingsUpdate - lastSettingsUpdate;
 
         if (calcCourse !== 0) {
-          dispatch(fetchBannerSettings());
+          dispatch(fetchNotificationsSettings());
         } else {
           const settings = JSON.parse(localStorage.getItem("settings"));
           dispatch(fetchSettingsFromLocalStorage(settings));
@@ -65,15 +72,10 @@ export default function NewBanner() {
   return (
     <Box className="main-container !flex !flex-col">
       <form
-        id="newBannerForm"
+        id="newNotificationForm"
         className="flex flex-grow flex-col gap-4"
-        onSubmit={handleSubmit(handleAddBanner)}
+        onSubmit={handleSubmit(handleAddNotification)}
       >
-        <OrderInput
-          register={register}
-          watch={watch}
-          error={errors?.order?.message}
-        />
         <Input
           theme={"light"}
           type={"text"}
@@ -106,6 +108,16 @@ export default function NewBanner() {
         />
         <Input
           theme={"light"}
+          type={"textarea"}
+          label={"Conteúdo"}
+          placeholder={"Digite o texto aqui"}
+          register={register}
+          id={"text"}
+          error={errors?.text?.message}
+          watch={watch}
+        />
+        <Input
+          theme={"light"}
           type={"text"}
           label={"URL"}
           placeholder={"www.exemplo.com"}
@@ -116,7 +128,7 @@ export default function NewBanner() {
         />
       </form>
       <ButtonSubmit
-        form="newBannerForm"
+        form="newNotificationForm"
         disabled={false}
         text={"Confirmar"}
         loading={loading}
