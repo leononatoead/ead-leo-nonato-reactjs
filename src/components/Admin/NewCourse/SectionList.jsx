@@ -9,38 +9,68 @@ import {
   Box,
   Flex,
   Text,
-} from '@chakra-ui/react';
-import { useState } from 'react';
+  useToast,
+} from "@chakra-ui/react";
+import { useState } from "react";
 
-import { BiEdit, BiTrash } from 'react-icons/bi';
+import { BiEdit, BiTrash } from "react-icons/bi";
+import ConfirmModal from "./ConfirmModal";
 
 export default function SectionList({ sections, setSections }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const toast = useToast();
+
   const [edit, setEdit] = useState({
     input: false,
-    section: '',
-    order: '',
+    section: "",
+    order: "",
   });
 
   const handleShowInput = (order, sectionName) => {
     setEdit({ input: true, section: sectionName, order });
   };
 
-  const handleEditSection = () => {
-    const updatedSectionList = sections.map((section) => {
-      if (section.sectionName === edit.section) {
-        const updatedSection = {
-          order: edit.order,
-          sectionName: edit.section,
-        };
-        return updatedSection;
-      } else {
-        return section;
-      }
-    });
+  const handleEditSection = (e) => {
+    e.preventDefault();
+    const verifyOrder = sections.find(
+      (section) => section.order === edit.order,
+    );
 
-    setSections(updatedSectionList);
+    if (verifyOrder) {
+      toast({
+        description: "Já existe um módulo com esse valor!",
+        status: "error",
+        duration: "3000",
+        isClosable: true,
+      });
+    } else {
+      const updatedSectionList = sections.map((section) => {
+        if (section.sectionName === edit.section) {
+          const updatedSection = {
+            order: edit.order,
+            sectionName: edit.section,
+          };
+          return updatedSection;
+        } else {
+          return section;
+        }
+      });
+
+      setSections(updatedSectionList);
+    }
+  };
+
+  const handleChangeInputValue = (value) => {
+    let inputValue = value;
+
+    if (value < 0) {
+      inputValue = 0;
+    } else if (value > 999) {
+      inputValue = 999;
+    }
+
+    setEdit((prev) => ({ ...prev, order: inputValue }));
   };
 
   const handleDeleteSection = (name) => {
@@ -52,25 +82,25 @@ export default function SectionList({ sections, setSections }) {
   return (
     <>
       <button
-        type='button'
+        type="button"
         onClick={onOpen}
-        className='w-[50%] bg-white rounded-[4px] px-3 py-[5px] text-primary-600 border-[1px] border-primary-600 text-base leading-5 mt-2'
+        className="mt-2 w-[50%] rounded-[4px] border-[1px] border-primary-600 bg-white px-3 py-[5px] text-base leading-5 text-primary-600"
       >
         Ver inclusos
       </button>
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent className='!max-w-[95%]'>
-          <ModalHeader className='!flex !items-center'>
-            <Text className='text-primary-600 -mt-2'>Seções</Text>
+        <ModalContent className="!max-w-[95%]">
+          <ModalHeader className="!flex !items-center">
+            <Text className="-mt-2 text-primary-600">Seções</Text>
             <ModalCloseButton />
           </ModalHeader>
           <ModalBody p={4}>
             <Flex
-              flexDirection={'column'}
-              alignItems={'flex-start'}
-              justifyContent={'center'}
+              flexDirection={"column"}
+              alignItems={"flex-start"}
+              justifyContent={"center"}
               gap={2}
             >
               {sections.length > 0 ? (
@@ -80,49 +110,53 @@ export default function SectionList({ sections, setSections }) {
                   .map((section) => (
                     <Box
                       key={`${section.order}-${section.sectionName}`}
-                      className='w-full flex items-center justify-between gap-4'
+                      className="flex w-full items-center justify-between gap-4"
                     >
                       <Box>
                         {section.order} - {section.sectionName}
                       </Box>
-                      <Box className='flex items-center gap-2'>
+                      <Box className="flex items-center gap-2">
                         <button
                           onClick={() =>
                             handleShowInput(section.order, section.sectionName)
                           }
                         >
-                          <BiEdit size={18} className='text-primary-600' />
+                          <BiEdit size={18} className="text-primary-600" />
                         </button>
-                        <button
-                          onClick={() =>
-                            handleDeleteSection(section.sectionName)
-                          }
-                        >
-                          <BiTrash size={18} className='text-red-500' />
-                        </button>
+
+                        <ConfirmModal
+                          deleteFunction={handleDeleteSection}
+                          name={section.sectionName}
+                        />
                       </Box>
                     </Box>
                   ))
               ) : (
-                <Text className='p-2'>Nenhuma seção cadastrada.</Text>
+                <Text className="p-2">Nenhuma seção cadastrada.</Text>
               )}
               {edit.input && (
-                <Box className='w-full flex justify-center items-center gap-4 mt-4 '>
+                <form
+                  id="editOrderForm"
+                  className="mt-4 flex w-full items-center justify-center gap-4 "
+                >
                   <input
-                    type='number'
-                    className='bg-gray-150 rounded-md px-4 py-2 w-16 text-center'
+                    type="number"
+                    className="w-16 rounded-md bg-gray-150 px-4 py-2 text-center"
                     value={edit.order}
-                    onChange={(e) =>
-                      setEdit((prev) => ({ ...prev, order: e.target.value }))
-                    }
+                    onChange={(e) => handleChangeInputValue(e.target.value)}
+                    min={0}
+                    max={999}
+                    step={1}
                   />
                   <button
+                    type="submit"
+                    form="editOrderForm"
                     onClick={handleEditSection}
-                    className=' px-4 py-2 bg-primary-400 rounded-md text-white font-bold'
+                    className=" rounded-md bg-primary-400 px-4 py-2 font-bold text-white"
                   >
                     Alterar ordem
                   </button>
-                </Box>
+                </form>
               )}
             </Flex>
           </ModalBody>

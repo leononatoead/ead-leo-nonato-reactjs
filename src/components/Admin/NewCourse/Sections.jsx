@@ -1,10 +1,11 @@
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { SectionSchema } from './extraSchemas';
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { SectionSchema } from "./extraSchemas";
 
-import Input from '../../Global/Input';
-import { Box, Heading, useToast } from '@chakra-ui/react';
-import SectionList from './SectionList';
+import Input from "../../Global/Input";
+import { Box, Flex, Heading, Text, useToast } from "@chakra-ui/react";
+import SectionList from "./SectionList";
+import { AiOutlineWarning } from "react-icons/ai";
 
 export default function Sections({ sections, setSections }) {
   const {
@@ -26,9 +27,9 @@ export default function Sections({ sections, setSections }) {
 
     if (filter.length > 0) {
       toast({
-        description: 'Já existe uma seção com este nome!',
-        status: 'error',
-        duration: '3000',
+        description: "Já existe uma seção com este nome!",
+        status: "error",
+        duration: "3000",
         isClosable: true,
       });
       return;
@@ -37,47 +38,77 @@ export default function Sections({ sections, setSections }) {
     setSections((prev) => [...prev, formData]);
 
     reset({
-      order: '',
-      sectionName: '',
+      order: "",
+      sectionName: "",
     });
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(handleAddFile)}
-      id='AddAssetForm'
-      className='flex flex-col gap-[10px] pb-4'
-    >
-      <Heading className='!font-bold !text-primary-600 !text-large !font-poppins'>
-        Módulos
-      </Heading>
-      <Input
-        theme={'light'}
-        type={'number'}
-        label={'Ordem'}
-        placeholder={'Digite aqui'}
-        register={register}
-        id={'order'}
-        error={errors?.order?.message}
-        watch={watch}
-      />
+    <>
+      <form
+        onSubmit={handleSubmit(handleAddFile)}
+        id="addSectionForm"
+        className="flex flex-col gap-4 pb-4"
+      >
+        <Heading className="!font-poppins !text-large !font-bold !text-primary-600">
+          Módulos
+        </Heading>
 
-      <Input
-        theme={'light'}
-        type={'text'}
-        label={'Nome do módulo'}
-        placeholder={'Digite aqui'}
-        register={register}
-        id={'sectionName'}
-        error={errors?.sectionName?.message}
-        watch={watch}
-      />
-
-      <Box className='flex items-center gap-4 justify-start'>
+        <Flex
+          alignItems={"flex-start"}
+          justifyContent={"flex-start"}
+          className="w-full"
+          gap={4}
+        >
+          <Box className={`flex flex-col gap-[9px]`}>
+            <label htmlFor={"order"} className="text-base leading-5">
+              Ordem
+            </label>
+            <Box
+              className={`relative w-28 overflow-hidden rounded-[4px] after:absolute after:bottom-0 after:left-1/2 after:h-[2px]  after:-translate-x-1/2 after:bg-cian after:content-[''] ${
+                watch("order") ? "after:w-full" : "after:w-0"
+              } animation hover:after:w-full ${
+                errors?.order?.message && "after:w-full after:bg-red-500"
+              } shadow-sm shadow-gray-900/50 `}
+            >
+              <input
+                id={"order"}
+                type="number"
+                placeholder={"0"}
+                {...register("order", { valueAsNumber: true })}
+                className={`w-full rounded-[4px] bg-white px-3 py-[5px] text-base leading-5 outline-none placeholder:text-gray-900`}
+                autoComplete="false"
+                min={0}
+                max={999}
+                step={1}
+              />
+              {errors?.order?.message && (
+                <Box className={`absolute right-1 top-1 text-red-500`}>
+                  <AiOutlineWarning size={20} className="text-red-500" />
+                </Box>
+              )}
+            </Box>
+            <span className="-mt-1 text-small text-red-500">
+              {errors?.order?.message}
+            </span>
+          </Box>
+          <Input
+            theme={"light"}
+            type={"text"}
+            label={"Nome do módulo"}
+            placeholder={"Digite aqui"}
+            register={register}
+            id={"sectionName"}
+            error={errors?.sectionName?.message}
+            watch={watch}
+          />
+        </Flex>
+      </form>
+      <Box className="flex items-center justify-start gap-4">
         <button
-          className='w-[50%] bg-white rounded-[4px] px-3 py-[5px] text-primary-600 border-[1px] border-primary-600 text-base leading-5 mt-2'
-          type='submit'
-          form='AddAssetForm'
+          className="mt-2 w-[50%] rounded-[4px] border-[1px] border-primary-600 bg-white px-3 py-[5px] text-base leading-5 text-primary-600"
+          type="submit"
+          form="addSectionForm"
         >
           Incluir
         </button>
@@ -86,6 +117,6 @@ export default function Sections({ sections, setSections }) {
           <SectionList sections={sections} setSections={setSections} />
         )}
       </Box>
-    </form>
+    </>
   );
 }
