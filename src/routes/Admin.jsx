@@ -35,8 +35,10 @@ import RegisterVideo from "../pages/Admin/Settings/RegisterVideo";
 import StudantClasses from "../pages/Admin/Settings/StudantClasses";
 import NewNotification from "../pages/Admin/Settings/Notifications/NewNotification";
 import EditNotification from "../pages/Admin/Settings/Notifications/EditNotification";
+import Statistics from "../pages/Admin/Statistics";
 import Users from "../pages/Admin/Users";
 import User from "../pages/Admin/Users/User";
+import ClassStatistics from "../pages/Admin/Statistics/ClassStatistics";
 
 export default function AdminRoutes() {
   return (
@@ -53,7 +55,7 @@ export default function AdminRoutes() {
 
       <Route path="/profile" element={<Profile />} />
       <Route path="/dashboard" element={<Dashboard />}>
-        <Route path="/dashboard" element={<Courses />} />
+        <Route path="/dashboard" element={<Settings />} />
         <Route path="settings" element={<Settings />} />
         <Route path="settings/banners/new" element={<NewBanner />} />
         <Route path="settings/banners/edit/:id" element={<EditBanner />} />
@@ -88,6 +90,8 @@ export default function AdminRoutes() {
         <Route path="forms/edit/:id" element={<EditForm />} />
         <Route path="users" element={<Users />} />
         <Route path="users/:id" element={<User />} />
+        <Route path="statistics" element={<Statistics />} />
+        <Route path="statistics/class/:id" element={<ClassStatistics />} />
         <Route path="faq" element={<DashboardFAQ />} />
         <Route path="faq/new" element={<NewQuestion />} />
         <Route path="faq/edit/:id" element={<EditQuestion />} />

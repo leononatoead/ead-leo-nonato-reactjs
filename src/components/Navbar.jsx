@@ -29,6 +29,7 @@ import { MdContentPaste, MdOutlineSpaceDashboard } from "react-icons/md";
 import { BsPersonAdd } from "react-icons/bs";
 import { FiUsers } from "react-icons/fi";
 import { PiTelevisionSimpleBold } from "react-icons/pi";
+import { AiOutlineBarChart } from "react-icons/ai";
 
 export default function Navbar({ title, notifications }) {
   const user = useSelector((state) => state.auth.user);
@@ -342,6 +343,19 @@ export default function Navbar({ title, notifications }) {
               >
                 <FiUsers size={20} />
                 Usuários
+              </Link>
+            </MenuItem>
+            <MenuItem
+              px={"6px"}
+              py={"3px"}
+              className="!border-none !outline-none focus:!bg-white"
+            >
+              <Link
+                to="/dashboard/statistics"
+                className="flex items-center gap-3 font-normal leading-[14px]"
+              >
+                <AiOutlineBarChart size={20} />
+                Estatísticas
               </Link>
             </MenuItem>
             <MenuItem

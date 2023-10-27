@@ -91,66 +91,68 @@ export default function Home() {
 
       <section>
         <Box className="px-4">
-          <Box className="flex items-center justify-between pb-5 pt-4">
-            <Heading className="!font-poppins !text-large !font-semibold !leading-6  !text-primary-600 ">
-              Cursos Gratuitos
-            </Heading>
+          {freeCourses?.length > 0 && (
+            <>
+              <Box className="flex items-center justify-between pb-5 pt-4">
+                <Heading className="!font-poppins !text-large !font-semibold !leading-6  !text-primary-600 ">
+                  Cursos Gratuitos
+                </Heading>
 
-            <Link
-              to="/courses/free"
-              className="font-poppins text-small leading-[18px] text-primary-400/80"
-            >
-              Ver todos
-            </Link>
-          </Box>
-
-          {freeCourses && (
-            <Swiper
-              spaceBetween={16}
-              slidesPerView={1.5}
-              className="mb-6 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4"
-            >
-              {freeCourses.map((course) => (
-                <SwiperSlide key={course.id} className="!w-40">
-                  <VideoCard
-                    courseData={course}
-                    setOpenLoginModal={setOpenLoginModal}
-                  />
-                </SwiperSlide>
-              ))}
-            </Swiper>
+                <Link
+                  to="/courses/free"
+                  className="font-poppins text-small leading-[18px] text-primary-400/80"
+                >
+                  Ver todos
+                </Link>
+              </Box>
+              <Swiper
+                spaceBetween={16}
+                slidesPerView={1.5}
+                className="mb-6 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4"
+              >
+                {freeCourses.map((course) => (
+                  <SwiperSlide key={course.id} className="!w-40">
+                    <VideoCard
+                      courseData={course}
+                      setOpenLoginModal={setOpenLoginModal}
+                    />
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </>
           )}
         </Box>
 
         <Box className="px-4">
-          <Box className="flex items-center justify-between pb-5 pt-4">
-            <Heading className="!font-poppins !text-large !font-semibold !leading-6  !text-primary-600 ">
-              Cursos Premium
-            </Heading>
+          {paidCourses?.length > 0 && (
+            <>
+              <Box className="flex items-center justify-between pb-5 pt-4">
+                <Heading className="!font-poppins !text-large !font-semibold !leading-6  !text-primary-600 ">
+                  Cursos Premium
+                </Heading>
 
-            <Link
-              to="/courses/premium"
-              className="font-poppins text-small leading-[18px] text-primary-400/80"
-            >
-              Ver todos
-            </Link>
-          </Box>
-
-          {paidCourses && (
-            <Swiper
-              spaceBetween={16}
-              slidesPerView={1.5}
-              className="mb-6 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4"
-            >
-              {paidCourses.map((course) => (
-                <SwiperSlide key={course.id} className="!w-40">
-                  <VideoCard
-                    courseData={course}
-                    setOpenLoginModal={setOpenLoginModal}
-                  />
-                </SwiperSlide>
-              ))}
-            </Swiper>
+                <Link
+                  to="/courses/premium"
+                  className="font-poppins text-small leading-[18px] text-primary-400/80"
+                >
+                  Ver todos
+                </Link>
+              </Box>
+              <Swiper
+                spaceBetween={16}
+                slidesPerView={1.5}
+                className="mb-6 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4"
+              >
+                {paidCourses.map((course) => (
+                  <SwiperSlide key={course.id} className="!w-40">
+                    <VideoCard
+                      courseData={course}
+                      setOpenLoginModal={setOpenLoginModal}
+                    />
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </>
           )}
         </Box>
 
