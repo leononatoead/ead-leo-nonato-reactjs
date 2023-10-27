@@ -28,7 +28,7 @@ export default function NotificationsMenu({ notifications }) {
         }
       });
 
-      if (verify) {
+      if (verify && verify.length === notifications.length) {
         setReadNotifications(true);
       } else {
         setReadNotifications(false);
