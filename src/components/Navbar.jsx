@@ -28,7 +28,7 @@ import { MdContentPaste, MdOutlineSpaceDashboard } from "react-icons/md";
 import { BsPersonAdd } from "react-icons/bs";
 import { FiUsers } from "react-icons/fi";
 import { PiTelevisionSimpleBold } from "react-icons/pi";
-import NotificationsModal from "./NotificationsModal";
+import NotificationsMenu from "./NotificationsMenu";
 
 export default function Navbar({ title, notifications }) {
   const user = useSelector((state) => state.auth.user);
@@ -106,7 +106,7 @@ export default function Navbar({ title, notifications }) {
           >
             Leo Nonato
           </Link>
-          {user && <NotificationsModal notifications={notifications} />}
+          {user && <NotificationsMenu notifications={notifications} />}
         </Flex>
       ) : (
         <span className="block flex-1 px-1 text-center font-poppins text-[17px] font-normal leading-[22px]">
