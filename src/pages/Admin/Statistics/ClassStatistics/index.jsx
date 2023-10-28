@@ -7,11 +7,12 @@ import {
 } from "../../../../redux/modules/settings/actions";
 import useCheckUpdate from "../../../../hooks/useCheckUpdate";
 import { useParams } from "react-router-dom";
-import { Box } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 
 export default function ClassStatistics() {
   const { id } = useParams();
   const settings = useSelector((state) => state.settings);
+  const { courses } = useSelector((state) => state.courses);
   const { userList } = useSelector((state) => state.usersData);
   const dispatch = useDispatch();
 
@@ -53,10 +54,35 @@ export default function ClassStatistics() {
   }, [userList]);
 
   console.log(userList && userList[1].courses);
+  console.log(courses);
 
   return (
     <Box className={`main-container flex flex-col gap-4 bg-gray-200 p-4`}>
-      class
+      {courses?.map((course) => (
+        <Box key={course.id} className="rounded-md bg-white p-4 shadow-sm">
+          <Text className="font-poppins text-normal font-bold text-primary-400">
+            {course.name}
+          </Text>
+
+          <ul>
+            {course?.videos?.map((video) => (
+              <li key={video.id}>
+                <Box className="py-2">
+                  <Text>
+                    <span className="font-medium">Rating médio:</span>
+                  </Text>
+                  <Text>
+                    <span className="font-medium">% de acertos médio:</span>
+                  </Text>
+                  <Text>
+                    <span className="font-medium">Enquete:</span>
+                  </Text>
+                </Box>
+              </li>
+            ))}
+          </ul>
+        </Box>
+      ))}
     </Box>
   );
 }

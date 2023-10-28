@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import useFormatPhone from "../../hooks/useFormat";
+import useFormatPhone from "../../../hooks/useFormat";
 import { Link } from "react-router-dom";
 
-import Navbar from "../../components/Navbar";
-import ChangePassword from "../../components/ChangePassword";
-import ChangeProfileImage from "../../components/ChangeProfileImage";
+import Navbar from "../../../components/Navbar";
+import ChangePassword from "./ChangePassword";
+import ChangeProfileImage from "./ChangeProfileImage";
 import { Box, Image, Avatar, Heading, Flex, Text } from "@chakra-ui/react";
 import { BiPencil } from "react-icons/bi";
-import background from "../../assets/auth-background.png";
+import background from "../../../assets/auth-background.png";
 
 export default function Profile() {
   const { user } = useSelector((state) => state.auth);

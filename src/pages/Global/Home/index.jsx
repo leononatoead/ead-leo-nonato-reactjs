@@ -4,17 +4,17 @@ import {
   fetchSettingsFromLocalStorage,
   fetchBannerSettings,
   fetchNotificationsSettings,
-} from "../../redux/modules/settings/actions";
-import useCheckUpdate from "../../hooks/useCheckUpdate";
+} from "../../../redux/modules/settings/actions";
+import useCheckUpdate from "../../../hooks/useCheckUpdate";
 import { Link } from "react-router-dom";
 
-import Navbar from "../../components/Navbar";
-import LoginModal from "../../components/LoginModal";
-import VideoCard from "../../components/Home/VideoCard";
-import SearchBar from "../../components/SearchBar";
-import Banner from "../../components/Home/Banner";
-import Footer from "../../components/Footer";
-import PostCard from "../../components/Home/PostCard";
+import Navbar from "../../../components/Navbar";
+import LoginModal from "../../../components/LoginModal";
+import VideoCard from "./VideoCard";
+import SearchBar from "../../../components/SearchBar";
+import Banner from "./Banner";
+import Footer from "../../../components/Footer";
+import PostCard from "./PostCard";
 import { Box, Heading } from "@chakra-ui/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";

@@ -4,7 +4,7 @@ import { searchCourse } from "../../redux/modules/courses/actions";
 import { useParams } from "react-router-dom";
 
 import Navbar from "../../components/Navbar";
-import CourseCard from "../../components/Courses/CourseCard";
+import CourseCard from "./Courses/CourseCard";
 import SearchBar from "../../components/SearchBar";
 import { Box, Text } from "@chakra-ui/react";
 

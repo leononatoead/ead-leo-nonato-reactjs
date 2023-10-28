@@ -1,10 +1,10 @@
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
-import Navbar from "../../components/Navbar";
-import CourseCard from "../../components/Courses/CourseCard";
-import CoursesCategoriesFilter from "../../components/Courses/CoursesCategoriesFilter";
-import SearchBar from "../../components/SearchBar";
+import Navbar from "../../../components/Navbar";
+import CourseCard from "./CourseCard";
+import CoursesCategoriesFilter from "./CoursesCategoriesFilter";
+import SearchBar from "../../../components/SearchBar";
 import { Box } from "@chakra-ui/react";
 
 export default function Courses() {
