@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../redux/modules/auth/actions";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate, useLocation, NavLink } from "react-router-dom";
 
 import NotificationsMenu from "./NotificationsMenu";
 import LoginModal from "./LoginModal";
@@ -397,24 +397,36 @@ export default function Navbar({ title, notifications }) {
           <Link to="/">
             <Image src={logo} />
           </Link>
-          <Link
+          <NavLink
             to="/"
-            className="border-b-[3px] border-transparent font-poppins text-normal font-normal leading-5 transition-all hover:border-primary-400"
+            className={({ isActive }) =>
+              `border-b-[3px]  pb-1 font-poppins text-normal font-normal leading-5 hover:border-primary-400 ${
+                isActive ? "border-primary-400" : "border-transparent"
+              }`
+            }
           >
             Início
-          </Link>
-          <Link
+          </NavLink>
+          <NavLink
             to="/courses/all"
-            className="border-b-[3px] border-transparent font-poppins text-normal font-normal leading-5 hover:border-primary-400"
+            className={({ isActive }) =>
+              `border-b-[3px]  pb-1 font-poppins text-normal font-normal leading-5 hover:border-primary-400 ${
+                isActive ? "border-primary-400" : "border-transparent"
+              }`
+            }
           >
             Cursos
-          </Link>
-          <Link
+          </NavLink>
+          <NavLink
             to="/newsletter"
-            className="border-b-[3px] border-transparent font-poppins text-normal font-normal leading-5 hover:border-primary-400"
+            className={({ isActive }) =>
+              `border-b-[3px]  pb-1 font-poppins text-normal font-normal leading-5 hover:border-primary-400 ${
+                isActive ? "border-primary-400" : "border-transparent"
+              }`
+            }
           >
             Newsletter
-          </Link>
+          </NavLink>
           {path.pathname.includes("newsletter") ? (
             <SearchBar type={"post"} navbar={true} />
           ) : (
