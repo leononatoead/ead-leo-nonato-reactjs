@@ -5,6 +5,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import useFormat from "../../../hooks/useFormat";
 
 import Navbar from "../../../components/Navbar";
+import Footer from "../../../components/Footer";
 import PremiumCourse from "../../../components/PremiumCourse";
 import {
   Accordion,
@@ -15,8 +16,10 @@ import {
   Image,
   Avatar,
   Text,
+  Box,
+  Heading,
 } from "@chakra-ui/react";
-import { Box, Heading } from "@chakra-ui/layout";
+
 import background from "../../../assets/auth-background.png";
 import { FaCircleCheck } from "react-icons/fa6";
 import { AiOutlinePlayCircle } from "react-icons/ai";
@@ -72,7 +75,7 @@ export default function Course() {
   }, [courses, course]);
 
   return (
-    <Box className="flex min-h-[100dvh] flex-col bg-gray-200">
+    <Box className="flex min-h-[100dvh] flex-col bg-gray-200 pb-6">
       <Navbar title="Curso" />
 
       <Box className="!h-[118px] overflow-hidden rounded-b-2xl">
@@ -96,7 +99,7 @@ export default function Course() {
           src={course?.imagePath}
         />
         <Box className="flex items-center gap-2" mb={8} mt={6}>
-          <Heading className=" !font-poppins !text-large !font-bold !leading-6">
+          <Heading className=" !font-poppins !text-large !font-bold !leading-6 lg:!text-[24px] lg:!leading-6">
             {course?.name}
           </Heading>
           <RiArrowDownSLine
@@ -106,24 +109,27 @@ export default function Course() {
           />
         </Box>
         {showDescription && (
-          <Text mb={6} className="text-small leading-4 text-gray-950">
+          <Text
+            mb={6}
+            className="lg:leading:5 text-small leading-4 text-gray-950 lg:text-base"
+          >
             {course?.description}
           </Text>
         )}
         <span
           onClick={handleWatch}
-          className="w-full cursor-pointer rounded-[4px] bg-primary-400 px-3 py-[5px] text-center text-base leading-5 text-white"
+          className="w-full cursor-pointer rounded-[4px] bg-primary-400 px-3 py-[5px] text-center text-base leading-5 text-white lg:w-80"
         >
           Assistir
         </span>
       </Box>
 
-      <Box py={4} px={4} bg={"white"} className="!flex-grow">
+      <Box className="!flex-grow bg-white p-4 lg:mx-auto lg:!w-[768px] lg:rounded-md  ">
         <Heading className="!font-poppins !text-normal !font-medium !leading-6">
           Módulos
         </Heading>
 
-        <Accordion allowToggle>
+        <Accordion allowToggle className="w-full">
           {course &&
             course?.sections
               ?.slice()
@@ -210,6 +216,10 @@ export default function Course() {
                 </AccordionItem>
               ))}
         </Accordion>
+      </Box>
+
+      <Box className="hidden lg:block">
+        <Footer />
       </Box>
 
       <PremiumCourse open={locked} close={setLocked} courseData={course} />

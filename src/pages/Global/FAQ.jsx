@@ -14,7 +14,6 @@ import {
   AccordionIcon,
   Box,
   Image,
-  useMediaQuery,
 } from "@chakra-ui/react";
 import background from "../../assets/auth-background.png";
 import Footer from "../../components/Footer";
@@ -22,7 +21,6 @@ import Footer from "../../components/Footer";
 export default function FAQ() {
   const { questions } = useSelector((state) => state.faq);
   const dispatch = useDispatch();
-  const [isLargerThanLg] = useMediaQuery("(min-width: 1024px)");
 
   useEffect(() => {
     const lastFAQUpdate = new Date(
@@ -52,7 +50,11 @@ export default function FAQ() {
           />
         </Box>
         <Box className="-mt-4 px-4 lg:mt-6">
-          <Accordion className="flex flex-col" gap={1} allowToggle>
+          <Accordion
+            className="flex flex-col lg:mx-auto lg:max-w-5xl"
+            gap={1}
+            allowToggle
+          >
             {questions
               ?.slice()
               .sort((a, b) => a.order - b.order)
@@ -85,7 +87,9 @@ export default function FAQ() {
           </Accordion>
         </Box>
       </Box>
-      {isLargerThanLg && <Footer />}
+      <Box className="hidden lg:block">
+        <Footer />
+      </Box>
     </Box>
   );
 }

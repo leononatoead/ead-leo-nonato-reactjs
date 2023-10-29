@@ -6,15 +6,13 @@ import CourseCard from "./CourseCard";
 import CoursesCategoriesFilter from "./CoursesCategoriesFilter";
 import SearchBar from "../../../components/SearchBar";
 import Footer from "../../../components/Footer";
-import { Box, Image, useMediaQuery } from "@chakra-ui/react";
+import { Box, Image } from "@chakra-ui/react";
 import background from "../../../assets/auth-background.png";
 
 export default function Courses() {
   const { id } = useParams();
   const { courses } = useSelector((state) => state.courses);
   const { user } = useSelector((state) => state.auth);
-
-  const [isLargerThanLg] = useMediaQuery("(min-width: 1024px)");
 
   return (
     <Box className="flex min-h-[100dvh] flex-col justify-between bg-gray-200 pb-6">
@@ -30,22 +28,20 @@ export default function Courses() {
               : "Todos"
           }
         />
-        {isLargerThanLg && (
-          <Box>
-            <Image
-              src={background}
-              alt="background"
-              className="h-[120px] w-full rounded-bl-[16px] rounded-br-[16px] object-cover"
-            />
-          </Box>
-        )}
+
+        <Box>
+          <Image
+            src={background}
+            alt="background"
+            className="hidden h-[120px] w-full rounded-bl-[16px] rounded-br-[16px] object-cover lg:block"
+          />
+        </Box>
 
         <Box className="lg:mx-auto lg:max-w-5xl">
-          {!isLargerThanLg && (
-            <Box className="flex w-full bg-white px-4 pb-[6px]">
-              <SearchBar type="course" />
-            </Box>
-          )}
+          <Box className="flex w-full bg-white px-4 pb-[6px] lg:hidden">
+            <SearchBar type="course" />
+          </Box>
+
           <CoursesCategoriesFilter path={id} user={user} />
 
           {courses && (
@@ -90,7 +86,9 @@ export default function Courses() {
           )}
         </Box>
       </Box>
-      {isLargerThanLg && <Footer />}
+      <Box className="hidden lg:block">
+        <Footer />
+      </Box>
     </Box>
   );
 }

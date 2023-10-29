@@ -25,8 +25,6 @@ export default function NewsletterPost() {
   const { posts, currentPost } = useSelector((state) => state.posts);
   const { user } = useSelector((state) => state.auth);
 
-  const [isLargerThanLg] = useMediaQuery("(min-width: 1024px)");
-
   const [editorState, setEditorState] = useState();
   const [openPremiumModal, setOpenPremiumModal] = useState(false);
 
@@ -95,23 +93,23 @@ export default function NewsletterPost() {
               {currentPost?.title}
             </Heading>
 
-            {isLargerThanLg && (
-              <Box className="flex items-center gap-4">
-                <ShareBtn url={url} />
-                {user && <Like id={id} />}
-                {user && (
-                  <a href="#comments" onClick={smoothScroll}>
-                    <FaRegCommentAlt size={24} className="text-primary-600" />
-                  </a>
-                )}
-              </Box>
-            )}
+            <Box className="hidden items-center gap-4 lg:flex">
+              <ShareBtn url={url} />
+              {user && <Like id={id} />}
+              {user && (
+                <a href="#comments" onClick={smoothScroll}>
+                  <FaRegCommentAlt size={24} className="text-primary-600" />
+                </a>
+              )}
+            </Box>
           </Box>
           <Box className="flex items-center justify-start gap-2 py-2 text-small leading-4 text-gray-700 lg:text-normal ">
             <Text>{currentPost?.author}</Text>
             {`|`}
             <Text>{formatDate(currentPost?.createdAt)}</Text>
-            {!isLargerThanLg && <ShareBtn url={url} />}
+            <Box className="lg:hidden">
+              <ShareBtn url={url} />
+            </Box>
           </Box>
           <Box className="mb-4 h-[1px] w-full bg-gray-200"></Box>
           <Image
@@ -127,7 +125,7 @@ export default function NewsletterPost() {
         </Box>
 
         <Box className="px-4 py-6 lg:mt-8 lg:rounded-lg lg:bg-white">
-          {!isLargerThanLg && user && <Like id={id} />}
+          {user && <Like id={id} />}
           <div id="comments">{user && <PostComments id={id} />}</div>
           {!user && (
             <PremiumPost open={openPremiumModal} close={setOpenPremiumModal} />

@@ -6,18 +6,18 @@ export default function Banner({ data }) {
   return (
     <Link
       to={data?.url}
-      className="relative h-[206px] w-full overflow-hidden  rounded-[20px] lg:!h-[300px]"
+      className="relative h-[145px] w-[390px] overflow-hidden  rounded-[20px] "
     >
       <Image
         src={data?.imageURL}
         alt="banner"
-        className="h-[206px] w-full rounded-[20px] object-cover lg:!h-[300px]"
+        className=" h-[145px] w-[390px] rounded-[20px] object-cover "
       />
-      <Box className="absolute bottom-3 left-3 px-4 text-base leading-5 text-white">
-        <Text className="h-[130px] w-[126px] !font-poppins !text-[22px] !font-semibold !leading-[26px]">
+      <Box className="absolute bottom-3 left-3 flex h-[80%] flex-col px-4 text-base leading-5 text-white">
+        <Text className="flex-grow !font-poppins !text-[14px] !font-semibold !leading-5">
           {data?.title}
         </Text>
-        <Text className="!font-poppins !text-[13px] !font-medium !leading-[13px] !tracking-[0.5px]">
+        <Text className="!font-poppins !text-small !font-medium !leading-3 !tracking-[0.5px]">
           {data?.subtitle}
         </Text>
         <Text className="!font-poppins !text-[11px] !font-normal !leading-[11px] !tracking-[0.5px]">

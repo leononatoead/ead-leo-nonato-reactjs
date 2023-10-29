@@ -15,13 +15,12 @@ import SearchBar from "../../../components/SearchBar";
 import Banner from "./Banner";
 import Footer from "../../../components/Footer";
 import PostCard from "./PostCard";
-import { Box, Heading, useMediaQuery } from "@chakra-ui/react";
+import { Box, Heading } from "@chakra-ui/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 
 export default function Home() {
   const [openLoginModal, setOpenLoginModal] = useState(false);
-  const [isLargerThanLg] = useMediaQuery("(min-width: 1024px)");
 
   const { pages } = useSelector((state) => state.posts);
   const { courses } = useSelector((state) => state.courses);
@@ -73,11 +72,9 @@ export default function Home() {
     <main className="flex h-[100dvh] flex-col overflow-y-auto bg-gray-150 pb-6">
       <Navbar title={"Início"} notifications={settings?.notifications} />
       <Box className="flex-1 pb-20 lg:mx-auto lg:max-w-5xl lg:pb-0">
-        {!isLargerThanLg && (
-          <Box className="flex w-full bg-white px-4 pb-[6px]">
-            <SearchBar type="course" />
-          </Box>
-        )}
+        <Box className="flex w-full bg-white px-4 pb-[6px] lg:hidden">
+          <SearchBar type="course" />
+        </Box>
 
         <Swiper
           spaceBetween={16}
@@ -99,13 +96,13 @@ export default function Home() {
             {freeCourses?.length > 0 && (
               <>
                 <Box className="flex items-center justify-between gap-6 pb-5 pt-4 lg:justify-start lg:pt-10">
-                  <Heading className="!font-poppins !text-large !font-semibold !leading-6  !text-primary-600 lg:!text-[27px] lg:!leading-7 ">
+                  <Heading className="!font-poppins !text-large !font-semibold !leading-6  !text-primary-600 lg:!text-[24px] lg:!leading-6 ">
                     Cursos Gratuitos
                   </Heading>
 
                   <Link
                     to="/courses/free"
-                    className="font-poppins text-small leading-[18px] text-primary-400/80 lg:!text-base lg:!leading-7"
+                    className="font-poppins text-small leading-[18px] text-primary-400/80 lg:!text-base lg:!leading-6"
                   >
                     Ver todos
                   </Link>
@@ -132,13 +129,13 @@ export default function Home() {
             {paidCourses?.length > 0 && (
               <>
                 <Box className="flex items-center justify-between gap-6 pb-5 pt-4 lg:justify-start">
-                  <Heading className="!font-poppins !text-large !font-semibold !leading-6  !text-primary-600 lg:!text-[27px] lg:!leading-7 ">
+                  <Heading className="!font-poppins !text-large !font-semibold !leading-6  !text-primary-600 lg:!text-[24px] lg:!leading-6 ">
                     Cursos Premium
                   </Heading>
 
                   <Link
                     to="/courses/premium"
-                    className="font-poppins text-small leading-[18px] text-primary-400/80 lg:!text-base lg:!leading-7"
+                    className="font-poppins text-small leading-[18px] text-primary-400/80 lg:!text-base lg:!leading-6"
                   >
                     Ver todos
                   </Link>
@@ -162,64 +159,65 @@ export default function Home() {
           </Box>
 
           <Box className="flex items-center justify-between gap-6 px-4 pb-5 pt-4 lg:justify-start">
-            <Heading className="!font-poppins !text-large !font-semibold !leading-6  !text-primary-600 lg:!text-[27px] lg:!leading-7 ">
+            <Heading className="!font-poppins !text-large !font-semibold !leading-6  !text-primary-600 lg:!text-[24px] lg:!leading-6 ">
               Newsletter
             </Heading>
 
             <Link
               to="/newsletter"
-              className="font-poppins text-small leading-[18px] text-primary-400/80 lg:!text-base lg:!leading-7"
+              className="font-poppins text-small leading-[18px] text-primary-400/80 lg:!text-base lg:!leading-6"
             >
               Ver todos
             </Link>
           </Box>
 
-          {!isLargerThanLg ? (
-            <>
-              {pages && (
-                <Swiper
-                  spaceBetween={1}
-                  slidesPerView={1.1}
-                  className="pb-4 pl-4"
-                >
-                  {pages[0]?.posts?.map((post, index) => {
-                    if (index <= 5) {
-                      return (
-                        <SwiperSlide key={post.id} className="!min-w-[170px]">
-                          <PostCard post={post} />
-                        </SwiperSlide>
-                      );
-                    }
-                  })}
-                </Swiper>
-              )}
-              {pages && (
-                <Swiper spaceBetween={1} slidesPerView={1.1} className="pl-4">
-                  {pages[0]?.posts.map((post, index) => {
-                    if (index > 5) {
-                      return (
-                        <SwiperSlide key={post.id} className="!min-w-[170px]">
-                          <PostCard post={post} />
-                        </SwiperSlide>
-                      );
-                    }
-                  })}
-                </Swiper>
-              )}
-            </>
-          ) : (
-            <Swiper spaceBetween={1} slidesPerView={2} className="pl-4">
-              {pages &&
-                pages[0]?.posts.map((post) => (
-                  <SwiperSlide
-                    key={post.id}
-                    className="!min-w-[170px] lg:!mr-6"
-                  >
-                    <PostCard post={post} />
-                  </SwiperSlide>
-                ))}
+          {pages && (
+            <Swiper
+              spaceBetween={1}
+              slidesPerView={1.1}
+              className="pb-4 pl-4 lg:hidden"
+            >
+              {pages[0]?.posts?.map((post, index) => {
+                if (index <= 5) {
+                  return (
+                    <SwiperSlide key={post.id} className="!min-w-[170px]">
+                      <PostCard post={post} />
+                    </SwiperSlide>
+                  );
+                }
+              })}
             </Swiper>
           )}
+          {pages && (
+            <Swiper
+              spaceBetween={1}
+              slidesPerView={1.1}
+              className="pl-4 lg:hidden"
+            >
+              {pages[0]?.posts.map((post, index) => {
+                if (index > 5) {
+                  return (
+                    <SwiperSlide key={post.id} className="!min-w-[170px]">
+                      <PostCard post={post} />
+                    </SwiperSlide>
+                  );
+                }
+              })}
+            </Swiper>
+          )}
+
+          <Swiper
+            spaceBetween={1}
+            slidesPerView={2}
+            className="hidden pl-4 lg:block"
+          >
+            {pages &&
+              pages[0]?.posts.map((post) => (
+                <SwiperSlide key={post.id} className="!min-w-[170px] lg:!mr-6">
+                  <PostCard post={post} />
+                </SwiperSlide>
+              ))}
+          </Swiper>
         </section>
       </Box>
       <Footer />

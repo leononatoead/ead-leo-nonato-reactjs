@@ -9,10 +9,12 @@ import {
   AccordionPanel,
   Box,
   Text,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import NextVideoIcon from "../../../assets/next-icon.svg";
 import { FaCircleCheck } from "react-icons/fa6";
 import { AiOutlinePlayCircle } from "react-icons/ai";
+import { useEffect } from "react";
 
 export default function VideoList({
   user,
@@ -21,6 +23,7 @@ export default function VideoList({
   setVideoPlayer,
 }) {
   const { pathname } = useLocation();
+  const [isLargerThanLg] = useMediaQuery("(min-width: 1024px)");
 
   const userCourses = user?.courses;
   const userCourseData = userCourses?.find(
@@ -60,13 +63,19 @@ export default function VideoList({
     setVideoPlayer((prev) => ({ ...prev, showVideoList: !prev.showVideoList }));
   };
 
+  useEffect(() => {
+    if (isLargerThanLg) {
+      setVideoPlayer((prev) => ({ ...prev, showVideoList: true }));
+    }
+  }, [isLargerThanLg]);
+
   return (
     <Box
-      className={`bottom-0 w-full bg-white ${
+      className={`bottom-0 w-full bg-white lg:mt-4 lg:h-[418px] lg:max-w-[390px] lg:overflow-hidden lg:overflow-y-scroll lg:rounded-lg ${
         videoPlayer.showVideoList && "flex-grow"
       }`}
     >
-      <Box className="flex h-[92px] items-center justify-between  gap-11 bg-white px-4 py-8 ">
+      <Box className="flex h-[92px] items-center justify-between gap-11  bg-white px-4 py-8 lg:h-[46px] ">
         <Box>
           <Text className="text-[17px] font-semibold leading-[22px]">
             Reproduzindo{" "}
@@ -75,11 +84,11 @@ export default function VideoList({
             ) + 1}{" "}
             de {activeSection.videos.length}
           </Text>
-          <Text className="text-small leading-4 text-gray-800">
+          <Text className="text-small leading-4 text-gray-800 ">
             {nextVideo && `Próximo: ${nextVideo?.title}`}
           </Text>
         </Box>
-        <Box className="flex gap-5">
+        <Box className="flex gap-5 lg:hidden">
           {nextVideo && (
             <button onClick={handlePlayNext} className="w-6">
               <img src={NextVideoIcon} alt="next" className="!h-6 !w-6" />
@@ -98,7 +107,7 @@ export default function VideoList({
       </Box>
       <Accordion
         allowMultiple
-        className={`flex flex-col gap-4 p-4  ${
+        className={`flex flex-col gap-4 p-4 lg:pt-0 ${
           !videoPlayer.showVideoList && "hidden"
         }`}
       >

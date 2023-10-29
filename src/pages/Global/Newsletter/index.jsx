@@ -7,7 +7,7 @@ import Navbar from "../../../components/Navbar";
 import Pagination from "../../../components/Pagination";
 import SearchBar from "../../../components/SearchBar";
 import LoginModal from "../../../components/LoginModal";
-import { Box, Flex, Image, Text, useMediaQuery } from "@chakra-ui/react";
+import { Box, Flex, Image, Text } from "@chakra-ui/react";
 import { IoMdStar } from "react-icons/io";
 import background from "../../../assets/auth-background.png";
 import Footer from "../../../components/Footer";
@@ -19,36 +19,46 @@ export default function Newsletter() {
   );
   const page = pages?.find((page) => page.page === currentPage);
   const [openLoginModal, setOpenLoginModal] = useState(false);
-  const [isLargerThanLg] = useMediaQuery("(min-width: 1024px)");
 
   return (
     <Box className="flex min-h-[100dvh] flex-col justify-between bg-gray-200 pb-6">
       <Box>
         <Navbar title="Newsletter" />
-        {isLargerThanLg && (
-          <Box>
-            <Image
-              src={background}
-              alt="background"
-              className="h-[120px] w-full rounded-bl-[16px] rounded-br-[16px] object-cover"
-            />
-          </Box>
-        )}
 
-        {!isLargerThanLg && (
-          <Box className="flex w-full bg-white px-4 pb-[6px]  ">
+        <Box>
+          <Image
+            src={background}
+            alt="background"
+            className="hidden h-[120px] w-full rounded-bl-[16px] rounded-br-[16px] object-cover lg:block"
+          />
+          {!user && (
+            <Flex className="!hidden !items-start gap-1 rounded bg-gray-250 p-2 lg:mx-auto lg:mt-4 lg:!flex lg:max-w-5xl">
+              <IoMdStar size={20} className="-mt-[2px] text-orange" />
+              <Text className=" text-small leading-4">
+                Tenha acesso ilimitado a todo o conteúdo e cresça como
+                investidor.{" "}
+                <button
+                  className="text-primary-400"
+                  onClick={() => setOpenLoginModal(true)}
+                >
+                  Entre ou cadastre-se agora.
+                </button>
+              </Text>
+            </Flex>
+          )}
+        </Box>
+
+        <Box className="flex w-full bg-white px-4 pb-[6px] lg:hidden">
+          <SearchBar type="post" />
+        </Box>
+
+        <Box className="lg:mx-auto lg:max-w-5xl lg:pt-8">
+          <Box className="hidden px-4 lg:block">
             <SearchBar type="post" />
           </Box>
-        )}
-        <Box className="lg:mx-auto lg:max-w-5xl lg:pt-8">
-          {isLargerThanLg && (
-            <Box className="px-4">
-              <SearchBar type="post" />
-            </Box>
-          )}
 
-          {!isLargerThanLg && !user && (
-            <Flex className="!items-start gap-1 bg-gray-250 p-2">
+          {!user && (
+            <Flex className="!items-start gap-1 bg-gray-250 p-2 lg:!hidden">
               <IoMdStar size={20} className="-mt-[2px] text-orange" />
               <Text className=" text-small leading-4">
                 Tenha acesso ilimitado a todo o conteúdo e cresça como
@@ -92,7 +102,9 @@ export default function Newsletter() {
           />
         </Box>
       </Box>
-      {isLargerThanLg && <Footer />}
+      <Box className="hidden lg:block">
+        <Footer />
+      </Box>
     </Box>
   );
 }

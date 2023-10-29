@@ -32,23 +32,25 @@ export default function CourseCard({ course }) {
       <Image
         src={course.imagePath}
         alt="thumbnail"
-        className="!h-[104px] !w-[120px] rounded-sm object-cover lg:!h-[156px] lg:!w-[168px]"
+        className="!h-[104px] !w-[120px] rounded-sm object-cover lg:!max-h-[156px] lg:!min-h-[156px] lg:!min-w-[168px] lg:!max-w-[168px]"
       />
       <Box className="flex !h-[104px] w-full flex-col justify-start lg:!h-[156px]">
         <Box className="flex-grow">
           <Heading className="break-title -mt-1 max-h-16 !font-poppins !text-base !font-semibold !leading-5 !text-primary-600 lg:!text-normal lg:!leading-5">
             {course.name}
           </Heading>
-          <Text className="break-title text-small text-gray-700 lg:text-base">
+          <Text
+            className={`${
+              isLargerThanLg ? "break-description" : "break-title"
+            } text-small text-gray-700 lg:text-base`}
+          >
             {course.description}
           </Text>
         </Box>
         <Box className="flex w-full items-center justify-end gap-2 lg:justify-start lg:gap-3">
-          {isLargerThanLg && (
-            <Text className="mr-3 max-w-max rounded-xl bg-gray-200 px-3 py-[2px] text-base font-medium">
-              {course.isPremium ? "Premium" : "Gratuito"}
-            </Text>
-          )}
+          <Text className="mr-3 hidden max-w-max rounded-xl bg-gray-200 px-3 py-[2px] text-base font-medium lg:block">
+            {course.isPremium ? "Premium" : "Gratuito"}
+          </Text>
 
           {course.isPremium ? (
             <button onClick={() => setOpenPremiumModal(true)}>

@@ -27,22 +27,21 @@ export default function Pagination() {
     dispatch(changePage(currentPage - 1));
   };
   return (
-    <Box className="flex w-full items-center justify-center gap-6 pt-4 text-small">
+    <Box className="flex w-full items-center justify-center gap-6 pt-4 text-small lg:text-base">
       {currentPage > 1 && (
         <button
           onClick={handleBackPage}
-          //   className='w-full bg-primary-400 px-4 py-2 mt-2 text-white font-bold rounded-md'
-          className="flex items-center gap-1 font-bold text-primary-600 "
+          className="flex items-center gap-1 font-bold leading-3 text-primary-600 lg:leading-4"
         >
-          <RiArrowLeftSLine size={15} /> Voltar
+          <RiArrowLeftSLine size={16} /> Voltar
         </button>
       )}
       {page?.posts.length > 0 && (
         <button
           onClick={handleLoadMore}
-          className="flex items-center gap-1 font-bold text-primary-600 "
+          className="flex items-center gap-1 font-bold leading-3 text-primary-600 lg:leading-4"
         >
-          Próximo <RiArrowRightSLine size={15} />
+          Próximo <RiArrowRightSLine size={16} />
         </button>
       )}
     </Box>

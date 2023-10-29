@@ -10,16 +10,25 @@ export default function Footer() {
   return (
     <Box className="flex flex-col items-center justify-center gap-[40px] lg:mx-auto lg:w-full lg:max-w-7xl lg:flex-row-reverse lg:justify-between lg:px-4 lg:pt-6">
       <Box className="flex items-center justify-center gap-7 text-normal text-gray-300  lg:justify-end">
-        <Link to="https://twitter.com/leononatotrade">
+        <Link
+          to="https://twitter.com/leononatotrade"
+          className="rounded-md bg-gray-150 p-[6px]"
+        >
           <FaTwitter size={16} />
         </Link>
-        <Link to="https://www.instagram.com/leononatotrader/">
+        <Link
+          to="https://www.instagram.com/leononatotrader/"
+          className="rounded-md bg-gray-150 p-[6px]"
+        >
           <AiFillInstagram size={18} />
         </Link>
-        <Link to="">
+        <Link to="" className="rounded-md bg-gray-150 p-[6px]">
           <FaLinkedinIn size={16} />
         </Link>
-        <Link to="https://www.youtube.com/@LeoNonatoTraderOficial">
+        <Link
+          to="https://www.youtube.com/@LeoNonatoTraderOficial"
+          className="rounded-md bg-gray-150 p-[6px]"
+        >
           <FaYoutube size={16} />
         </Link>
       </Box>

@@ -22,8 +22,6 @@ import background from "../../../assets/auth-background.png";
 export default function Profile() {
   const { user } = useSelector((state) => state.auth);
 
-  const [isLargerThanLg] = useMediaQuery("(min-width: 1024px)");
-
   const [openEditPhotoModal, setOpenEditPhotoModal] = useState(false);
   const [openEditPasswordModal, setOpenEditPasswordModal] = useState(false);
 
@@ -57,13 +55,13 @@ export default function Profile() {
             </Box>
           </Box>
 
-          <Heading className="mb-1 w-full text-center !font-poppins !text-large !font-bold leading-6 lg:!text-[27px] lg:!leading-9">
+          <Heading className="mb-1 w-full text-center !font-poppins !text-large !font-bold leading-6 lg:!text-[24px] lg:!leading-6">
             {user.name}
           </Heading>
 
           <Link
             to="/courses/my-courses"
-            className="mb-5 block w-full text-center text-small leading-4 text-primary-400 lg:mb-14 lg:text-normal lg:leading-6"
+            className="mb-5 block w-full text-center text-small leading-4 text-primary-400 lg:mb-14 lg:text-base lg:leading-6"
           >
             Ver meus cursos
           </Link>
@@ -146,7 +144,11 @@ export default function Profile() {
           </Box>
         </Flex>
       </Box>
-      {isLargerThanLg && <Footer />}
+
+      <Box className="hidden lg:block">
+        <Footer />
+      </Box>
+
       <ChangeProfileImage
         openModal={openEditPhotoModal}
         setOpenModal={setOpenEditPhotoModal}

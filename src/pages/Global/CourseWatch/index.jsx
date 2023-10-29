@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchVideos } from "../../../redux/modules/courses/actions";
+import { fetchBannerSettings } from "../../../redux/modules/settings/actions";
 import useUserData from "../../../hooks/useUserData";
 import { useLocation } from "react-router-dom";
 
@@ -10,8 +11,10 @@ import VideoIframe from "./VideoIframe";
 import VideoList from "./VideoList";
 import VideoContent from "./VideoContent";
 import AssetsList from "./AssetsList";
-import PremiumCourse from "../../../components/PremiumCourse";
+import Banner from "./Banner";
 import Quiz from "./Quiz";
+import PremiumCourse from "../../../components/PremiumCourse";
+import Footer from "../../../components/Footer";
 import { Box } from "@chakra-ui/react";
 
 export default function CourseWatch() {
@@ -22,6 +25,7 @@ export default function CourseWatch() {
 
   const { user } = useSelector((state) => state.auth);
   const { courses } = useSelector((state) => state.courses);
+  const { banners } = useSelector((state) => state.settings);
   const course = courses?.find((course) => course.id === id);
 
   const { addCourseToUser, addCourseVideosToUser } = useUserData();
@@ -45,6 +49,10 @@ export default function CourseWatch() {
   useEffect(() => {
     if (!course?.videos) {
       dispatch(fetchVideos(id));
+    }
+
+    if (!banners) {
+      dispatch(fetchBannerSettings());
     }
 
     const video = course?.videos?.find((video) => video.id === videoId);
@@ -143,57 +151,129 @@ export default function CourseWatch() {
   //TODO: ANUNCIOS NOS VIDEOS
 
   return (
-    <main className="flex min-h-[100dvh] flex-col bg-[#F3F3F3]">
-      <Navbar title={videoPlayer?.sectionName} />
-      {videoPlayer?.videoList?.length === 0 ? (
-        <h1>Nenhuma aula.</h1>
-      ) : (
-        <div className="flex flex-1 flex-col justify-between">
-          <Box>
-            {videoPlayer?.active?.videoPath?.includes("firebasestorage") ? (
-              <VideoPlayer
-                video={videoPlayer?.active}
-                size={videoPlayer?.playerSize}
-                setVideoPlayer={setVideoPlayer}
-              />
-            ) : (
-              <VideoIframe videoPlayer={videoPlayer} />
-            )}
+    <Box className="bg-gray-200 lg:flex lg:flex-col lg:justify-between lg:pb-6">
+      <Box className="flex min-h-[100dvh] flex-col bg-gray-200 lg:min-h-[calc(100vh-78px)]">
+        <Navbar title={videoPlayer?.sectionName} />
+        {videoPlayer?.videoList?.length === 0 ? (
+          <Box className="flex min-h-[calc(100vh-100px)] items-center justify-center">
+            <div className="video-page-loading">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+          </Box>
+        ) : (
+          <>
+            <Box className="flex flex-1 flex-col justify-between lg:hidden">
+              <Box>
+                {videoPlayer?.active?.videoPath?.includes("firebasestorage") ? (
+                  <VideoPlayer
+                    video={videoPlayer?.active}
+                    size={videoPlayer?.playerSize}
+                    setVideoPlayer={setVideoPlayer}
+                  />
+                ) : (
+                  <VideoIframe videoPlayer={videoPlayer} />
+                )}
 
-            {!videoPlayer.showVideoList &&
-              !videoPlayer.showAssetsList &&
-              !videoPlayer.showQuestionsList && (
-                <VideoContent
-                  videoData={videoPlayer?.active}
-                  setVideoData={setVideoPlayer}
-                  courseId={id}
-                  videoId={videoId}
+                {!videoPlayer.showVideoList &&
+                  !videoPlayer.showAssetsList &&
+                  !videoPlayer.showQuestionsList && (
+                    <VideoContent
+                      videoData={videoPlayer?.active}
+                      setVideoData={setVideoPlayer}
+                      courseId={id}
+                      videoId={videoId}
+                    />
+                  )}
+              </Box>
+
+              {!videoPlayer.showAssetsList &&
+                !videoPlayer.showQuestionsList && (
+                  <VideoList
+                    videoPlayer={videoPlayer}
+                    setVideoPlayer={setVideoPlayer}
+                    user={user}
+                    course={course}
+                  />
+                )}
+
+              {videoPlayer?.showAssetsList && (
+                <AssetsList
+                  assetList={videoPlayer.active.assetsList}
+                  videoPlayer={videoPlayer}
+                  setVideoPlayer={setVideoPlayer}
                 />
               )}
-          </Box>
 
-          {!videoPlayer.showAssetsList && !videoPlayer.showQuestionsList && (
-            <VideoList
-              videoPlayer={videoPlayer}
-              setVideoPlayer={setVideoPlayer}
-              user={user}
-              course={course}
-            />
-          )}
+              {videoPlayer?.showQuestionsList && (
+                <Quiz
+                  videoPlayer={videoPlayer}
+                  setVideoPlayer={setVideoPlayer}
+                />
+              )}
+            </Box>
+            <Box>
+              <Box className="mx-auto mt-2 hidden max-w-7xl flex-1 flex-col justify-between lg:flex">
+                <Box>
+                  <Box className="flex items-start justify-center">
+                    {videoPlayer?.active?.videoPath?.includes(
+                      "firebasestorage",
+                    ) ? (
+                      <VideoPlayer
+                        video={videoPlayer?.active}
+                        size={videoPlayer?.playerSize}
+                        setVideoPlayer={setVideoPlayer}
+                      />
+                    ) : (
+                      <VideoIframe videoPlayer={videoPlayer} />
+                    )}
+                    <VideoList
+                      videoPlayer={videoPlayer}
+                      setVideoPlayer={setVideoPlayer}
+                      user={user}
+                      course={course}
+                    />
+                  </Box>
 
-          {videoPlayer?.showAssetsList && (
-            <AssetsList
-              assetList={videoPlayer.active.assetsList}
-              videoPlayer={videoPlayer}
-              setVideoPlayer={setVideoPlayer}
-            />
-          )}
-
-          {videoPlayer?.showQuestionsList && (
-            <Quiz videoPlayer={videoPlayer} setVideoPlayer={setVideoPlayer} />
-          )}
-        </div>
-      )}
+                  <Box className="flex items-start justify-center gap-8">
+                    <Box className="flex-1">
+                      <VideoContent
+                        videoData={videoPlayer?.active}
+                        setVideoData={setVideoPlayer}
+                        courseId={id}
+                        videoId={videoId}
+                      />
+                    </Box>
+                    <Box className="flex max-w-[390px] flex-col gap-1">
+                      <Banner data={banners && banners[0]} />
+                      <Banner data={banners && banners[1]} />
+                    </Box>
+                  </Box>
+                </Box>
+              </Box>
+              {/* <AssetsList
+                  assetList={videoPlayer.active.assetsList}
+                  videoPlayer={videoPlayer}
+                  setVideoPlayer={setVideoPlayer}
+                /> */}
+              {/* <Quiz videoPlayer={videoPlayer} setVideoPlayer={setVideoPlayer} /> */}
+            </Box>
+          </>
+        )}
+      </Box>
+      <Box className="hidden lg:block">
+        <Footer />
+      </Box>
       <PremiumCourse
         open={locked}
         close={setLocked}
@@ -202,6 +282,6 @@ export default function CourseWatch() {
         btnText={"Assine já"}
         closeBtn={false}
       />
-    </main>
+    </Box>
   );
 }
