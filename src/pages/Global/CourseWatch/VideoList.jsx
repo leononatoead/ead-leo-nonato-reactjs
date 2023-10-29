@@ -45,7 +45,11 @@ export default function VideoList({
 
   const handleSelectVideo = (id) => {
     const newActive = videoPlayer.allVideos.find((video) => video.id === id);
-    setVideoPlayer((prev) => ({ ...prev, active: newActive }));
+    setVideoPlayer((prev) => ({
+      ...prev,
+      active: newActive,
+      showQuestionsList: false,
+    }));
 
     const path = pathname.split("/");
 
@@ -53,7 +57,11 @@ export default function VideoList({
   };
 
   const handlePlayNext = () => {
-    setVideoPlayer((prev) => ({ ...prev, active: nextVideo }));
+    setVideoPlayer((prev) => ({
+      ...prev,
+      active: nextVideo,
+      showQuestionsList: false,
+    }));
     const path = pathname.split("/");
 
     navigate(`/course/${path[2]}/${nextVideo.id}`);
@@ -108,7 +116,7 @@ export default function VideoList({
       <Accordion
         allowMultiple
         className={`flex flex-col gap-4 p-4 lg:pt-0 ${
-          !videoPlayer.showVideoList && "hidden"
+          !videoPlayer.showVideoList && "hidden lg:flex"
         }`}
       >
         {course &&

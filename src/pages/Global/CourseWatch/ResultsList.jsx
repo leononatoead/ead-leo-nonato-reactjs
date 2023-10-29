@@ -43,11 +43,13 @@ export default function ResultsList({ questionsList, setResults }) {
             <Alert
               status={active?.question?.rightAnswer === 1 ? "success" : "error"}
               variant="left-accent"
-              className="flex gap-4  px-5 py-4"
+              className="flex gap-4 px-5 py-4 lg:!py-2"
             >
               <AlertIcon />
               <Box className="flex w-full items-center justify-between">
-                <Text>{active?.question?.firstAnswer}</Text>
+                <Text className="lg:text-base">
+                  {active?.question?.firstAnswer}
+                </Text>
                 <Text className="font-bold">
                   {active?.userAnswer === 1 && (
                     <BiSolidCheckboxChecked
@@ -61,11 +63,13 @@ export default function ResultsList({ questionsList, setResults }) {
             <Alert
               status={active?.question?.rightAnswer === 2 ? "success" : "error"}
               variant="left-accent"
-              className="flex gap-4  px-5 py-4"
+              className="flex gap-4 px-5 py-4 lg:!py-2"
             >
               <AlertIcon />
               <Box className="flex w-full items-center justify-between">
-                <Text>{active?.question?.secondAnswer}</Text>
+                <Text className="lg:text-base">
+                  {active?.question?.secondAnswer}
+                </Text>
                 <Text className="font-bold">
                   {active?.userAnswer === 2 && (
                     <BiSolidCheckboxChecked
@@ -79,11 +83,13 @@ export default function ResultsList({ questionsList, setResults }) {
             <Alert
               status={active?.question?.rightAnswer === 3 ? "success" : "error"}
               variant="left-accent"
-              className="flex gap-4  px-5 py-4"
+              className="flex gap-4 px-5 py-4 lg:!py-2"
             >
               <AlertIcon />
               <Box className="flex w-full items-center justify-between">
-                <Text>{active?.question?.thirdAnswer}</Text>
+                <Text className="lg:text-base">
+                  {active?.question?.thirdAnswer}
+                </Text>
                 <Text className="font-bold">
                   {active?.userAnswer === 3 && (
                     <BiSolidCheckboxChecked
@@ -97,11 +103,13 @@ export default function ResultsList({ questionsList, setResults }) {
             <Alert
               status={active?.question?.rightAnswer === 4 ? "success" : "error"}
               variant="left-accent"
-              className="flex gap-4  px-5 py-4"
+              className="flex gap-4 px-5 py-4 lg:!py-2"
             >
               <AlertIcon />
               <Box className="flex w-full items-center justify-between">
-                <Text>{active?.question?.fourthAnswer}</Text>
+                <Text className="lg:text-base">
+                  {active?.question?.fourthAnswer}
+                </Text>
                 <Text className="font-bold">
                   {active?.userAnswer === 4 && (
                     <BiSolidCheckboxChecked

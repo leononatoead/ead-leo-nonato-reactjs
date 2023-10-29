@@ -4,7 +4,7 @@ import useUserData from "../../../../hooks/useUserData";
 import { useLocation } from "react-router-dom";
 
 import RadioGroupComponent from "./RadioGroup";
-import { Box, Radio, Text } from "@chakra-ui/react";
+import { Box, Radio, Text, useMediaQuery } from "@chakra-ui/react";
 import { RiCloseFill } from "react-icons/ri";
 
 export default function QuestionsList({
@@ -14,6 +14,8 @@ export default function QuestionsList({
 }) {
   const [questions, setQuestions] = useState({});
   const [active, setActive] = useState({});
+
+  const [isLargerThanLg] = useMediaQuery("(min-width: 1024px)");
 
   const { pathname } = useLocation();
   const pathParams = pathname.split("/");
@@ -98,7 +100,7 @@ export default function QuestionsList({
 
   return (
     <Box>
-      <Box className="flex items-center justify-between p-4 pb-2">
+      <Box className="flex items-center justify-between p-4 pb-2 lg:hidden">
         <Text className="font-poppins text-normal font-medium leading-6">
           Atividade
         </Text>
@@ -115,63 +117,8 @@ export default function QuestionsList({
               question={active.question}
               handleSelectAnswer={handleSelectAnswer}
             />
-            {
-              // <RadioGroup
-              //   className="flex flex-col gap-4 px-4 py-6"
-              //   onChange={handleSelectAnswer}
-              // >
-              //   <Box className="flex gap-4 border-l-[5px] border-l-gray-450 !bg-gray-150 px-5 py-4">
-              //     <Radio
-              //       value="1"
-              //       size="lg"
-              //       colorScheme="gray"
-              //       className="!border-[3px] !border-gray-450 "
-              //     >
-              //       <Text className="ml-4 text-normal">
-              //         {active?.question?.firstAnswer}
-              //       </Text>
-              //     </Radio>
-              //   </Box>
-              //   <Box className="flex gap-4 border-l-[5px] border-l-gray-450 !bg-gray-150 px-5 py-4">
-              //     <Radio
-              //       value="2"
-              //       size="lg"
-              //       colorScheme="gray"
-              //       className="!border-[3px] !border-gray-450"
-              //     >
-              //       <Text className="ml-4 text-normal">
-              //         {active?.question?.secondAnswer}
-              //       </Text>
-              //     </Radio>
-              //   </Box>
-              //   <Box className="flex gap-4 border-l-[5px] border-l-gray-450 !bg-gray-150 px-5 py-4">
-              //     <Radio
-              //       value="3"
-              //       size="lg"
-              //       colorScheme="gray"
-              //       className="!border-[3px] !border-gray-450"
-              //     >
-              //       <Text className="ml-4 text-normal">
-              //         {active?.question?.thirdAnswer}
-              //       </Text>
-              //     </Radio>
-              //   </Box>
-              //   <Box className="flex gap-4 border-l-[5px] border-l-gray-450 !bg-gray-150 px-5 py-4">
-              //     <Radio
-              //       value="4"
-              //       size="lg"
-              //       colorScheme="gray"
-              //       className="!border-[3px] !border-gray-450"
-              //     >
-              //       <Text className="ml-4 text-normal">
-              //         {active?.question?.fourthAnswer}
-              //       </Text>
-              //     </Radio>
-              //   </Box>
-              // </RadioGroup>
-            }
             <Box
-              className={`flex w-full gap-4  px-4 ${
+              className={`flex w-full gap-4 px-4 ${
                 questions[0]?.question === active?.question
                   ? "justify-end"
                   : "justify-between"

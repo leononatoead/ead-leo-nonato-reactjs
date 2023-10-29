@@ -44,7 +44,7 @@ export default function QuizResult({ quizData, setVideoPlayer }) {
 
   return (
     <>
-      <Box className="flex items-center justify-between p-4 pb-2">
+      <Box className="flex items-center justify-between p-4 pb-2 lg:py-0">
         <Text className="font-poppins text-normal font-medium leading-6">
           Resultado
         </Text>
@@ -58,7 +58,7 @@ export default function QuizResult({ quizData, setVideoPlayer }) {
           setResults={setResults}
         />
       ) : (
-        <Box className="flex flex-grow flex-col justify-center gap-8 px-4 pb-6 pt-40">
+        <Box className="flex flex-grow flex-col justify-center gap-8 px-4 pb-6 pt-40 lg:pt-16">
           <Box className="relative flex items-center justify-center ">
             <Box className="circle"></Box>
             <BsCheckLg
@@ -82,7 +82,7 @@ export default function QuizResult({ quizData, setVideoPlayer }) {
             </Box>
             <button
               onClick={handleShowAnswers}
-              className="w-full rounded-sm bg-primary-400 py-[6px] text-base  leading-5 text-white disabled:bg-gray-700"
+              className="w-full rounded-sm bg-primary-400 py-[6px] text-base leading-5 text-white disabled:bg-gray-700 lg:mt-2 lg:max-w-[370px]"
             >
               Ver respostas
             </button>

@@ -19,7 +19,7 @@ import {
 } from "react-icons/fa";
 import { MdFullscreen } from "react-icons/md";
 
-export default function VideoPlayer({ video, size, setVideoPlayer }) {
+export default function VideoPlayer({ video }) {
   const videoRef = useRef(null);
 
   const [isLargerThanLg] = useMediaQuery("(min-width: 1024px)");
@@ -35,24 +35,16 @@ export default function VideoPlayer({ video, size, setVideoPlayer }) {
     toggleVolume,
   } = useVideoPlayer(videoRef);
 
-  // const handleSetVideoSize = () => {
-  //   if (size === 'full') {
-  //     setVideoPlayer((prev) => ({ ...prev, playerSize: '[800px]' }));
-  //   } else {
-  //     setVideoPlayer((prev) => ({ ...prev, playerSize: 'full' }));
-  //   }
-  // };
-
   return (
-    <Box className="flex flex-col items-start justify-between p-4 lg:h-[450px]">
+    <Box className="flex w-full flex-col items-start justify-between p-4 lg:max-h-[450px] lg:min-h-[450px]">
       <Box
-        className={`group relative overflow-hidden rounded-lg bg-black min-w-${size}`}
+        className={`group relative min-w-full overflow-hidden rounded-lg bg-black lg:max-h-[420px] lg:min-h-[420px]`}
       >
         <video
           ref={videoRef}
           src={video?.videoPath}
           onTimeUpdate={updateVideoTime}
-          className="max-h-[80vh] min-w-full rounded-lg"
+          className="max-h-[80vh] min-w-full rounded-lg lg:max-h-[420px] lg:min-h-[420px]"
           preload="auto"
           controls={isLargerThanLg ? false : true}
         />

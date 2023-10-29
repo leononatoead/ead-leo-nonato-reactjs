@@ -54,15 +54,13 @@ export default function RadioGroupComponent({ question, handleSelectAnswer }) {
   return (
     <Flex
       flexDirection={"column"}
-      gap={4}
       alignItems={"flex-start"}
-      px={4}
-      py={6}
+      className="gap-4 px-4 py-6 lg:gap-2 lg:py-4"
     >
       <label
         htmlFor="firstAnswer"
         onClick={() => handleSelectInput("1")}
-        className="flex w-full gap-4 border-l-[5px] border-l-gray-450 !bg-gray-150 px-5 py-4"
+        className="flex w-full gap-4 border-l-[5px] border-l-gray-450 !bg-gray-150 px-5 py-4 lg:py-2 lg:text-base"
       >
         <input ref={firstRadioRef} type="radio" name="answer" />
         {question?.firstAnswer}
@@ -71,7 +69,7 @@ export default function RadioGroupComponent({ question, handleSelectAnswer }) {
       <label
         htmlFor="secondAnswer"
         onClick={() => handleSelectInput("2")}
-        className="flex w-full gap-4 border-l-[5px] border-l-gray-450 !bg-gray-150 px-5 py-4"
+        className="flex w-full gap-4 border-l-[5px] border-l-gray-450 !bg-gray-150 px-5 py-4 lg:py-2 lg:text-base"
       >
         <input ref={secondRadioRef} type="radio" name="answer" />
         {question?.secondAnswer}
@@ -80,7 +78,7 @@ export default function RadioGroupComponent({ question, handleSelectAnswer }) {
       <label
         htmlFor="thirdAnswer"
         onClick={() => handleSelectInput("3")}
-        className="flex w-full gap-4 border-l-[5px] border-l-gray-450 !bg-gray-150 px-5 py-4"
+        className="flex w-full gap-4 border-l-[5px] border-l-gray-450 !bg-gray-150 px-5 py-4 lg:py-2 lg:text-base"
       >
         <input ref={thirdRadioRef} type="radio" name="answer" />
         {question?.thirdAnswer}
@@ -89,7 +87,7 @@ export default function RadioGroupComponent({ question, handleSelectAnswer }) {
       <label
         htmlFor="fourthAnswer"
         onClick={() => handleSelectInput("4")}
-        className="flex w-full gap-4 border-l-[5px] border-l-gray-450 !bg-gray-150 px-5 py-4"
+        className="flex w-full gap-4 border-l-[5px] border-l-gray-450 !bg-gray-150 px-5 py-4 lg:py-2 lg:text-base"
       >
         <input ref={fourthRadioRef} type="radio" name="answer" />
         {question?.fourthAnswer}

@@ -15,7 +15,7 @@ import Banner from "./Banner";
 import Quiz from "./Quiz";
 import PremiumCourse from "../../../components/PremiumCourse";
 import Footer from "../../../components/Footer";
-import { Box, Image } from "@chakra-ui/react";
+import { Box, Image, useMediaQuery } from "@chakra-ui/react";
 import background from "../../../assets/auth-background.png";
 
 export default function CourseWatch() {
@@ -23,6 +23,7 @@ export default function CourseWatch() {
   const pathParams = pathname.split("/");
   const id = pathParams[2];
   const videoId = pathParams[3];
+  const [isLargerThanLg] = useMediaQuery("(min-width: 1024px)");
 
   const { user } = useSelector((state) => state.auth);
   const { courses } = useSelector((state) => state.courses);
@@ -231,17 +232,28 @@ export default function CourseWatch() {
             <Box>
               <Box className="mx-auto mt-2 hidden max-w-7xl flex-1 flex-col justify-between lg:flex">
                 <Box>
-                  <Box className="flex items-start justify-center">
-                    {videoPlayer?.active?.videoPath?.includes(
-                      "firebasestorage",
-                    ) ? (
-                      <VideoPlayer
-                        video={videoPlayer?.active}
-                        size={videoPlayer?.playerSize}
-                        setVideoPlayer={setVideoPlayer}
-                      />
+                  <Box className="flex items-start justify-between">
+                    {isLargerThanLg && videoPlayer.showQuestionsList ? (
+                      <Box className="m-4 w-full overflow-y-scroll rounded-lg bg-white p-4 lg:h-[420px]">
+                        <Quiz
+                          videoPlayer={videoPlayer}
+                          setVideoPlayer={setVideoPlayer}
+                        />
+                      </Box>
                     ) : (
-                      <VideoIframe videoPlayer={videoPlayer} />
+                      <Box className="w-full">
+                        {videoPlayer?.active?.videoPath?.includes(
+                          "firebasestorage",
+                        ) ? (
+                          <VideoPlayer
+                            video={videoPlayer?.active}
+                            size={videoPlayer?.playerSize}
+                            setVideoPlayer={setVideoPlayer}
+                          />
+                        ) : (
+                          <VideoIframe videoPlayer={videoPlayer} />
+                        )}
+                      </Box>
                     )}
                     <VideoList
                       videoPlayer={videoPlayer}
@@ -267,12 +279,6 @@ export default function CourseWatch() {
                   </Box>
                 </Box>
               </Box>
-              {/* <AssetsList
-                  assetList={videoPlayer.active.assetsList}
-                  videoPlayer={videoPlayer}
-                  setVideoPlayer={setVideoPlayer}
-                /> */}
-              {/* <Quiz videoPlayer={videoPlayer} setVideoPlayer={setVideoPlayer} /> */}
             </Box>
           </>
         )}
