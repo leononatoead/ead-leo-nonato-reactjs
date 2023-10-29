@@ -14,12 +14,15 @@ import {
   AccordionIcon,
   Box,
   Image,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import background from "../../assets/auth-background.png";
+import Footer from "../../components/Footer";
 
 export default function FAQ() {
   const { questions } = useSelector((state) => state.faq);
   const dispatch = useDispatch();
+  const [isLargerThanLg] = useMediaQuery("(min-width: 1024px)");
 
   useEffect(() => {
     const lastFAQUpdate = new Date(
@@ -38,48 +41,51 @@ export default function FAQ() {
   }, []);
 
   return (
-    <Box className="min-h-[100dvh] bg-gray-200">
-      <Navbar title={"FAQ"} />
+    <Box className="flex min-h-[100dvh] flex-col justify-between bg-gray-200 pb-6">
       <Box>
-        <Image
-          src={background}
-          alt="background"
-          className="h-[120px] w-full rounded-bl-[16px] rounded-br-[16px] object-cover"
-        />
-      </Box>
-      <Box className="px-4" mt={-4}>
-        <Accordion className="flex flex-col" gap={1} allowToggle>
-          {questions
-            ?.slice()
-            .sort((a, b) => a.order - b.order)
-            .map((question, i) => (
-              <AccordionItem
-                key={i}
-                className="overflow-hidden !rounded-md !border-[1px] !shadow-sm"
-              >
-                <AccordionButton px={4} py={3} className="!bg-white">
-                  <Box
-                    as="span"
-                    flex="1"
-                    textAlign="left"
-                    className="!text-base !leading-5 "
-                  >
-                    {question.question}
-                  </Box>
-                  <AccordionIcon />
-                </AccordionButton>
-
-                <AccordionPanel
-                  className="!bg-zinc-100 text-justify !text-base"
-                  px={4}
-                  py={"7px"}
+        <Navbar title={"FAQ"} />
+        <Box>
+          <Image
+            src={background}
+            alt="background"
+            className="h-[120px] w-full rounded-bl-[16px] rounded-br-[16px] object-cover"
+          />
+        </Box>
+        <Box className="-mt-4 px-4 lg:mt-6">
+          <Accordion className="flex flex-col" gap={1} allowToggle>
+            {questions
+              ?.slice()
+              .sort((a, b) => a.order - b.order)
+              .map((question, i) => (
+                <AccordionItem
+                  key={i}
+                  className="overflow-hidden !rounded-md !border-[1px] !shadow-sm"
                 >
-                  {question.answer}
-                </AccordionPanel>
-              </AccordionItem>
-            ))}
-        </Accordion>
+                  <AccordionButton px={4} py={3} className="!bg-white">
+                    <Box
+                      as="span"
+                      flex="1"
+                      textAlign="left"
+                      className="!text-base !leading-5 "
+                    >
+                      {question.question}
+                    </Box>
+                    <AccordionIcon />
+                  </AccordionButton>
+
+                  <AccordionPanel
+                    className="!bg-zinc-100 text-justify !text-base"
+                    px={4}
+                    py={"7px"}
+                  >
+                    {question.answer}
+                  </AccordionPanel>
+                </AccordionItem>
+              ))}
+          </Accordion>
+        </Box>
       </Box>
+      {isLargerThanLg && <Footer />}
     </Box>
   );
 }

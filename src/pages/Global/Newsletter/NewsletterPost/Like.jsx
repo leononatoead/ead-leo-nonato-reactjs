@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import usePosts from "../../../../hooks/usePosts";
 
-import { Flex, Text } from "@chakra-ui/react";
+import { Flex, Text, useMediaQuery } from "@chakra-ui/react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 
 export default function Like({ id }) {
@@ -9,6 +9,8 @@ export default function Like({ id }) {
   const { posts } = useSelector((state) => state.posts);
   const post = posts?.find((post) => post.id === id);
   const { addLike, removeLike } = usePosts();
+
+  const [isLargerThanLg] = useMediaQuery("(min-width: 1024px)");
 
   const handleLikePost = () => {
     addLike(id, user.uid);
@@ -23,13 +25,13 @@ export default function Like({ id }) {
         <>
           {user?.likedPosts?.includes(post.id) ? (
             <AiFillHeart
-              size={20}
+              size={isLargerThanLg ? 26 : 20}
               className="cursor-pointer text-primary-600"
               onClick={handleDislikePost}
             />
           ) : (
             <AiOutlineHeart
-              size={20}
+              size={isLargerThanLg ? 26 : 20}
               className="cursor-pointer text-primary-600"
               onClick={handleLikePost}
             />
@@ -37,16 +39,20 @@ export default function Like({ id }) {
         </>
       ) : (
         <AiOutlineHeart
-          size={20}
+          size={isLargerThanLg ? 26 : 20}
           className="cursor-pointer text-primary-600"
           onClick={handleLikePost}
         />
       )}
-      <Text className="text-small text-gray-400">
-        {post?.likesCount
-          ? `${post.likesCount} ${post.likesCount > 1 ? "Curtidas" : "Curtida"}`
-          : "Nenhuma curtida"}
-      </Text>
+      {!isLargerThanLg && (
+        <Text className="text-small text-gray-400">
+          {post?.likesCount
+            ? `${post.likesCount} ${
+                post.likesCount > 1 ? "Curtidas" : "Curtida"
+              }`
+            : "Nenhuma curtida"}
+        </Text>
+      )}
     </Flex>
   );
 }

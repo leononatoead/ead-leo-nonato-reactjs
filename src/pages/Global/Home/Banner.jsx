@@ -1,26 +1,26 @@
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
-import { Box, Image, Text } from '@chakra-ui/react';
+import { Box, Image, Text } from "@chakra-ui/react";
 
 export default function Banner({ data }) {
   return (
     <Link
       to={data.url}
-      className='w-full h-[206px] relative  overflow-hidden rounded-[20px]'
+      className="relative h-[206px] w-full overflow-hidden  rounded-[20px] lg:!h-[300px]"
     >
       <Image
         src={data.imageURL}
-        alt='banner'
-        className='w-full h-[206px] object-cover rounded-[20px]'
+        alt="banner"
+        className="h-[206px] w-full rounded-[20px] object-cover lg:!h-[300px]"
       />
-      <Box className='absolute bottom-3 left-3 text-white text-base leading-5 px-4'>
-        <Text className='!font-poppins !font-semibold !text-[22px] !leading-[26px] w-[126px] h-[130px]'>
+      <Box className="absolute bottom-3 left-3 px-4 text-base leading-5 text-white">
+        <Text className="h-[130px] w-[126px] !font-poppins !text-[22px] !font-semibold !leading-[26px]">
           {data.title}
         </Text>
-        <Text className='!font-poppins !text-[13px] !font-medium !leading-[13px] !tracking-[0.5px]'>
+        <Text className="!font-poppins !text-[13px] !font-medium !leading-[13px] !tracking-[0.5px]">
           {data.subtitle}
         </Text>
-        <Text className='!font-poppins !text-[11px] !font-normal !leading-[11px] !tracking-[0.5px]'>
+        <Text className="!font-poppins !text-[11px] !font-normal !leading-[11px] !tracking-[0.5px]">
           Assistir agora
         </Text>
       </Box>

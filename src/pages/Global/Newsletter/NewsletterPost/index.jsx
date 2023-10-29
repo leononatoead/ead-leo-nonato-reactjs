@@ -15,7 +15,8 @@ import PostComments from "./PostComments";
 import Navbar from "../../../../components/Navbar";
 import PremiumPost from "../../../../components/PremiumPost";
 import ShareBtn from "../../../../components/ShareBtn";
-import { Box, Heading, Image, Text } from "@chakra-ui/react";
+import { Box, Heading, Image, Text, useMediaQuery } from "@chakra-ui/react";
+import { FaRegCommentAlt } from "react-icons/fa";
 
 export default function NewsletterPost() {
   const { id } = useParams();
@@ -23,6 +24,7 @@ export default function NewsletterPost() {
   const url = `${import.meta.env.VITE_VERCEL_APP_URL}${pathname}`;
   const { posts, currentPost } = useSelector((state) => state.posts);
   const { user } = useSelector((state) => state.auth);
+  const [isLargerThanLg] = useMediaQuery("(min-width: 1024px)");
 
   const [editorState, setEditorState] = useState();
   const [openPremiumModal, setOpenPremiumModal] = useState(false);
@@ -64,6 +66,18 @@ export default function NewsletterPost() {
     }
   }, []);
 
+  const smoothScroll = (e) => {
+    e.preventDefault();
+
+    const targetElement = document.getElementById("comments");
+
+    if (targetElement) {
+      targetElement.scrollIntoView({
+        behavior: "smooth",
+      });
+    }
+  };
+
   useEffect(() => {
     if (!posts) {
       dispatch(fetchPosts());
@@ -71,36 +85,54 @@ export default function NewsletterPost() {
   }, []);
 
   return (
-    <Box className="min-h-[100dvh]">
+    <Box className="min-h-[100dvh] pb-6 lg:bg-gray-150">
       <Navbar title={currentPost?.category} />
-      <Box className="px-4 py-6">
-        <Heading className="!font-poppins !text-large !font-bold !leading-6 text-primary-600">
-          {currentPost?.title}
-        </Heading>
-        <Box className="flex items-center justify-start gap-2 py-2 text-small leading-4 text-gray-700">
-          <Text>{currentPost?.author}</Text>
-          {`|`}
-          <Text>{formatDate(currentPost?.createdAt)}</Text>
-          <ShareBtn url={url} />
-        </Box>
-        <Box className="mb-4 h-[1px] w-full bg-gray-200"></Box>
-        <Image
-          src={currentPost?.thumb}
-          alt="thumbnail"
-          className="mb-4 h-52 w-full rounded-2xl object-cover"
-        />
-        <Editor
-          editorState={editorState}
-          readOnly={true}
-          toolbarHidden={true}
-        />
-      </Box>
+      <Box className="mx-auto max-w-5xl">
+        <Box className="px-4 py-6 lg:mt-8 lg:rounded-lg lg:bg-white">
+          <Box className="lg justify-between gap-10 lg:flex lg:items-start">
+            <Heading className="!font-poppins !text-large !font-bold !leading-6 text-primary-600 lg:!text-[28px] lg:!leading-9">
+              {currentPost?.title}
+            </Heading>
 
-      {user && <Like id={id} />}
-      {user && <PostComments id={id} />}
-      {!user && (
-        <PremiumPost open={openPremiumModal} close={setOpenPremiumModal} />
-      )}
+            {isLargerThanLg && (
+              <Box className="flex items-center gap-4">
+                <ShareBtn url={url} />
+                {user && <Like id={id} />}
+                {user && (
+                  <a href="#comments" onClick={smoothScroll}>
+                    <FaRegCommentAlt size={24} className="text-primary-600" />
+                  </a>
+                )}
+              </Box>
+            )}
+          </Box>
+          <Box className="flex items-center justify-start gap-2 py-2 text-small leading-4 text-gray-700 lg:text-normal ">
+            <Text>{currentPost?.author}</Text>
+            {`|`}
+            <Text>{formatDate(currentPost?.createdAt)}</Text>
+            {!isLargerThanLg && <ShareBtn url={url} />}
+          </Box>
+          <Box className="mb-4 h-[1px] w-full bg-gray-200"></Box>
+          <Image
+            src={currentPost?.thumb}
+            alt="thumbnail"
+            className="mb-4 h-52 w-full rounded-2xl object-cover"
+          />
+          <Editor
+            editorState={editorState}
+            readOnly={true}
+            toolbarHidden={true}
+          />
+        </Box>
+
+        <Box className="px-4 py-6 lg:mt-8 lg:rounded-lg lg:bg-white">
+          {!isLargerThanLg && user && <Like id={id} />}
+          <div id="comments">{user && <PostComments id={id} />}</div>
+          {!user && (
+            <PremiumPost open={openPremiumModal} close={setOpenPremiumModal} />
+          )}
+        </Box>
+      </Box>
     </Box>
   );
 }

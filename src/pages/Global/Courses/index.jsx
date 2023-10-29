@@ -5,62 +5,92 @@ import Navbar from "../../../components/Navbar";
 import CourseCard from "./CourseCard";
 import CoursesCategoriesFilter from "./CoursesCategoriesFilter";
 import SearchBar from "../../../components/SearchBar";
-import { Box } from "@chakra-ui/react";
+import Footer from "../../../components/Footer";
+import { Box, Image, useMediaQuery } from "@chakra-ui/react";
+import background from "../../../assets/auth-background.png";
 
 export default function Courses() {
   const { id } = useParams();
   const { courses } = useSelector((state) => state.courses);
   const { user } = useSelector((state) => state.auth);
 
+  const [isLargerThanLg] = useMediaQuery("(min-width: 1024px)");
+
   return (
-    <Box className="min-h-[100dvh] bg-gray-200">
-      <Navbar
-        title={
-          id === "premium"
-            ? "Cursos Pagos"
-            : id === "free"
-            ? "Cursos Gratuitos"
-            : id === "my-courses"
-            ? "Meus Cursos"
-            : "Todos"
-        }
-      />
-      <SearchBar type="course" />
-      <CoursesCategoriesFilter path={id} user={user} />
+    <Box className="flex min-h-[100dvh] flex-col justify-between bg-gray-200 pb-6">
+      <Box>
+        <Navbar
+          title={
+            id === "premium"
+              ? "Cursos Pagos"
+              : id === "free"
+              ? "Cursos Gratuitos"
+              : id === "my-courses"
+              ? "Meus Cursos"
+              : "Todos"
+          }
+        />
+        {isLargerThanLg && (
+          <Box>
+            <Image
+              src={background}
+              alt="background"
+              className="h-[120px] w-full rounded-bl-[16px] rounded-br-[16px] object-cover"
+            />
+          </Box>
+        )}
 
-      {courses && (
-        <ul className="flex flex-col gap-4 px-4 py-6">
-          {id === "all" &&
-            courses.map((course) => (
-              <CourseCard course={course} key={course.id} />
-            ))}
+        <Box className="lg:mx-auto lg:max-w-5xl">
+          {!isLargerThanLg && (
+            <Box className="flex w-full bg-white px-4 pb-[6px]">
+              <SearchBar type="course" />
+            </Box>
+          )}
+          <CoursesCategoriesFilter path={id} user={user} />
 
-          {id === "free" &&
-            courses.map(
-              (course) =>
-                !course.isPremium &&
-                id === "free" && <CourseCard course={course} key={course.id} />,
-            )}
-
-          {id === "premium" &&
-            courses.map(
-              (course) =>
-                course.isPremium &&
-                id === "premium" && (
+          {courses && (
+            <ul className="flex flex-col gap-4 px-4 py-6">
+              {id === "all" &&
+                courses?.map((course) => (
                   <CourseCard course={course} key={course.id} />
-                ),
-            )}
-          {/* TODO: VERFICAR CURSOS DO USUARIO */}
-          {/* {id === 'my-courses' &&
-            courses.map(
-              (course) =>
-                course.isPremium &&
-                id === 'premium' && (
-                  <CourseCard course={course} key={course.id} />
-                ),
-            )} */}
-        </ul>
-      )}
+                ))}
+
+              {id === "free" &&
+                courses?.map(
+                  (course) =>
+                    !course.isPremium &&
+                    id === "free" && (
+                      <CourseCard course={course} key={course.id} />
+                    ),
+                )}
+
+              {id === "premium" &&
+                courses?.map(
+                  (course) =>
+                    course.isPremium &&
+                    id === "premium" && (
+                      <CourseCard course={course} key={course.id} />
+                    ),
+                )}
+
+              {id === "my-courses" && (
+                <>
+                  {courses?.map((course) => {
+                    const verify = user?.courses?.find(
+                      (c) => c.id === course.id,
+                    );
+
+                    if (verify) {
+                      return <CourseCard course={course} key={course.id} />;
+                    }
+                  })}
+                </>
+              )}
+            </ul>
+          )}
+        </Box>
+      </Box>
+      {isLargerThanLg && <Footer />}
     </Box>
   );
 }

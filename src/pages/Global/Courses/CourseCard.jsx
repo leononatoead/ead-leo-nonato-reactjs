@@ -4,12 +4,13 @@ import { useNavigate } from "react-router-dom";
 import ShareBtn from "../../../components/ShareBtn";
 import PremiumCourse from "../../../components/PremiumCourse";
 
-import { Box, Heading, Image, Text } from "@chakra-ui/react";
-import { BiCartAdd, BiShareAlt } from "react-icons/bi";
+import { Box, Heading, Image, Text, useMediaQuery } from "@chakra-ui/react";
+import { BiCartAdd } from "react-icons/bi";
 import { IoMdEye } from "react-icons/io";
 
 export default function CourseCard({ course }) {
   const [openPremiumModal, setOpenPremiumModal] = useState(false);
+  const [isLargerThanLg] = useMediaQuery("(min-width: 1024px)");
 
   const url = `${import.meta.env.VITE_VERCEL_APP_URL}/course/${course.id}`;
 
@@ -26,38 +27,46 @@ export default function CourseCard({ course }) {
   return (
     <Box
       onClick={handleNavigate}
-      className="flex h-32 w-full cursor-pointer items-center gap-3 rounded-lg bg-white p-3 shadow-md"
+      className="flex h-32 w-full cursor-pointer items-center gap-3 rounded-lg bg-white p-3 shadow-md lg:h-[188px] lg:gap-4 lg:p-4"
     >
       <Image
         src={course.imagePath}
         alt="thumbnail"
-        w={"120px"}
-        h={"104px"}
-        className="rounded-sm object-cover"
+        className="!h-[104px] !w-[120px] rounded-sm object-cover lg:!h-[156px] lg:!w-[168px]"
       />
-      <Box className="flex min-h-full w-full flex-col justify-start overflow-hidden">
+      <Box className="flex !h-[104px] w-full flex-col justify-start lg:!h-[156px]">
         <Box className="flex-grow">
-          <Heading className="break-title -mt-1 max-h-16 !font-poppins !text-base !font-semibold !leading-5 !text-primary-600">
+          <Heading className="break-title -mt-1 max-h-16 !font-poppins !text-base !font-semibold !leading-5 !text-primary-600 lg:!text-normal lg:!leading-5">
             {course.name}
           </Heading>
-          <Text className="break-title text-small text-gray-700 ">
+          <Text className="break-title text-small text-gray-700 lg:text-base">
             {course.description}
           </Text>
         </Box>
-        <Box className="flex w-full items-center justify-between">
-          <Box className="flex flex-1 items-center justify-end gap-2">
-            {course.isPremium ? (
-              <button onClick={() => setOpenPremiumModal(true)}>
-                <BiCartAdd size={18} className="text-primary-600" />
-              </button>
-            ) : (
-              <IoMdEye size={18} className="text-primary-600" />
-            )}
+        <Box className="flex w-full items-center justify-end gap-2 lg:justify-start lg:gap-3">
+          {isLargerThanLg && (
+            <Text className="mr-3 max-w-max rounded-xl bg-gray-200 px-3 py-[2px] text-base font-medium">
+              {course.isPremium ? "Premium" : "Gratuito"}
+            </Text>
+          )}
 
-            <Box onClick={handleShare}>
-              <ShareBtn url={url} />
-            </Box>
-          </Box>
+          {course.isPremium ? (
+            <button onClick={() => setOpenPremiumModal(true)}>
+              <BiCartAdd
+                size={isLargerThanLg ? 24 : 18}
+                className="text-primary-600"
+              />
+            </button>
+          ) : (
+            <IoMdEye
+              size={isLargerThanLg ? 24 : 18}
+              className="text-primary-600"
+            />
+          )}
+
+          <span className="flex items-center" onClick={handleShare}>
+            <ShareBtn url={url} />
+          </span>
         </Box>
       </Box>
 

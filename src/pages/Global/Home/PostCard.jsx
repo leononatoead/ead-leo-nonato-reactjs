@@ -1,28 +1,58 @@
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import { convertFromRaw } from "draft-js";
 
-import { Box, Heading, Image, Text } from '@chakra-ui/react';
+import { Link } from "react-router-dom";
+
+import { Box, Heading, Image, Text, useMediaQuery } from "@chakra-ui/react";
 
 export default function PostCard({ post }) {
+  const [isLargerThanLg] = useMediaQuery("(min-width: 1024px)");
+
+  const [description, setDescription] = useState("");
+
+  useEffect(() => {
+    const data = JSON.parse(post.postContent);
+    const contentState = convertFromRaw(data);
+
+    const blockMap = contentState.getBlockMap();
+    let text = "";
+
+    blockMap.forEach((block) => {
+      text += block.getText() + "\n";
+    });
+
+    setDescription(text);
+  }, []);
+
   return (
     <Link
       to={`/newsletter/post/${post.id}`}
-      className='min-w-[320px] w-full flex items-start gap-3 h-24'
+      className="flex h-24 w-full min-w-[320px] items-start gap-3 lg:!h-[144px] lg:gap-4 "
     >
       <Image
         src={post.thumb}
-        className='min-w-[120px] max-w-[120px] h-24 object-cover rounded-xl'
+        className="h-24 min-w-[120px] max-w-[120px] rounded-xl object-cover lg:!h-[144px] lg:!w-[56px] lg:rounded-b-none"
       />
-      <Box className='w-full flex flex-col justify-between h-full'>
-        <Heading className='!w-full !text-base !font-poppins !font-bold !leading-[22px] !text-primary-600 max-h-16 break-title'>
+      <Box className="flex h-full w-full flex-col justify-between lg:gap-1 lg:pr-4">
+        <Heading className="break-title max-h-16 !w-full !font-poppins !text-base !font-bold !leading-[22px] !text-primary-600 lg:!text-[21px] lg:!leading-6">
           {post.title}
         </Heading>
-        <Text className='text-small font-poppins text-gray-800'>
+
+        {isLargerThanLg && (
+          <Text className="break-description text-justify font-poppins text-normal leading-4 text-gray-800">
+            {description}
+          </Text>
+        )}
+
+        <Text className="font-poppins text-small text-gray-800 lg:text-normal lg:leading-4">
           {post.author}
         </Text>
 
-        <Text className='text-small leading-4 text-black px-2 py-1 bg-gray-250 w-max rounded-2xl'>
-          {post.category}
-        </Text>
+        {!isLargerThanLg && (
+          <Text className="max-w-max rounded-2xl bg-gray-250 px-2 py-1 text-small leading-4 text-black">
+            {post.category}
+          </Text>
+        )}
       </Box>
     </Link>
   );

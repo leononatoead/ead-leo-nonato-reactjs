@@ -6,7 +6,7 @@ import PremiumCourse from "../../../components/PremiumCourse";
 import { Box, Card, CardBody, CardFooter, Image, Text } from "@chakra-ui/react";
 import { BiCartAdd, BiLockAlt } from "react-icons/bi";
 
-export default function VideoCard({ courseData, setOpenLoginModal }) {
+export default function CourseCard({ courseData, setOpenLoginModal }) {
   const [openPremiumModal, setOpenPremiumModal] = useState(false);
   const { user } = useSelector((state) => state.auth);
 
@@ -16,15 +16,13 @@ export default function VideoCard({ courseData, setOpenLoginModal }) {
         <Card
           p={0}
           bg={"transparent"}
-          className="!w-40 !overflow-hidden !rounded-sm !shadow-none"
+          className="!w-40 !overflow-hidden !rounded-sm !shadow-none lg:!w-60 lg:!rounded-xl"
           onClick={() => setOpenLoginModal(true)}
         >
           <CardBody p={0}>
             <Image
               src={courseData?.imagePath}
-              className="!rounded-sm object-cover"
-              width={160}
-              height={100}
+              className="!h-24 !w-40 rounded-sm object-cover lg:!h-36 lg:!w-60 lg:rounded-xl"
             />
           </CardBody>
           <CardFooter p={0} mt={2} className="flex items-start justify-between">
@@ -41,14 +39,12 @@ export default function VideoCard({ courseData, setOpenLoginModal }) {
           <Card
             p={0}
             bg={"transparent"}
-            className="!w-40 !overflow-hidden !rounded-sm !shadow-none"
+            className="!w-40 !overflow-hidden  !rounded-sm !shadow-none lg:!w-60 lg:!rounded-xl"
           >
             <CardBody p={0}>
               <Image
                 src={courseData?.imagePath}
-                className="!rounded-sm object-cover"
-                width={160}
-                height={100}
+                className="!h-24 !w-40 rounded-sm object-cover lg:!h-36 lg:!w-60 lg:rounded-xl"
               />
             </CardBody>
             <CardFooter p={0} mt={2}>

@@ -38,7 +38,7 @@ export default function CategoriesFilter() {
           >
             <button
               onClick={() => handleSelectCategory(category)}
-              className={`min-w-max max-w-max rounded-full border-[1px] px-4 py-2 text-center ${
+              className={`min-w-max max-w-max rounded-full border-[1px] px-4 py-2 text-center lg:mr-3 ${
                 categories.selectedCategory === category
                   ? "border-primary-400 bg-primary-400 text-white"
                   : "border-gray-300/20 bg-white font-medium"

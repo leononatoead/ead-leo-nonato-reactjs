@@ -52,8 +52,8 @@ export default function PostComments({ id }) {
   }, [post]);
 
   return (
-    <Box className="px-4 pb-6">
-      <Box className="py-4">
+    <Box className="px-4 pb-6 lg:px-0 lg:pb-0" id="comments">
+      <Box className="py-4 lg:py-0">
         <Heading className="!font-poppins !text-large !font-semibold !leading-6  !text-primary-600 ">
           Comentários
         </Heading>
@@ -83,7 +83,7 @@ export default function PostComments({ id }) {
         </form>
 
         {post?.comments?.length > 0 && (
-          <ul className="flex flex-col gap-2 py-6">
+          <ul className="flex flex-col gap-2 py-6 lg:pb-0">
             {post?.comments?.map((comment) => (
               <li
                 key={comment.id}

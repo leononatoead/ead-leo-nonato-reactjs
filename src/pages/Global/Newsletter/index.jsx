@@ -7,8 +7,10 @@ import Navbar from "../../../components/Navbar";
 import Pagination from "../../../components/Pagination";
 import SearchBar from "../../../components/SearchBar";
 import LoginModal from "../../../components/LoginModal";
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Box, Flex, Image, Text, useMediaQuery } from "@chakra-ui/react";
 import { IoMdStar } from "react-icons/io";
+import background from "../../../assets/auth-background.png";
+import Footer from "../../../components/Footer";
 
 export default function Newsletter() {
   const { user } = useSelector((state) => state.auth);
@@ -17,54 +19,80 @@ export default function Newsletter() {
   );
   const page = pages?.find((page) => page.page === currentPage);
   const [openLoginModal, setOpenLoginModal] = useState(false);
+  const [isLargerThanLg] = useMediaQuery("(min-width: 1024px)");
 
   return (
-    <Box className="min-h-[100dvh] bg-gray-200">
-      <Navbar title="Newsletter" />
-      <SearchBar type="post" />
-
-      {!user && (
-        <Flex className="!items-start gap-1 bg-gray-250 p-2">
-          <IoMdStar size={20} className="-mt-[2px] text-orange" />
-          <Text className=" text-small leading-4">
-            Tenha acesso ilimitado a todo o conteúdo e cresça como investidor.{" "}
-            <button
-              className="text-primary-400"
-              onClick={() => setOpenLoginModal(true)}
-            >
-              Entre ou cadastre-se agora.
-            </button>
-          </Text>
-        </Flex>
-      )}
-
-      <CategoriesFilter />
-
-      <Box className="px-4 py-6">
-        {selectedCategory ? (
-          <ul className="flex flex-grow flex-col gap-4">
-            {selectedCategory?.map((post) => (
-              <PostCard post={post} key={post.id} />
-            ))}
-          </ul>
-        ) : page && page.posts.length > 0 ? (
-          <ul className="flex flex-grow flex-col gap-4">
-            {page.posts?.map((post) => (
-              <PostCard post={post} key={post.id} />
-            ))}
-          </ul>
-        ) : (
+    <Box className="flex min-h-[100dvh] flex-col justify-between bg-gray-200 pb-6">
+      <Box>
+        <Navbar title="Newsletter" />
+        {isLargerThanLg && (
           <Box>
-            <Text>Nenhum post encontrado.</Text>
+            <Image
+              src={background}
+              alt="background"
+              className="h-[120px] w-full rounded-bl-[16px] rounded-br-[16px] object-cover"
+            />
           </Box>
         )}
 
-        {!selectedCategory && posts?.length >= 10 && <Pagination />}
+        {!isLargerThanLg && (
+          <Box className="flex w-full bg-white px-4 pb-[6px]  ">
+            <SearchBar type="post" />
+          </Box>
+        )}
+        <Box className="lg:mx-auto lg:max-w-5xl lg:pt-8">
+          {isLargerThanLg && (
+            <Box className="px-4">
+              <SearchBar type="post" />
+            </Box>
+          )}
+
+          {!isLargerThanLg && !user && (
+            <Flex className="!items-start gap-1 bg-gray-250 p-2">
+              <IoMdStar size={20} className="-mt-[2px] text-orange" />
+              <Text className=" text-small leading-4">
+                Tenha acesso ilimitado a todo o conteúdo e cresça como
+                investidor.{" "}
+                <button
+                  className="text-primary-400"
+                  onClick={() => setOpenLoginModal(true)}
+                >
+                  Entre ou cadastre-se agora.
+                </button>
+              </Text>
+            </Flex>
+          )}
+
+          <CategoriesFilter />
+
+          <Box className="px-4 py-6">
+            {selectedCategory ? (
+              <ul className="flex flex-grow flex-col gap-4">
+                {selectedCategory?.map((post) => (
+                  <PostCard post={post} key={post.id} />
+                ))}
+              </ul>
+            ) : page && page.posts.length > 0 ? (
+              <ul className="flex flex-grow flex-col gap-4">
+                {page.posts?.map((post) => (
+                  <PostCard post={post} key={post.id} />
+                ))}
+              </ul>
+            ) : (
+              <Box>
+                <Text>Nenhum post encontrado.</Text>
+              </Box>
+            )}
+
+            {!selectedCategory && posts?.length >= 10 && <Pagination />}
+          </Box>
+          <LoginModal
+            openLoginModal={openLoginModal}
+            setOpenLoginModal={setOpenLoginModal}
+          />
+        </Box>
       </Box>
-      <LoginModal
-        openLoginModal={openLoginModal}
-        setOpenLoginModal={setOpenLoginModal}
-      />
+      {isLargerThanLg && <Footer />}
     </Box>
   );
 }
