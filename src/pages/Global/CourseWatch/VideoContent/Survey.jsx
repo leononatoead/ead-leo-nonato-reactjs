@@ -65,7 +65,7 @@ export default function Survey({ videoData }) {
     <>
       <button
         onClick={onOpen}
-        className="flex max-h-[60px] min-h-[60px] min-w-[77px] max-w-[77px] flex-col items-center justify-center gap-1 rounded-md border-[1px] border-gray-250 bg-gray-250 px-3 py-2 md:min-w-[97px] md:max-w-[97px]"
+        className="flex max-h-[60px] min-h-[60px] min-w-[77px] max-w-[77px] flex-col items-center justify-center gap-1 rounded-md border-[1px] border-gray-250 bg-gray-250 px-3 py-2 md:min-w-[97px] md:max-w-[97px] lg:max-h-max lg:min-h-max lg:max-w-max lg:flex-row lg:gap-2"
       >
         <RiSurveyLine size={20} />
         <Text className="text-small leading-4 text-gray-950">Enquete</Text>

@@ -27,7 +27,7 @@ export default function AssetsList({ assetList, videoPlayer, setVideoPlayer }) {
         videoPlayer.showAssetsList && "flex-grow"
       }`}
     >
-      <Box className="flex items-center justify-between p-4 pb-2">
+      <Box className="flex items-center justify-between p-4 pb-2 lg:hidden">
         <Text className="font-poppins text-normal font-medium leading-6">
           Materiais
         </Text>

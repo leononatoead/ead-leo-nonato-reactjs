@@ -9,8 +9,8 @@ import SearchBar from "../../../components/SearchBar";
 import LoginModal from "../../../components/LoginModal";
 import { Box, Flex, Image, Text } from "@chakra-ui/react";
 import { IoMdStar } from "react-icons/io";
-import background from "../../../assets/auth-background.png";
 import Footer from "../../../components/Footer";
+import background from "../../../assets/auth-background.png";
 
 export default function Newsletter() {
   const { user } = useSelector((state) => state.auth);

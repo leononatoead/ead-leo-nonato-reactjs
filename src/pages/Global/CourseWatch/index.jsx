@@ -15,7 +15,8 @@ import Banner from "./Banner";
 import Quiz from "./Quiz";
 import PremiumCourse from "../../../components/PremiumCourse";
 import Footer from "../../../components/Footer";
-import { Box } from "@chakra-ui/react";
+import { Box, Image } from "@chakra-ui/react";
+import background from "../../../assets/auth-background.png";
 
 export default function CourseWatch() {
   const { pathname } = useLocation();
@@ -154,6 +155,11 @@ export default function CourseWatch() {
     <Box className="bg-gray-200 lg:flex lg:flex-col lg:justify-between lg:pb-6">
       <Box className="flex min-h-[100dvh] flex-col bg-gray-200 lg:min-h-[calc(100vh-78px)]">
         <Navbar title={videoPlayer?.sectionName} />
+        <Image
+          src={background}
+          alt="background"
+          className="hidden h-[120px] w-full rounded-bl-[16px] rounded-br-[16px] object-cover lg:block"
+        />
         {videoPlayer?.videoList?.length === 0 ? (
           <Box className="flex min-h-[calc(100vh-100px)] items-center justify-center">
             <div className="video-page-loading">
