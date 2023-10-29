@@ -42,7 +42,9 @@ export default function NotificationsMenu({ notifications }) {
       <MenuButton
         as={IconButton}
         aria-label="Options"
-        icon={readNotifications ? <VscBell /> : <VscBellDot />}
+        icon={
+          readNotifications ? <VscBell size={18} /> : <VscBellDot size={18} />
+        }
         variant="outline"
         className=" !border-none !bg-transparent !outline-none focus:!border-none"
       />

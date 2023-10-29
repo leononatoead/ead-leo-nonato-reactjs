@@ -33,16 +33,18 @@ export default function SearchResults() {
     <Box className="flex min-h-[100dvh] flex-col bg-gray-200">
       <Navbar title={"Pesquisa"} />
 
-      <SearchBar type="post" />
+      <Box className="lg:hidden">
+        <SearchBar type="course" />
+      </Box>
 
       {searchResults?.length > 0 ? (
-        <ul className="flex flex-col gap-4 px-4 py-6">
+        <ul className="flex w-full flex-col gap-4 px-4 py-6 lg:mx-auto lg:max-w-5xl">
           {searchResults.map((post) => (
             <PostCard post={post} key={post.id} />
           ))}
         </ul>
       ) : (
-        <Box className="flex flex-1 flex-col items-center justify-center gap-4 px-4 py-6">
+        <Box className="flex w-full flex-1 flex-col items-center justify-center gap-4 px-4 py-6 lg:mx-auto lg:max-w-5xl">
           <Text>Nenhuma postagem encontrada.</Text>
         </Box>
       )}

@@ -74,7 +74,7 @@ export default function Survey({ videoData }) {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent
-          className="!absolute !bottom-0 !m-0 !rounded-b-none !rounded-t-3xl !bg-gray-200"
+          className="!absolute !bottom-0 !m-0 !rounded-b-none !rounded-t-3xl !bg-gray-200 lg:!static lg:!self-center lg:!rounded-2xl lg:px-6"
           py={6}
         >
           <ModalHeader className="!flex !items-center !pb-0">

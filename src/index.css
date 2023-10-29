@@ -92,7 +92,7 @@ input[type="number"]::-webkit-inner-spin-button {
 /* DASHBOARD */
 
 .main-container {
-  @apply min-h-[calc(100dvh-48px)] bg-gray-200 px-4 py-6;
+  @apply min-h-[calc(100dvh-48px)] bg-gray-200 px-4 py-6 lg:min-h-[calc(100dvh-64px)];
 }
 
 .add-btn {
