@@ -225,7 +225,7 @@ const useAuth = () => {
       if (error.message.includes("equires-recent-login")) {
         toast({
           description:
-            "A troca de senha necessita de um login recente, por favor ente novamente para altera-la.",
+            "A troca de senha necessita de um login recente, por favor saia e entre novamente para fazer a alteração.",
           status: "error",
           duration: "3000",
           isClosable: true,

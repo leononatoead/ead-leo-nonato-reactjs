@@ -15,7 +15,7 @@ import PostComments from "./PostComments";
 import Navbar from "../../../../components/Navbar";
 import PremiumPost from "../../../../components/PremiumPost";
 import ShareBtn from "../../../../components/ShareBtn";
-import { Box, Heading, Image, Text, useMediaQuery } from "@chakra-ui/react";
+import { Box, Heading, Image, Text } from "@chakra-ui/react";
 import { FaRegCommentAlt } from "react-icons/fa";
 
 export default function NewsletterPost() {
@@ -24,6 +24,7 @@ export default function NewsletterPost() {
   const url = `${import.meta.env.VITE_VERCEL_APP_URL}${pathname}`;
   const { posts, currentPost } = useSelector((state) => state.posts);
   const { user } = useSelector((state) => state.auth);
+
   const [isLargerThanLg] = useMediaQuery("(min-width: 1024px)");
 
   const [editorState, setEditorState] = useState();

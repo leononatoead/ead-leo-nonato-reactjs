@@ -30,7 +30,7 @@ export default function Profile() {
   const { formatPhone } = useFormatPhone();
 
   return (
-    <Box className="flex min-h-[100dvh] flex-col justify-between bg-gray-200 pb-6 lg:min-h-screen">
+    <Box className="flex min-h-[100dvh] flex-col justify-between bg-gray-200 pb-6">
       <Box>
         <Navbar title={"Perfil"} />
         <Box>

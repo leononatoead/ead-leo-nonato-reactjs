@@ -148,6 +148,12 @@ export default function Rating({ courses, courseId, video, userId }) {
                 `}
               />
             </Flex>
+            <button
+              onClick={onClose}
+              className={`mt-6 w-full rounded-[4px] bg-primary-400 px-3  py-[5px] text-base leading-5 text-white disabled:bg-gray-900/30`}
+            >
+              Avaliar
+            </button>
           </ModalBody>
         </ModalContent>
       </Modal>
