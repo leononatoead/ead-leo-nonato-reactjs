@@ -26,7 +26,7 @@ export default function DashboardFAQ() {
 
   return (
     <Box className="main-container">
-      <Box className="flex w-full w-full  justify-end lg:mx-auto lg:max-w-5xl">
+      <Box className="flex w-full justify-end lg:mx-auto lg:max-w-5xl">
         <Link to="/dashboard/faq/new" className="add-btn">
           <MdAddCircleOutline size={20} />
           <span className="font-bold">Nova pergunta</span>
