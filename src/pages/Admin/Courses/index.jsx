@@ -10,7 +10,7 @@ export default function Courses() {
 
   return (
     <Box className="main-container">
-      <Box className="flex w-full justify-end">
+      <Box className="flex w-full justify-end lg:mx-auto lg:max-w-5xl">
         <Link to="/dashboard/courses/new" className="add-btn">
           <MdAddCircleOutline size={20} />{" "}
           <span className="font-bold"> Novo curso</span>
@@ -18,7 +18,7 @@ export default function Courses() {
       </Box>
 
       {courses && (
-        <ul className="flex flex-grow flex-col gap-4 pt-6">
+        <ul className="flex flex-grow flex-col gap-4 pt-6 lg:mx-auto lg:max-w-5xl">
           {courses?.map((course) => (
             <CourseCard cardData={course} key={course.id} />
           ))}

@@ -50,7 +50,7 @@ export default function Statistics() {
         <Link
           key={c.id}
           to={`/dashboard/statistics/class/${c.id}`}
-          className="flex w-full items-center justify-between rounded-lg bg-white p-3 shadow-md"
+          className="flex w-full w-full items-center justify-between rounded-lg bg-white p-3  shadow-md lg:mx-auto lg:max-w-5xl"
         >
           <Box className="flex items-center gap-3">
             <PiUsersThreeFill size={15} />

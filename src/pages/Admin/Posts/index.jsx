@@ -22,7 +22,7 @@ export default function Posts() {
 
   return (
     <Box className="main-container flex flex-col">
-      <Box className="flex w-full justify-end">
+      <Box className="flex w-full justify-end lg:mx-auto lg:max-w-5xl">
         <Link to="/dashboard/posts/new" className="add-btn">
           <MdAddCircleOutline size={20} />
           <span className="font-bold">Novo Post</span>
@@ -30,7 +30,7 @@ export default function Posts() {
       </Box>
 
       {page && page.posts.length > 0 ? (
-        <ul className="flex flex-grow flex-col gap-4 pt-6">
+        <ul className="flex flex-grow flex-col gap-4 pt-6 lg:mx-auto lg:max-w-5xl">
           {page.posts?.map((post) => (
             <PostCard post={post} key={post.id} />
           ))}

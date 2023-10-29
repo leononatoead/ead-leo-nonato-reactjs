@@ -7,7 +7,7 @@ export default function NotificationCard({ cardData }) {
   return (
     <Link
       to={`/dashboard/settings/notifications/edit/${cardData.id}`}
-      className="flex h-32 w-full items-center gap-3 rounded-lg bg-white p-3 shadow-md"
+      className="flex h-32 w-full items-center gap-3 rounded-lg bg-white p-3 shadow-md lg:bg-gray-200"
     >
       <Image
         src={cardData.imageURL}

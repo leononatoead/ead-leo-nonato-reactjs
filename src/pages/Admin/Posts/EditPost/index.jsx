@@ -83,7 +83,7 @@ export default function EditPost() {
     <Box className="main-container flex flex-col bg-gray-200">
       <form
         id="newPostForm"
-        className="flex flex-col gap-[10px] pb-[10px]"
+        className="flex w-full flex-col gap-[10px] pb-[10px] lg:mx-auto lg:max-w-5xl"
         onSubmit={handleSubmit(handleEditPost)}
       >
         <Box>
@@ -148,7 +148,7 @@ export default function EditPost() {
           defaultValue={post?.author}
         />
       </form>
-      <Box className="flex flex-grow flex-col overflow-hidden rounded-md pb-4">
+      <Box className="flex w-full flex-grow flex-col overflow-hidden rounded-md  pb-4 lg:mx-auto lg:max-w-5xl">
         <label className="mb-[9px] text-base leading-5">Post</label>
         <Editor
           editorState={editorState}
@@ -227,7 +227,11 @@ export default function EditPost() {
         />
       </Box>
 
-      <Flex flexDirection={"column"} gap={2}>
+      <Flex
+        flexDirection={"column"}
+        gap={2}
+        className=" mt-2 w-full lg:mx-auto lg:max-w-5xl"
+      >
         <ButtonSubmit
           form="newPostForm"
           disabled={loading}

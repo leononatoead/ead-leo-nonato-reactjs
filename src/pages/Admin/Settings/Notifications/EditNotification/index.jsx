@@ -79,7 +79,7 @@ export default function EditNotification() {
     <Box className="main-container !flex !flex-col">
       <form
         id="editNotificationForm"
-        className="flex flex-grow flex-col gap-4"
+        className="flex w-full flex-grow flex-col gap-4 lg:mx-auto lg:mt-6 lg:max-w-5xl"
         onSubmit={handleSubmit(handleEditNotification)}
       >
         <Input
@@ -138,7 +138,11 @@ export default function EditNotification() {
         />
       </form>
 
-      <Flex flexDirection={"column"} gap={2}>
+      <Flex
+        flexDirection={"column"}
+        gap={2}
+        className="mt-6 w-full lg:mx-auto lg:max-w-5xl"
+      >
         <ButtonSubmit
           form="editNotificationForm"
           disabled={false}

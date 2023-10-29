@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchQuestions } from '../../../redux/modules/faq/actions';
-import { Link } from 'react-router-dom';
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchQuestions } from "../../../redux/modules/faq/actions";
+import { Link } from "react-router-dom";
 
 import {
   Accordion,
@@ -10,9 +10,9 @@ import {
   AccordionItem,
   AccordionPanel,
   Box,
-} from '@chakra-ui/react';
-import { MdAddCircleOutline } from 'react-icons/md';
-import { BiEdit } from 'react-icons/bi';
+} from "@chakra-ui/react";
+import { MdAddCircleOutline } from "react-icons/md";
+import { BiEdit } from "react-icons/bi";
 
 export default function DashboardFAQ() {
   const { questions } = useSelector((state) => state.faq);
@@ -25,15 +25,15 @@ export default function DashboardFAQ() {
   }, []);
 
   return (
-    <Box className='main-container'>
-      <Box className='w-full flex justify-end'>
-        <Link to='/dashboard/faq/new' className='add-btn'>
+    <Box className="main-container">
+      <Box className="flex w-full w-full  justify-end lg:mx-auto lg:max-w-5xl">
+        <Link to="/dashboard/faq/new" className="add-btn">
           <MdAddCircleOutline size={20} />
-          <span className='font-bold'>Nova pergunta</span>
+          <span className="font-bold">Nova pergunta</span>
         </Link>
       </Box>
 
-      <Accordion allowToggle mt={6}>
+      <Accordion allowToggle mt={6} className=" w-full lg:mx-auto lg:max-w-5xl">
         {questions &&
           questions
             ?.slice()
@@ -41,14 +41,14 @@ export default function DashboardFAQ() {
             .map((question, i) => (
               <AccordionItem
                 key={i}
-                className='!border-t-0 !border-b-[1px] !border-gray-200 bg-white rounded-md px-4 mb-1'
+                className="mb-1 rounded-md !border-b-[1px] !border-t-0 !border-gray-200 bg-white px-4"
               >
-                <AccordionButton px={0} py={4} className='hover:!bg-white'>
+                <AccordionButton px={0} py={4} className="hover:!bg-white">
                   <Box
-                    as='span'
-                    flex='1'
-                    textAlign='left'
-                    className='!text-base !font-medium !leading-5'
+                    as="span"
+                    flex="1"
+                    textAlign="left"
+                    className="!text-base !font-medium !leading-5"
                   >
                     {question.order} - {question.question}
                   </Box>
@@ -58,9 +58,9 @@ export default function DashboardFAQ() {
                 <AccordionPanel pb={4}>
                   <Link
                     to={`/dashboard/faq/edit/${question.id}`}
-                    className='flex items-center justify-center gap-3 '
+                    className="flex items-center justify-center gap-3 "
                   >
-                    <span className='font-semibold text-small leading-4 flex-1 text-justify'>
+                    <span className="flex-1 text-justify text-small font-semibold leading-4">
                       {question.answer}
                     </span>
                     <BiEdit size={18} />

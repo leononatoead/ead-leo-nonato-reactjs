@@ -21,7 +21,7 @@ export default function ModalComponent({
     <Modal isOpen={openModal} my={0}>
       <ModalOverlay />
       <ModalContent
-        className="!absolute !bottom-0 !m-0 !rounded-b-none !rounded-t-3xl !bg-gray-200"
+        className="!absolute !bottom-0 !m-0 !rounded-b-none !rounded-t-3xl !bg-gray-200 lg:!static lg:!self-center lg:!rounded-2xl lg:px-6"
         py={6}
       >
         {header ? (
@@ -32,7 +32,7 @@ export default function ModalComponent({
                 onClick={handleCloseModal}
                 className="absolute right-4 border-none bg-transparent outline-none"
               >
-                <RiCloseFill className="w-4" />
+                <RiCloseFill size={20} />
               </button>
             )}
           </Box>
@@ -46,7 +46,7 @@ export default function ModalComponent({
                 onClick={handleCloseModal}
                 className="absolute right-4 border-none bg-transparent outline-none"
               >
-                <RiCloseFill alt="close" className="w-4" />
+                <RiCloseFill alt="close" size={20} />
               </button>
             )}
           </Box>

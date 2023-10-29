@@ -71,7 +71,7 @@ export default function ChangeProfileImage({ openModal, setOpenModal, user }) {
               />
             </form>
           </ModalBody>
-          <ModalFooter p={0} className="flex flex-col" px={"10px"}>
+          <ModalFooter className="flex !w-full flex-col !px-[10px] !py-0 lg:!px-0">
             <ButtonSubmit
               form="changeProfileImageForm"
               disabled={false}

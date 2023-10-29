@@ -57,9 +57,14 @@ export default function ClassStatistics() {
   console.log(courses);
 
   return (
-    <Box className={`main-container flex flex-col gap-4 bg-gray-200 p-4`}>
+    <Box
+      className={`main-container flex flex-col gap-4 bg-gray-200 p-4 lg:p-6`}
+    >
       {courses?.map((course) => (
-        <Box key={course.id} className="rounded-md bg-white p-4 shadow-sm">
+        <Box
+          key={course.id}
+          className="w-full rounded-md bg-white p-4  shadow-sm lg:mx-auto lg:max-w-5xl"
+        >
           <Text className="font-poppins text-normal font-bold text-primary-400">
             {course.name}
           </Text>

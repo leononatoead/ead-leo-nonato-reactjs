@@ -213,173 +213,176 @@ export default function NewVideo() {
   }, [course, id]);
 
   return (
-    <Box className="main-container">
-      <Box className="flex items-center justify-start gap-4" mb={"5px"}>
-        <Text className="text-base font-bold text-primary-600">
-          Tipo de vídeo:
-        </Text>
-        <Box className="flex items-center justify-start gap-4">
-          <Switch
-            id="videoType"
-            onChange={() => handleSwitch("videoType")}
-            defaultChecked
-          />
-          <label htmlFor={"videoType"} className="text-base leading-5">
-            {videoData.video.videoType ? "Arquivo" : "URL"}
-          </label>
-        </Box>
-      </Box>
-      <form
-        onSubmit={handleSubmit(handleAddVideo)}
-        id="addVideoForm"
-        className="flex flex-col gap-[10px] pb-4 pt-2"
-      >
-        {videoData.video.videoType ? (
-          <Box className="mb-4">
-            <label
-              htmlFor={"videoFile"}
-              className="mb-[9px] block text-base leading-5"
-            >
-              Vídeo
-            </label>
-            <input
-              type="file"
-              name="videoFile"
-              onChange={handleVideoInputChange}
-              multiple={false}
-              accept="video/*"
-              title="Selecione um vídeo"
-              className="w-full text-base outline-none"
+    <Box className="main-container flex flex-col justify-between">
+      <Box className="w-full lg:mx-auto lg:max-w-5xl">
+        <Box className="mb-[5px] flex items-center justify-start gap-4">
+          <Text className="text-base font-bold text-primary-600">
+            Tipo de vídeo:
+          </Text>
+          <Box className="flex items-center justify-start gap-4">
+            <Switch
+              id="videoType"
+              onChange={() => handleSwitch("videoType")}
+              defaultChecked
             />
-          </Box>
-        ) : (
-          <Input
-            theme={"light"}
-            type={"code"}
-            label={"IFrame Panda ou Youtube Embed URL"}
-            placeholder={
-              "<iframe id={...} src={...}></iframe> ou www.youtube.com/embed/"
-            }
-            register={register}
-            id={"videoPath"}
-            error={errors?.videoPath?.message}
-            watch={watch}
-          />
-        )}
-        <Box className="flex items-start gap-2">
-          <OrderInput
-            register={register}
-            watch={watch}
-            error={errors?.order?.message}
-          />
-          <Box className="w-full pb-[5px]">
-            <label
-              htmlFor={"section"}
-              className="mb-[9px] block text-base leading-5"
-            >
-              Seção
+            <label htmlFor={"videoType"} className="text-base leading-5">
+              {videoData.video.videoType ? "Arquivo" : "URL"}
             </label>
-            <select
-              id="section"
-              {...register("section")}
-              className={`w-full rounded-[4px] bg-white px-3 py-[5px] text-base leading-5 shadow-sm shadow-gray-900/50 outline-none placeholder:text-gray-900`}
-            >
-              {course?.sections?.map((section, i) => (
-                <option key={i} value={section.sectionName}>
-                  {section.sectionName}
-                </option>
-              ))}
-            </select>
           </Box>
         </Box>
-        <Input
-          theme={"light"}
-          type={"text"}
-          label={"Título"}
-          placeholder={"Digite aqui"}
-          register={register}
-          id={"title"}
-          error={errors?.title?.message}
-          watch={watch}
-        />
-        <Input
-          theme={"light"}
-          type={"text"}
-          label={"Descrição"}
-          placeholder={"Digite aqui"}
-          register={register}
-          id={"description"}
-          error={errors?.description?.message}
-          watch={watch}
-        />
-      </form>
-      <Box className="flex items-center justify-start gap-4" mb={"5px"}>
-        <Text className="text-base font-bold text-primary-600">
-          Material Complementar
-        </Text>
-        <Box className="flex items-center justify-start gap-4">
-          <Switch id="hasAssets" onChange={() => handleSwitch("hasAssets")} />
-        </Box>
-      </Box>
-      {videoData.assets.hasAssets && (
-        <>
-          <Box className="flex items-center justify-start gap-4" my={"16px"}>
-            <Text className="text-base font-bold text-primary-600">
-              Tipo de material:
-            </Text>
-            <Box className="flex items-center justify-start gap-4">
-              <Switch
-                id="assetType"
-                onChange={() => handleSwitch("assetType")}
-                defaultChecked
-              />
-              <label htmlFor={"assetType"} className="text-base leading-5">
-                {videoData.assets.assetType ? "Arquivo" : "URL"}
+        <form
+          onSubmit={handleSubmit(handleAddVideo)}
+          id="addVideoForm"
+          className="flex flex-col gap-[10px] pb-4 pt-2"
+        >
+          {videoData.video.videoType ? (
+            <Box className="mb-4">
+              <label
+                htmlFor={"videoFile"}
+                className="mb-[9px] block text-base leading-5"
+              >
+                Vídeo
               </label>
+              <input
+                type="file"
+                name="videoFile"
+                onChange={handleVideoInputChange}
+                multiple={false}
+                accept="video/*"
+                title="Selecione um vídeo"
+                className="w-full text-base outline-none"
+              />
+            </Box>
+          ) : (
+            <Input
+              theme={"light"}
+              type={"code"}
+              label={"IFrame Panda ou Youtube Embed URL"}
+              placeholder={
+                "<iframe id={...} src={...}></iframe> ou www.youtube.com/embed/"
+              }
+              register={register}
+              id={"videoPath"}
+              error={errors?.videoPath?.message}
+              watch={watch}
+            />
+          )}
+          <Box className="flex items-start gap-2">
+            <OrderInput
+              register={register}
+              watch={watch}
+              error={errors?.order?.message}
+            />
+            <Box className="w-full pb-[5px]">
+              <label
+                htmlFor={"section"}
+                className="mb-[9px] block text-base leading-5"
+              >
+                Seção
+              </label>
+              <select
+                id="section"
+                {...register("section")}
+                className={`w-full rounded-[4px] bg-white px-3 py-[5px] text-base leading-5 shadow-sm shadow-gray-900/50 outline-none placeholder:text-gray-900`}
+              >
+                {course?.sections?.map((section, i) => (
+                  <option key={i} value={section.sectionName}>
+                    {section.sectionName}
+                  </option>
+                ))}
+              </select>
             </Box>
           </Box>
-          <Assets videoData={videoData} setVideoData={setVideoData} />
-        </>
-      )}
-      <Box className="flex items-center justify-start gap-4" my={"16px"}>
-        <Text className="text-base font-bold text-primary-600">Anúncios</Text>
-        <Box className="flex items-center justify-start gap-4">
-          <Switch
-            id="hasAdvertisement"
-            onChange={() => handleSwitch("hasAdvertisement")}
+          <Input
+            theme={"light"}
+            type={"text"}
+            label={"Título"}
+            placeholder={"Digite aqui"}
+            register={register}
+            id={"title"}
+            error={errors?.title?.message}
+            watch={watch}
           />
+          <Input
+            theme={"light"}
+            type={"text"}
+            label={"Descrição"}
+            placeholder={"Digite aqui"}
+            register={register}
+            id={"description"}
+            error={errors?.description?.message}
+            watch={watch}
+          />
+        </form>
+        <Box className="flex items-center justify-start gap-4" mb={"5px"}>
+          <Text className="text-base font-bold text-primary-600">
+            Material Complementar
+          </Text>
+          <Box className="flex items-center justify-start gap-4">
+            <Switch id="hasAssets" onChange={() => handleSwitch("hasAssets")} />
+          </Box>
         </Box>
-      </Box>
-      {videoData.advertisement.hasAdvertisement && (
-        <Advertisement videoData={videoData} setVideoData={setVideoData} />
-      )}
-      <Box className="flex items-center justify-start gap-4" my={"16px"}>
-        <Text className="text-base font-bold text-primary-600">
-          Questionário
-        </Text>
-        <Box className="flex items-center justify-start gap-4">
-          <Switch id="hasQuiz" onChange={() => handleSwitch("hasQuiz")} />
+        {videoData.assets.hasAssets && (
+          <>
+            <Box className="flex items-center justify-start gap-4" my={"16px"}>
+              <Text className="text-base font-bold text-primary-600">
+                Tipo de material:
+              </Text>
+              <Box className="flex items-center justify-start gap-4">
+                <Switch
+                  id="assetType"
+                  onChange={() => handleSwitch("assetType")}
+                  defaultChecked
+                />
+                <label htmlFor={"assetType"} className="text-base leading-5">
+                  {videoData.assets.assetType ? "Arquivo" : "URL"}
+                </label>
+              </Box>
+            </Box>
+            <Assets videoData={videoData} setVideoData={setVideoData} />
+          </>
+        )}
+        <Box className="flex items-center justify-start gap-4" my={"16px"}>
+          <Text className="text-base font-bold text-primary-600">Anúncios</Text>
+          <Box className="flex items-center justify-start gap-4">
+            <Switch
+              id="hasAdvertisement"
+              onChange={() => handleSwitch("hasAdvertisement")}
+            />
+          </Box>
         </Box>
-      </Box>
-      {videoData.quiz.hasQuiz && (
-        <Quiz videoData={videoData} setVideoData={setVideoData} />
-      )}
-      <Box className="flex items-center justify-start gap-4" my={"16px"}>
-        <Text className="text-base font-bold text-primary-600">Enquete</Text>
-        <Box className="flex items-center justify-start gap-4">
-          <Switch id="hasSurvey" onChange={() => handleSwitch("hasSurvey")} />
+        {videoData.advertisement.hasAdvertisement && (
+          <Advertisement videoData={videoData} setVideoData={setVideoData} />
+        )}
+        <Box className="flex items-center justify-start gap-4" my={"16px"}>
+          <Text className="text-base font-bold text-primary-600">
+            Questionário
+          </Text>
+          <Box className="flex items-center justify-start gap-4">
+            <Switch id="hasQuiz" onChange={() => handleSwitch("hasQuiz")} />
+          </Box>
         </Box>
+        {videoData.quiz.hasQuiz && (
+          <Quiz videoData={videoData} setVideoData={setVideoData} />
+        )}
+        <Box className="flex items-center justify-start gap-4" my={"16px"}>
+          <Text className="text-base font-bold text-primary-600">Enquete</Text>
+          <Box className="flex items-center justify-start gap-4">
+            <Switch id="hasSurvey" onChange={() => handleSwitch("hasSurvey")} />
+          </Box>
+        </Box>
+        {videoData.survey.hasSurvey && (
+          <Survey videoData={videoData} setVideoData={setVideoData} />
+        )}
       </Box>
-      {videoData.survey.hasSurvey && (
-        <Survey videoData={videoData} setVideoData={setVideoData} />
-      )}
-
-      <ButtonSubmit
-        form="addVideoForm"
-        disabled={loading}
-        text={"Adicionar"}
-        loading={loading}
-      />
+      <Box className="w-full lg:mx-auto lg:max-w-5xl">
+        <ButtonSubmit
+          form="addVideoForm"
+          disabled={loading}
+          text={"Adicionar"}
+          loading={loading}
+        />
+      </Box>
     </Box>
   );
 }

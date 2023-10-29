@@ -62,7 +62,7 @@ export default function RegisterVideo() {
     <Box className="main-container flex flex-col bg-gray-200">
       <form
         id="newRegisterVideoURLForm"
-        className="flex flex-1 flex-col gap-[10px] pb-[10px]"
+        className="flex w-full flex-grow flex-col gap-4 lg:mx-auto lg:mt-20 lg:max-w-5xl"
         onSubmit={handleSubmit(handleSubmitVideoURL)}
       >
         <Input
@@ -78,12 +78,16 @@ export default function RegisterVideo() {
           watch={watch}
         />
       </form>
-      <ButtonSubmit
-        form="newRegisterVideoURLForm"
-        disabled={loading}
-        text={settings?.registerVideoURL ? "Alterar vídeo" : "Adicionar vídeo"}
-        loading={loading}
-      />
+      <Box className="flex w-full flex-col gap-4 lg:mx-auto lg:max-w-5xl">
+        <ButtonSubmit
+          form="newRegisterVideoURLForm"
+          disabled={loading}
+          text={
+            settings?.registerVideoURL ? "Alterar vídeo" : "Adicionar vídeo"
+          }
+          loading={loading}
+        />
+      </Box>
     </Box>
   );
 }

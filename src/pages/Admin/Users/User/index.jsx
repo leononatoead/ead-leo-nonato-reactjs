@@ -58,7 +58,7 @@ export default function User() {
 
   return (
     <Box className="main-container flex flex-col gap-2 bg-gray-200 p-4">
-      <Box className="flex flex-col gap-2">
+      <Box className="flex w-full flex-col  gap-2 lg:mx-auto lg:max-w-5xl">
         <Box className="flex flex-col items-center justify-center gap-2 py-6">
           <Text className="w-full text-center font-poppins text-large font-bold text-primary-500">
             {user?.name}
@@ -82,7 +82,7 @@ export default function User() {
         </Flex>
       </Box>
 
-      <Box>
+      <Box className=" w-full lg:mx-auto lg:max-w-5xl">
         <Text className="mb-4 font-poppins text-large font-bold text-primary-500">
           Aulas assistidas
         </Text>

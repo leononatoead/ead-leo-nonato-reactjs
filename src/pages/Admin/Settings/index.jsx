@@ -85,182 +85,210 @@ export default function Settings() {
   }, []);
 
   return (
-    <Accordion
-      allowToggle
-      className={`main-container flex flex-col gap-4 bg-gray-200 p-4`}
-    >
-      <AccordionItem className="!border-b-[1px] !border-t-0 !border-gray-200 ">
-        <AccordionButton px={0} py={4} className="hover:!bg-gray-200">
-          <Box as="span" flex="1" textAlign="left">
-            <Text className={`!text-base font-bold !leading-5`}>
-              Home Banners
-            </Text>
-          </Box>
-          <AccordionIcon />
-        </AccordionButton>
+    <Box className="main-container flex flex-col gap-4 bg-gray-200 p-4 ">
+      <Accordion
+        allowToggle
+        className="mx-auto w-full px-4 lg:max-w-5xl lg:rounded-lg lg:bg-white"
+      >
+        <AccordionItem className="!border-b-[1px] !border-t-0 !border-gray-200 ">
+          <AccordionButton
+            px={0}
+            py={4}
+            className="hover:!bg-gray-200 lg:hover:!bg-white"
+          >
+            <Box as="span" flex="1" textAlign="left">
+              <Text className={`!text-base font-bold !leading-5`}>
+                Home Banners
+              </Text>
+            </Box>
+            <AccordionIcon />
+          </AccordionButton>
 
-        <AccordionPanel p={0}>
-          <Box className="flex w-full justify-end">
-            <Link to="/dashboard/settings/banners/new" className="add-btn">
-              <MdAddCircleOutline size={20} />
-              <span className="font-bold">Novo banner</span>
-            </Link>
-          </Box>
-
-          <ul className="flex flex-col gap-4 py-6 ">
-            {settings?.banners
-              ?.slice()
-              .sort((a, b) => a.order - b.order)
-              .map((banner) => (
-                <BannerCard key={banner.id} cardData={banner} />
-              ))}
-          </ul>
-        </AccordionPanel>
-      </AccordionItem>
-      <AccordionItem className="!border-b-[1px] !border-t-0 !border-gray-200 ">
-        <AccordionButton px={0} py={4} className="hover:!bg-gray-200">
-          <Box as="span" flex="1" textAlign="left">
-            <Text className={`!text-base font-bold !leading-5`}>
-              Notificações
-            </Text>
-          </Box>
-          <AccordionIcon />
-        </AccordionButton>
-
-        <AccordionPanel p={0}>
-          <Box className="flex w-full justify-end">
-            <Link
-              to="/dashboard/settings/notifications/new"
-              className="add-btn"
-            >
-              <MdAddCircleOutline size={20} />
-              <span className="font-bold">Nova notificação</span>
-            </Link>
-          </Box>
-
-          <ul className="flex flex-col gap-4 py-6 ">
-            {settings?.notifications?.map((notification) => (
-              <NotificationCard key={notification.id} cardData={notification} />
-            ))}
-          </ul>
-        </AccordionPanel>
-      </AccordionItem>
-      <AccordionItem className="!border-b-[1px] !border-t-0 !border-gray-200 ">
-        <AccordionButton px={0} py={4} className="hover:!bg-gray-200">
-          <Box as="span" flex="1" textAlign="left">
-            <Text className={`!text-base font-bold !leading-5`}>Turmas</Text>
-          </Box>
-          <AccordionIcon />
-        </AccordionButton>
-
-        <AccordionPanel p={0}>
-          <Box className="flex w-full justify-end">
-            <Link
-              to="/dashboard/settings/studantclasses/new"
-              className="add-btn"
-            >
-              <MdAddCircleOutline size={20} />
-              <span className="font-bold">Nova turma</span>
-            </Link>
-          </Box>
-
-          <ul className="flex flex-col gap-4 py-6 ">
-            {settings?.studantClasses?.map((studantClass, i) => (
-              <Box
-                key={studantClass.id}
-                className="flex w-full items-center justify-between rounded-lg bg-white p-3 shadow-md"
-              >
-                <Box className="flex items-center gap-3">
-                  <PiUsersThreeFill size={15} />
-                  <Text>{studantClass.title}</Text>
-                </Box>
-                {i === 0 ? (
-                  <Text className="w-24 rounded-md bg-green-200 py-1 text-center  text-white">
-                    Ativa
-                  </Text>
-                ) : (
-                  <Text className="w-24 rounded-md bg-gray-200 py-1 text-center text-gray-800">
-                    Inativa
-                  </Text>
-                )}
-              </Box>
-            ))}
-          </ul>
-        </AccordionPanel>
-      </AccordionItem>
-      <AccordionItem className="!border-b-[1px] !border-t-0 !border-gray-200 ">
-        <AccordionButton px={0} py={4} className="hover:!bg-gray-200">
-          <Box as="span" flex="1" textAlign="left">
-            <Text className={`!text-base font-bold !leading-5`}>
-              WhatsApp URL
-            </Text>
-          </Box>
-          <AccordionIcon />
-        </AccordionButton>
-
-        <AccordionPanel p={0}>
-          {!settings?.whatsAppURL?.url && (
+          <AccordionPanel p={0}>
             <Box className="flex w-full justify-end">
-              <Link to="/dashboard/settings/whatsapp/edit" className="add-btn">
+              <Link to="/dashboard/settings/banners/new" className="add-btn">
                 <MdAddCircleOutline size={20} />
-                <span className="font-bold">Novo URL</span>
+                <span className="font-bold">Novo banner</span>
               </Link>
             </Box>
-          )}
-          {settings?.whatsAppURL?.url && (
-            <Box className="flex flex-col gap-4 py-6 ">
-              <Link
-                to={`/dashboard/settings/whatsapp/edit/`}
-                className="flex w-full items-center gap-3 rounded-lg bg-white p-3 shadow-md"
-              >
-                <BsWhatsapp size={15} />
-                <Text>Alterar WhatsApp URL</Text>
-                <Box className="flex flex-1 items-center justify-end">
-                  <BiEdit size={18} className="text-primary-600" />
-                </Box>
-              </Link>
-            </Box>
-          )}
-        </AccordionPanel>
-      </AccordionItem>
-      <AccordionItem className="!border-b-[1px] !border-t-0 !border-gray-200 ">
-        <AccordionButton px={0} py={4} className="hover:!bg-gray-200">
-          <Box as="span" flex="1" textAlign="left">
-            <Text className={`!text-base font-bold !leading-5`}>
-              Vídeo de cadastro
-            </Text>
-          </Box>
-          <AccordionIcon />
-        </AccordionButton>
 
-        <AccordionPanel p={0}>
-          {!settings?.registerVideoURL?.url && (
+            <ul className="flex flex-col gap-4 py-6 ">
+              {settings?.banners
+                ?.slice()
+                .sort((a, b) => a.order - b.order)
+                .map((banner) => (
+                  <BannerCard key={banner.id} cardData={banner} />
+                ))}
+            </ul>
+          </AccordionPanel>
+        </AccordionItem>
+        <AccordionItem className="!border-b-[1px] !border-t-0 !border-gray-200 ">
+          <AccordionButton
+            px={0}
+            py={4}
+            className="hover:!bg-gray-200 lg:hover:!bg-white"
+          >
+            <Box as="span" flex="1" textAlign="left">
+              <Text className={`!text-base font-bold !leading-5`}>
+                Notificações
+              </Text>
+            </Box>
+            <AccordionIcon />
+          </AccordionButton>
+
+          <AccordionPanel p={0}>
             <Box className="flex w-full justify-end">
               <Link
-                to="/dashboard/settings/registervideo/edit"
+                to="/dashboard/settings/notifications/new"
                 className="add-btn"
               >
                 <MdAddCircleOutline size={20} />
-                <span className="font-bold">Novo vídeo</span>
+                <span className="font-bold">Nova notificação</span>
               </Link>
             </Box>
-          )}
-          {settings?.registerVideoURL?.url && (
-            <Box className="flex flex-col gap-4 py-6 ">
+
+            <ul className="flex flex-col gap-4 py-6 ">
+              {settings?.notifications?.map((notification) => (
+                <NotificationCard
+                  key={notification.id}
+                  cardData={notification}
+                />
+              ))}
+            </ul>
+          </AccordionPanel>
+        </AccordionItem>
+        <AccordionItem className="!border-b-[1px] !border-t-0 !border-gray-200 ">
+          <AccordionButton
+            px={0}
+            py={4}
+            className="hover:!bg-gray-200 lg:hover:!bg-white"
+          >
+            <Box as="span" flex="1" textAlign="left">
+              <Text className={`!text-base font-bold !leading-5`}>Turmas</Text>
+            </Box>
+            <AccordionIcon />
+          </AccordionButton>
+
+          <AccordionPanel p={0}>
+            <Box className="flex w-full justify-end">
               <Link
-                to={`/dashboard/settings/registervideo/edit/`}
-                className="flex w-full items-center gap-3 rounded-lg bg-white p-3 shadow-md"
+                to="/dashboard/settings/studantclasses/new"
+                className="add-btn"
               >
-                <PiTelevisionSimpleBold size={15} />
-                <Text>Alterar vídeo de Cadastro</Text>
-                <Box className="flex flex-1 items-center justify-end">
-                  <BiEdit size={18} className="text-primary-600" />
-                </Box>
+                <MdAddCircleOutline size={20} />
+                <span className="font-bold">Nova turma</span>
               </Link>
             </Box>
-          )}
-        </AccordionPanel>
-      </AccordionItem>
-    </Accordion>
+
+            <ul className="flex flex-col gap-4 py-6 ">
+              {settings?.studantClasses?.map((studantClass, i) => (
+                <Box
+                  key={studantClass.id}
+                  className="flex w-full items-center justify-between rounded-lg bg-white p-3 shadow-md lg:bg-gray-200"
+                >
+                  <Box className="flex items-center gap-3">
+                    <PiUsersThreeFill size={15} />
+                    <Text>{studantClass.title}</Text>
+                  </Box>
+                  {i === 0 ? (
+                    <Text className="w-24 rounded-md bg-green-200 py-1 text-center  text-white">
+                      Ativa
+                    </Text>
+                  ) : (
+                    <Text className="w-24 rounded-md bg-gray-200 py-1 text-center text-gray-800">
+                      Inativa
+                    </Text>
+                  )}
+                </Box>
+              ))}
+            </ul>
+          </AccordionPanel>
+        </AccordionItem>
+        <AccordionItem className="!border-b-[1px] !border-t-0 !border-gray-200 ">
+          <AccordionButton
+            px={0}
+            py={4}
+            className="hover:!bg-gray-200 lg:hover:!bg-white"
+          >
+            <Box as="span" flex="1" textAlign="left">
+              <Text className={`!text-base font-bold !leading-5`}>
+                WhatsApp URL
+              </Text>
+            </Box>
+            <AccordionIcon />
+          </AccordionButton>
+
+          <AccordionPanel p={0}>
+            {!settings?.whatsAppURL?.url && (
+              <Box className="flex w-full justify-end">
+                <Link
+                  to="/dashboard/settings/whatsapp/edit"
+                  className="add-btn"
+                >
+                  <MdAddCircleOutline size={20} />
+                  <span className="font-bold">Novo URL</span>
+                </Link>
+              </Box>
+            )}
+            {settings?.whatsAppURL?.url && (
+              <Box className="flex flex-col gap-4 py-6 ">
+                <Link
+                  to={`/dashboard/settings/whatsapp/edit/`}
+                  className="flex w-full items-center gap-3 rounded-lg bg-white p-3 shadow-md lg:bg-gray-200"
+                >
+                  <BsWhatsapp size={15} />
+                  <Text>Alterar WhatsApp URL</Text>
+                  <Box className="flex flex-1 items-center justify-end">
+                    <BiEdit size={18} className="text-primary-600" />
+                  </Box>
+                </Link>
+              </Box>
+            )}
+          </AccordionPanel>
+        </AccordionItem>
+        <AccordionItem className="!border-b-[1px] !border-t-0 !border-gray-200 ">
+          <AccordionButton
+            px={0}
+            py={4}
+            className="hover:!bg-gray-200 lg:hover:!bg-white "
+          >
+            <Box as="span" flex="1" textAlign="left">
+              <Text className={`!text-base font-bold !leading-5`}>
+                Vídeo de cadastro
+              </Text>
+            </Box>
+            <AccordionIcon />
+          </AccordionButton>
+
+          <AccordionPanel p={0}>
+            {!settings?.registerVideoURL?.url && (
+              <Box className="flex w-full justify-end">
+                <Link
+                  to="/dashboard/settings/registervideo/edit"
+                  className="add-btn"
+                >
+                  <MdAddCircleOutline size={20} />
+                  <span className="font-bold">Novo vídeo</span>
+                </Link>
+              </Box>
+            )}
+            {settings?.registerVideoURL?.url && (
+              <Box className="flex flex-col gap-4 py-6 ">
+                <Link
+                  to={`/dashboard/settings/registervideo/edit/`}
+                  className="flex w-full items-center gap-3 rounded-lg bg-white p-3 shadow-md lg:bg-gray-200"
+                >
+                  <PiTelevisionSimpleBold size={15} />
+                  <Text>Alterar vídeo de Cadastro</Text>
+                  <Box className="flex flex-1 items-center justify-end">
+                    <BiEdit size={18} className="text-primary-600" />
+                  </Box>
+                </Link>
+              </Box>
+            )}
+          </AccordionPanel>
+        </AccordionItem>
+      </Accordion>
+    </Box>
   );
 }

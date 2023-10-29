@@ -68,7 +68,7 @@ export default function WhatsAppURL() {
     <Box className="main-container flex flex-col bg-gray-200">
       <form
         id="newWhatsAppURLForm"
-        className="flex flex-1 flex-col gap-[10px] pb-[10px]"
+        className="flex w-full flex-grow flex-col gap-4 lg:mx-auto lg:mt-20 lg:max-w-5xl"
         onSubmit={handleSubmit(handleSubmitWhatsApp)}
       >
         <Input
@@ -83,12 +83,14 @@ export default function WhatsAppURL() {
           defaultValue={settings?.whatsAppURL?.url}
         />
       </form>
-      <ButtonSubmit
-        form="newWhatsAppURLForm"
-        disabled={loading}
-        text={settings?.whatsAppURL ? "Alterar URL" : "Adicionar URL"}
-        loading={loading}
-      />
+      <Box className="flex w-full flex-col gap-4 lg:mx-auto lg:max-w-5xl">
+        <ButtonSubmit
+          form="newWhatsAppURLForm"
+          disabled={loading}
+          text={settings?.whatsAppURL ? "Alterar URL" : "Adicionar URL"}
+          loading={loading}
+        />
+      </Box>
     </Box>
   );
 }

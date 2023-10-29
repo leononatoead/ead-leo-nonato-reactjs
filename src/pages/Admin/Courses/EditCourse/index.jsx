@@ -126,176 +126,182 @@ export default function EditCourse() {
   };
 
   return (
-    <Box className="main-container flex flex-col">
-      <Box className="mb-4 flex flex-grow flex-col gap-4">
-        <form
-          id="editCourseForm"
-          onSubmit={handleSubmit(handleEditCourse)}
-          className="flex flex-col gap-[10px]"
-        >
-          <Box className="mb-[6px]">
-            <label
-              htmlFor={"image"}
-              className="!mb-[9px] block text-base leading-5"
-            >
-              Imagem
-            </label>
-            <input
-              id="image"
-              type="file"
-              accept="image/*"
-              multiple={false}
-              className="w-full text-base outline-none"
-              onChange={(e) => setImageFile(e.target.files[0])}
-            />
-          </Box>
-          <Input
-            theme={"light"}
-            type={"text"}
-            label={"Nome do curso"}
-            placeholder={"Digite aqui"}
-            register={register}
-            id={"name"}
-            error={errors?.name?.message}
-            watch={watch}
-            defaultValue={course.name}
-          />
-          <Input
-            theme={"light"}
-            type={"text"}
-            label={"Descrição"}
-            placeholder={"Digite aqui"}
-            register={register}
-            id={"description"}
-            error={errors?.description?.message}
-            watch={watch}
-            defaultValue={course.description}
-          />
-          <Input
-            theme={"light"}
-            type={"text"}
-            label={"Autor"}
-            placeholder={"Digite aqui"}
-            register={register}
-            id={"author"}
-            error={errors?.author?.message}
-            watch={watch}
-            defaultValue={course.author}
-          />
-          {switchStates.isPremium && (
-            <>
-              <Input
-                theme={"light"}
-                type={"number"}
-                label={"Preço"}
-                placeholder={"R$ 0,00"}
-                register={register}
-                id={"price"}
-                error={errors?.price?.message}
-                watch={watch}
-                defaultValue={course.price}
+    <Box className="main-container flex flex-col justify-between">
+      <Box className="w-full lg:mx-auto lg:max-w-5xl">
+        <Box className="mb-4 flex flex-grow flex-col gap-4">
+          <form
+            id="editCourseForm"
+            onSubmit={handleSubmit(handleEditCourse)}
+            className="flex flex-col gap-[10px]"
+          >
+            <Box className="mb-[6px]">
+              <label
+                htmlFor={"image"}
+                className="!mb-[9px] block text-base leading-5"
+              >
+                Imagem
+              </label>
+              <input
+                id="image"
+                type="file"
+                accept="image/*"
+                multiple={false}
+                className="w-full text-base outline-none"
+                onChange={(e) => setImageFile(e.target.files[0])}
               />
-              <Input
-                theme={"light"}
-                type={"text"}
-                label={"Referência de pagamento"}
-                placeholder={"Digite aqui"}
-                register={register}
-                id={"paymentRef"}
-                error={errors?.paymentRef?.message}
-                watch={watch}
-                defaultValue={course.paymentRef}
-              />
-              <Input
-                theme={"light"}
-                type={"text"}
-                label={"Checkout de pagamento (URL)"}
-                placeholder={"https://exemplo.com/"}
-                register={register}
-                id={"paymentURL"}
-                error={errors?.paymentURL?.message}
-                watch={watch}
-                defaultValue={course.paymentURL}
-              />
-            </>
-          )}
-          {switchStates.needForm && (
+            </Box>
             <Input
               theme={"light"}
               type={"text"}
-              label={"Referência do formulário de cadastro"}
+              label={"Nome do curso"}
               placeholder={"Digite aqui"}
               register={register}
-              id={"formRef"}
-              error={error?.formRef}
+              id={"name"}
+              error={errors?.name?.message}
               watch={watch}
-              defaultValue={course.formRef}
+              defaultValue={course.name}
             />
-          )}
-          <Box className="flex items-center justify-start gap-4" mb={"5px"}>
-            <Text className="text-base font-bold text-primary-600">
-              Curso pago:
-            </Text>
-            <Box className="flex items-center justify-start gap-4">
-              <Switch
-                id="isPremium"
-                isChecked={switchStates.isPremium}
-                onChange={() => handleSwitch("isPremium")}
+            <Input
+              theme={"light"}
+              type={"text"}
+              label={"Descrição"}
+              placeholder={"Digite aqui"}
+              register={register}
+              id={"description"}
+              error={errors?.description?.message}
+              watch={watch}
+              defaultValue={course.description}
+            />
+            <Input
+              theme={"light"}
+              type={"text"}
+              label={"Autor"}
+              placeholder={"Digite aqui"}
+              register={register}
+              id={"author"}
+              error={errors?.author?.message}
+              watch={watch}
+              defaultValue={course.author}
+            />
+            {switchStates.isPremium && (
+              <>
+                <Input
+                  theme={"light"}
+                  type={"number"}
+                  label={"Preço"}
+                  placeholder={"R$ 0,00"}
+                  register={register}
+                  id={"price"}
+                  error={errors?.price?.message}
+                  watch={watch}
+                  defaultValue={course.price}
+                />
+                <Input
+                  theme={"light"}
+                  type={"text"}
+                  label={"Referência de pagamento"}
+                  placeholder={"Digite aqui"}
+                  register={register}
+                  id={"paymentRef"}
+                  error={errors?.paymentRef?.message}
+                  watch={watch}
+                  defaultValue={course.paymentRef}
+                />
+                <Input
+                  theme={"light"}
+                  type={"text"}
+                  label={"Checkout de pagamento (URL)"}
+                  placeholder={"https://exemplo.com/"}
+                  register={register}
+                  id={"paymentURL"}
+                  error={errors?.paymentURL?.message}
+                  watch={watch}
+                  defaultValue={course.paymentURL}
+                />
+              </>
+            )}
+            {switchStates.needForm && (
+              <Input
+                theme={"light"}
+                type={"text"}
+                label={"Referência do formulário de cadastro"}
+                placeholder={"Digite aqui"}
+                register={register}
+                id={"formRef"}
+                error={error?.formRef}
+                watch={watch}
+                defaultValue={course.formRef}
               />
-              <label htmlFor={"isPremium"} className="text-base leading-5">
-                {switchStates.isPremium ? "Sim" : "Não"}
-              </label>
+            )}
+            <Box className="flex items-center justify-start gap-4" mb={"5px"}>
+              <Text className="text-base font-bold text-primary-600">
+                Curso pago:
+              </Text>
+              <Box className="flex items-center justify-start gap-4">
+                <Switch
+                  id="isPremium"
+                  isChecked={switchStates.isPremium}
+                  onChange={() => handleSwitch("isPremium")}
+                />
+                <label htmlFor={"isPremium"} className="text-base leading-5">
+                  {switchStates.isPremium ? "Sim" : "Não"}
+                </label>
+              </Box>
             </Box>
-          </Box>
-          <Box className="flex items-center justify-start gap-4" mb={"5px"}>
-            <Text className="text-base font-bold text-primary-600">
-              Formulário de cadastro:
-            </Text>
-            <Box className="flex items-center justify-start gap-4">
-              <Switch
-                id="needForm"
-                onChange={() => handleSwitch("needForm")}
-                isChecked={switchStates.needForm}
-              />
-              <label htmlFor={"needForm"} className="text-base leading-5">
-                {switchStates.needForm ? "Ativado" : "Desativado"}
-              </label>
+            <Box className="flex items-center justify-start gap-4" mb={"5px"}>
+              <Text className="text-base font-bold text-primary-600">
+                Formulário de cadastro:
+              </Text>
+              <Box className="flex items-center justify-start gap-4">
+                <Switch
+                  id="needForm"
+                  onChange={() => handleSwitch("needForm")}
+                  isChecked={switchStates.needForm}
+                />
+                <label htmlFor={"needForm"} className="text-base leading-5">
+                  {switchStates.needForm ? "Ativado" : "Desativado"}
+                </label>
+              </Box>
             </Box>
-          </Box>
-          <Box className="flex items-center justify-start gap-4" mb={"5px"}>
-            <Text className="text-base font-bold text-primary-600">
-              Requer cadastro:
-            </Text>
-            <Box className="flex items-center justify-start gap-4">
-              <Switch
-                id="needAuth"
-                isChecked={switchStates.needAuth}
-                onChange={() => handleSwitch("needAuth")}
-              />
-              <label htmlFor={"needAuth"} className="text-base leading-5">
-                {switchStates.needAuth ? "Sim" : "Não"}
-              </label>
+            <Box className="flex items-center justify-start gap-4" mb={"5px"}>
+              <Text className="text-base font-bold text-primary-600">
+                Requer cadastro:
+              </Text>
+              <Box className="flex items-center justify-start gap-4">
+                <Switch
+                  id="needAuth"
+                  isChecked={switchStates.needAuth}
+                  onChange={() => handleSwitch("needAuth")}
+                />
+                <label htmlFor={"needAuth"} className="text-base leading-5">
+                  {switchStates.needAuth ? "Sim" : "Não"}
+                </label>
+              </Box>
             </Box>
-          </Box>
-          <Box className="flex items-center justify-start gap-4" mb={4}>
-            <Text className="text-base font-bold text-primary-600">
-              Visibilidade:
-            </Text>
-            <Box className="flex items-center justify-start gap-4">
-              <Switch
-                id="isHidden"
-                isChecked={!switchStates.isHidden}
-                onChange={() => handleSwitch("isHidden")}
-              />
-              <label htmlFor={"isHidden"} className="text-base leading-5">
-                {switchStates.isHidden ? "Privado" : "Público"}
-              </label>
+            <Box className="flex items-center justify-start gap-4" mb={4}>
+              <Text className="text-base font-bold text-primary-600">
+                Visibilidade:
+              </Text>
+              <Box className="flex items-center justify-start gap-4">
+                <Switch
+                  id="isHidden"
+                  isChecked={!switchStates.isHidden}
+                  onChange={() => handleSwitch("isHidden")}
+                />
+                <label htmlFor={"isHidden"} className="text-base leading-5">
+                  {switchStates.isHidden ? "Privado" : "Público"}
+                </label>
+              </Box>
             </Box>
-          </Box>
-        </form>
-        <Sections sections={sections} setSections={setSections} />
+          </form>
+          <Sections sections={sections} setSections={setSections} />
+        </Box>
       </Box>
-      <Flex flexDirection={"column"} gap={2}>
+      <Flex
+        flexDirection={"column"}
+        gap={2}
+        className="mt-2 w-full lg:mx-auto lg:max-w-5xl"
+      >
         <ButtonSubmit
           form="editCourseForm"
           disabled={false}

@@ -64,7 +64,7 @@ export default function NewPost() {
     <Box className="main-container flex flex-col bg-gray-200">
       <form
         id="newPostForm"
-        className="flex flex-col gap-[10px] pb-[10px]"
+        className="flex w-full flex-col gap-[10px] pb-[10px] lg:mx-auto lg:max-w-5xl"
         onSubmit={handleSubmit(handleAddPost)}
       >
         <Box>
@@ -125,7 +125,7 @@ export default function NewPost() {
           watch={watch}
         />
       </form>
-      <Box className="flex flex-grow flex-col overflow-hidden rounded-md pb-4">
+      <Box className="flex w-full flex-grow flex-col overflow-hidden rounded-md  pb-4 lg:mx-auto lg:max-w-5xl">
         <label className="mb-[9px] text-base leading-5">Post</label>
         <Editor
           editorState={editorState}
@@ -203,12 +203,14 @@ export default function NewPost() {
           }}
         />
       </Box>
-      <ButtonSubmit
-        form="newPostForm"
-        disabled={loading}
-        text={"Adicionar Post"}
-        loading={loading}
-      />
+      <Box className="w-full lg:mx-auto lg:max-w-5xl">
+        <ButtonSubmit
+          form="newPostForm"
+          disabled={loading}
+          text={"Adicionar Post"}
+          loading={loading}
+        />
+      </Box>
     </Box>
   );
 }

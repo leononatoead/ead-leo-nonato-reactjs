@@ -77,7 +77,7 @@ export default function EditBanner() {
     <Box className="main-container !flex !flex-col">
       <form
         id="editBannerForm"
-        className="flex flex-grow flex-col gap-4"
+        className="flex w-full flex-grow flex-col gap-4 lg:mx-auto lg:mt-20 lg:max-w-5xl"
         onSubmit={handleSubmit(handleEditBanner)}
       >
         <Box className={`flex flex-col gap-[9px]`}>
@@ -158,8 +158,11 @@ export default function EditBanner() {
           defaultValue={banner?.url}
         />
       </form>
-
-      <Flex flexDirection={"column"} gap={2}>
+      <Flex
+        flexDirection={"column"}
+        gap={2}
+        className=" w-full lg:mx-auto lg:max-w-5xl"
+      >
         <ButtonSubmit
           form="editBannerForm"
           disabled={false}

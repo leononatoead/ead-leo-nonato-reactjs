@@ -66,7 +66,7 @@ export default function NewBanner() {
     <Box className="main-container !flex !flex-col">
       <form
         id="newBannerForm"
-        className="flex flex-grow flex-col gap-4"
+        className="flex w-full flex-grow flex-col gap-4 lg:mx-auto lg:mt-20 lg:max-w-5xl"
         onSubmit={handleSubmit(handleAddBanner)}
       >
         <OrderInput
@@ -115,12 +115,14 @@ export default function NewBanner() {
           watch={watch}
         />
       </form>
-      <ButtonSubmit
-        form="newBannerForm"
-        disabled={false}
-        text={"Confirmar"}
-        loading={loading}
-      />
+      <Box className="flex w-full flex-col gap-4 lg:mx-auto lg:max-w-5xl">
+        <ButtonSubmit
+          form="newBannerForm"
+          disabled={false}
+          text={"Confirmar"}
+          loading={loading}
+        />
+      </Box>
     </Box>
   );
 }

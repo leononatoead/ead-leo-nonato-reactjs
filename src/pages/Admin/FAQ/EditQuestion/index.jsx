@@ -69,7 +69,7 @@ export default function EditQuestion() {
       <form
         id="editQuestionForm"
         onSubmit={handleSubmit(handleEditQuestion)}
-        className="flex flex-grow flex-col gap-4"
+        className="flex w-full flex-grow flex-col  gap-4 lg:mx-auto lg:max-w-5xl"
       >
         <OrderInput
           register={register}
@@ -100,7 +100,11 @@ export default function EditQuestion() {
           defaultValue={question?.answer}
         />
       </form>
-      <Flex flexDirection={"column"} gap={2}>
+      <Flex
+        flexDirection={"column"}
+        gap={2}
+        className="w-full lg:mx-auto lg:max-w-5xl"
+      >
         <ButtonSubmit
           form="editQuestionForm"
           disabled={loading ? true : false}

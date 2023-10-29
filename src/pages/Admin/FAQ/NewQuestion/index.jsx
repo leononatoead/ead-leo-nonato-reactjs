@@ -58,7 +58,7 @@ export default function NewQuestion() {
       <form
         id="addQuestionForm"
         onSubmit={handleSubmit(handleAddQuestion)}
-        className="flex flex-grow flex-col gap-4"
+        className="flex w-full flex-grow flex-col  gap-4 lg:mx-auto lg:max-w-5xl"
       >
         <OrderInput
           register={register}
@@ -86,12 +86,14 @@ export default function NewQuestion() {
           watch={watch}
         />
       </form>
-      <ButtonSubmit
-        form="addQuestionForm"
-        disabled={loading ? true : false}
-        text={"Adicionar"}
-        loading={loading}
-      />
+      <Box className="w-full lg:mx-auto lg:max-w-5xl">
+        <ButtonSubmit
+          form="addQuestionForm"
+          disabled={loading ? true : false}
+          text={"Adicionar"}
+          loading={loading}
+        />
+      </Box>
     </Box>
   );
 }

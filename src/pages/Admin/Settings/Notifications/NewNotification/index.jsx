@@ -73,7 +73,7 @@ export default function NewNotification() {
     <Box className="main-container !flex !flex-col">
       <form
         id="newNotificationForm"
-        className="flex flex-grow flex-col gap-4"
+        className="flex w-full flex-grow flex-col gap-4 lg:mx-auto lg:mt-6 lg:max-w-5xl"
         onSubmit={handleSubmit(handleAddNotification)}
       >
         <Input
@@ -127,12 +127,14 @@ export default function NewNotification() {
           watch={watch}
         />
       </form>
-      <ButtonSubmit
-        form="newNotificationForm"
-        disabled={false}
-        text={"Confirmar"}
-        loading={loading}
-      />
+      <Box className="mt-6 flex w-full flex-col gap-4 lg:mx-auto lg:max-w-5xl">
+        <ButtonSubmit
+          form="newNotificationForm"
+          disabled={false}
+          text={"Confirmar"}
+          loading={loading}
+        />
+      </Box>
     </Box>
   );
 }

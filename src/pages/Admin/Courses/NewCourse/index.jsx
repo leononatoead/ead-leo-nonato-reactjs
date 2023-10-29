@@ -143,7 +143,7 @@ export default function NewCourse() {
 
   return (
     <Box className="main-container flex flex-col">
-      <Box className="mb-4 flex flex-grow flex-col gap-4">
+      <Box className="mb-4 flex w-full flex-grow flex-col gap-4 lg:mx-auto lg:max-w-5xl">
         <form
           id="addCourseForm"
           onSubmit={handleSubmit(handlAddCourse)}
@@ -301,12 +301,14 @@ export default function NewCourse() {
         </form>
         <Sections sections={sections} setSections={setSections} />
       </Box>
-      <ButtonSubmit
-        form="addCourseForm"
-        disabled={loading ? true : false}
-        text={"Adicionar"}
-        loading={loading}
-      />
+      <Box className="w-full lg:mx-auto lg:max-w-5xl">
+        <ButtonSubmit
+          form="addCourseForm"
+          disabled={loading ? true : false}
+          text={"Adicionar"}
+          loading={loading}
+        />
+      </Box>
     </Box>
   );
 }

@@ -90,7 +90,7 @@ export default function EditForm() {
 
   return (
     <Box className="main-container !flex !flex-col">
-      <Box className="flex-grow">
+      <Box className="w-full  flex-grow lg:mx-auto lg:max-w-5xl">
         <Box className="flex flex-col gap-4">
           <label htmlFor={"field"} className="text-base leading-5">
             Título
@@ -213,7 +213,11 @@ export default function EditForm() {
           )}
         </Box>
       </Box>
-      <Flex flexDirection={"column"} gap={2}>
+      <Flex
+        flexDirection={"column"}
+        gap={2}
+        className="mt-6 w-full lg:mx-auto lg:max-w-5xl"
+      >
         <button
           type="button"
           className="w-full rounded-[4px] bg-primary-400 px-3 py-[5px] text-base leading-5 text-white disabled:bg-gray-900/30"
