@@ -19,10 +19,16 @@ import UserUnAuthenticated from "./routes/UserUnAuthenticated";
 import useAuth from "./hooks/useAuth";
 import Loading from "./pages/Loading";
 import useCheckUpdate from "./hooks/useCheckUpdate";
+import {
+  fetchBannerSettings,
+  fetchNotificationsSettings,
+  fetchSettingsFromLocalStorage,
+} from "./redux/modules/settings/actions";
 
 function App() {
   const { authUser, loadingAuth } = useAuth();
-  const { verifyCourseUpdate, verifyPostsUpdate } = useCheckUpdate();
+  const { verifyCourseUpdate, verifyPostsUpdate, verifySettingsUpdate } =
+    useCheckUpdate();
   const user = useSelector((state) => state.auth.user);
 
   const dispatch = useDispatch();
@@ -70,8 +76,40 @@ function App() {
       }
     };
 
+    const fetchSettingsData = async () => {
+      try {
+        const fireStoreSettingsUpdate = await verifySettingsUpdate();
+        const lastSettingsUpdate =
+          new Date(JSON.parse(localStorage.getItem("lastSettingsUpdate"))) || 0;
+
+        const calcCourse = fireStoreSettingsUpdate - lastSettingsUpdate;
+        const localSettings = JSON.parse(localStorage.getItem("settings"));
+
+        if (calcCourse !== 0 && !localSettings) {
+          dispatch(fetchBannerSettings());
+          dispatch(fetchNotificationsSettings());
+        } else {
+          dispatch(fetchSettingsFromLocalStorage(localSettings));
+
+          if (!settings.notifications && !localSettings.notifications) {
+            dispatch(fetchNotificationsSettings());
+          }
+
+          if (!settings.banners && !localSettings.banners) {
+            dispatch(fetchBannerSettings());
+          }
+        }
+      } catch (error) {
+        console.error(
+          "Erro ao buscar a última atualização dos banners:",
+          error,
+        );
+      }
+    };
+
     fetchCoursesData();
     fetchPostData();
+    fetchSettingsData();
 
     authUser();
   }, []);

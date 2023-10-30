@@ -34,8 +34,9 @@ import { PiTelevisionSimpleBold } from "react-icons/pi";
 import { AiOutlineBarChart } from "react-icons/ai";
 import logo from "../assets/auth-logo-black.svg";
 
-export default function Navbar({ title, notifications }) {
+export default function Navbar({ title }) {
   const user = useSelector((state) => state.auth.user);
+  const { notifications } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -119,9 +120,11 @@ export default function Navbar({ title, notifications }) {
             )}
           </Flex>
         ) : (
-          <span className="block flex-1 px-1 text-center font-poppins text-[17px] font-normal leading-[22px]">
-            {title}
-          </span>
+          <>
+            <span className="block flex-1 px-1 text-center font-poppins text-[17px] font-normal leading-[22px]">
+              {title}
+            </span>
+          </>
         )}
 
         {pathname === "/" ? (
