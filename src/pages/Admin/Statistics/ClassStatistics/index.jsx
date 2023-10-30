@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUsers } from "../../../../redux/modules/users/actions";
+import { fetchVideos } from "../../../../redux/modules/courses/actions";
 import {
   fetchSettingsFromLocalStorage,
   fetchStudantClassesSettings,
@@ -63,23 +64,25 @@ export default function ClassStatistics() {
     if (!userList || !courses) return;
 
     const filterUserByClass = userList.filter(
-      (user) => user.studantClass.id === id,
+      (user) => user?.studantClass?.id === id,
     );
 
     let classData = courses.map((course) => {
       const videos = course?.videos?.map((video) => ({
-        id: video.id,
-        order: video.order,
-        title: video.title,
+        id: video?.id,
+        order: video?.order,
+        title: video?.title,
         rating: [],
-        quizResult: video.questionsList ? [] : null,
+        quizResult: video?.questionsList ? [] : null,
         concluded: [],
-        survey: video.survey ? { survey: video.survey, userAnswers: [] } : null,
+        survey: video?.survey
+          ? { survey: video?.survey, userAnswers: [] }
+          : null,
       }));
 
       return {
-        id: course.id,
-        name: course.name,
+        id: course?.id,
+        name: course?.name,
         videos,
       };
     });
@@ -89,19 +92,19 @@ export default function ClassStatistics() {
         course?.videos?.map((video) => {
           classData.map((c) => {
             if (c.id === course.id) {
-              c.videos.map((v) => {
-                if (v.id === video.id) {
+              c.videos?.map((v) => {
+                if (v?.id === video?.id) {
                   if (video.rating) {
-                    v.rating.push(video.rating);
+                    v?.rating.push(video?.rating);
                   }
-                  if (video.quizResult) {
-                    v.quizResult.push(video.quizResult);
+                  if (video?.quizResult) {
+                    v?.quizResult.push(video?.quizResult);
                   }
-                  if (video.concluded) {
-                    v.concluded.push(video.concluded);
+                  if (video?.concluded) {
+                    v?.concluded.push(video?.concluded);
                   }
-                  if (video.surveyAnswer) {
-                    v.survey.userAnswers.push(video.surveyAnswer.answer);
+                  if (video?.surveyAnswer) {
+                    v?.survey.userAnswers.push(video?.surveyAnswer.answer);
                   }
                   return v;
                 } else return;
@@ -113,7 +116,7 @@ export default function ClassStatistics() {
     });
 
     classData.map((course) => {
-      return course.videos.map((video) => {
+      return course?.videos?.map((video) => {
         video.rating =
           video.rating.length > 0
             ? video.rating.reduce((acc, cur) => acc + cur) /
@@ -142,7 +145,7 @@ export default function ClassStatistics() {
 
         const firstAnswerCount = video?.survey?.userAnswers?.reduce(
           (accumulator, currentValue) => {
-            if (currentValue === video.survey.userAnswers[0]) {
+            if (currentValue === video?.survey?.userAnswers[0]) {
               return accumulator + 1;
             } else {
               return accumulator;
@@ -152,7 +155,7 @@ export default function ClassStatistics() {
         );
         const secondAnswerCount = video?.survey?.userAnswers?.reduce(
           (accumulator, currentValue) => {
-            if (currentValue === video.survey.userAnswers[1]) {
+            if (currentValue === video?.survey?.userAnswers[1]) {
               return accumulator + 1;
             } else {
               return accumulator;
@@ -162,7 +165,7 @@ export default function ClassStatistics() {
         );
         const thirdAnswerCount = video?.survey?.userAnswers?.reduce(
           (accumulator, currentValue) => {
-            if (currentValue === video.survey.userAnswers[2]) {
+            if (currentValue === video?.survey?.userAnswers[2]) {
               return accumulator + 1;
             } else {
               return accumulator;
@@ -172,7 +175,7 @@ export default function ClassStatistics() {
         );
         const fourthAnswerCount = video?.survey?.userAnswers?.reduce(
           (accumulator, currentValue) => {
-            if (currentValue === video.survey.userAnswers[3]) {
+            if (currentValue === video?.survey?.userAnswers[3]) {
               return accumulator + 1;
             } else {
               return accumulator;
@@ -201,17 +204,29 @@ export default function ClassStatistics() {
     setLoading(false);
   }, [userList, courses]);
 
+  useEffect(() => {
+    if (!courses) {
+      return;
+    } else {
+      courses.forEach((course) => {
+        if (!course.videos) {
+          dispatch(fetchVideos(course.id));
+        }
+      });
+    }
+  }, [courses]);
+
   return (
     <Box
       className={`main-container flex flex-col gap-4 bg-gray-200 p-4 lg:p-6`}
     >
       {statistics?.courses?.map((course) => (
         <Box
-          key={course.id}
+          key={course?.id}
           className="w-full rounded-md bg-white p-4  shadow-sm lg:mx-auto lg:max-w-5xl"
         >
           <Text className="mb-2 font-poppins text-normal font-bold text-primary-400">
-            {course.name}
+            {course?.name}
           </Text>
 
           <ul className="flex flex-col gap-4">
@@ -219,32 +234,32 @@ export default function ClassStatistics() {
               ?.slice()
               .sort((a, b) => a.order - b.order)
               .map((video) => (
-                <li key={video.id}>
+                <li key={video?.id}>
                   <Box className="rounded-md bg-gray-150 p-2 lg:p-4">
                     <Text className="font-poppins font-bold text-primary-500">
-                      {video.title}
+                      {video?.title}
                     </Text>
                     <Text>
                       <span className="text-base font-bold">
                         Percentual de conclusão:{" "}
                       </span>
-                      {video.concluded}
+                      {video?.concluded}
                     </Text>
                     <Text>
                       <span className="text-base font-bold">
                         Rating médio:{" "}
                       </span>
-                      {video.rating}
+                      {video?.rating}
                     </Text>
-                    {video.quizResult && (
+                    {video?.quizResult && (
                       <Text>
                         <span className="text-base font-bold">
                           Percentual de acertos quiz:{" "}
                         </span>
-                        {video.quizResult}
+                        {video?.quizResult}
                       </Text>
                     )}
-                    {video.survey && (
+                    {video?.survey && (
                       <Box>
                         <Text className="text-base font-bold">Enquete:</Text>
                         <Text className="ml-2">{video?.survey?.question}</Text>
