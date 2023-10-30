@@ -30,6 +30,7 @@ function App() {
   const { verifyCourseUpdate, verifyPostsUpdate, verifySettingsUpdate } =
     useCheckUpdate();
   const user = useSelector((state) => state.auth.user);
+  const settings = useSelector((state) => state.settings);
 
   const dispatch = useDispatch();
 
