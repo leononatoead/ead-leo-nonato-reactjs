@@ -30,6 +30,10 @@ export default function VideoList({
     (course) => course.id === pathname.split("/")[2],
   );
 
+  const checkIfSectionHasVideo = [
+    ...new Set(course?.videos?.map((video) => video.section)),
+  ];
+
   const navigate = useNavigate();
 
   const activeSectionName = videoPlayer.active.section;
@@ -123,95 +127,105 @@ export default function VideoList({
           course?.sections
             ?.slice()
             .sort((a, b) => a.order - b.order)
-            .map((section, i) => (
-              <AccordionItem
-                key={i}
-                className="!border-b-[1px] !border-t-0 !border-gray-200 "
-              >
-                <AccordionButton px={0} py={4} className="hover:!bg-white">
-                  <Box as="span" flex="1" textAlign="left">
-                    <Text
-                      className={`!text-base !leading-5 ${
-                        videoPlayer.active.section === section.sectionName
-                          ? "font-bold"
-                          : " font-medium"
-                      }`}
-                    >
-                      {section.sectionName}
-                    </Text>
+            .map((section, i) => {
+              const verify = checkIfSectionHasVideo.find(
+                (sct) => sct === section.sectionName,
+              );
 
-                    {userCourseData && (
-                      <Text className="text-small leading-4 text-gray-800">
-                        {userCourseData?.videos.filter(
-                          (v) =>
-                            v.concluded && v.section === section.sectionName,
-                        ).length ===
-                        course?.videos.filter(
-                          (v) => v.section === section.sectionName,
-                        ).length ? (
-                          "Concluído"
-                        ) : (
-                          <>
-                            {
-                              userCourseData?.videos.filter(
-                                (v) =>
-                                  v.concluded &&
-                                  v.section === section.sectionName,
-                              ).length
-                            }{" "}
-                            /{" "}
-                            {
-                              course?.videos.filter(
-                                (v) => v.section === section.sectionName,
-                              ).length
-                            }{" "}
-                            aulas concluídas
-                          </>
-                        )}
-                      </Text>
-                    )}
-                  </Box>
-                  <AccordionIcon />
-                </AccordionButton>
+              if (verify) {
+                return (
+                  <AccordionItem
+                    key={i}
+                    className="!border-b-[1px] !border-t-0 !border-gray-200 "
+                  >
+                    <AccordionButton px={0} py={4} className="hover:!bg-white">
+                      <Box as="span" flex="1" textAlign="left">
+                        <Text
+                          className={`!text-base !leading-5 ${
+                            videoPlayer.active.section === section.sectionName
+                              ? "font-bold"
+                              : " font-medium"
+                          }`}
+                        >
+                          {section.sectionName}
+                        </Text>
 
-                <AccordionPanel pb={4} className="flex flex-col gap-6 ">
-                  {course?.videos
-                    ?.slice()
-                    .sort((a, b) => a.order - b.order)
-                    .map((video) => {
-                      if (video.section === section.sectionName) {
-                        return (
-                          <button
-                            onClick={() => handleSelectVideo(video.id)}
-                            key={video.id}
-                            className={`flex cursor-pointer items-center justify-start gap-2  ${
-                              videoPlayer.active?.id === video.id && "font-bold"
-                            }`}
-                          >
-                            {userCourseData && (
+                        {userCourseData && (
+                          <Text className="text-small leading-4 text-gray-800">
+                            {userCourseData?.videos.filter(
+                              (v) =>
+                                v.concluded &&
+                                v.section === section.sectionName,
+                            ).length ===
+                            course?.videos.filter(
+                              (v) => v.section === section.sectionName,
+                            ).length ? (
+                              "Concluído"
+                            ) : (
                               <>
-                                {userCourseData?.videos?.find(
-                                  (v) => v.id === video.id && v.concluded,
-                                ) ? (
-                                  <FaCircleCheck
-                                    size={15}
-                                    className="text-green-200"
-                                  />
-                                ) : (
-                                  <AiOutlinePlayCircle size={16} />
-                                )}
+                                {
+                                  userCourseData?.videos.filter(
+                                    (v) =>
+                                      v.concluded &&
+                                      v.section === section.sectionName,
+                                  ).length
+                                }{" "}
+                                /{" "}
+                                {
+                                  course?.videos.filter(
+                                    (v) => v.section === section.sectionName,
+                                  ).length
+                                }{" "}
+                                aulas concluídas
                               </>
                             )}
-                            <Text className=" text-small leading-4">
-                              {video.title}
-                            </Text>
-                          </button>
-                        );
-                      }
-                    })}
-                </AccordionPanel>
-              </AccordionItem>
-            ))}
+                          </Text>
+                        )}
+                      </Box>
+                      <AccordionIcon />
+                    </AccordionButton>
+
+                    <AccordionPanel pb={4} className="flex flex-col gap-6 ">
+                      {course?.videos
+                        ?.slice()
+                        .sort((a, b) => a.order - b.order)
+                        .map((video) => {
+                          if (video.section === section.sectionName) {
+                            return (
+                              <button
+                                onClick={() => handleSelectVideo(video.id)}
+                                key={video.id}
+                                className={`flex cursor-pointer items-center justify-start gap-2  ${
+                                  videoPlayer.active?.id === video.id &&
+                                  "font-bold"
+                                }`}
+                              >
+                                {userCourseData && (
+                                  <>
+                                    {userCourseData?.videos?.find(
+                                      (v) => v.id === video.id && v.concluded,
+                                    ) ? (
+                                      <FaCircleCheck
+                                        size={15}
+                                        className="text-green-200"
+                                      />
+                                    ) : (
+                                      <AiOutlinePlayCircle size={16} />
+                                    )}
+                                  </>
+                                )}
+                                <Text className=" text-small leading-4">
+                                  {video.title}
+                                </Text>
+                              </button>
+                            );
+                          }
+                        })}
+                    </AccordionPanel>
+                  </AccordionItem>
+                );
+              }
+            })}
       </Accordion>
     </Box>
   );
