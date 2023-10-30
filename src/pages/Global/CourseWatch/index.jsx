@@ -273,8 +273,12 @@ export default function CourseWatch() {
                       />
                     </Box>
                     <Box className="flex max-w-[390px] flex-col gap-1">
-                      <Banner data={banners && banners[0]} />
-                      <Banner data={banners && banners[1]} />
+                      {banners && (
+                        <>
+                          <Banner data={banners.length > 0 && banners[0]} />
+                          <Banner data={banners.length > 1 && banners[1]} />
+                        </>
+                      )}
                     </Box>
                   </Box>
                 </Box>

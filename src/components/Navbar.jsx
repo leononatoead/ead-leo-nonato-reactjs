@@ -434,10 +434,10 @@ export default function Navbar({ title, notifications }) {
           )}
         </Box>
         <Box className="flex items-center">
-          {path.pathname === "/" && user && notifications?.length > 0 && (
+          {user && notifications?.length > 0 && (
             <NotificationsMenu notifications={notifications} />
           )}
-          {path.pathname === "/" ? (
+          {!path.pathname.includes("dashboard") ? (
             <Menu>
               <MenuButton
                 as={IconButton}
@@ -560,7 +560,7 @@ export default function Navbar({ title, notifications }) {
                 setOpenLoginModal={setOpenLoginModal}
               />
             </Menu>
-          ) : path.pathname.includes("dashboard") ? (
+          ) : (
             <Menu>
               <MenuButton
                 as={IconButton}
@@ -668,16 +668,6 @@ export default function Navbar({ title, notifications }) {
                 </MenuItem>
               </MenuList>
             </Menu>
-          ) : (
-            <>
-              {path.pathname.includes("/course/") ? (
-                <ShareBtn
-                  url={`${import.meta.env.VITE_VERCEL_APP_URL}${path.pathname}`}
-                />
-              ) : (
-                <Box className="w-[17px] text-transparent">'</Box>
-              )}
-            </>
           )}
         </Box>
       </Box>
