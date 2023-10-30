@@ -39,50 +39,53 @@ export default function Navbar({ title, notifications }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const path = useLocation();
+  const { pathname } = useLocation();
 
   const [openLoginModal, setOpenLoginModal] = useState(false);
 
   const handleBackBtn = () => {
-    const URL = path.pathname;
-
-    const URLParamsArray = URL.split("/");
-
-    let removeBlank = URLParamsArray.filter((value) => value !== "");
-
-    removeBlank.pop();
-
     if (
-      removeBlank.includes("edit") ||
-      removeBlank.includes("whatsapp") ||
-      removeBlank.includes("registervideo") ||
-      removeBlank.includes("studantclasses")
+      pathname === "/profile" ||
+      pathname === "/courses/all" ||
+      pathname === "/courses/my-courses" ||
+      pathname === "/courses/free" ||
+      pathname === "/courses/premium" ||
+      pathname === "/faq" ||
+      pathname === "/dashboard" ||
+      pathname === "/dashboard/statistics" ||
+      pathname === "/dashboard/settings" ||
+      pathname === "/dashboard/courses" ||
+      pathname === "/dashboard/faq" ||
+      pathname === "/dashboard/posts" ||
+      pathname === "/dashboard/users" ||
+      pathname === "/dashboard/forms"
     ) {
-      removeBlank.pop();
-    }
-
-    if (removeBlank.includes("notifications")) {
-      removeBlank.pop();
-    }
-
-    if (removeBlank.includes("course") && removeBlank.length === 1) {
-      removeBlank.pop();
-    }
-
-    if (removeBlank.includes("post") && removeBlank.length === 2) {
-      removeBlank.pop();
-    }
-
-    if (removeBlank.includes("banners") && removeBlank.length === 3) {
-      removeBlank.pop();
-    }
-
-    if (removeBlank.length > 0) {
-      const newURL = removeBlank.join("/");
-      const path = `/${newURL}`;
-      navigate(path);
-    } else {
       navigate("/");
+    } else if (
+      pathname === "/dashboard/faq/new" ||
+      pathname.includes("/dashboard/faq/edit")
+    ) {
+      navigate("/dashboard/faq");
+    } else if (pathname === "/dashboard/courses/new") {
+      navigate("/dashboard/courses");
+    } else if (
+      pathname === "/dashboard/posts/new" ||
+      pathname.includes("/dashboard/posts/edit")
+    ) {
+      navigate("/dashboard/posts");
+    } else if (
+      pathname === "/dashboard/forms/new" ||
+      pathname.includes("/dashboard/forms/edit")
+    ) {
+      navigate("/dashboard/forms");
+    } else if (pathname.includes("/dashboard/statistics/class")) {
+      navigate("/dashboard/statistics");
+    } else {
+      let pathParams = pathname.split("/").filter((value) => value !== "");
+      pathParams.pop();
+
+      const newPath = pathParams.join("/");
+      navigate(`/${newPath}`);
     }
   };
 
@@ -94,12 +97,12 @@ export default function Navbar({ title, notifications }) {
   return (
     <header className="flex h-12 w-full items-center justify-center bg-white px-4 py-1 font-bold lg:h-16">
       <Box className="flex h-12 w-full items-center justify-center bg-white px-4 py-1 font-bold lg:hidden">
-        {path.pathname !== "/" && (
+        {pathname !== "/" && (
           <button onClick={handleBackBtn} className="-ml-2">
             <RiArrowLeftSLine size={25} />
           </button>
         )}
-        {path.pathname === "/" ? (
+        {pathname === "/" ? (
           <Flex
             alignItems={"center"}
             justifyContent={"space-between"}
@@ -121,7 +124,7 @@ export default function Navbar({ title, notifications }) {
           </span>
         )}
 
-        {path.pathname === "/" ? (
+        {pathname === "/" ? (
           <Menu>
             <MenuButton
               as={IconButton}
@@ -265,13 +268,8 @@ export default function Navbar({ title, notifications }) {
                 </MenuItem>
               )}
             </MenuList>
-
-            <LoginModal
-              openLoginModal={openLoginModal}
-              setOpenLoginModal={setOpenLoginModal}
-            />
           </Menu>
-        ) : path.pathname.includes("dashboard") ? (
+        ) : pathname.includes("dashboard") ? (
           <Menu>
             <MenuButton
               as={IconButton}
@@ -381,9 +379,9 @@ export default function Navbar({ title, notifications }) {
           </Menu>
         ) : (
           <>
-            {path.pathname.includes("/course/") ? (
+            {pathname.includes("/course/") ? (
               <ShareBtn
-                url={`${import.meta.env.VITE_VERCEL_APP_URL}${path.pathname}`}
+                url={`${import.meta.env.VITE_VERCEL_APP_URL}${pathname}`}
               />
             ) : (
               <Box className="w-[17px] text-transparent">'</Box>
@@ -427,7 +425,7 @@ export default function Navbar({ title, notifications }) {
           >
             Newsletter
           </NavLink>
-          {path.pathname.includes("newsletter") ? (
+          {pathname.includes("newsletter") ? (
             <SearchBar type={"post"} navbar={true} />
           ) : (
             <SearchBar type={"course"} navbar={true} />
@@ -437,7 +435,7 @@ export default function Navbar({ title, notifications }) {
           {user && notifications?.length > 0 && (
             <NotificationsMenu notifications={notifications} />
           )}
-          {!path.pathname.includes("dashboard") ? (
+          {!pathname.includes("dashboard") ? (
             <Menu>
               <MenuButton
                 as={IconButton}
@@ -528,11 +526,6 @@ export default function Navbar({ title, notifications }) {
                   </MenuItem>
                 )}
               </MenuList>
-
-              <LoginModal
-                openLoginModal={openLoginModal}
-                setOpenLoginModal={setOpenLoginModal}
-              />
             </Menu>
           ) : (
             <Menu>
@@ -612,6 +605,10 @@ export default function Navbar({ title, notifications }) {
             </Menu>
           )}
         </Box>
+        <LoginModal
+          openLoginModal={openLoginModal}
+          setOpenLoginModal={setOpenLoginModal}
+        />
       </Box>
     </header>
   );

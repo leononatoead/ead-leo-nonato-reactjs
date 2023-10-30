@@ -15,12 +15,13 @@ import SearchBar from "../../../components/SearchBar";
 import Banner from "./Banner";
 import Footer from "../../../components/Footer";
 import PostCard from "./PostCard";
-import { Box, Heading } from "@chakra-ui/react";
+import { Box, Heading, useMediaQuery } from "@chakra-ui/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 
 export default function Home() {
   const [openLoginModal, setOpenLoginModal] = useState(false);
+  const [isLargerThanLg] = useMediaQuery("(min-width: 1024px)");
 
   const { pages } = useSelector((state) => state.posts);
   const { courses } = useSelector((state) => state.courses);
@@ -174,13 +175,16 @@ export default function Home() {
           {pages && (
             <Swiper
               spaceBetween={1}
-              slidesPerView={1.1}
-              className="pb-4 pl-4 lg:hidden"
+              slidesPerView={isLargerThanLg ? 2 : 1.1}
+              className="pb-4 pl-4"
             >
               {pages[0]?.posts?.map((post, index) => {
                 if (index <= 5) {
                   return (
-                    <SwiperSlide key={post.id} className="!min-w-[170px]">
+                    <SwiperSlide
+                      key={post.id}
+                      className="!min-w-[170px] lg:!mr-6"
+                    >
                       <PostCard post={post} />
                     </SwiperSlide>
                   );
@@ -188,36 +192,6 @@ export default function Home() {
               })}
             </Swiper>
           )}
-          {pages && (
-            <Swiper
-              spaceBetween={1}
-              slidesPerView={1.1}
-              className="pl-4 lg:hidden"
-            >
-              {pages[0]?.posts.map((post, index) => {
-                if (index > 5) {
-                  return (
-                    <SwiperSlide key={post.id} className="!min-w-[170px]">
-                      <PostCard post={post} />
-                    </SwiperSlide>
-                  );
-                }
-              })}
-            </Swiper>
-          )}
-
-          <Swiper
-            spaceBetween={1}
-            slidesPerView={2}
-            className="hidden pl-4 lg:block"
-          >
-            {pages &&
-              pages[0]?.posts.map((post) => (
-                <SwiperSlide key={post.id} className="!min-w-[170px] lg:!mr-6">
-                  <PostCard post={post} />
-                </SwiperSlide>
-              ))}
-          </Swiper>
         </section>
       </Box>
       <Footer />
