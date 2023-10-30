@@ -27,7 +27,15 @@ export default function NotificationModal({ notification, updater }) {
       let data;
 
       if (storageNotifications) {
-        data = [...storageNotifications, notification.id];
+        const verifyIfAlreadyIncluded = storageNotifications.find(
+          (ntf) => ntf === notification.id,
+        );
+
+        if (verifyIfAlreadyIncluded) {
+          return;
+        } else {
+          data = [...storageNotifications, notification.id];
+        }
       } else {
         data = [notification.id];
       }
