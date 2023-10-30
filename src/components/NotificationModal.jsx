@@ -52,7 +52,7 @@ export default function NotificationModal({ notification, updater }) {
     <>
       <Box
         onClick={onOpen}
-        className="flex w-full !min-w-[275px] !max-w-[275px] items-center gap-2 rounded-md !bg-gray-200 px-2 transition-all hover:!bg-gray-150"
+        className="flex w-full !min-w-[275px] !max-w-[275px] items-center gap-2 rounded-md !bg-gray-200 px-2 transition-all hover:!bg-gray-150 lg:p-3"
       >
         <Box className="flex w-7 items-center justify-center">
           {read ? (

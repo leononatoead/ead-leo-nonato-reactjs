@@ -8,7 +8,7 @@ export default function Footer() {
   const [isLargerThanLg] = useMediaQuery("(min-width: 1024px)");
 
   return (
-    <Box className="flex flex-col items-center justify-center gap-[40px] lg:mx-auto lg:w-full lg:max-w-7xl lg:flex-row-reverse lg:justify-between lg:px-4 lg:pt-6">
+    <Box className="z-10 flex flex-col items-center justify-center gap-[40px] bg-gray-200 lg:fixed lg:bottom-0 lg:left-0 lg:right-0 lg:mx-auto lg:w-full lg:max-w-7xl lg:flex-row-reverse lg:justify-between lg:px-4 lg:py-3">
       <Box className="flex items-center justify-center gap-7 text-normal text-gray-300  lg:justify-end">
         <Link
           to="https://twitter.com/leononatotrade"

@@ -446,17 +446,11 @@ export default function Navbar({ title, notifications }) {
                 variant="outline"
                 className="-mr-[10px] !border-none !bg-transparent !outline-none focus:!border-none"
               />
-              <MenuList
-                className="!flex !min-w-max !-translate-y-2 !flex-col !items-start !justify-center !gap-[5px] !border-none !shadow-lg"
-                px={3}
-                py={2}
-              >
+              <MenuList className="!flex !min-w-max !-translate-y-2 !flex-col !items-start !justify-center !gap-[5px] !border-none !p-3 !shadow-lg">
                 {!user && (
                   <>
                     <MenuItem
-                      className="!border-none !outline-none focus:!bg-white"
-                      px={"6px"}
-                      py={"3px"}
+                      className="rounded-md !border-none !p-3 !outline-none hover:bg-gray-100 focus:!bg-white"
                       onClick={() => setOpenLoginModal(true)}
                     >
                       <IoLogInOutline size={20} />
@@ -464,11 +458,7 @@ export default function Navbar({ title, notifications }) {
                         Login
                       </span>
                     </MenuItem>
-                    <MenuItem
-                      px={"6px"}
-                      py={"3px"}
-                      className="!border-none !outline-none focus:!bg-white"
-                    >
+                    <MenuItem className="rounded-md !border-none !p-3 !outline-none hover:bg-gray-100 focus:!bg-white">
                       <Link
                         to="/register"
                         className="flex items-center gap-3 font-normal leading-[14px]"
@@ -481,11 +471,7 @@ export default function Navbar({ title, notifications }) {
                 )}
                 {user && user.admin && (
                   <>
-                    <MenuItem
-                      px={"6px"}
-                      py={"3px"}
-                      className="!border-none !outline-none focus:!bg-white"
-                    >
+                    <MenuItem className="rounded-md !border-none !p-3 !outline-none hover:bg-gray-100 focus:!bg-white">
                       <Link
                         to="/dashboard"
                         className="flex items-center gap-3 font-normal leading-[14px]"
@@ -496,11 +482,7 @@ export default function Navbar({ title, notifications }) {
                     </MenuItem>
                   </>
                 )}
-                <MenuItem
-                  px={"6px"}
-                  py={"3px"}
-                  className="!border-none !outline-none focus:!bg-white"
-                >
+                <MenuItem className="rounded-md !border-none !p-3 !outline-none hover:bg-gray-100 focus:!bg-white">
                   <Link
                     to="/faq"
                     className="flex items-center gap-3 font-normal leading-[14px]"
@@ -512,11 +494,7 @@ export default function Navbar({ title, notifications }) {
 
                 {user && (
                   <>
-                    <MenuItem
-                      px={"6px"}
-                      py={"3px"}
-                      className="!border-none !outline-none focus:!bg-white"
-                    >
+                    <MenuItem className="rounded-md !border-none !p-3 !outline-none hover:bg-gray-100 focus:!bg-white">
                       <Link
                         to="/courses/my-courses"
                         className="flex items-center gap-3 font-normal leading-[14px]"
@@ -526,11 +504,7 @@ export default function Navbar({ title, notifications }) {
                       </Link>
                     </MenuItem>
 
-                    <MenuItem
-                      px={"6px"}
-                      py={"3px"}
-                      className="!border-none !outline-none focus:!bg-white"
-                    >
+                    <MenuItem className="rounded-md !border-none !p-3 !outline-none hover:bg-gray-100 focus:!bg-white">
                       <Link
                         to="/profile"
                         className="flex items-center gap-3 font-normal leading-[14px]"
@@ -544,13 +518,13 @@ export default function Navbar({ title, notifications }) {
 
                 {user && (
                   <MenuItem
-                    className="flex items-center gap-3 !border-none font-normal leading-[14px] !outline-none focus:!bg-white"
-                    px={"6px"}
-                    py={"3px"}
+                    className="rounded-md !border-none !p-3 !outline-none hover:bg-gray-100 focus:!bg-white"
                     onClick={handleLogout}
                   >
-                    <IoLogOutOutline size={20} />
-                    <span>Sair</span>
+                    <span className="flex items-center gap-3 font-normal leading-[14px]">
+                      <IoLogOutOutline size={20} />
+                      Sair
+                    </span>
                   </MenuItem>
                 )}
               </MenuList>
@@ -569,16 +543,8 @@ export default function Navbar({ title, notifications }) {
                 variant="outline"
                 className="-mr-[10px] !border-none !bg-transparent !outline-none focus:!border-none"
               />
-              <MenuList
-                className="!flex !min-w-max !-translate-y-2 !flex-col !items-start !justify-center !gap-[5px] !border-none !shadow-lg"
-                px={3}
-                py={2}
-              >
-                <MenuItem
-                  px={"6px"}
-                  py={"3px"}
-                  className="!border-none !outline-none focus:!bg-white"
-                >
+              <MenuList className="!flex !min-w-max !-translate-y-2 !flex-col !items-start !justify-center !gap-[5px] !border-none !p-3 !shadow-lg">
+                <MenuItem className="rounded-md !border-none !p-3 !outline-none hover:bg-gray-100 focus:!bg-white">
                   <Link
                     to="/dashboard/settings"
                     className="flex items-center gap-3 font-normal leading-[14px]"
@@ -587,11 +553,7 @@ export default function Navbar({ title, notifications }) {
                     Configurações
                   </Link>
                 </MenuItem>
-                <MenuItem
-                  px={"6px"}
-                  py={"3px"}
-                  className="!border-none !outline-none focus:!bg-white"
-                >
+                <MenuItem className="rounded-md !border-none !p-3 !outline-none hover:bg-gray-100 focus:!bg-white">
                   <Link
                     to="/dashboard/courses"
                     className="flex items-center gap-3 font-normal leading-[14px]"
@@ -600,11 +562,7 @@ export default function Navbar({ title, notifications }) {
                     Cursos
                   </Link>
                 </MenuItem>
-                <MenuItem
-                  px={"6px"}
-                  py={"3px"}
-                  className="!border-none !outline-none focus:!bg-white"
-                >
+                <MenuItem className="rounded-md !border-none !p-3 !outline-none hover:bg-gray-100 focus:!bg-white">
                   <Link
                     to="/dashboard/posts"
                     className="flex items-center gap-3 font-normal leading-[14px]"
@@ -614,11 +572,7 @@ export default function Navbar({ title, notifications }) {
                   </Link>
                 </MenuItem>
 
-                <MenuItem
-                  px={"6px"}
-                  py={"3px"}
-                  className="!border-none !outline-none focus:!bg-white"
-                >
+                <MenuItem className="rounded-md !border-none !p-3 !outline-none hover:bg-gray-100 focus:!bg-white">
                   <Link
                     to="/dashboard/forms"
                     className="flex items-center gap-3 font-normal leading-[14px]"
@@ -627,11 +581,7 @@ export default function Navbar({ title, notifications }) {
                     Formulários
                   </Link>
                 </MenuItem>
-                <MenuItem
-                  px={"6px"}
-                  py={"3px"}
-                  className="!border-none !outline-none focus:!bg-white"
-                >
+                <MenuItem className="rounded-md !border-none !p-3 !outline-none hover:bg-gray-100 focus:!bg-white">
                   <Link
                     to="/dashboard/users"
                     className="flex items-center gap-3 font-normal leading-[14px]"
@@ -640,11 +590,7 @@ export default function Navbar({ title, notifications }) {
                     Usuários
                   </Link>
                 </MenuItem>
-                <MenuItem
-                  px={"6px"}
-                  py={"3px"}
-                  className="!border-none !outline-none focus:!bg-white"
-                >
+                <MenuItem className="rounded-md !border-none !p-3 !outline-none hover:bg-gray-100 focus:!bg-white">
                   <Link
                     to="/dashboard/statistics"
                     className="flex items-center gap-3 font-normal leading-[14px]"
@@ -653,11 +599,7 @@ export default function Navbar({ title, notifications }) {
                     Estatísticas
                   </Link>
                 </MenuItem>
-                <MenuItem
-                  px={"6px"}
-                  py={"3px"}
-                  className="!border-none !outline-none focus:!bg-white"
-                >
+                <MenuItem className="rounded-md !border-none !p-3 !outline-none hover:bg-gray-100 focus:!bg-white">
                   <Link
                     to="/dashboard/faq"
                     className="flex items-center gap-3 font-normal leading-[14px]"

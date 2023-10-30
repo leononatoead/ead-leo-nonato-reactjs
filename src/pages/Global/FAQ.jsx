@@ -39,7 +39,7 @@ export default function FAQ() {
   }, []);
 
   return (
-    <Box className="flex min-h-[100dvh] flex-col justify-between bg-gray-200 pb-6">
+    <Box className="flex min-h-[100dvh] flex-col justify-between bg-gray-200 pb-6 lg:pb-14">
       <Box>
         <Navbar title={"FAQ"} />
         <Box>

@@ -48,11 +48,7 @@ export default function NotificationsMenu({ notifications }) {
         variant="outline"
         className=" !border-none !bg-transparent !outline-none focus:!border-none"
       />
-      <MenuList
-        className="!flex !min-w-max  !-translate-y-2 !flex-col !items-start !justify-center !gap-2 !border-none !shadow-lg"
-        px={2}
-        py={2}
-      >
+      <MenuList className="!flex !min-w-max  !-translate-y-2 !flex-col !items-start !justify-center !gap-2 !border-none p-2 !shadow-lg lg:!gap-4 lg:!p-4">
         {notifications?.map((notification) => (
           <MenuItem key={notification.id} p={0}>
             <NotificationModal

@@ -153,7 +153,7 @@ export default function CourseWatch() {
   //TODO: ANUNCIOS NOS VIDEOS
 
   return (
-    <Box className="bg-gray-200 lg:flex lg:flex-col lg:justify-between lg:pb-6">
+    <Box className="bg-gray-200 lg:flex lg:flex-col lg:justify-between lg:pb-14">
       <Box className="flex min-h-[100dvh] flex-col bg-gray-200 lg:min-h-[calc(100vh-78px)]">
         <Navbar title={videoPlayer?.sectionName} />
         <Image
