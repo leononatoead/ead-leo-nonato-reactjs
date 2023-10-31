@@ -156,8 +156,8 @@ export default function EditUser({ user }) {
     <>
       <button
         onClick={onOpen}
-        className="mt-2 w-full rounded-[4px] bg-primary-400 px-3  py-[5px]
-       text-base leading-5 text-white disabled:bg-gray-900/30 "
+        className="mt-2 w-full rounded-[4px] bg-primary-400 px-3 py-[5px] text-base  leading-5
+       text-white disabled:bg-gray-900/30 lg:mx-auto lg:max-w-[370px] "
       >
         Editar
       </button>
@@ -176,22 +176,21 @@ export default function EditUser({ user }) {
           </ModalHeader>
           <ModalBody px={4} py={8} pb={0}>
             <Box className="flex flex-col gap-4">
-              {user?.studantClass && (
-                <Box className="flex flex-col justify-center gap-2">
-                  <Text>Turma</Text>
-                  <select
-                    className="w-full rounded-md p-1 px-2 shadow-sm"
-                    value={studantClass}
-                    onChange={(e) => setStudantClass(e.target.value)}
-                  >
-                    {settings?.studantClasses?.map((c) => (
-                      <option key={c.id} value={c.id}>
-                        {c.title}
-                      </option>
-                    ))}
-                  </select>
-                </Box>
-              )}
+              <Box className="flex flex-col justify-center gap-2">
+                <Text>Turma</Text>
+                <select
+                  className="w-full rounded-md p-1 px-2 shadow-sm"
+                  value={studantClass}
+                  onChange={(e) => setStudantClass(e.target.value)}
+                >
+                  {settings?.studantClasses?.map((c) => (
+                    <option key={c.id} value={c.id}>
+                      {c.title}
+                    </option>
+                  ))}
+                </select>
+              </Box>
+
               <form
                 id="editUserForm"
                 onSubmit={handleSubmit(handleUpdatePurchased)}
