@@ -83,7 +83,11 @@ export default function User() {
           <Text className="text-base font-medium">
             <span className="font-bold">Cursos comprados: </span>
             {user?.purchased?.length > 0 ? (
-              <>{user.purchased.map((course) => course)}</>
+              <>
+                {user.purchased.map((course) => (
+                  <li key={course}>{getCourseName(course)}</li>
+                ))}
+              </>
             ) : (
               "Nenhum"
             )}

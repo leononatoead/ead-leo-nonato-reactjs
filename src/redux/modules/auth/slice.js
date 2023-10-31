@@ -8,6 +8,8 @@ export const UPDATE_USER_VIDEO_RATING = "UPDATE_USER_VIDEO_RATING";
 export const UPDATE_USER_QUIZ_RESULT = "UPDATE_USER_QUIZ_RESULT";
 export const UPDATE_USER_SURVEY_ANSWER = "UPDATE_USER_SURVEY_ANSWER";
 export const UPDATE_USER_ADMIN_STATE = "UPDATE_USER_ADMIN_STATE";
+export const UPDATE_USER_CLASS_AND_PURCHASED =
+  "UPDATE_USER_CLASS_AND_PURCHASED";
 export const ADD_LIKED_POST_TO_USER = "ADD_LIKED_POST_TO_USER";
 export const REMOVE_LIKED_POST_FROM_USER = "REMOVE_LIKED_POST_FROM_USER";
 
@@ -107,6 +109,23 @@ const authReducer = (state = initialState, action) => {
       localStorage.setItem("user", storageUser);
 
       return { user: { ...state.user, admin: action.payload } };
+    }
+    case UPDATE_USER_CLASS_AND_PURCHASED: {
+      const storageUser = JSON.stringify({
+        ...state.user,
+        studantClass: action.payload.class,
+        purchased: action.payload.purchased,
+      });
+
+      localStorage.setItem("user", storageUser);
+
+      return {
+        user: {
+          ...state.user,
+          studantClass: action.payload.class,
+          purchased: action.payload.purchased,
+        },
+      };
     }
 
     case ADD_LIKED_POST_TO_USER: {

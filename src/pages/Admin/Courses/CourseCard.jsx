@@ -1,11 +1,13 @@
 import { Link, useNavigate } from "react-router-dom";
 
-import { Box, Heading, Image, Text } from "@chakra-ui/react";
+import { Box, Heading, Image, Text, useToast } from "@chakra-ui/react";
 import { IoMdEye } from "react-icons/io";
 import { BiEdit } from "react-icons/bi";
+import { FaShareSquare } from "react-icons/fa";
 
 export default function CourseCard({ cardData }) {
   const navigate = useNavigate();
+  const toast = useToast();
 
   const handleEdit = () => {
     navigate(`/dashboard/courses/${cardData.id}`);
@@ -13,6 +15,23 @@ export default function CourseCard({ cardData }) {
 
   const handleView = (event) => {
     event.stopPropagation();
+  };
+
+  const handleCopy = (event, id) => {
+    event.stopPropagation();
+    const textArea = document.createElement("textarea");
+    textArea.value = id;
+    document.body.appendChild(textArea);
+    textArea.select();
+    document.execCommand("copy");
+    document.body.removeChild(textArea);
+
+    toast({
+      description: "ID Copiado",
+      status: "success",
+      duration: "1500",
+      isClosable: true,
+    });
   };
 
   return (
@@ -46,6 +65,25 @@ export default function CourseCard({ cardData }) {
             </Link>
           </Box>
         </Box>
+        {cardData.isPremium && (
+          <Box className="flex items-center gap-4">
+            <Text className="mb-1 flex w-max items-center justify-center rounded-full bg-green-200 px-2 text-small text-white">
+              Premium
+            </Text>
+            <button
+              className="flex w-max gap-1 text-gray-700"
+              onClick={(e) => handleCopy(e, cardData.id)}
+            >
+              <FaShareSquare size={15} />
+              <Text className="flex-1 text-justify text-xs font-normal leading-4">
+                ID:
+              </Text>
+              <Text className="flex-1 text-justify text-xs font-normal leading-4">
+                {cardData.id}
+              </Text>
+            </button>
+          </Box>
+        )}
       </Box>
     </Box>
   );

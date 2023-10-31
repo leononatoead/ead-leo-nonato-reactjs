@@ -93,10 +93,16 @@ export default function PostComments({ id }) {
                   <Heading className="!font-poppins !text-base !font-semibold !leading-6  !text-primary-600 ">
                     {comment.username}
                   </Heading>
-                  {user.uid === comment.user && (
+                  {user.uid === comment.user ? (
                     <button onClick={() => handleDeleteComment(comment.id)}>
                       <IoTrashBinSharp className="text-red-500" />
                     </button>
+                  ) : user.admin ? (
+                    <button onClick={() => handleDeleteComment(comment.id)}>
+                      <IoTrashBinSharp className="text-red-500" />
+                    </button>
+                  ) : (
+                    ""
                   )}
                 </Box>
                 <Text className="text-base">{comment.comment}</Text>

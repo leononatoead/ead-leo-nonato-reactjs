@@ -148,10 +148,10 @@ export default function Home() {
                 <Swiper
                   spaceBetween={16}
                   slidesPerView={1.5}
-                  className="mb-6 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4"
+                  className="mb-6 grid grid-cols-1 gap-6 md:grid-cols-2  lg:grid-cols-4"
                 >
                   {paidCourses.map((course) => (
-                    <SwiperSlide key={course.id} className="!w-40">
+                    <SwiperSlide key={course.id} className="!w-40 lg:!w-60">
                       <CourseCard
                         courseData={course}
                         setOpenLoginModal={setOpenLoginModal}

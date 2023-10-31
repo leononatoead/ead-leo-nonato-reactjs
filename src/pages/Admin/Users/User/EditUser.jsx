@@ -4,7 +4,9 @@ import {
   fetchSettingsFromLocalStorage,
   fetchStudantClassesSettings,
 } from "../../../../redux/modules/settings/actions";
+import useUserData from "../../../../hooks/useUserData";
 import useCheckUpdate from "../../../../hooks/useCheckUpdate";
+import { useForm } from "react-hook-form";
 
 import {
   Modal,
@@ -16,30 +18,29 @@ import {
   ModalBody,
   Text,
   Box,
+  useToast,
 } from "@chakra-ui/react";
-import { useForm } from "react-hook-form";
 import { AiOutlineWarning } from "react-icons/ai";
+import { BiTrash } from "react-icons/bi";
 
 export default function EditUser({ user }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const settings = useSelector((state) => state.settings);
   const { user: actualUser } = useSelector((state) => state.auth);
+  const { courses } = useSelector((state) => state.courses);
 
-  const [studantClass, setStudantClass] = useState(actualUser?.studantClass);
+  const [studantClass, setStudantClass] = useState("");
   const [purchased, setPurchased] = useState({
-    courseId: "",
-    purchasedList: actualUser?.purchased ? actualUser?.purchased : [],
+    purchasedList: [],
   });
+  const [error, setError] = useState(null);
 
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit, watch, reset } = useForm();
 
+  const { changeUserClassAndPurchasedCourses, loading } = useUserData();
   const { verifySettingsUpdate } = useCheckUpdate();
   const dispatch = useDispatch();
+  const toast = useToast();
 
   useEffect(() => {
     const fetchSettingsData = async () => {
@@ -70,11 +71,86 @@ export default function EditUser({ user }) {
     fetchSettingsData();
   }, []);
 
-  const handleEditUser = (formData) => {
-    console.log(formData);
+  const handleUpdatePurchased = (formData) => {
+    if (formData.purchased === "") {
+      setError("Digite um ID");
+      return;
+    }
+
+    const checkIfIdExists = courses.find(
+      (course) => course.id === formData.purchased,
+    );
+
+    const checkIfAlreadyExists = purchased.purchasedList.find(
+      (id) => id === formData.purchased,
+    );
+
+    if (checkIfIdExists && !checkIfAlreadyExists) {
+      setPurchased((prev) => ({
+        purchasedList: [...prev.purchasedList, formData.purchased],
+      }));
+    } else if (!checkIfIdExists) {
+      setError("Curso não encontrado, insira um ID válido");
+      return;
+    } else if (checkIfAlreadyExists) {
+      setError("Usuário já possui este curso");
+      return;
+    }
+
+    reset({ purchased: "" });
+    setError(null);
   };
 
-  console.log(purchased);
+  const getCourseName = (id) => {
+    const course = courses?.find((course) => course.id === id);
+    return course?.name;
+  };
+
+  const handleRemoveCourse = (id) => {
+    const removeCourse = purchased.purchasedList.filter(
+      (course) => course !== id,
+    );
+
+    setPurchased((prev) => ({ ...prev, purchasedList: removeCourse }));
+  };
+
+  const handleUpdateUser = () => {
+    const classData = settings?.studantClasses?.find(
+      (c) => c.id === studantClass,
+    );
+
+    if (!classData) {
+      toast({
+        description: "Turma não encontrada",
+        status: "error",
+        duration: "3000",
+        isClosable: true,
+      });
+      return;
+    }
+
+    if (classData && purchased.purchasedList) {
+      changeUserClassAndPurchasedCourses(
+        user.id,
+        actualUser,
+        classData,
+        purchased.purchasedList,
+      );
+    }
+  };
+
+  useEffect(() => {
+    if (!user) {
+      return;
+    } else {
+      if (user.studantClass) {
+        setStudantClass(user.studantClass.id);
+      }
+      if (user.purchased) {
+        setPurchased({ purchasedList: user.purchased });
+      }
+    }
+  }, [user]);
 
   return (
     <>
@@ -108,9 +184,8 @@ export default function EditUser({ user }) {
                     value={studantClass}
                     onChange={(e) => setStudantClass(e.target.value)}
                   >
-                    <option value="teste">2</option>
                     {settings?.studantClasses?.map((c) => (
-                      <option key={c.id} value={c}>
+                      <option key={c.id} value={c.id}>
                         {c.title}
                       </option>
                     ))}
@@ -119,7 +194,7 @@ export default function EditUser({ user }) {
               )}
               <form
                 id="editUserForm"
-                onSubmit={handleSubmit(handleEditUser)}
+                onSubmit={handleSubmit(handleUpdatePurchased)}
                 className="flex flex-col justify-center gap-2"
               >
                 <Text>Cursos comprados</Text>
@@ -127,7 +202,7 @@ export default function EditUser({ user }) {
                   className={`relative w-full overflow-hidden rounded-[4px] after:absolute after:bottom-0 after:left-1/2 after:h-[2px]  after:-translate-x-1/2 after:bg-cian after:content-[''] ${
                     watch("purchased") ? "after:w-full" : "after:w-0"
                   } animation hover:after:w-full ${
-                    errors.purchased && "after:w-full after:bg-red-500"
+                    error && "after:w-full after:bg-red-500"
                   } shadow-gray-900/50} shadow-sm`}
                 >
                   <input
@@ -138,7 +213,7 @@ export default function EditUser({ user }) {
                     className={`w-full rounded-[4px]  bg-white px-3 py-[5px] text-base leading-5 outline-none placeholder:text-gray-900`}
                     autoComplete="false"
                   />
-                  {errors.purchased && (
+                  {error && (
                     <Box
                       className={`absolute right-1
                     top-1 text-red-500`}
@@ -147,21 +222,40 @@ export default function EditUser({ user }) {
                     </Box>
                   )}
                 </Box>
+                <span className="-mt-1 text-small text-red-500">
+                  {error && error}
+                </span>
 
                 <button
                   form="editUserForm"
                   type="submit"
                   className="mt-4 w-full rounded-[4px] border-[1px] border-primary-600 bg-white px-3 py-[5px] text-base leading-5 text-primary-600"
                 >
-                  Incluir
+                  Incluir Curso
                 </button>
                 <ul className="py-6">
-                  {user?.purchased?.map((course) => course)}
+                  {purchased?.purchasedList?.map((course) => (
+                    <li
+                      key={course}
+                      className="flex items-center justify-between"
+                    >
+                      <Text>{getCourseName(course)}</Text>
+                      <BiTrash
+                        size={18}
+                        className="cursor-pointer text-red-500"
+                        onClick={() => handleRemoveCourse(course)}
+                      />
+                    </li>
+                  ))}
                 </ul>
               </form>
               <button
                 type="button"
-                className=" mt-6 w-full rounded-sm bg-primary-400 py-[6px] text-base  leading-5 text-white disabled:bg-gray-700"
+                className={` mt-6 w-full rounded-sm ${
+                  loading ? "bg-gray-800" : "bg-primary-400"
+                } py-[6px] text-base  leading-5 text-white disabled:bg-gray-700 `}
+                onClick={handleUpdateUser}
+                disabled={loading}
               >
                 Alterar
               </button>

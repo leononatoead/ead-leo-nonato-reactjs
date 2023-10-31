@@ -11,6 +11,7 @@ import {
   UPDATE_USER_VIDEO_RATING,
   UPDATE_USER_QUIZ_RESULT,
   UPDATE_USER_SURVEY_ANSWER,
+  UPDATE_USER_CLASS_AND_PURCHASED,
   ADD_LIKED_POST_TO_USER,
   REMOVE_LIKED_POST_FROM_USER,
   UPDATE_USER_ADMIN_STATE,
@@ -88,6 +89,14 @@ export const updateAdminState = (data) => async (dispatch) => {
     payload: data,
   });
 };
+
+export const updateClassAndPurchasedCoursesToUser =
+  (data) => async (dispatch) => {
+    dispatch({
+      type: UPDATE_USER_CLASS_AND_PURCHASED,
+      payload: data,
+    });
+  };
 
 export const addLikedPostToUser = (data) => async (dispatch) => {
   dispatch({

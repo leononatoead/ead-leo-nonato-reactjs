@@ -34,3 +34,10 @@ export const updateUserListWhenChangeAdminState = (data) => {
     payload: data,
   };
 };
+
+export const updateUserClassAndCoursePurchased = (data) => {
+  return {
+    type: "usersData/updateUserClassAndCoursePurchased",
+    payload: data,
+  };
+};
