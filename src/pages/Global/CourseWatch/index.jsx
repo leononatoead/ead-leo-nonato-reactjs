@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchVideos } from "../../../redux/modules/courses/actions";
-import { fetchBannerSettings } from "../../../redux/modules/settings/actions";
 import useUserData from "../../../hooks/useUserData";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import Navbar from "../../../components/Navbar";
 import VideoPlayer from "./VideoPlayer";
@@ -11,9 +10,7 @@ import VideoIframe from "./VideoIframe";
 import VideoList from "./VideoList";
 import VideoContent from "./VideoContent";
 import AssetsList from "./AssetsList";
-import Banner from "./Banner";
 import Quiz from "./Quiz";
-import PremiumCourse from "../../../components/PremiumCourse";
 import Footer from "../../../components/Footer";
 import { Box, Image, Text, useMediaQuery } from "@chakra-ui/react";
 import background from "../../../assets/auth-background.png";
@@ -23,15 +20,21 @@ export default function CourseWatch() {
   const pathParams = pathname.split("/");
   const id = pathParams[2];
   const videoId = pathParams[3];
-  const [isLargerThanLg] = useMediaQuery("(min-width: 1024px)");
 
   const { user } = useSelector((state) => state.auth);
   const { courses } = useSelector((state) => state.courses);
-  const { banners } = useSelector((state) => state.settings);
   const course = courses?.find((course) => course.id === id);
+  const verifyPurchase = user?.purchased?.find(
+    (purchasedId) => purchasedId === id,
+  );
+
+  const [isLargerThanLg] = useMediaQuery("(min-width: 1024px)");
 
   const { addCourseToUser, addCourseVideosToUser } = useUserData();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
+  const [locked, setLocked] = useState(null);
   const [videoPlayer, setVideoPlayer] = useState({
     active: {},
     videoList: [],
@@ -44,17 +47,9 @@ export default function CourseWatch() {
     showQuestionsList: false,
   });
 
-  const [locked, setLocked] = useState(null);
-
-  const dispatch = useDispatch();
-
   useEffect(() => {
     if (!course?.videos) {
       dispatch(fetchVideos(id));
-    }
-
-    if (!banners) {
-      dispatch(fetchBannerSettings());
     }
 
     const video = course?.videos?.find((video) => video.id === videoId);
@@ -92,7 +87,21 @@ export default function CourseWatch() {
 
   useEffect(() => {
     if (!user) {
-      setLocked(true);
+      navigate("/");
+    }
+
+    if (user && !verifyPurchase && course?.isPremium && course?.needForm) {
+      navigate("/");
+    }
+
+    if (!user && course?.isPremium && course?.needForm) {
+      navigate("/");
+    }
+
+    if (user && course?.isPremium) {
+      if (!verifyPurchase) {
+        navigate("/");
+      }
     }
 
     if (!course) {
@@ -112,7 +121,7 @@ export default function CourseWatch() {
       if (!user.courses) {
         addCourseToUser(user.uid, courseData);
       } else if (user?.courses) {
-        const checkIfCourseAlreadyInArray = user.courses.find(
+        const checkIfCourseAlreadyInArray = user?.courses?.find(
           (c) => c.id === course.id,
         );
 
@@ -122,8 +131,8 @@ export default function CourseWatch() {
       }
     }
 
-    const selectedCourse = user.courses?.find((c) => c.id === course.id);
-    if (user && user.courses && videoSection && selectedCourse) {
+    const selectedCourse = user?.courses?.find((c) => c.id === course.id);
+    if (user && user?.courses && videoSection && selectedCourse) {
       const video = selectedCourse?.videos?.find(
         (video) => video.id === videoId,
       );
@@ -136,7 +145,7 @@ export default function CourseWatch() {
           section: videoSection,
         };
 
-        const updatedCourse = user.courses.map((c) => {
+        const updatedCourse = user?.courses?.map((c) => {
           if (c.id === course.id) {
             let update = { ...c, videos: [...c.videos, videoData] };
             return update;
@@ -299,12 +308,6 @@ export default function CourseWatch() {
                           </Text>
                         </Box>
                       )}
-                      {/* {banners && (
-                        <>
-                          <Banner data={banners.length > 0 && banners[0]} />
-                          <Banner data={banners.length > 1 && banners[1]} />
-                        </>
-                      )} */}
                     </Box>
                   </Box>
                 </Box>
@@ -316,14 +319,6 @@ export default function CourseWatch() {
       <Box className="hidden lg:block">
         <Footer />
       </Box>
-      <PremiumCourse
-        open={locked}
-        close={setLocked}
-        title={"Conteúdo disponível para assinantes"}
-        text={"Tenha acesso total a este curso assinando a plataforma"}
-        btnText={"Assine já"}
-        closeBtn={false}
-      />
     </Box>
   );
 }

@@ -33,6 +33,9 @@ export default function Course() {
 
   const { user } = useSelector((state) => state.auth);
   const { courses } = useSelector((state) => state.courses);
+  const verifyPurchase = user?.purchased?.find(
+    (purchasedId) => purchasedId === id,
+  );
 
   const checkIfSectionHasVideo = [
     ...new Set(course?.videos?.map((video) => video.section)),
@@ -58,7 +61,7 @@ export default function Course() {
   };
 
   useEffect(() => {
-    if (courses.length > 0) {
+    if (courses?.length > 0) {
       const findCourse = courses?.find((course) => course.id === id);
 
       if (!findCourse.videos) {
@@ -71,8 +74,16 @@ export default function Course() {
         setLocked(true);
       }
 
+      if (user && !verifyPurchase && course?.isPremium && course?.needForm) {
+        navigate("/");
+      }
+
+      if (!user && course?.isPremium && course?.needForm) {
+        navigate("/");
+      }
+
       if (user && course?.isPremium) {
-        if (!user.courses?.includes(id)) {
+        if (!verifyPurchase) {
           setLocked(true);
         }
       }

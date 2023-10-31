@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import ShareBtn from "../../../components/ShareBtn";
@@ -7,14 +8,30 @@ import PremiumCourse from "../../../components/PremiumCourse";
 import { Box, Heading, Image, Text, useMediaQuery } from "@chakra-ui/react";
 import { BiCartAdd } from "react-icons/bi";
 import { IoMdEye } from "react-icons/io";
+import FormModal from "../../../components/FormModal";
 
 export default function CourseCard({ course }) {
+  const [openFormModal, setOpenFormModal] = useState(false);
   const [openPremiumModal, setOpenPremiumModal] = useState(false);
   const [isLargerThanLg] = useMediaQuery("(min-width: 1024px)");
+
+  const { user } = useSelector((state) => state.auth);
+
+  const verifyPurchase = user?.purchased?.find((id) => id === course.id);
 
   const url = `${import.meta.env.VITE_VERCEL_APP_URL}/course/${course.id}`;
 
   const navigate = useNavigate();
+
+  const handleClick = () => {
+    !course?.isPremium
+      ? handleNavigate()
+      : course?.isPremium && verifyPurchase
+      ? handleNavigate()
+      : course?.isPremium && !verifyPurchase && course.needForm
+      ? setOpenFormModal(true)
+      : course?.isPremium && !verifyPurchase && setOpenPremiumModal(true);
+  };
 
   const handleNavigate = () => {
     navigate(`/course/${course.id}`);
@@ -26,7 +43,7 @@ export default function CourseCard({ course }) {
 
   return (
     <Box
-      onClick={handleNavigate}
+      onClick={handleClick}
       className="flex h-32 w-full cursor-pointer items-center gap-3 rounded-lg bg-white p-3 shadow-md lg:h-[188px] lg:gap-4 lg:p-4"
     >
       <Image
@@ -72,12 +89,22 @@ export default function CourseCard({ course }) {
         </Box>
       </Box>
 
-      <PremiumCourse
-        open={openPremiumModal}
-        close={setOpenPremiumModal}
-        courseData={course}
-        closeBtn={true}
-      />
+      {course.isPremium && !course.formRef && (
+        <PremiumCourse
+          open={openPremiumModal}
+          close={setOpenPremiumModal}
+          courseData={course}
+          closeBtn={true}
+        />
+      )}
+
+      {course.formRef && (
+        <FormModal
+          open={openFormModal}
+          close={setOpenFormModal}
+          formId={course.formRef}
+        />
+      )}
     </Box>
   );
 }
