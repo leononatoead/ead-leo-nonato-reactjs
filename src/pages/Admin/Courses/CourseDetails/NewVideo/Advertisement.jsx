@@ -22,13 +22,13 @@ export default function Advertisement({ videoData, setVideoData }) {
       ...prev,
       advertisement: {
         ...prev.advertisement,
-        advertisementList: [...prev.advertisement.advertisementList, formData],
+        advertisementList: [formData],
       },
     }));
 
     reset({
       advertisementName: "",
-      advertisementTime: "",
+      // advertisementTime: "",
       advertisementPath: "",
       advertisementImage: "",
     });
@@ -60,7 +60,7 @@ export default function Advertisement({ videoData, setVideoData }) {
         error={errors?.advertisementName?.message}
         watch={watch}
       />
-      <Input
+      {/* <Input
         theme={"light"}
         type={"text"}
         label={"Tempo do Vídeo"}
@@ -69,7 +69,7 @@ export default function Advertisement({ videoData, setVideoData }) {
         id={"advertisementTime"}
         error={errors?.advertisementTime?.message}
         watch={watch}
-      />
+      /> */}
 
       <Input
         theme={"light"}
@@ -83,13 +83,23 @@ export default function Advertisement({ videoData, setVideoData }) {
       />
 
       <Box className="flex items-center justify-start gap-4">
-        <button
-          className="mt-2 w-[50%] rounded-[4px] border-[1px] border-primary-600 bg-white px-3 py-[5px] text-base leading-5 text-primary-600"
-          type="submit"
-          form="AddAdvertisementForm"
-        >
-          Incluir
-        </button>
+        {videoData.advertisement.advertisementList.length === 0 ? (
+          <button
+            className="mt-2 w-[50%] rounded-[4px] border-[1px] border-primary-600 bg-white px-3 py-[5px] text-base leading-5 text-primary-600"
+            type="submit"
+            form="AddAdvertisementForm"
+          >
+            Incluir
+          </button>
+        ) : (
+          <button
+            className="mt-2 w-[50%] rounded-[4px] border-[1px] border-primary-600 bg-white px-3 py-[5px] text-base leading-5 text-primary-600"
+            type="submit"
+            form="AddAdvertisementForm"
+          >
+            Editar
+          </button>
+        )}
 
         {videoData.advertisement.advertisementList.length > 0 && (
           <AdvertisementList

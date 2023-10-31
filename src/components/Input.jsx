@@ -71,13 +71,25 @@ export default function Input({
         ) : type === "number" ? (
           <input
             id={id}
-            type={"number"}
+            type="number"
             placeholder={placeholder}
             {...register(id, { valueAsNumber: true })}
             autoComplete="false"
             defaultValue={defaultValue}
             step={"any"}
             min={0}
+            className={`w-full rounded-[4px]  px-3 py-[5px] text-base leading-5 outline-none ${
+              theme === "light" ? "bg-white" : "bg-white/5"
+            } placeholder:text-gray-900`}
+          />
+        ) : type === "email" ? (
+          <input
+            id={id}
+            type="email"
+            placeholder={placeholder}
+            {...register(id)}
+            autoComplete="false"
+            defaultValue={defaultValue}
             className={`w-full rounded-[4px]  px-3 py-[5px] text-base leading-5 outline-none ${
               theme === "light" ? "bg-white" : "bg-white/5"
             } placeholder:text-gray-900`}

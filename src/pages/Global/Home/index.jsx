@@ -27,8 +27,12 @@ export default function Home() {
   const { courses } = useSelector((state) => state.courses);
   const settings = useSelector((state) => state.settings);
 
-  const freeCourses = courses?.filter((course) => !course.isPremium);
-  const paidCourses = courses?.filter((course) => course.isPremium);
+  const freeCourses = courses?.filter(
+    (course) => !course.isPremium && !course.isHidden,
+  );
+  const paidCourses = courses?.filter(
+    (course) => course.isPremium && !course.isHidden,
+  );
 
   const { verifySettingsUpdate } = useCheckUpdate();
 

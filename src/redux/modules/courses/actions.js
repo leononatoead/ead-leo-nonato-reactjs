@@ -1,27 +1,26 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import { createAsyncThunk } from "@reduxjs/toolkit";
 
-import { database } from '../../../firebase/config';
+import { database } from "../../../firebase/config";
 
 import {
   collection,
   doc,
   getDoc,
   getDocs,
-  limit,
   onSnapshot,
   orderBy,
   query,
-} from 'firebase/firestore';
+} from "firebase/firestore";
 
 export const fetchCourses = createAsyncThunk(
-  'courses/fetchCourses',
+  "courses/fetchCourses",
   async () => {
-    const collectionRef = collection(database, 'courses');
+    const collectionRef = collection(database, "courses");
 
     try {
-      const q = query(collectionRef, orderBy('createdAt', 'asc'));
+      const q = query(collectionRef, orderBy("createdAt", "asc"));
 
-      const courseUpdate = doc(database, 'updates', 'courses');
+      const courseUpdate = doc(database, "updates", "courses");
       const document = await getDoc(courseUpdate);
 
       return new Promise((resolve, reject) => {
@@ -36,7 +35,7 @@ export const fetchCourses = createAsyncThunk(
             resolve(data);
 
             localStorage.setItem(
-              'lastCoursesUpdate',
+              "lastCoursesUpdate",
               JSON.stringify(
                 new Date(document.data()?.lastCoursesUpdate?.toMillis()),
               ),
@@ -54,12 +53,12 @@ export const fetchCourses = createAsyncThunk(
 );
 
 export const fetchVideos = createAsyncThunk(
-  'courses/fetchVideos',
+  "courses/fetchVideos",
   async (courseId) => {
     const collectionRef = collection(database, `courses/${courseId}/videos`);
 
     try {
-      const q = query(collectionRef, orderBy('createdAt', 'asc'));
+      const q = query(collectionRef, orderBy("createdAt", "asc"));
 
       const querySnapshot = await getDocs(q);
 
@@ -81,63 +80,63 @@ export const fetchVideos = createAsyncThunk(
 
 export const addCourse = (courseData) => {
   return {
-    type: 'courses/addCourse',
+    type: "courses/addCourse",
     payload: courseData,
   };
 };
 
 export const editCourse = (courseData) => {
   return {
-    type: 'courses/editCourse',
+    type: "courses/editCourse",
     payload: courseData,
   };
 };
 
 export const delCourse = (courseId) => {
   return {
-    type: 'courses/delCourse',
+    type: "courses/delCourse",
     payload: courseId,
   };
 };
 
 export const addVideo = (videoData) => {
   return {
-    type: 'courses/addVideo',
+    type: "courses/addVideo",
     payload: videoData,
   };
 };
 
 export const editVideo = (videoData) => {
   return {
-    type: 'courses/editVideo',
+    type: "courses/editVideo",
     payload: videoData,
   };
 };
 
 export const delVideo = (videoData) => {
   return {
-    type: 'courses/delVideo',
+    type: "courses/delVideo",
     payload: videoData,
   };
 };
 
 export const selectLesson = (videoData) => {
   return {
-    type: 'courses/selectLesson',
+    type: "courses/selectLesson",
     payload: videoData,
   };
 };
 
 export const searchCourse = (searchQuery) => {
   return {
-    type: 'courses/searchCourse',
+    type: "courses/searchCourse",
     payload: searchQuery,
   };
 };
 
 export const fetchCoursesFromLocalStorage = (data) => {
   return {
-    type: 'courses/fetchCoursesFromLocalStorage',
+    type: "courses/fetchCoursesFromLocalStorage",
     payload: data,
   };
 };

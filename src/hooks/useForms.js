@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { database } from '../firebase/config';
+import { useState } from "react";
+import { database } from "../firebase/config";
 
-import { useDispatch } from 'react-redux';
+import { useDispatch } from "react-redux";
 
 import {
   Timestamp,
@@ -9,11 +9,12 @@ import {
   collection,
   deleteDoc,
   doc,
+  getDoc,
   updateDoc,
-} from 'firebase/firestore';
+} from "firebase/firestore";
 
-import { useToast } from '@chakra-ui/react';
-import { delForm, editForm, newForm } from '../redux/modules/forms/actions';
+import { useToast } from "@chakra-ui/react";
+import { delForm, editForm, newForm } from "../redux/modules/forms/actions";
 
 const useForms = () => {
   const [loading, setLoading] = useState(false);
@@ -27,7 +28,7 @@ const useForms = () => {
     try {
       const formData = { ...form, createdAt: Timestamp.now() };
 
-      const res = await addDoc(collection(database, 'forms'), formData);
+      const res = await addDoc(collection(database, "forms"), formData);
 
       const data = {
         id: res.id,
@@ -38,16 +39,16 @@ const useForms = () => {
       dispatch(newForm(data));
 
       toast({
-        description: 'Formulário adicionado com sucesso!',
-        status: 'success',
-        duration: '3000',
+        description: "Formulário adicionado com sucesso!",
+        status: "success",
+        duration: "3000",
         isClosable: true,
       });
     } catch (error) {
       toast({
         description: error.message,
-        status: 'error',
-        duration: '3000',
+        status: "error",
+        duration: "3000",
         isClosable: true,
       });
     } finally {
@@ -59,7 +60,7 @@ const useForms = () => {
     setLoading(true);
 
     try {
-      const formRef = doc(database, 'forms', id);
+      const formRef = doc(database, "forms", id);
       await updateDoc(formRef, form);
 
       const data = { id, ...form };
@@ -67,17 +68,17 @@ const useForms = () => {
       dispatch(editForm(data));
 
       toast({
-        description: 'Formulário atualizado com sucesso!',
-        status: 'success',
-        duration: '3000',
+        description: "Formulário atualizado com sucesso!",
+        status: "success",
+        duration: "3000",
         isClosable: true,
       });
     } catch (error) {
       console.log(error);
       toast({
         description: error.message,
-        status: 'error',
-        duration: '3000',
+        status: "error",
+        duration: "3000",
         isClosable: true,
       });
     } finally {
@@ -86,6 +87,7 @@ const useForms = () => {
   };
 
   const deleteForm = async (id) => {
+    setLoading(true);
     try {
       const formRef = doc(database, `forms`, id);
       await deleteDoc(formRef);
@@ -93,16 +95,16 @@ const useForms = () => {
       dispatch(delForm(id));
 
       toast({
-        description: 'Formulário removido com sucesso!',
-        status: 'success',
-        duration: '3000',
+        description: "Formulário removido com sucesso!",
+        status: "success",
+        duration: "3000",
         isClosable: true,
       });
     } catch (error) {
       toast({
         description: error.message,
-        status: 'error',
-        duration: '3000',
+        status: "error",
+        duration: "3000",
         isClosable: true,
       });
     } finally {

@@ -10,9 +10,9 @@ import {
   Flex,
   Text,
   Image,
-} from '@chakra-ui/react';
+} from "@chakra-ui/react";
 
-import { BiTrash } from 'react-icons/bi';
+import { BiTrash } from "react-icons/bi";
 
 export default function AdvertisementList({ videoData, setVideoData }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -31,42 +31,44 @@ export default function AdvertisementList({ videoData, setVideoData }) {
   return (
     <>
       <button
-        type='button'
+        type="button"
         onClick={onOpen}
-        className='w-[50%] bg-white rounded-[4px] px-3 py-[5px] text-primary-600 border-[1px] border-primary-600 text-base leading-5 mt-2'
+        className="mt-2 w-[50%] rounded-[4px] border-[1px] border-primary-600 bg-white px-3 py-[5px] text-base leading-5 text-primary-600"
       >
-        Ver inclusos
+        Ver anúncio
       </button>
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent className='!max-w-[95%]'>
-          <ModalHeader className='!flex !items-center'>
-            <Text className='text-primary-600 -mt-2'>Anúncios</Text>
+        <ModalContent className="!max-w-[95%] self-center">
+          <ModalHeader className="!flex !items-center">
+            <Text className="-mt-2 !font-poppins text-primary-600">
+              Anúncios
+            </Text>
             <ModalCloseButton />
           </ModalHeader>
           <ModalBody p={4}>
             <Flex
-              flexDirection={'column'}
-              alignItems={'flex-start'}
-              justifyContent={'center'}
+              flexDirection={"column"}
+              alignItems={"flex-start"}
+              justifyContent={"center"}
               gap={3}
             >
               {videoData.advertisement.advertisementList.length > 0 ? (
                 videoData.advertisement.advertisementList.map(
                   (advertisement, index) => (
-                    <Box key={index} className='w-full'>
+                    <Box key={index} className="w-full">
                       <Image
                         src={advertisement.advertisementImage}
-                        className='max-h-[60px] w-full object-cover rounded-md'
+                        className="max-h-[120px] w-full rounded-md object-cover"
                       />
-                      <Box className='w-full flex items-center justify-between gap-4 mt-1'>
+                      <Box className="mt-1 flex w-full items-center justify-between gap-4">
                         <Box>{advertisement.advertisementName}</Box>
-                        <Box className='flex items-center gap-2'>
+                        <Box className="flex items-center gap-2">
                           <button
                             onClick={() => handleDeleteAdvertisement(index)}
                           >
-                            <BiTrash size={18} className='text-red-500' />
+                            <BiTrash size={18} className="text-red-500" />
                           </button>
                         </Box>
                       </Box>
@@ -74,7 +76,7 @@ export default function AdvertisementList({ videoData, setVideoData }) {
                   ),
                 )
               ) : (
-                <Text className='p-2'>Nenhum anúncio cadastrado.</Text>
+                <Text className="p-2">Nenhum anúncio cadastrado.</Text>
               )}
             </Flex>
           </ModalBody>

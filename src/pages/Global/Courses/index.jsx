@@ -47,14 +47,18 @@ export default function Courses() {
           {courses && (
             <ul className="flex flex-col gap-4 px-4 py-6">
               {id === "all" &&
-                courses?.map((course) => (
-                  <CourseCard course={course} key={course.id} />
-                ))}
+                courses?.map(
+                  (course) =>
+                    !course.isHidden && (
+                      <CourseCard course={course} key={course.id} />
+                    ),
+                )}
 
               {id === "free" &&
                 courses?.map(
                   (course) =>
                     !course.isPremium &&
+                    !course.isHidden &&
                     id === "free" && (
                       <CourseCard course={course} key={course.id} />
                     ),
@@ -64,6 +68,7 @@ export default function Courses() {
                 courses?.map(
                   (course) =>
                     course.isPremium &&
+                    !course.isHidden &&
                     id === "premium" && (
                       <CourseCard course={course} key={course.id} />
                     ),

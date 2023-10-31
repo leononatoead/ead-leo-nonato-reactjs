@@ -358,7 +358,7 @@ export default function EditVideo() {
           </>
         )}
         <Box className="flex items-center justify-start gap-4" my={"16px"}>
-          <Text className="text-base font-bold text-primary-600">Anúncios</Text>
+          <Text className="text-base font-bold text-primary-600">Anúncio</Text>
           <Box className="flex items-center justify-start gap-4">
             <Switch
               id="hasAdvertisement"

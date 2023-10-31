@@ -9,9 +9,9 @@ import {
   Box,
   Flex,
   Text,
-} from '@chakra-ui/react';
+} from "@chakra-ui/react";
 
-import { BiTrash } from 'react-icons/bi';
+import { BiTrash } from "react-icons/bi";
 
 export default function AssetsList({ videoData, setVideoData }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -30,45 +30,45 @@ export default function AssetsList({ videoData, setVideoData }) {
   return (
     <>
       <button
-        type='button'
+        type="button"
         onClick={onOpen}
-        className='w-[50%] bg-white rounded-[4px] px-3 py-[5px] text-primary-600 border-[1px] border-primary-600 text-base leading-5 mt-2'
+        className="mt-2 w-[50%] rounded-[4px] border-[1px] border-primary-600 bg-white px-3 py-[5px] text-base leading-5 text-primary-600"
       >
         Ver inclusos
       </button>
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent className='!max-w-[95%]'>
-          <ModalHeader className='!flex !items-center'>
-            <Text className='text-primary-600 -mt-2'>
+        <ModalContent className="!max-w-[95%] self-center">
+          <ModalHeader className="!flex !items-center">
+            <Text className="-mt-2 !font-poppins text-primary-600">
               Material Complementar
             </Text>
             <ModalCloseButton />
           </ModalHeader>
           <ModalBody p={4}>
             <Flex
-              flexDirection={'column'}
-              alignItems={'flex-start'}
-              justifyContent={'center'}
+              flexDirection={"column"}
+              alignItems={"flex-start"}
+              justifyContent={"center"}
               gap={2}
             >
               {videoData.assets.assetsList.length > 0 ? (
                 videoData.assets.assetsList.map((asset, index) => (
                   <Box
                     key={index}
-                    className='w-full flex items-center justify-between gap-4'
+                    className="flex w-full items-center justify-between gap-4"
                   >
                     <Box>{asset.fileName}</Box>
-                    <Box className='flex items-center gap-2'>
+                    <Box className="flex items-center gap-2">
                       <button onClick={() => handleDeleteAsset(index)}>
-                        <BiTrash size={18} className='text-red-500' />
+                        <BiTrash size={18} className="text-red-500" />
                       </button>
                     </Box>
                   </Box>
                 ))
               ) : (
-                <Text className='p-2'>Nenhum material cadastrado.</Text>
+                <Text className="p-2">Nenhum material cadastrado.</Text>
               )}
             </Flex>
           </ModalBody>

@@ -34,7 +34,7 @@ export default function ChangeAdminState({ user }) {
           <Flex
             alignItems={"center"}
             gap={1}
-            className="flex w-20 items-center justify-center rounded-full bg-green-200  text-white"
+            className="flex w-20 items-center justify-center rounded-full bg-green-200 text-white"
           >
             <MdAdminPanelSettings className="text-white" />
             <Text className="text-base font-normal">Admin</Text>
@@ -54,7 +54,7 @@ export default function ChangeAdminState({ user }) {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent
-          className="!absolute !bottom-0 !m-0 !rounded-b-none !rounded-t-3xl !bg-gray-200"
+          className="self-center !rounded-lg !bg-gray-200 lg:static"
           py={6}
         >
           <ModalHeader className="!flex !items-center !pb-0">

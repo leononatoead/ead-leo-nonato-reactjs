@@ -47,9 +47,15 @@ export default function EditForm() {
   const handleAddField = (formData) => {
     setFormData((prev) => ({
       ...prev,
-      fields: [...prev.fields, formData],
+      fields: [
+        ...prev.fields,
+        {
+          ...formData,
+          id: formData.id.trim().toLowerCase().replace(/\s/g, ""),
+        },
+      ],
     }));
-    reset({ field: "", type: "text", placeholder: "" });
+    reset({ field: "", id: "", type: "text", placeholder: "" });
   };
 
   const handleRemoveField = (index) => {
@@ -138,11 +144,21 @@ export default function EditForm() {
             <Input
               theme={"light"}
               type={"text"}
-              label={"Campo"}
+              label={"Nome do campo"}
               placeholder={"Digite aqui"}
               register={register}
               id={"field"}
               error={errors?.field?.message}
+              watch={watch}
+            />
+            <Input
+              theme={"light"}
+              type={"text"}
+              label={"ID"}
+              placeholder={"Digite aqui"}
+              register={register}
+              id={"id"}
+              error={errors?.id?.message}
               watch={watch}
             />
             <Box className="flex items-center justify-center gap-4">

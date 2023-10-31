@@ -15,6 +15,7 @@ import { fetchUsers } from "../../../../redux/modules/users/actions";
 import { fetchVideos } from "../../../../redux/modules/courses/actions";
 
 import ChangeAdminState from "./ChangeAdminState";
+import EditUser from "./EditUser";
 
 export default function User() {
   const { id } = useParams();
@@ -79,6 +80,16 @@ export default function User() {
             <span className="font-bold">Turma: </span>
             {user?.studantClass ? user?.studantClass.title : "Nenhuma"}
           </Text>
+          <Text className="text-base font-medium">
+            <span className="font-bold">Cursos comprados: </span>
+            {user?.purchased?.length > 0 ? (
+              <>{user.purchased.map((course) => course)}</>
+            ) : (
+              "Nenhum"
+            )}
+          </Text>
+
+          <EditUser user={user} />
         </Flex>
       </Box>
 

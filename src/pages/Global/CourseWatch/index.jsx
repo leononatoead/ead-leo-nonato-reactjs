@@ -15,7 +15,7 @@ import Banner from "./Banner";
 import Quiz from "./Quiz";
 import PremiumCourse from "../../../components/PremiumCourse";
 import Footer from "../../../components/Footer";
-import { Box, Image, useMediaQuery } from "@chakra-ui/react";
+import { Box, Image, Text, useMediaQuery } from "@chakra-ui/react";
 import background from "../../../assets/auth-background.png";
 
 export default function CourseWatch() {
@@ -150,8 +150,6 @@ export default function CourseWatch() {
     }
   }, [courses, user, videoId]);
 
-  //TODO: ANUNCIOS NOS VIDEOS
-
   return (
     <Box className="bg-gray-200 lg:flex lg:flex-col lg:justify-between lg:pb-14">
       <Box className="flex min-h-[100dvh] flex-col bg-gray-200 lg:min-h-[calc(100vh-78px)]">
@@ -190,6 +188,17 @@ export default function CourseWatch() {
                   />
                 ) : (
                   <VideoIframe videoPlayer={videoPlayer} />
+                )}
+                {videoPlayer?.active?.advertisementList && (
+                  <Box className="w-full px-4">
+                    <Image
+                      src={
+                        videoPlayer.active.advertisementList[0]
+                          .advertisementImage
+                      }
+                      className="max-h-[80px] min-h-[80px] w-full rounded-md object-cover"
+                    />
+                  </Box>
                 )}
 
                 {!videoPlayer.showVideoList &&
@@ -272,13 +281,30 @@ export default function CourseWatch() {
                         videoId={videoId}
                       />
                     </Box>
-                    <Box className="flex max-w-[390px] flex-col gap-1">
-                      {banners && (
+                    <Box className="flex w-full max-w-[390px] flex-col gap-1">
+                      {videoPlayer?.active?.advertisementList && (
+                        <Box className="w-full">
+                          <Image
+                            src={
+                              videoPlayer.active.advertisementList[0]
+                                .advertisementImage
+                            }
+                            className="max-h-[120px] min-h-[120px] w-full rounded-md object-cover"
+                          />
+                          <Text className="pt-2 font-poppins font-bold text-primary-400">
+                            {
+                              videoPlayer.active.advertisementList[0]
+                                .advertisementName
+                            }
+                          </Text>
+                        </Box>
+                      )}
+                      {/* {banners && (
                         <>
                           <Banner data={banners.length > 0 && banners[0]} />
                           <Banner data={banners.length > 1 && banners[1]} />
                         </>
-                      )}
+                      )} */}
                     </Box>
                   </Box>
                 </Box>

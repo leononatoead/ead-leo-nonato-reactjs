@@ -91,9 +91,9 @@ export default function SectionList({ sections, setSections }) {
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent className="!max-w-[95%]">
+        <ModalContent className="!max-w-[95%] self-center">
           <ModalHeader className="!flex !items-center">
-            <Text className="-mt-2 text-primary-600">Seções</Text>
+            <Text className="-mt-2 !font-poppins text-primary-600">Seções</Text>
             <ModalCloseButton />
           </ModalHeader>
           <ModalBody p={4}>
