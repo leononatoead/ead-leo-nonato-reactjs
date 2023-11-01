@@ -23,6 +23,8 @@ export default function EditNotification() {
     (notification) => notification.id === id,
   );
 
+  console.log(notification);
+
   const [openConfirmModal, setOpenConfirmModal] = useState();
 
   const {
@@ -124,6 +126,7 @@ export default function EditNotification() {
           id={"text"}
           error={errors?.text?.message}
           watch={watch}
+          defaultValue={notification?.text}
         />
         <Input
           theme={"light"}

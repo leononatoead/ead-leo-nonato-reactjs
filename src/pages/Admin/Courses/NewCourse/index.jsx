@@ -21,7 +21,6 @@ export default function NewCourse() {
   const [error, setError] = useState({
     image: "",
     price: "",
-    paymentRef: "",
     paymentURL: "",
     formRef: "",
   });
@@ -59,7 +58,6 @@ export default function NewCourse() {
     setError({
       image: "",
       price: "",
-      paymentRef: "",
       paymentURL: "",
       formRef: "",
     });
@@ -80,16 +78,11 @@ export default function NewCourse() {
     }
 
     if (switchStates.isPremium) {
-      if (!formData.price || !formData.paymentRef || !formData.paymentURL) {
+      if (!formData.price || !formData.paymentURL) {
         if (!formData.price) {
           setError((prev) => ({ ...prev, price: "Digite um preço válido" }));
         }
-        if (!formData.paymentRef) {
-          setError((prev) => ({
-            ...prev,
-            paymentRef: "Digite uma referência válida",
-          }));
-        }
+
         if (!formData.paymentURL) {
           setError((prev) => ({
             ...prev,
@@ -126,7 +119,6 @@ export default function NewCourse() {
       description: "",
       author: "",
       price: "",
-      paymentRef: "",
       paymentURL: "",
       formRef: "",
     });
@@ -209,16 +201,7 @@ export default function NewCourse() {
                 watch={watch}
                 defaultValue={0}
               />
-              <Input
-                theme={"light"}
-                type={"text"}
-                label={"Referência de pagamento"}
-                placeholder={"Digite aqui"}
-                register={register}
-                id={"paymentRef"}
-                error={error?.paymentRef}
-                watch={watch}
-              />
+
               <Input
                 theme={"light"}
                 type={"text"}

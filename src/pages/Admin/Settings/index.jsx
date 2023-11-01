@@ -223,7 +223,7 @@ export default function Settings() {
               <Box className="flex w-full justify-end">
                 <Link
                   to="/dashboard/settings/whatsapp/edit"
-                  className="add-btn"
+                  className="add-btn mb-6"
                 >
                   <MdAddCircleOutline size={20} />
                   <span className="font-bold">Novo URL</span>
@@ -265,7 +265,7 @@ export default function Settings() {
               <Box className="flex w-full justify-end">
                 <Link
                   to="/dashboard/settings/registervideo/edit"
-                  className="add-btn"
+                  className="add-btn mb-6"
                 >
                   <MdAddCircleOutline size={20} />
                   <span className="font-bold">Novo vídeo</span>

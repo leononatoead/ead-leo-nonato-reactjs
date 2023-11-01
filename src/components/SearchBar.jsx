@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Box } from "@chakra-ui/react";
 import { IoIosSearch } from "react-icons/io";
 
-export default function SearchBar({ type, navbar }) {
+export default function SearchBar({ type, navbar, searchPage }) {
   const [search, setSearch] = useState("");
 
   const navigate = useNavigate();
@@ -51,7 +51,7 @@ export default function SearchBar({ type, navbar }) {
             navbar
               ? "placeholder:font-medium lg:max-w-[290px] lg:bg-gray-150"
               : "lg:bg-white"
-          }`}
+          } ${searchPage && "!bg-white"}`}
         />
       </form>
     </Box>

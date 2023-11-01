@@ -26,8 +26,6 @@ export default function Sections({ sections, setSections }) {
       (section) => section.order === formData.order,
     );
 
-    console.log(sections);
-
     if (filterOrder) {
       toast({
         description: "Já existe uma ordem com este valor!",

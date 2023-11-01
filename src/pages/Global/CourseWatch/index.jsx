@@ -199,7 +199,7 @@ export default function CourseWatch() {
                   <VideoIframe videoPlayer={videoPlayer} />
                 )}
                 {videoPlayer?.active?.advertisementList && (
-                  <Box className="w-full px-4">
+                  <Box className="mb-4 w-full px-4">
                     <Image
                       src={
                         videoPlayer.active.advertisementList[0]

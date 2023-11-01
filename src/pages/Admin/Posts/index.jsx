@@ -10,6 +10,7 @@ import { MdAddCircleOutline } from "react-icons/md";
 
 export default function Posts() {
   const { posts, pages, currentPage } = useSelector((state) => state.posts);
+
   const page = pages?.find((page) => page.page === currentPage);
 
   const dispatch = useDispatch();

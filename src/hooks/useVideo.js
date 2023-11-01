@@ -187,7 +187,7 @@ const useVideo = () => {
 
       let videoDataUpdated;
 
-      if (videoData.videoFile !== null) {
+      if (videoData.videoFile) {
         const firestoreVideoFileName = `videos/${Date.now()}${v4()}`;
         const videoStorageRef = ref(storage, firestoreVideoFileName);
 
@@ -205,7 +205,7 @@ const useVideo = () => {
       } else {
         videoDataUpdated = {
           ...videoData,
-          videoPath: videoData.videoPath,
+          videoPath: null,
           createdAt: Timestamp.now(),
           assetsList: assets,
         };
@@ -347,6 +347,8 @@ const useVideo = () => {
         assetsList: updatedAssets,
         createdAt: Timestamp.fromMillis(oldVideoData.createdAt),
       };
+
+      console.log(videoData);
 
       reducerData = { ...reducerData, assetsList: updatedAssets };
 

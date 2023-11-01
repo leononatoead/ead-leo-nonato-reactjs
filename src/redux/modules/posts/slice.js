@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 import {
   fetchMorePosts,
   fetchPost,
@@ -8,16 +8,19 @@ import {
   selectCategory,
   fetchComments,
   addLikePost,
-} from './actions';
+} from "./actions";
 
 const postsReducer = createSlice({
-  name: 'posts',
-  initialState: { posts: [], pages: [] },
+  name: "posts",
+  initialState: { posts: [], pages: [], currentPage: 1 },
   reducers: {
     newPost: (state, action) => {
       const oldPosts = JSON.parse(JSON.stringify([...state.posts]));
       let posts = [action.payload, ...oldPosts];
-      posts.pop();
+
+      if (posts.length >= 10) {
+        posts.pop();
+      }
 
       let pagination = [];
       let currentPage = null;
@@ -31,11 +34,11 @@ const postsReducer = createSlice({
       });
 
       const storagePosts = JSON.stringify([...posts]);
-      localStorage.setItem('posts', storagePosts);
+      localStorage.setItem("posts", storagePosts);
       const storagePages = JSON.stringify([pagination[0]]);
-      localStorage.setItem('pages', storagePages);
+      localStorage.setItem("pages", storagePages);
       const storagePage = JSON.stringify(1);
-      localStorage.setItem('currentPage', storagePage);
+      localStorage.setItem("currentPage", storagePage);
 
       return {
         ...state,
@@ -70,15 +73,15 @@ const postsReducer = createSlice({
       });
 
       const storagePosts = JSON.stringify([...updatePosts]);
-      localStorage.setItem('posts', storagePosts);
+      localStorage.setItem("posts", storagePosts);
       const storagePages = JSON.stringify([...pagination]);
-      localStorage.setItem('pages', storagePages);
+      localStorage.setItem("pages", storagePages);
 
       return { ...state, posts: updatePosts, pages: pagination };
     },
     changePage: (state, action) => {
       const storagePage = JSON.stringify(action.payload);
-      localStorage.setItem('currentPage', storagePage);
+      localStorage.setItem("currentPage", storagePage);
 
       return {
         ...state,
@@ -111,9 +114,9 @@ const postsReducer = createSlice({
       });
 
       const storagePosts = JSON.stringify([...updatePosts]);
-      localStorage.setItem('posts', storagePosts);
+      localStorage.setItem("posts", storagePosts);
       const storagePages = JSON.stringify([...pagination]);
-      localStorage.setItem('pages', storagePages);
+      localStorage.setItem("pages", storagePages);
 
       return { ...state, posts: updatePosts, pages: pagination };
     },
@@ -147,9 +150,9 @@ const postsReducer = createSlice({
       });
 
       const storagePosts = JSON.stringify([...updatePosts]);
-      localStorage.setItem('posts', storagePosts);
+      localStorage.setItem("posts", storagePosts);
       const storagePages = JSON.stringify([...pagination]);
-      localStorage.setItem('pages', storagePages);
+      localStorage.setItem("pages", storagePages);
 
       return { ...state, posts: updatePosts, pages: pagination };
     },
@@ -176,9 +179,9 @@ const postsReducer = createSlice({
       });
 
       const storagePosts = JSON.stringify([...updatePosts]);
-      localStorage.setItem('posts', storagePosts);
+      localStorage.setItem("posts", storagePosts);
       const storagePages = JSON.stringify([...pagination]);
-      localStorage.setItem('pages', storagePages);
+      localStorage.setItem("pages", storagePages);
 
       return { ...state, posts: updatePosts, pages: pagination };
     },
@@ -205,9 +208,9 @@ const postsReducer = createSlice({
       });
 
       const storagePosts = JSON.stringify([...updatePosts]);
-      localStorage.setItem('posts', storagePosts);
+      localStorage.setItem("posts", storagePosts);
       const storagePages = JSON.stringify([...pagination]);
-      localStorage.setItem('pages', storagePages);
+      localStorage.setItem("pages", storagePages);
 
       return { ...state, posts: updatePosts, pages: pagination };
     },
@@ -226,11 +229,11 @@ const postsReducer = createSlice({
         const page = { page: 1, posts: action.payload };
 
         const storagePosts = JSON.stringify([...action.payload]);
-        localStorage.setItem('posts', storagePosts);
+        localStorage.setItem("posts", storagePosts);
         const storagePages = JSON.stringify([page]);
-        localStorage.setItem('pages', storagePages);
+        localStorage.setItem("pages", storagePages);
         const storagePage = JSON.stringify(1);
-        localStorage.setItem('currentPage', storagePage);
+        localStorage.setItem("currentPage", storagePage);
 
         return {
           ...state,
@@ -256,11 +259,11 @@ const postsReducer = createSlice({
         });
 
         const storagePosts = JSON.stringify([...posts]);
-        localStorage.setItem('posts', storagePosts);
+        localStorage.setItem("posts", storagePosts);
         const storagePages = JSON.stringify([...pagination]);
-        localStorage.setItem('pages', storagePages);
+        localStorage.setItem("pages", storagePages);
         const storagePage = JSON.stringify(pages[pages.length - 1].page + 1);
-        localStorage.setItem('currentPage', storagePage);
+        localStorage.setItem("currentPage", storagePage);
 
         return {
           ...state,
@@ -301,9 +304,9 @@ const postsReducer = createSlice({
         });
 
         const storagePosts = JSON.stringify([...updatePosts]);
-        localStorage.setItem('posts', storagePosts);
+        localStorage.setItem("posts", storagePosts);
         const storagePages = JSON.stringify([...pagination]);
-        localStorage.setItem('pages', storagePages);
+        localStorage.setItem("pages", storagePages);
 
         return { ...state, posts: updatePosts, pages: pagination };
       })
@@ -312,7 +315,7 @@ const postsReducer = createSlice({
         const removePost = posts.filter(
           (post) => post.id !== action.payload.id,
         );
-        const newPosts = [...removePost, action.payload.post];
+        const newPosts = [...removePost];
 
         let pagination = [];
         let currentPage = null;
@@ -325,9 +328,9 @@ const postsReducer = createSlice({
         });
 
         const storagePosts = JSON.stringify([...newPosts]);
-        localStorage.setItem('posts', storagePosts);
+        localStorage.setItem("posts", storagePosts);
         const storagePages = JSON.stringify([...pagination]);
-        localStorage.setItem('pages', storagePages);
+        localStorage.setItem("pages", storagePages);
 
         return {
           ...state,

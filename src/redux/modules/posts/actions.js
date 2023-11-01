@@ -1,5 +1,5 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import { database } from '../../../firebase/config';
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { database } from "../../../firebase/config";
 import {
   collection,
   doc,
@@ -11,15 +11,15 @@ import {
   query,
   startAfter,
   where,
-} from 'firebase/firestore';
+} from "firebase/firestore";
 
-export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
-  const collectionRef = collection(database, 'posts');
+export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
+  const collectionRef = collection(database, "posts");
 
   try {
-    const q = query(collectionRef, orderBy('createdAt', 'desc'), limit(10));
+    const q = query(collectionRef, orderBy("createdAt", "desc"), limit(10));
 
-    const postsUpdate = doc(database, 'updates', 'posts');
+    const postsUpdate = doc(database, "updates", "posts");
     const document = await getDoc(postsUpdate);
 
     return new Promise((resolve, reject) => {
@@ -35,7 +35,7 @@ export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
           resolve(data);
 
           localStorage.setItem(
-            'lastPostsUpdate',
+            "lastPostsUpdate",
             JSON.stringify(
               new Date(document.data()?.lastPostsUpdate?.toMillis()),
             ),
@@ -52,17 +52,17 @@ export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
 });
 
 export const fetchMorePosts = createAsyncThunk(
-  'posts/fetchMorePosts',
+  "posts/fetchMorePosts",
   async (id) => {
-    const collectionRef = collection(database, 'posts');
-    const lastPost = doc(database, 'posts', id);
+    const collectionRef = collection(database, "posts");
+    const lastPost = doc(database, "posts", id);
 
     try {
       const lastPostSnapshot = await getDoc(lastPost);
 
       const q = query(
         collectionRef,
-        orderBy('createdAt', 'desc'),
+        orderBy("createdAt", "desc"),
         startAfter(lastPostSnapshot),
         limit(10),
       );
@@ -90,8 +90,8 @@ export const fetchMorePosts = createAsyncThunk(
   },
 );
 
-export const fetchPost = createAsyncThunk('posts/fetchPost', async (id) => {
-  const docRef = doc(database, 'posts', id);
+export const fetchPost = createAsyncThunk("posts/fetchPost", async (id) => {
+  const docRef = doc(database, "posts", id);
 
   try {
     const docSnapshot = await getDoc(docRef);
@@ -116,15 +116,15 @@ export const fetchPost = createAsyncThunk('posts/fetchPost', async (id) => {
 });
 
 export const searchPosts = createAsyncThunk(
-  'posts/searchPosts',
+  "posts/searchPosts",
   async (search) => {
-    const searchRef = collection(database, 'posts');
+    const searchRef = collection(database, "posts");
 
     try {
       const q = query(
         searchRef,
-        where('searchStr', 'array-contains-any', search),
-        orderBy('createdAt', 'desc'),
+        where("searchStr", "array-contains-any", search),
+        orderBy("createdAt", "desc"),
         limit(10),
       );
 
@@ -153,7 +153,7 @@ export const searchPosts = createAsyncThunk(
 );
 
 export const selectCategory = createAsyncThunk(
-  'posts/selectCategory',
+  "posts/selectCategory",
   async (category) => {
     if (category === null) {
       return new Promise((resolve, reject) => {
@@ -161,13 +161,13 @@ export const selectCategory = createAsyncThunk(
       });
     }
 
-    const searchRef = collection(database, 'posts');
+    const searchRef = collection(database, "posts");
 
     try {
       const q = query(
         searchRef,
-        where('category', '==', category),
-        orderBy('createdAt', 'desc'),
+        where("category", "==", category),
+        orderBy("createdAt", "desc"),
         limit(10),
       );
 
@@ -196,12 +196,12 @@ export const selectCategory = createAsyncThunk(
 );
 
 export const fetchComments = createAsyncThunk(
-  'posts/fetchComments',
+  "posts/fetchComments",
   async (id) => {
     const collectionRef = collection(database, `posts/${id}/comments`);
 
     try {
-      const q = query(collectionRef, orderBy('createdAt', 'asc'));
+      const q = query(collectionRef, orderBy("createdAt", "asc"));
 
       return new Promise((resolve, reject) => {
         onSnapshot(
@@ -227,19 +227,27 @@ export const fetchComments = createAsyncThunk(
   },
 );
 
-export const delPost = createAsyncThunk('posts/delPost', async (data) => {
-  const collectionRef = collection(database, 'posts');
-  const lastPost = doc(database, 'posts', data.lastPostId);
+export const delPost = createAsyncThunk("posts/delPost", async (data) => {
+  const collectionRef = collection(database, "posts");
+  const lastPost = doc(database, "posts", data.lastPostId);
 
   try {
     const lastPostSnapshot = await getDoc(lastPost);
 
-    const q = query(
-      collectionRef,
-      orderBy('createdAt', 'desc'),
-      startAfter(lastPostSnapshot),
-      limit(1),
-    );
+    console.log(lastPostSnapshot);
+
+    let q;
+
+    if (lastPostSnapshot._document) {
+      q = query(
+        collectionRef,
+        orderBy("createdAt", "desc"),
+        startAfter(lastPostSnapshot),
+        limit(1),
+      );
+    } else {
+      q = query(collectionRef, orderBy("createdAt", "desc"), limit(1));
+    }
 
     return new Promise((resolve, reject) => {
       onSnapshot(
@@ -253,7 +261,7 @@ export const delPost = createAsyncThunk('posts/delPost', async (data) => {
 
           const delData = {
             id: data.delId,
-            post: post[0],
+            post: post[0] || null,
           };
 
           resolve(delData);
@@ -270,62 +278,62 @@ export const delPost = createAsyncThunk('posts/delPost', async (data) => {
 
 export const newPost = (data) => async (dispatch) => {
   dispatch({
-    type: 'posts/newPost',
+    type: "posts/newPost",
     payload: data,
   });
 };
 
 export const setCurrentPost = (data) => async (dispatch) => {
   dispatch({
-    type: 'posts/setCurrentPost',
+    type: "posts/setCurrentPost",
     payload: data,
   });
 };
 
 export const editPost = (data) => async (dispatch) => {
   dispatch({
-    type: 'posts/editPost',
+    type: "posts/editPost",
     payload: data,
   });
 };
 
 export const changePage = (page) => async (dispatch) => {
   dispatch({
-    type: 'posts/changePage',
+    type: "posts/changePage",
     payload: page,
   });
 };
 
 export const addLikePost = (data) => async (dispatch) => {
   dispatch({
-    type: 'posts/addLikePost',
+    type: "posts/addLikePost",
     payload: data,
   });
 };
 
 export const removeLikePost = (data) => async (dispatch) => {
   dispatch({
-    type: 'posts/removeLikePost',
+    type: "posts/removeLikePost",
     payload: data,
   });
 };
 
 export const addCommentAction = (data) => async (dispatch) => {
   dispatch({
-    type: 'posts/addCommentAction',
+    type: "posts/addCommentAction",
     payload: data,
   });
 };
 export const removeCommentAction = (data) => async (dispatch) => {
   dispatch({
-    type: 'posts/removeCommentAction',
+    type: "posts/removeCommentAction",
     payload: data,
   });
 };
 
 export const fetchPostsFromLocalStorage = (data) => async (dispatch) => {
   dispatch({
-    type: 'posts/fetchPostsFromLocalStorage',
+    type: "posts/fetchPostsFromLocalStorage",
     payload: data,
   });
 };

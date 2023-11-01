@@ -32,8 +32,8 @@ export default function SearchCourses() {
     <Box className="flex min-h-[100dvh] flex-col bg-gray-200">
       <Navbar title={"Pesquisa"} />
 
-      <Box className="lg:hidden">
-        <SearchBar type="course" />
+      <Box className="px-4  pt-4 lg:hidden">
+        <SearchBar type="course" searchPage={true} />
       </Box>
 
       {searchResults && searchResults?.length > 0 ? (

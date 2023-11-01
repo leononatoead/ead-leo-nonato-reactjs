@@ -119,7 +119,7 @@ export default function EditUser({ user }) {
       (c) => c.id === studantClass,
     );
 
-    if (!classData) {
+    if (!classData && user.studantClass) {
       toast({
         description: "Turma não encontrada",
         status: "error",
@@ -129,6 +129,14 @@ export default function EditUser({ user }) {
       return;
     }
 
+    if (!classData && purchased.purchasedList && !user.studantClass) {
+      changeUserClassAndPurchasedCourses(
+        user.id,
+        actualUser,
+        settings.studantClasses[0],
+        purchased.purchasedList,
+      );
+    }
     if (classData && purchased.purchasedList) {
       changeUserClassAndPurchasedCourses(
         user.id,
