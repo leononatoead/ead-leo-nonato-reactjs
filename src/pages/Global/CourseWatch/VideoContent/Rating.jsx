@@ -57,7 +57,7 @@ export default function Rating({ courses, courseId, video, userId }) {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent
-          className="!absolute !bottom-0 !m-0 !rounded-b-none !rounded-t-3xl !bg-gray-200 lg:!static lg:!self-center lg:!rounded-2xl lg:px-6"
+          className="!absolute !bottom-0 !m-0 !min-w-full !rounded-b-none !rounded-t-3xl !bg-gray-200 lg:!static lg:!min-w-[450px] lg:!max-w-[450px] lg:!self-center lg:!rounded-2xl lg:px-6"
           py={6}
         >
           <ModalHeader className="!flex !items-center !pb-0">
@@ -71,7 +71,7 @@ export default function Rating({ courses, courseId, video, userId }) {
               Sua avaliação é importante para continuarmos entregando bons
               conteúdos com qualidade.
             </Text>
-            <Flex className="flex w-full items-center justify-between px-2 pb-2 pt-8">
+            <Flex className="flex w-full items-center justify-center gap-4 px-2 pb-2 pt-8">
               <AiFillStar
                 onClick={() => handleSelectRating(1)}
                 size={40}

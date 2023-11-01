@@ -9,10 +9,12 @@ import useCheckUpdate from "../../../../hooks/useCheckUpdate";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RegisterVideoSchema } from "./RegisterVideoSchema";
+import { Link } from "react-router-dom";
 
 import Input from "../../../../components/Input";
 import ButtonSubmit from "../../../../components/ButtonSubmit";
-import { Box } from "@chakra-ui/react";
+import { Box, useToast } from "@chakra-ui/react";
+import { RiArrowLeftSLine } from "react-icons/ri";
 
 export default function RegisterVideo() {
   const {
@@ -27,9 +29,41 @@ export default function RegisterVideo() {
   const { addRegisterVideoURL, loading } = useSettings();
   const { verifySettingsUpdate } = useCheckUpdate();
   const dispatch = useDispatch();
+  const toast = useToast();
 
   const handleSubmitVideoURL = (formData) => {
-    addRegisterVideoURL(formData.url);
+    let data;
+    if (formData.url?.includes("pandavideo")) {
+      const idMatch = formData.url.match(/id="([^"]+)"/);
+      const srcMatch = formData.url.match(/src="([^"]+)"/);
+
+      const id = idMatch ? idMatch[1] : "Nenhum ID encontrado";
+      const src = srcMatch ? srcMatch[1] : "Nenhum SRC encontrado";
+
+      data = { id, src };
+    }
+
+    if (formData.url?.includes("youtube")) {
+      try {
+        const urlObj = new URL(formData.url);
+        const check =
+          urlObj.protocol === "http:" || urlObj.protocol === "https:";
+        if (!check) {
+          return;
+        }
+
+        data = { id: null, src: formData.url };
+      } catch {
+        return toast({
+          description: "Adicione uma URL válida",
+          status: "error",
+          duration: "3000",
+          isClosable: true,
+        });
+      }
+    }
+
+    addRegisterVideoURL(data);
   };
 
   useEffect(() => {
@@ -60,6 +94,15 @@ export default function RegisterVideo() {
 
   return (
     <Box className="main-container flex flex-col bg-gray-200">
+      <Box className="mx-auto hidden w-full max-w-5xl items-center justify-start gap-2 lg:flex">
+        <RiArrowLeftSLine size={20} className="text-primary-600" />
+        <Link
+          className="font-poppins text-normal font-medium text-primary-600"
+          to={-1}
+        >
+          Voltar
+        </Link>
+      </Box>
       <form
         id="newRegisterVideoURLForm"
         className="flex w-full flex-grow flex-col gap-4 lg:mx-auto lg:mt-20 lg:max-w-5xl"

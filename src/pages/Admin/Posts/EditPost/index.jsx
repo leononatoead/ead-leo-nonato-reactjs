@@ -8,12 +8,13 @@ import { PostSchema } from "../NewPost/PostSchema";
 import { Editor } from "react-draft-wysiwyg";
 import { EditorState, convertFromRaw, convertToRaw } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 import Input from "../../../../components/Input";
 import ButtonSubmit from "../../../../components/ButtonSubmit";
 import ConfirmModal from "../../../../components/ConfirmModal";
 import { Box, Flex } from "@chakra-ui/react";
+import { RiArrowLeftSLine } from "react-icons/ri";
 
 export default function EditPost() {
   const { id } = useParams();
@@ -81,9 +82,18 @@ export default function EditPost() {
 
   return (
     <Box className="main-container flex flex-col bg-gray-200">
+      <Box className="mx-auto hidden w-full max-w-5xl items-center justify-start gap-2 lg:flex">
+        <RiArrowLeftSLine size={20} className="text-primary-600" />
+        <Link
+          className="font-poppins text-normal font-medium text-primary-600"
+          to={-1}
+        >
+          Voltar
+        </Link>
+      </Box>
       <form
         id="newPostForm"
-        className="flex w-full flex-col gap-[10px] pb-[10px] lg:mx-auto lg:max-w-5xl"
+        className="flex w-full flex-col gap-[10px] pb-[10px] lg:mx-auto lg:mt-6 lg:max-w-5xl"
         onSubmit={handleSubmit(handleEditPost)}
       >
         <Box>

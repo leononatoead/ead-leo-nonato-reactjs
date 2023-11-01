@@ -4,13 +4,14 @@ import useCourse from "../../../../hooks/useCourse";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AddCourseSchema } from "../NewCourse/addCourseSchema";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import Input from "../../../../components/Input";
 import ButtonSubmit from "../../../../components/ButtonSubmit";
 import ConfirmModal from "../../../../components/ConfirmModal";
 import Sections from "../NewCourse/Sections";
 import { Box, Flex, Switch, Text } from "@chakra-ui/react";
+import { RiArrowLeftSLine } from "react-icons/ri";
 
 export default function EditCourse() {
   const { pathname } = useLocation();
@@ -120,6 +121,15 @@ export default function EditCourse() {
 
   return (
     <Box className="main-container flex flex-col justify-between">
+      <Box className="mx-auto hidden w-full max-w-5xl items-center justify-start gap-2 lg:flex">
+        <RiArrowLeftSLine size={20} className="text-primary-600" />
+        <Link
+          className="font-poppins text-normal font-medium text-primary-600"
+          to={-1}
+        >
+          Voltar
+        </Link>
+      </Box>
       <Box className="w-full lg:mx-auto lg:max-w-5xl">
         <Box className="mb-4 flex flex-grow flex-col gap-4">
           <form

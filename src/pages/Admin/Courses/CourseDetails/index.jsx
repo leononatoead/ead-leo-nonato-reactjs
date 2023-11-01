@@ -16,6 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { BiEdit } from "react-icons/bi";
 import { MdAddCircleOutline } from "react-icons/md";
+import { RiArrowLeftSLine } from "react-icons/ri";
 
 export default function CourseDetails() {
   const { id } = useParams();
@@ -32,12 +33,21 @@ export default function CourseDetails() {
   }, [course, id]);
 
   return (
-    <Box className="main-container flex flex-col !px-0 !py-0 lg:!pb-6">
-      <Box className="w-full lg:mx-auto lg:max-w-5xl">
+    <Box className="main-container flex flex-col !px-0 !py-0 lg:!py-6">
+      <Box className="mx-auto hidden w-full max-w-5xl items-center justify-start gap-2 lg:flex">
+        <RiArrowLeftSLine size={20} className="text-primary-600" />
+        <Link
+          className="font-poppins text-normal font-medium text-primary-600"
+          to={-1}
+        >
+          Voltar
+        </Link>
+      </Box>
+      <Box className="w-full lg:mx-auto lg:mt-6 lg:max-w-5xl">
         <Image
           src={course?.imagePath}
           alt="banner"
-          className="mb-4 w-full rounded-b-2xl object-cover lg:h-[250px]"
+          className="mb-4 w-full rounded-b-2xl object-cover lg:h-[250px] lg:rounded-2xl"
         />
         <Heading className="!w-full !px-4 !text-center !font-poppins !text-large  !font-bold !leading-7 !text-primary-500">
           {course?.name}

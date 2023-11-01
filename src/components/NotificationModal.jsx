@@ -82,7 +82,7 @@ export default function NotificationModal({ notification, updater }) {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent className="!w-[90%] !max-w-[600px]">
-          <ModalHeader>
+          <ModalHeader p={6}>
             <Box className="!flex !items-start">
               <Text className="-mt-2 font-poppins font-bold text-primary-500">
                 {notification?.title}
@@ -101,9 +101,9 @@ export default function NotificationModal({ notification, updater }) {
                 className="mb-4 max-h-[500px] w-full rounded-md object-contain"
               />
             )}
-            <Text className="mb-4 text-justify text-base">
+            <pre className="mb-4 whitespace-pre-line text-justify text-base">
               {notification?.text}
-            </Text>
+            </pre>
             {notification?.url && (
               <Link
                 to={notification?.url}

@@ -3,12 +3,13 @@ import useCourse from "../../../../hooks/useCourse";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AddCourseSchema } from "./addCourseSchema";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import Input from "../../../../components/Input";
 import ButtonSubmit from "../../../../components/ButtonSubmit";
 import Sections from "./Sections";
 import { Box, Switch, Text, useToast } from "@chakra-ui/react";
+import { RiArrowLeftSLine } from "react-icons/ri";
 
 export default function NewCourse() {
   const [switchStates, setSwitchStates] = useState({
@@ -135,7 +136,16 @@ export default function NewCourse() {
 
   return (
     <Box className="main-container flex flex-col">
-      <Box className="mb-4 flex w-full flex-grow flex-col gap-4 lg:mx-auto lg:max-w-5xl">
+      <Box className="mx-auto hidden w-full max-w-5xl items-center justify-start gap-2 lg:flex">
+        <RiArrowLeftSLine size={20} className="text-primary-600" />
+        <Link
+          className="font-poppins text-normal font-medium text-primary-600"
+          to={-1}
+        >
+          Voltar
+        </Link>
+      </Box>
+      <Box className="mb-4 flex w-full flex-grow flex-col gap-4 lg:mx-auto lg:mt-6 lg:max-w-5xl">
         <form
           id="addCourseForm"
           onSubmit={handleSubmit(handlAddCourse)}

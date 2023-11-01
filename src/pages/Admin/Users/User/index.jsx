@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import {
   Accordion,
   AccordionButton,
@@ -16,6 +16,7 @@ import { fetchVideos } from "../../../../redux/modules/courses/actions";
 
 import ChangeAdminState from "./ChangeAdminState";
 import EditUser from "./EditUser";
+import { RiArrowLeftSLine } from "react-icons/ri";
 
 export default function User() {
   const { id } = useParams();
@@ -59,6 +60,15 @@ export default function User() {
 
   return (
     <Box className="main-container flex flex-col gap-2 bg-gray-200 p-4">
+      <Box className="mx-auto hidden w-full max-w-5xl items-center justify-start gap-2 lg:flex">
+        <RiArrowLeftSLine size={20} className="text-primary-600" />
+        <Link
+          className="font-poppins text-normal font-medium text-primary-600"
+          to={-1}
+        >
+          Voltar
+        </Link>
+      </Box>
       <Box className="flex w-full flex-col  gap-2 lg:mx-auto lg:max-w-5xl">
         <Box className="flex flex-col items-center justify-center gap-2 py-6">
           <Text className="w-full text-center font-poppins text-large font-bold text-primary-500">

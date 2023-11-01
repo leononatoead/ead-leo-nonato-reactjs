@@ -5,13 +5,14 @@ import useForms from "../../../../hooks/useForms";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormSchema } from "../NewForm/FormSchema";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 import Input from "../../../../components/Input";
 import ConfirmModal from "../../../../components/ConfirmModal";
 import { Box, Flex, Heading, Spinner } from "@chakra-ui/react";
 import { IoTrashBinSharp } from "react-icons/io5";
 import { AiOutlineWarning } from "react-icons/ai";
+import { RiArrowLeftSLine } from "react-icons/ri";
 
 export default function EditForm() {
   const { id } = useParams();
@@ -96,7 +97,16 @@ export default function EditForm() {
 
   return (
     <Box className="main-container !flex !flex-col">
-      <Box className="w-full  flex-grow lg:mx-auto lg:max-w-5xl">
+      <Box className="mx-auto hidden w-full max-w-5xl items-center justify-start gap-2 lg:flex">
+        <RiArrowLeftSLine size={20} className="text-primary-600" />
+        <Link
+          className="font-poppins text-normal font-medium text-primary-600"
+          to={-1}
+        >
+          Voltar
+        </Link>
+      </Box>
+      <Box className="w-full flex-grow lg:mx-auto lg:mt-6 lg:max-w-5xl">
         <Box className="flex flex-col gap-4">
           <label htmlFor={"field"} className="text-base leading-5">
             Título

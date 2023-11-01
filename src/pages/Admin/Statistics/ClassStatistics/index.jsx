@@ -7,8 +7,9 @@ import {
   fetchStudantClassesSettings,
 } from "../../../../redux/modules/settings/actions";
 import useCheckUpdate from "../../../../hooks/useCheckUpdate";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Box, Text } from "@chakra-ui/react";
+import { RiArrowLeftSLine } from "react-icons/ri";
 
 export default function ClassStatistics() {
   const { id } = useParams();
@@ -218,8 +219,17 @@ export default function ClassStatistics() {
 
   return (
     <Box
-      className={`main-container flex flex-col gap-4 bg-gray-200 p-4 lg:p-6`}
+      className={`main-container flex flex-col gap-4 bg-gray-200 p-4 lg:gap-6 lg:p-6`}
     >
+      <Box className="mx-auto hidden w-full max-w-5xl items-center justify-start gap-2 lg:flex">
+        <RiArrowLeftSLine size={20} className="text-primary-600" />
+        <Link
+          className="font-poppins text-normal font-medium text-primary-600"
+          to={-1}
+        >
+          Voltar
+        </Link>
+      </Box>
       {statistics?.courses?.map((course) => (
         <Box
           key={course?.id}

@@ -5,7 +5,7 @@ import useVideo from "../../../../../hooks/useVideo";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AddVideoSchema } from "./addVideoSchema";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import Assets from "./Assets";
 import Advertisement from "./Advertisement";
@@ -15,6 +15,7 @@ import ButtonSubmit from "../../../../../components/ButtonSubmit";
 import Input from "../../../../../components/Input";
 import OrderInput from "../../../../../components/OrderInput";
 import { Box, Switch, Text, useToast } from "@chakra-ui/react";
+import { RiArrowLeftSLine } from "react-icons/ri";
 
 export default function NewVideo() {
   const [videoData, setVideoData] = useState({
@@ -214,7 +215,16 @@ export default function NewVideo() {
 
   return (
     <Box className="main-container flex flex-col justify-between">
-      <Box className="w-full lg:mx-auto lg:max-w-5xl">
+      <Box className="mx-auto hidden w-full max-w-5xl items-center justify-start gap-2 lg:flex">
+        <RiArrowLeftSLine size={20} className="text-primary-600" />
+        <Link
+          className="font-poppins text-normal font-medium text-primary-600"
+          to={-1}
+        >
+          Voltar
+        </Link>
+      </Box>
+      <Box className="w-full lg:mx-auto lg:mt-6 lg:max-w-5xl">
         <Box className="mb-[5px] flex items-center justify-start gap-4">
           <Text className="text-base font-bold text-primary-600">
             Tipo de vídeo:

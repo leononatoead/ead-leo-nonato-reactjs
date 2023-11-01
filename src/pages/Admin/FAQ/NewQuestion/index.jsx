@@ -10,6 +10,8 @@ import Input from "../../../../components/Input";
 import OrderInput from "../../../../components/OrderInput";
 import ButtonSubmit from "../../../../components/ButtonSubmit";
 import { Box, useToast } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
+import { RiArrowLeftSLine } from "react-icons/ri";
 
 export default function NewQuestion() {
   const {
@@ -55,10 +57,19 @@ export default function NewQuestion() {
 
   return (
     <Box className="main-container !flex !flex-col">
+      <Box className="mx-auto hidden w-full max-w-5xl items-center justify-start gap-2 lg:flex">
+        <RiArrowLeftSLine size={20} className="text-primary-600" />
+        <Link
+          className="font-poppins text-normal font-medium text-primary-600 "
+          to={-1}
+        >
+          Voltar
+        </Link>
+      </Box>
       <form
         id="addQuestionForm"
         onSubmit={handleSubmit(handleAddQuestion)}
-        className="flex w-full flex-grow flex-col  gap-4 lg:mx-auto lg:max-w-5xl"
+        className="flex w-full flex-grow flex-col  gap-4 lg:mx-auto lg:mt-6 lg:max-w-5xl"
       >
         <OrderInput
           register={register}

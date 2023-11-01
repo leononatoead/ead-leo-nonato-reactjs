@@ -126,20 +126,20 @@ export default function Register() {
           h={{ lg: "60%" }}
           className=" overflow-hidden rounded-lg"
         >
-          {settings?.registerVideoURL && (
+          {settings?.registerVideoURL?.url && (
             <>
-              {settings?.registerVideoURL?.videoId ? (
+              {settings?.registerVideoURL?.url.id ? (
                 <iframe
                   className="h-full w-full overflow-hidden rounded-lg border-b-2 border-b-gray-900"
-                  id={settings?.registerVideoURL?.videoId}
-                  src={settings?.registerVideoURL?.url}
+                  id={settings?.registerVideoURL?.url?.id}
+                  src={settings?.registerVideoURL?.url?.src}
                   allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture"
                   allowFullScreen={true}
                 ></iframe>
               ) : (
                 <iframe
                   className="h-full w-full overflow-hidden rounded-lg border-b-2 border-b-gray-900"
-                  src={settings?.registerVideoURL?.url}
+                  src={settings?.registerVideoURL?.url?.src}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowFullScreen
                 ></iframe>

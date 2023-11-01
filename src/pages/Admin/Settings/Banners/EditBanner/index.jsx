@@ -9,12 +9,14 @@ import useCheckUpdate from "../../../../../hooks/useCheckUpdate";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { BannerSchema } from "../NewBanner/BannerSchema";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 import { Box, Flex } from "@chakra-ui/react";
 import Input from "../../../../../components/Input";
 import ButtonSubmit from "../../../../../components/ButtonSubmit";
 import ConfirmModal from "../../../../../components/ConfirmModal";
+
+import { RiArrowLeftSLine } from "react-icons/ri";
 
 export default function EditBanner() {
   const { id } = useParams();
@@ -75,6 +77,15 @@ export default function EditBanner() {
 
   return (
     <Box className="main-container !flex !flex-col">
+      <Box className="mx-auto hidden w-full max-w-5xl items-center justify-start gap-2 lg:flex">
+        <RiArrowLeftSLine size={20} className="text-primary-600" />
+        <Link
+          className="font-poppins text-normal font-medium text-primary-600"
+          to={-1}
+        >
+          Voltar
+        </Link>
+      </Box>
       <form
         id="editBannerForm"
         className="flex w-full flex-grow flex-col gap-4 lg:mx-auto lg:mt-20 lg:max-w-5xl"

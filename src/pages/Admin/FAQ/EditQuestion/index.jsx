@@ -5,13 +5,14 @@ import useFAQ from "../../../../hooks/useFAQ";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { QuestionsSchema } from "../NewQuestion/QuestionsSchema";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 import Input from "../../../../components/Input";
 import ButtonSubmit from "../../../../components/ButtonSubmit";
 import ConfirmModal from "../../../../components/ConfirmModal";
 import OrderInput from "../../../../components/OrderInput";
 import { Box, Flex, useToast } from "@chakra-ui/react";
+import { RiArrowLeftSLine } from "react-icons/ri";
 
 export default function EditQuestion() {
   const [openConfirmModal, setOpenConfirmModal] = useState();
@@ -66,10 +67,19 @@ export default function EditQuestion() {
 
   return (
     <Box className="main-container !flex !flex-col">
+      <Box className="mx-auto hidden w-full max-w-5xl items-center justify-start gap-2 lg:flex">
+        <RiArrowLeftSLine size={20} className="text-primary-600" />
+        <Link
+          className="font-poppins text-normal font-medium text-primary-600"
+          to={-1}
+        >
+          Voltar
+        </Link>
+      </Box>
       <form
         id="editQuestionForm"
         onSubmit={handleSubmit(handleEditQuestion)}
-        className="flex w-full flex-grow flex-col  gap-4 lg:mx-auto lg:max-w-5xl"
+        className="flex w-full flex-grow flex-col  gap-4 lg:mx-auto lg:mt-6 lg:max-w-5xl"
       >
         <OrderInput
           register={register}

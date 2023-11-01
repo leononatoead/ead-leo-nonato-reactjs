@@ -21,7 +21,7 @@ export default function ModalComponent({
     <Modal isOpen={openModal} my={0}>
       <ModalOverlay />
       <ModalContent
-        className="!absolute !bottom-0 !m-0 !rounded-b-none !rounded-t-3xl !bg-gray-200 md:!static md:!self-center md:!rounded-2xl md:px-6"
+        className="!absolute !bottom-0 !m-0 !min-w-full !rounded-b-none !rounded-t-3xl !bg-gray-200 md:!static md:!self-center md:!rounded-2xl md:px-6 lg:!min-w-[450px] lg:!max-w-[450px]"
         py={6}
       >
         {header ? (

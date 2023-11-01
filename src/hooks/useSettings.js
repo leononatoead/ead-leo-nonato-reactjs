@@ -307,7 +307,7 @@ const useSettings = () => {
     }
   };
 
-  const addRegisterVideoURL = async (url) => {
+  const addRegisterVideoURL = async (data) => {
     setLoading(true);
 
     try {
@@ -316,9 +316,9 @@ const useSettings = () => {
         "settings/data/registerVideoURL/",
       );
       const registerVideoDoc = doc(registerVideoRef, "registerVideoURLid");
-      await setDoc(registerVideoDoc, { url: url });
+      await setDoc(registerVideoDoc, { url: data });
 
-      const data = { id: "registerVideoURLid", url: url };
+      const data = { id: "registerVideoURLid", url: data };
 
       const updateTime = Timestamp.now();
       const updateCollection = doc(database, "updates", "settings");

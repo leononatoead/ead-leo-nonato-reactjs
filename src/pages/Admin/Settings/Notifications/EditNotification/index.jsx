@@ -9,12 +9,13 @@ import useCheckUpdate from "../../../../../hooks/useCheckUpdate";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { NotificationSchema } from "../NewNotification/NotificationSchema";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 import Input from "../../../../../components/Input";
 import ButtonSubmit from "../../../../../components/ButtonSubmit";
 import ConfirmModal from "../../../../../components/ConfirmModal";
 import { Box, Flex } from "@chakra-ui/react";
+import { RiArrowLeftSLine } from "react-icons/ri";
 
 export default function EditNotification() {
   const { id } = useParams();
@@ -79,6 +80,15 @@ export default function EditNotification() {
 
   return (
     <Box className="main-container !flex !flex-col">
+      <Box className="mx-auto hidden w-full max-w-5xl items-center justify-start gap-2 lg:flex">
+        <RiArrowLeftSLine size={20} className="text-primary-600" />
+        <Link
+          className="font-poppins text-normal font-medium text-primary-600"
+          to={-1}
+        >
+          Voltar
+        </Link>
+      </Box>
       <form
         id="editNotificationForm"
         className="flex w-full flex-grow flex-col gap-4 lg:mx-auto lg:mt-6 lg:max-w-5xl"

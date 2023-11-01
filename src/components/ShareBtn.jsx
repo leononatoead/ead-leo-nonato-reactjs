@@ -46,44 +46,46 @@ export default function ShareBtn({ url }) {
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent mx={4}>
+        <ModalContent mx={4} className="self-center">
           <ModalHeader className="!flex !items-center">
-            <Text className="-mt-2 text-primary-600">Compartilhar</Text>
+            <Text className="-mt-2 font-poppins text-primary-600">
+              Compartilhar
+            </Text>
             <ModalCloseButton />
           </ModalHeader>
-          <ModalBody p={4}>
-            <Flex alignItems={"center"} justifyContent={"center"} gap={2}>
-              <EmailShareButton url={url} className="bg-gray-200">
-                <Box className="flex items-center justify-center rounded-full bg-gray-200 p-3">
+          <ModalBody className="!px-2 !py-6">
+            <Flex alignItems={"center"} className="!justify-around !gap-1">
+              {/* <EmailShareButton url={url} className="bg-gray-200"> */}
+              {/* <Box className="flex items-center justify-center rounded-full bg-gray-200 p-3">
                   <MdOutlineEmail className="h-6 w-6 text-primary-400  md:h-9 md:w-9 " />
-                </Box>
-              </EmailShareButton>
-              <FacebookShareButton url={url}>
-                <Box className="flex items-center justify-center rounded-full bg-gray-200 p-3">
-                  <BiLogoFacebook className="h-6 w-6 text-primary-400  md:h-9 md:w-9 " />
-                </Box>
-              </FacebookShareButton>
-              <LinkedinShareButton url={url}>
-                <Box className="flex items-center justify-center rounded-full bg-gray-200 p-3">
-                  <BiLogoLinkedin className="h-6 w-6 text-primary-400  md:h-9 md:w-9 " />
-                </Box>
-              </LinkedinShareButton>
-              <TelegramShareButton url={url}>
-                <Box className="flex items-center justify-center rounded-full bg-gray-200 p-3">
-                  <BiLogoTelegram className="h-6 w-6 text-primary-400  md:h-9 md:w-9 " />
-                </Box>
-              </TelegramShareButton>
-              <TwitterShareButton url={url}>
-                <Box className="flex items-center justify-center rounded-full bg-gray-200 p-3">
-                  <BiLogoTwitter className="h-6 w-6 text-primary-400  md:h-9 md:w-9 " />
-                </Box>
-              </TwitterShareButton>
-
+                </Box> */}
+              {/* </EmailShareButton> */}
               <WhatsappShareButton url={url}>
-                <Box className="flex items-center justify-center rounded-full bg-gray-200 p-3">
-                  <BiLogoWhatsapp className="h-6 w-6 text-primary-400  md:h-9 md:w-9 " />
+                <Box className="flex items-center justify-center rounded-full bg-gray-100 p-3 transition-all hover:bg-gray-200">
+                  <BiLogoWhatsapp className="h-6 w-6 text-primary-600  md:h-9 md:w-9 " />
                 </Box>
               </WhatsappShareButton>
+              <TelegramShareButton url={url}>
+                <Box className="flex items-center justify-center rounded-full bg-gray-100 p-3 transition-all hover:bg-gray-200">
+                  <BiLogoTelegram className="h-6 w-6 text-primary-600  md:h-9 md:w-9 " />
+                </Box>
+              </TelegramShareButton>
+
+              <LinkedinShareButton url={url}>
+                <Box className="flex items-center justify-center rounded-full bg-gray-100 p-3 transition-all hover:bg-gray-200">
+                  <BiLogoLinkedin className="h-6 w-6 text-primary-600  md:h-9 md:w-9 " />
+                </Box>
+              </LinkedinShareButton>
+              <FacebookShareButton url={url}>
+                <Box className="flex items-center justify-center rounded-full bg-gray-100 p-3 transition-all hover:bg-gray-200">
+                  <BiLogoFacebook className="h-6 w-6 text-primary-600  md:h-9 md:w-9 " />
+                </Box>
+              </FacebookShareButton>
+              <TwitterShareButton url={url}>
+                <Box className="flex items-center justify-center rounded-full bg-gray-100 p-3 transition-all hover:bg-gray-200">
+                  <BiLogoTwitter className="h-6 w-6 text-primary-600  md:h-9 md:w-9 " />
+                </Box>
+              </TwitterShareButton>
             </Flex>
           </ModalBody>
         </ModalContent>

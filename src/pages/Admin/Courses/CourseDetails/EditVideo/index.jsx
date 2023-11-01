@@ -5,7 +5,7 @@ import useVideo from "../../../../../hooks/useVideo";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AddVideoSchema } from "../NewVideo/addVideoSchema";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import Assets from "../NewVideo/Assets";
 import Advertisement from "../NewVideo/Advertisement";
@@ -16,6 +16,7 @@ import Input from "../../../../../components/Input";
 import ConfirmModal from "../../../../../components/ConfirmModal";
 import OrderInput from "../../../../../components/OrderInput";
 import { Box, Flex, Switch, Text } from "@chakra-ui/react";
+import { RiArrowLeftSLine } from "react-icons/ri";
 
 export default function EditVideo() {
   const { pathname } = useLocation();
@@ -221,7 +222,16 @@ export default function EditVideo() {
 
   return (
     <Box className="main-container flex flex-col justify-between">
-      <Box className="w-full lg:mx-auto lg:max-w-5xl">
+      <Box className="mx-auto hidden w-full max-w-5xl items-center justify-start gap-2 lg:flex">
+        <RiArrowLeftSLine size={20} className="text-primary-600" />
+        <Link
+          className="font-poppins text-normal font-medium text-primary-600"
+          to={-1}
+        >
+          Voltar
+        </Link>
+      </Box>
+      <Box className="w-full lg:mx-auto lg:mt-6 lg:max-w-5xl">
         <Box className="flex items-center justify-start gap-4" mb={"5px"}>
           <Text className="text-base font-bold text-primary-600">
             Tipo de vídeo:
