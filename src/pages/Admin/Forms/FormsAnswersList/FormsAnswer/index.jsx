@@ -49,7 +49,7 @@ export default function FormsAnswer() {
 
         <ul className="flex flex-col gap-2">
           {answer?.answers?.map((a) => (
-            <li>
+            <li key={a.question}>
               <Text className="text-normal font-bold">{a.question}</Text>
               <Text>{a.answer}</Text>
             </li>
