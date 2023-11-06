@@ -191,7 +191,7 @@ export default function Register() {
               theme={"light"}
               type={"text"}
               label={"Nome completo"}
-              placeholder={"Digite aqui"}
+              placeholder={"Digite seu nome completo"}
               register={register}
               id={"name"}
               error={errors?.name?.message}
@@ -201,7 +201,7 @@ export default function Register() {
               theme={"light"}
               type={"text"}
               label={"CPF"}
-              placeholder={"Digite aqui"}
+              placeholder={"000.000.000-00"}
               register={register}
               id={"cpf"}
               error={errors?.cpf?.message || cpfError}
@@ -211,7 +211,7 @@ export default function Register() {
               theme={"light"}
               type={"email"}
               label={"E-mail"}
-              placeholder={"Digite aqui"}
+              placeholder={"exemplo@mail.com"}
               register={register}
               id={"email"}
               error={errors?.email?.message}
