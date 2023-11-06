@@ -1,8 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { fetchForms } from './actions';
+import { createSlice } from "@reduxjs/toolkit";
+import { fetchAnswers, fetchForms } from "./actions";
 
 const formsReducer = createSlice({
-  name: 'forms',
+  name: "forms",
   initialState: {},
   reducers: {
     newForm: (state, action) => {
@@ -34,9 +34,13 @@ const formsReducer = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchForms.fulfilled, (state, action) => {
-      return { ...state, forms: action.payload };
-    });
+    builder
+      .addCase(fetchForms.fulfilled, (state, action) => {
+        return { ...state, forms: action.payload };
+      })
+      .addCase(fetchAnswers.fulfilled, (state, action) => {
+        return { ...state, answers: action.payload };
+      });
   },
 });
 

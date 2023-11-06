@@ -81,6 +81,15 @@ export default function Navbar({ title }) {
       navigate("/dashboard/forms");
     } else if (pathname.includes("/dashboard/statistics/class")) {
       navigate("/dashboard/statistics");
+    } else if (pathname.includes("/dashboard/forms/courses/")) {
+      const path = pathname.split("/");
+      path.pop();
+      if (path.length === 4) {
+        path.pop();
+      }
+      const newPath = path.join("/");
+
+      navigate(newPath);
     } else {
       let pathParams = pathname.split("/").filter((value) => value !== "");
       pathParams.pop();

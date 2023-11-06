@@ -29,6 +29,36 @@ export const fetchForms = createAsyncThunk("forms/fetchForms", async () => {
   }
 });
 
+export const fetchAnswers = createAsyncThunk(
+  "courses/fetchAnswers",
+  async (courseId) => {
+    const collectionRef = collection(database, "formAnswers/courses", courseId);
+
+    try {
+      const q = query(collectionRef, orderBy("createdAt", "asc"));
+
+      return new Promise((resolve, reject) => {
+        onSnapshot(
+          q,
+          (querySnapshot) => {
+            const data = querySnapshot.docs.map((doc) => ({
+              id: doc.id,
+              ...doc.data(),
+              createdAt: doc.data().createdAt.toMillis(),
+            }));
+            resolve(data);
+          },
+          (error) => {
+            reject(error);
+          },
+        );
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  },
+);
+
 export const newForm = (data) => async (dispatch) => {
   dispatch({
     type: "forms/newForm",

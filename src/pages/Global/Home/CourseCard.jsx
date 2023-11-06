@@ -224,6 +224,7 @@ export default function CourseCard({ courseData, setOpenLoginModal }) {
           open={openFormModal}
           close={setOpenFormModal}
           formId={courseData.formRef}
+          courseId={courseData.id}
         />
       )}
     </>

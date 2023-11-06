@@ -112,7 +112,36 @@ const useForms = () => {
     }
   };
 
-  return { addForm, updateForm, deleteForm, loading };
+  const submitForm = async (form, courseId) => {
+    setLoading(true);
+
+    try {
+      const formData = { ...form, createdAt: Timestamp.now() };
+
+      const res = await addDoc(
+        collection(database, "formAnswers/courses", courseId),
+        formData,
+      );
+
+      toast({
+        description: "Resposta enviada com sucesso!",
+        status: "success",
+        duration: "3000",
+        isClosable: true,
+      });
+    } catch (error) {
+      toast({
+        description: error.message,
+        status: "error",
+        duration: "3000",
+        isClosable: true,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { addForm, updateForm, deleteForm, submitForm, loading };
 };
 
 export default useForms;

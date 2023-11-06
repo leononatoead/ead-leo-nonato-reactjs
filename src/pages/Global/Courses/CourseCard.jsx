@@ -105,6 +105,7 @@ export default function CourseCard({ course }) {
           open={openFormModal}
           close={setOpenFormModal}
           formId={course.formRef}
+          courseId={course.id}
         />
       )}
     </Box>

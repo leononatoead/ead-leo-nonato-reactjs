@@ -39,6 +39,8 @@ import Statistics from "../pages/Admin/Statistics";
 import Users from "../pages/Admin/Users";
 import User from "../pages/Admin/Users/User";
 import ClassStatistics from "../pages/Admin/Statistics/ClassStatistics";
+import FormsAnswersList from "../pages/Admin/Forms/FormsAnswersList";
+import FormsAnswer from "../pages/Admin/Forms/FormsAnswersList/FormsAnswer";
 
 export default function AdminRoutes() {
   return (
@@ -88,6 +90,8 @@ export default function AdminRoutes() {
         <Route path="forms" element={<Forms />} />
         <Route path="forms/new" element={<NewForm />} />
         <Route path="forms/edit/:id" element={<EditForm />} />
+        <Route path="forms/courses/:id" element={<FormsAnswersList />} />
+        <Route path="forms/courses/:id/:id" element={<FormsAnswer />} />
         <Route path="users" element={<Users />} />
         <Route path="users/:id" element={<User />} />
         <Route path="statistics" element={<Statistics />} />
