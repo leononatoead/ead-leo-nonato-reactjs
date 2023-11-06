@@ -335,10 +335,10 @@ export default function Navbar({ title }) {
       </Box>
       {/* NAVBAR WEB */}
       <Box className="mx-auto !hidden w-full max-w-7xl items-center justify-between lg:!flex lg:h-16">
-        <Box className="flex w-full items-center justify-around">
-          <Link to="/">
-            <Image src={logo} />
-          </Link>
+        <Link to="/">
+          <Image src={logo} />
+        </Link>
+        <Box className="flex w-full max-w-[500px] items-center justify-around">
           <NavLink
             to="/"
             className={({ isActive }) =>
@@ -369,13 +369,13 @@ export default function Navbar({ title }) {
           >
             Newsletter
           </NavLink>
-          {pathname.includes("newsletter") ? (
-            <SearchBar type={"post"} navbar={true} />
-          ) : (
-            <SearchBar type={"course"} navbar={true} />
-          )}
         </Box>
-        <Box className="flex items-center">
+        {pathname.includes("newsletter") ? (
+          <SearchBar type={"post"} navbar={true} />
+        ) : (
+          <SearchBar type={"course"} navbar={true} />
+        )}
+        <Box className="flex min-w-max items-center gap-4">
           {user && notifications?.length > 0 && (
             <NotificationsMenu notifications={notifications} />
           )}
