@@ -51,7 +51,9 @@ export default function FormsAnswersList() {
           ))}
         </ul>
       ) : (
-        <Box>Nenhuma resposta enviada.</Box>
+        <Box className="flex w-full flex-col gap-2 lg:mx-auto lg:max-w-5xl">
+          Nenhuma resposta enviada.
+        </Box>
       )}
     </Box>
   );
