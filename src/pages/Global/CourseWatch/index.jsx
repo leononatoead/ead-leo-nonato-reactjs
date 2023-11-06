@@ -90,7 +90,13 @@ export default function CourseWatch() {
       navigate("/");
     }
 
-    if (user && !verifyPurchase && course?.isPremium && course?.needForm) {
+    if (
+      user &&
+      !verifyPurchase &&
+      course?.isPremium &&
+      course?.needForm &&
+      !user.admin
+    ) {
       navigate("/");
     }
 
@@ -99,8 +105,8 @@ export default function CourseWatch() {
     }
 
     if (user && course?.isPremium) {
-      if (!verifyPurchase) {
-        navigate("/");
+      if (!verifyPurchase && !user.admin) {
+        setLocked(true);
       }
     }
 

@@ -20,16 +20,17 @@ import {
   Text,
   useMediaQuery,
 } from "@chakra-ui/react";
+
 import {
   BiLogoFacebook,
   BiLogoLinkedin,
   BiLogoTelegram,
   BiLogoTwitter,
   BiLogoWhatsapp,
-  BiShare,
   BiShareAlt,
 } from "react-icons/bi";
 import { MdOutlineEmail } from "react-icons/md";
+import { FiShare } from "react-icons/fi";
 
 export default function ShareBtn({ url }) {
   const { isOpen, onOpen, onClose } = useDisclosure();

@@ -24,6 +24,7 @@ import background from "../../../assets/auth-background.png";
 import { FaCircleCheck } from "react-icons/fa6";
 import { AiOutlinePlayCircle } from "react-icons/ai";
 import { RiArrowDownSLine } from "react-icons/ri";
+import LoginModal from "../../../components/LoginModal";
 
 export default function Course() {
   const [course, setCourse] = useState();
@@ -64,7 +65,7 @@ export default function Course() {
     if (courses?.length > 0) {
       const findCourse = courses?.find((course) => course.id === id);
 
-      if (!findCourse.videos) {
+      if (!findCourse?.videos) {
         dispatch(fetchVideos(id));
       }
 
@@ -74,7 +75,13 @@ export default function Course() {
         setLocked(true);
       }
 
-      if (user && !verifyPurchase && course?.isPremium && course?.needForm) {
+      if (
+        user &&
+        !verifyPurchase &&
+        course?.isPremium &&
+        course?.needForm &&
+        !user.admin
+      ) {
         navigate("/");
       }
 
@@ -83,7 +90,7 @@ export default function Course() {
       }
 
       if (user && course?.isPremium) {
-        if (!verifyPurchase) {
+        if (!verifyPurchase && !user.admin) {
           setLocked(true);
         }
       }
@@ -251,7 +258,15 @@ export default function Course() {
         <Footer />
       </Box>
 
-      <PremiumCourse open={locked} close={setLocked} courseData={course} />
+      {course?.isPremium ? (
+        <PremiumCourse open={locked} close={setLocked} courseData={course} />
+      ) : (
+        <LoginModal
+          openLoginModal={locked}
+          setOpenLoginModal={setLocked}
+          locked={locked}
+        />
+      )}
     </Box>
   );
 }

@@ -4,7 +4,11 @@ import LoginForm from "./LoginForm";
 import ResetPasswordForm from "./ResetPasswordForm";
 import ModalComponent from "../ModalComponent";
 
-export default function LoginModal({ openLoginModal, setOpenLoginModal }) {
+export default function LoginModal({
+  openLoginModal,
+  setOpenLoginModal,
+  locked,
+}) {
   const [showResetPass, setShowResetPass] = useState(false);
 
   const handleCloseModal = () => {
@@ -18,11 +22,12 @@ export default function LoginModal({ openLoginModal, setOpenLoginModal }) {
       openModal={openLoginModal}
       setOpenModal={setOpenLoginModal}
       handleCloseModal={handleCloseModal}
+      hasCloseButton={!locked}
     >
       {showResetPass ? (
         <ResetPasswordForm show={setShowResetPass} />
       ) : (
-        <LoginForm show={setShowResetPass} />
+        <LoginForm show={setShowResetPass} locked={locked} />
       )}
     </ModalComponent>
   );

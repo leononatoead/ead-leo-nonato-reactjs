@@ -85,7 +85,30 @@ export default function CourseCard({ courseData, setOpenLoginModal }) {
       )}
 
       {/* CURSO PAGO COMPRADO */}
-      {user && verifyPurchase && courseData?.isPremium && (
+      {user && verifyPurchase && courseData?.isPremium && !user.admin && (
+        <Link to={`/course/${courseData?.id}`}>
+          <Card
+            p={0}
+            bg={"transparent"}
+            className="!w-40 !cursor-pointer !overflow-hidden !rounded-sm !shadow-none lg:!w-60  lg:!rounded-b-none lg:!rounded-t-xl"
+          >
+            <CardBody p={0}>
+              <Image
+                src={courseData?.imagePath}
+                className="!h-24 !w-40 rounded-sm object-cover lg:!h-36 lg:!w-60 lg:rounded-xl"
+              />
+            </CardBody>
+            <CardFooter p={0} mt={2}>
+              <span className="text-base !font-medium leading-[18px] text-primary-600 lg:text-normal lg:leading-4">
+                {courseData?.name}
+              </span>
+            </CardFooter>
+          </Card>
+        </Link>
+      )}
+
+      {/* CURSO PAGO ADMIN */}
+      {user && user.admin && courseData?.isPremium && (
         <Link to={`/course/${courseData?.id}`}>
           <Card
             p={0}
@@ -108,7 +131,7 @@ export default function CourseCard({ courseData, setOpenLoginModal }) {
       )}
 
       {/* CURSO PAGO COM FORMULARIO E SEM ESTAR COMPRADO */}
-      {user && !verifyPurchase && courseData?.needForm && (
+      {user && !verifyPurchase && courseData?.needForm && !user.admin && (
         <Card
           p={0}
           bg={"transparent"}
@@ -134,7 +157,8 @@ export default function CourseCard({ courseData, setOpenLoginModal }) {
       {user &&
         !verifyPurchase &&
         !courseData?.needForm &&
-        courseData?.isPremium && (
+        courseData?.isPremium &&
+        !user.admin && (
           <Card
             p={0}
             bg={"transparent"}
