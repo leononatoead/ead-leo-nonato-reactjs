@@ -79,7 +79,7 @@ export default function CourseCard({ courseData, setOpenLoginModal }) {
           <Card
             p={0}
             bg={"transparent"}
-            className="!w-40 !cursor-pointer cursor-pointer !overflow-hidden !rounded-sm !shadow-none  lg:!w-60 lg:!rounded-b-none lg:!rounded-t-xl"
+            className="!w-40 !cursor-pointer !overflow-hidden !rounded-sm !shadow-none  lg:!w-60 lg:!rounded-b-none lg:!rounded-t-xl"
           >
             <CardBody p={0}>
               <Image
