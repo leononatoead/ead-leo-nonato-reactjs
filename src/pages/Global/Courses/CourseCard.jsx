@@ -21,8 +21,6 @@ export default function CourseCard({ course }) {
 
   const url = `${import.meta.env.VITE_VERCEL_APP_URL}/course/${course.id}`;
 
-  console.log(user);
-
   const navigate = useNavigate();
 
   const handleClick = () => {
