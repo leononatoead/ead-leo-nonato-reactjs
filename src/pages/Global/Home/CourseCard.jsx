@@ -21,7 +21,7 @@ export default function CourseCard({ courseData, setOpenLoginModal }) {
         <Card
           p={0}
           bg={"transparent"}
-          className="!w-40 !overflow-hidden !rounded-sm !shadow-none lg:!w-60 lg:!rounded-b-none  lg:!rounded-t-xl"
+          className="!w-40 cursor-pointer !overflow-hidden !rounded-sm !shadow-none lg:!w-60  lg:!rounded-b-none lg:!rounded-t-xl"
           onClick={() => setOpenLoginModal(true)}
         >
           <CardBody p={0}>
@@ -34,7 +34,9 @@ export default function CourseCard({ courseData, setOpenLoginModal }) {
             <span className="text-base !font-medium leading-[18px] text-primary-600 lg:text-normal lg:leading-4">
               {courseData?.name}
             </span>
-            <BiLockAlt className="text-primary-600" />
+            <Box>
+              <BiLockAlt className="text-primary-600" />
+            </Box>
           </CardFooter>
         </Card>
       )}
@@ -43,7 +45,7 @@ export default function CourseCard({ courseData, setOpenLoginModal }) {
         <Card
           p={0}
           bg={"transparent"}
-          className="!w-40 !overflow-hidden !rounded-sm !shadow-none lg:!w-60 lg:!rounded-b-none  lg:!rounded-t-xl"
+          className="!w-40 cursor-pointer !overflow-hidden !rounded-sm !shadow-none lg:!w-60  lg:!rounded-b-none lg:!rounded-t-xl"
           onClick={() => setOpenLoginModal(true)}
         >
           <CardBody p={0}>
@@ -52,11 +54,21 @@ export default function CourseCard({ courseData, setOpenLoginModal }) {
               className="!h-24 !w-40 rounded-sm object-cover lg:!h-36 lg:!w-60 lg:rounded-xl"
             />
           </CardBody>
-          <CardFooter p={0} mt={2} className="flex items-start justify-between">
-            <span className="text-base !font-medium leading-[18px] text-primary-600 lg:text-normal lg:leading-4">
-              {courseData?.name}
-            </span>
-            <BiLockAlt className="text-primary-600" />
+          <CardFooter p={0} mt={2} className="flex flex-col">
+            <Box className="flex items-start justify-between">
+              <Text className="text-small font-medium leading-[18px] text-orange lg:text-base lg:leading-4">
+                {courseData?.price?.toLocaleString("pt-BR", {
+                  style: "currency",
+                  currency: "BRL",
+                })}
+              </Text>
+            </Box>
+            <Box className="flex items-center justify-between">
+              <span className="text-base !font-medium leading-[18px] text-primary-600 lg:text-normal lg:leading-4">
+                {courseData?.name}
+              </span>
+              <BiLockAlt className="text-primary-600" />
+            </Box>
           </CardFooter>
         </Card>
       )}
@@ -67,7 +79,7 @@ export default function CourseCard({ courseData, setOpenLoginModal }) {
           <Card
             p={0}
             bg={"transparent"}
-            className="!w-40 !cursor-pointer !overflow-hidden !rounded-sm !shadow-none lg:!w-60  lg:!rounded-b-none lg:!rounded-t-xl"
+            className="!w-40 !cursor-pointer cursor-pointer !overflow-hidden !rounded-sm !shadow-none  lg:!w-60 lg:!rounded-b-none lg:!rounded-t-xl"
           >
             <CardBody p={0}>
               <Image
@@ -90,7 +102,7 @@ export default function CourseCard({ courseData, setOpenLoginModal }) {
           <Card
             p={0}
             bg={"transparent"}
-            className="!w-40 !cursor-pointer !overflow-hidden !rounded-sm !shadow-none lg:!w-60  lg:!rounded-b-none lg:!rounded-t-xl"
+            className="!w-40 !cursor-pointer !overflow-hidden !rounded-sm !shadow-none lg:!w-60  lg:!rounded-b-none lg:!rounded-t-xl "
           >
             <CardBody p={0}>
               <Image
@@ -113,7 +125,7 @@ export default function CourseCard({ courseData, setOpenLoginModal }) {
           <Card
             p={0}
             bg={"transparent"}
-            className="!w-40 !cursor-pointer !overflow-hidden !rounded-sm !shadow-none lg:!w-60  lg:!rounded-b-none lg:!rounded-t-xl"
+            className="!w-40 !cursor-pointer !overflow-hidden !rounded-sm !shadow-none lg:!w-60  lg:!rounded-b-none lg:!rounded-t-xl "
           >
             <CardBody p={0}>
               <Image
@@ -144,11 +156,19 @@ export default function CourseCard({ courseData, setOpenLoginModal }) {
               className="!h-24 !w-40 rounded-sm object-cover lg:!h-36 lg:!w-60 lg:rounded-xl"
             />
           </CardBody>
-          <CardFooter p={0} mt={2} className="flex items-start justify-between">
+          <CardFooter p={0} mt={2} className="flex flex-col">
+            <Box className="flex items-start justify-between">
+              <Text className="text-small font-medium leading-[18px] text-orange lg:text-base lg:leading-4">
+                {courseData?.price?.toLocaleString("pt-BR", {
+                  style: "currency",
+                  currency: "BRL",
+                })}
+              </Text>
+              <BiCartAdd size={20} className="text-primary-600" />
+            </Box>
             <span className="text-base !font-medium leading-[18px] text-primary-600 lg:text-normal lg:leading-4">
               {courseData?.name}
             </span>
-            <BiLockAlt className="text-primary-600" />
           </CardFooter>
         </Card>
       )}
