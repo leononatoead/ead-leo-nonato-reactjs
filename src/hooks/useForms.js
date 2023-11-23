@@ -118,7 +118,7 @@ const useForms = () => {
     try {
       const formData = { ...form, createdAt: Timestamp.now() };
 
-      const res = await addDoc(
+      await addDoc(
         collection(database, "formAnswers/courses", courseId),
         formData,
       );
@@ -136,6 +136,7 @@ const useForms = () => {
         duration: "3000",
         isClosable: true,
       });
+      console.log(error);
     } finally {
       setLoading(false);
     }

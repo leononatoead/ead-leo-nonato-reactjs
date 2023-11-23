@@ -51,7 +51,8 @@ export default function Register() {
             ? settings?.studantClasses[0]
             : null,
       };
-      registerUser(data);
+      console.log(formData.cpf);
+      // registerUser(data);
       setCpfError("");
     } else {
       setCpfError("CPF Inválido");
@@ -199,7 +200,7 @@ export default function Register() {
             />
             <Input
               theme={"light"}
-              type={"text"}
+              type={"cpf"}
               label={"CPF"}
               placeholder={"000.000.000-00"}
               register={register}
@@ -255,7 +256,7 @@ export default function Register() {
             <ButtonSubmit
               theme={"light"}
               form="registerForm"
-              disabled={Object.keys(dirtyFields).length !== 5 || loading}
+              disabled={Object.keys(dirtyFields).length !== 4 || loading}
               text={"Cadastrar"}
             />
           </Box>

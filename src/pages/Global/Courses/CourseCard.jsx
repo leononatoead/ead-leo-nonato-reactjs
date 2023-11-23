@@ -46,12 +46,12 @@ export default function CourseCard({ course }) {
   return (
     <Box
       onClick={handleClick}
-      className="flex h-32 w-full cursor-pointer items-center gap-3 rounded-lg bg-white p-3 shadow-md lg:h-[188px] lg:gap-4 lg:p-4"
+      className="flex h-28 w-full cursor-pointer items-center gap-3 rounded-lg bg-white p-2 shadow-md lg:h-[180px] lg:gap-4 lg:p-4"
     >
       <Image
         src={course.imagePath}
         alt="thumbnail"
-        className="!h-[104px] !w-[120px] rounded-sm object-cover lg:!max-h-[156px] lg:!min-h-[156px] lg:!min-w-[168px] lg:!max-w-[168px]"
+        className="!h-24 !w-40 !min-w-[160px] !max-w-[160px] rounded-sm object-cover lg:!max-h-[156px] lg:!min-h-[144px] lg:!min-w-[240px] lg:!max-w-[240px]"
       />
       <Box className="flex !h-[104px] w-full flex-col justify-start lg:!h-[156px]">
         <Box className="flex-grow">

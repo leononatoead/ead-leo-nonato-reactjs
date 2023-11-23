@@ -42,7 +42,7 @@ export default function CourseCard({ cardData }) {
       <Image
         src={cardData.imagePath}
         alt="thumbnail"
-        className="h-[104px] min-w-[120px] max-w-[120px] rounded-sm object-cover"
+        className="!h-24 !w-40 rounded-sm object-cover"
       />
       <Box className="flex min-h-full w-full flex-col justify-start overflow-hidden">
         <Box className="flex-grow">

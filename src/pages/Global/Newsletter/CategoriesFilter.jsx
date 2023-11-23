@@ -7,7 +7,15 @@ import { Swiper, SwiperSlide } from "swiper/react";
 export default function CategoriesFilter() {
   const [categories, setCategories] = useState({
     selectedCategory: "Todos",
-    categories: ["Todos", "Ações", "Dólar", "Fundos", "Investimentos"],
+    categories: [
+      "Todos",
+      "Ações",
+      "Dólar",
+      "Fundos",
+      "Investimentos",
+      "IA Quant",
+      "Macro",
+    ],
   });
 
   const dispatch = useDispatch();

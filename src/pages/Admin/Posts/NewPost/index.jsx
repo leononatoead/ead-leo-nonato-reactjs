@@ -94,6 +94,8 @@ export default function NewPost() {
             <option value="Dólar">Dólar</option>
             <option value="Fundos">Fundos</option>
             <option value="Investimentos">Investimentos</option>
+            <option value="IA Quant">IA Quant</option>
+            <option value="Macro">Macro</option>
           </select>
           {errors?.category?.message ? (
             <span className="-mt-1 text-small text-red-500">

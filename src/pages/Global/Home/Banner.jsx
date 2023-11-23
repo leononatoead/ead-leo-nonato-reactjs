@@ -7,13 +7,14 @@ export default function Banner({ data }) {
     <Link
       to={data?.url}
       className="relative h-[206px] w-full overflow-hidden  rounded-[20px] lg:!h-[300px]"
+      target="_blank"
     >
       <Image
         src={data?.imageURL}
         alt="banner"
         className="h-[206px] w-full rounded-[20px] object-cover lg:!h-[300px]"
       />
-      <Box className="absolute bottom-3 left-3 px-4 text-base leading-5 text-white">
+      <Box className="absolute bottom-3 left-8 px-4 text-base leading-5 text-white">
         <Text className="h-[130px] w-[126px] !font-poppins !text-[22px] !font-semibold !leading-[26px] lg:h-[190px] lg:w-[250px] lg:!text-[28px]">
           {data?.title}
         </Text>

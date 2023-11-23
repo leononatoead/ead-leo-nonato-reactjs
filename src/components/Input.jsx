@@ -20,7 +20,36 @@ export default function Input({
 }) {
   const value = watch(id);
 
+  const [cpfRegex, setCpfRegex] = useState("");
   const [viewPassword, setViewPassword] = useState(false);
+
+  const handleCPF = (value) => {
+    const cpfValue = value.replace(/\D/g, "");
+
+    if (cpfValue.length <= 3) {
+      setCpfRegex(cpfValue);
+    } else if (cpfValue.length <= 6) {
+      setCpfRegex(cpfValue.slice(0, 3) + "." + cpfValue.slice(3));
+    } else if (cpfValue.length <= 9) {
+      setCpfRegex(
+        cpfValue.slice(0, 3) +
+          "." +
+          cpfValue.slice(3, 6) +
+          "." +
+          cpfValue.slice(6),
+      );
+    } else {
+      setCpfRegex(
+        cpfValue.slice(0, 3) +
+          "." +
+          cpfValue.slice(3, 6) +
+          "." +
+          cpfValue.slice(6, 9) +
+          "-" +
+          cpfValue.slice(9, 11),
+      );
+    }
+  };
 
   const toggleViewPassword = () => {
     setViewPassword(!viewPassword);
@@ -93,6 +122,19 @@ export default function Input({
             className={`w-full rounded-[4px]  px-3 py-[5px] text-base leading-5 outline-none ${
               theme === "light" ? "bg-white" : "bg-white/5"
             } placeholder:text-gray-900`}
+          />
+        ) : type === "cpf" ? (
+          <input
+            id={id}
+            type="text"
+            placeholder={placeholder}
+            {...register(id)}
+            autoComplete="false"
+            className={`w-full rounded-[4px]  px-3 py-[5px] text-base leading-5 outline-none ${
+              theme === "light" ? "bg-white" : "bg-white/5"
+            } placeholder:text-gray-900`}
+            value={cpfRegex}
+            onChange={(e) => handleCPF(e.target.value)}
           />
         ) : (
           <input

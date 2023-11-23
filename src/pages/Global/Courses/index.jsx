@@ -15,7 +15,7 @@ export default function Courses() {
   const { user } = useSelector((state) => state.auth);
 
   return (
-    <Box className="flex min-h-[100dvh] flex-col justify-between bg-gray-200 pb-6 lg:pb-14">
+    <Box className="flex min-h-[100dvh] flex-col justify-between bg-gray-200 pb-6">
       <Box>
         <Navbar
           title={

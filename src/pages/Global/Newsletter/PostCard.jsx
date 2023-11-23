@@ -12,13 +12,13 @@ export default function PostCard({ post }) {
   return (
     <Link
       to={`/newsletter/post/${post.id}`}
-      className="flex h-32 w-full cursor-pointer items-center gap-3 rounded-lg bg-white p-3 shadow-md lg:h-[188px] lg:gap-4 lg:p-4"
+      className="h-289 flex w-full cursor-pointer items-center gap-3 rounded-lg bg-white p-2 shadow-md lg:h-[180px] lg:gap-4 lg:p-4"
     >
       <Image
         src={post.thumb}
         alt="thumbnail"
         h={"104px"}
-        className="!h-[104px] !w-[120px] rounded-sm object-cover lg:!max-h-[156px] lg:!min-h-[156px] lg:!min-w-[168px] lg:!max-w-[168px]"
+        className="!h-24 !w-40 !min-w-[160px] !max-w-[160px] rounded-sm object-cover lg:!max-h-[144px] lg:!min-h-[144px] lg:!min-w-[240px] lg:!max-w-[240px]"
       />
       <Box className="flex min-h-full flex-col justify-start overflow-hidden">
         <Box className="flex-grow">

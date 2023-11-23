@@ -17,6 +17,8 @@ import Footer from "../../../components/Footer";
 import PostCard from "./PostCard";
 import { Box, Heading, useMediaQuery } from "@chakra-ui/react";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+import "swiper/css/navigation";
 import "swiper/css";
 
 export default function Home() {
@@ -74,7 +76,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="flex h-[100dvh] flex-col overflow-y-auto bg-gray-200 pb-14">
+    <main className="flex h-[100dvh] flex-col overflow-y-auto bg-gray-200">
       <Navbar title={"Início"} />
       <Box className="flex-1 pb-20 lg:mx-auto lg:max-w-5xl lg:pb-0">
         <Box className="flex w-full bg-white px-4 pb-[6px] lg:hidden">
@@ -82,8 +84,10 @@ export default function Home() {
         </Box>
 
         <Swiper
-          spaceBetween={16}
-          slidesPerView={1.1}
+          navigation={true}
+          modules={[Navigation]}
+          // spaceBetween={16}
+          slidesPerView={1}
           className="ml-4 mt-6 !h-[206px] lg:!h-[300px]"
         >
           {settings?.banners

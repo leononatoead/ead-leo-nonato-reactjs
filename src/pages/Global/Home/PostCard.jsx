@@ -30,7 +30,7 @@ export default function PostCard({ post }) {
     >
       <Image
         src={post.thumb}
-        className="h-24 min-w-[120px] max-w-[120px] rounded-xl object-cover lg:!h-[144px] lg:!w-[56px] lg:rounded-b-none"
+        className="h-24 min-w-[160px] max-w-[160px] rounded-xl object-cover lg:!h-[144px] lg:!w-[240px] lg:rounded-b-none"
       />
       <Box className="flex h-full w-full flex-col justify-between lg:gap-1 lg:pr-4">
         <Heading className="break-title max-h-16 !w-full !font-poppins !text-base !font-bold !leading-5 !text-primary-600 lg:!text-large lg:!leading-6">

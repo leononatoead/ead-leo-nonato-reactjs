@@ -17,6 +17,12 @@ input[type="number"]::-webkit-inner-spin-button {
 
 /* AUTH */
 
+.swiper-button-prev,
+.swiper-button-next {
+  color: white !important;
+  opacity: 1 !important;
+}
+
 .auth-header-bg {
   background-image: url("./assets/bg-light.png");
 }

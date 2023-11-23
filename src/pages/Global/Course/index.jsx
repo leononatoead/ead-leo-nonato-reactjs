@@ -14,7 +14,6 @@ import {
   AccordionPanel,
   AccordionIcon,
   Image,
-  Avatar,
   Text,
   Box,
   Heading,
@@ -115,14 +114,15 @@ export default function Course() {
         mt={"-51px"}
         className="flex flex-col items-center justify-center"
       >
-        <Avatar
-          size="xl"
-          bg="blue.500"
-          name={course?.name}
+        <Image
           src={course?.imagePath}
-        />
+          alt={course?.name}
+          w={96}
+          h={160}
+          className="!h-24 !w-40 rounded-md object-cover"
+        ></Image>
         <Box className="flex items-center gap-2" mb={8} mt={6}>
-          <Heading className=" !font-poppins !text-large !font-bold !leading-6 lg:!text-[24px] lg:!leading-6">
+          <Heading className="!font-poppins !text-large !font-bold !leading-6 lg:!text-[24px] lg:!leading-6">
             {course?.name}
           </Heading>
           <RiArrowDownSLine

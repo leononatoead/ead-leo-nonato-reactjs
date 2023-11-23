@@ -37,8 +37,6 @@ export default function Form({ formId, courseId, setSubmited }) {
 
     const verify = keys.filter((field) => formData[field] === "");
 
-    console.log(form);
-
     if (verify.length > 0) {
       toast({
         description: "Preencha todos os campos do formulário!",
