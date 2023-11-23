@@ -144,10 +144,10 @@ export default function Profile() {
           </Box>
         </Flex>
       </Box>
-
+      {/* 
       <Box className="hidden lg:block">
         <Footer />
-      </Box>
+      </Box> */}
 
       <ChangeProfileImage
         openModal={openEditPhotoModal}

@@ -91,9 +91,9 @@ export default function Courses() {
           )}
         </Box>
       </Box>
-      <Box className="hidden lg:block">
+      {/* <Box className="hidden lg:block">
         <Footer />
-      </Box>
+      </Box> */}
     </Box>
   );
 }

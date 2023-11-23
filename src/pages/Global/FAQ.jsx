@@ -87,9 +87,9 @@ export default function FAQ() {
           </Accordion>
         </Box>
       </Box>
-      <Box className="hidden lg:block">
+      {/* <Box className="hidden lg:block">
         <Footer />
-      </Box>
+      </Box> */}
     </Box>
   );
 }
