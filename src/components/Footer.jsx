@@ -30,7 +30,7 @@ export default function Footer() {
             Av. José de Souza Campos, 550 – 4º andar Cep. 13092-123 – Nova
             Campinas, Campinas – SP.
           </Text>
-          <Box className="flex items-center justify-center gap-7 text-normal text-gray-300  lg:justify-end">
+          <Box className="flex items-center justify-center gap-7 text-normal text-gray-300 ">
             <Link
               to="https://www.instagram.com/leononatotrader/"
               className="rounded-md bg-gray-150 p-[6px]"

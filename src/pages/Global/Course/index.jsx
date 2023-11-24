@@ -253,10 +253,10 @@ export default function Course() {
               })}
         </Accordion>
       </Box>
-
+      {/* 
       <Box className="hidden lg:block">
         <Footer />
-      </Box>
+      </Box> */}
 
       {course?.isPremium ? (
         <PremiumCourse open={locked} close={setLocked} courseData={course} />

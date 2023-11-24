@@ -322,9 +322,9 @@ export default function CourseWatch() {
           </>
         )}
       </Box>
-      <Box className="hidden lg:block">
+      {/* <Box className="hidden lg:block">
         <Footer />
-      </Box>
+      </Box> */}
     </Box>
   );
 }
