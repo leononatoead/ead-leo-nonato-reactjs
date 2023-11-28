@@ -51,8 +51,8 @@ export default function Register() {
             ? settings?.studantClasses[0]
             : null,
       };
-      console.log(formData.cpf);
-      // registerUser(data);
+
+      registerUser(data);
       setCpfError("");
     } else {
       setCpfError("CPF Inválido");
