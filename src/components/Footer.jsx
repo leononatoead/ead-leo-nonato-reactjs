@@ -19,18 +19,18 @@ export default function Footer() {
     <Box className="flex w-full flex-col items-center justify-center gap-2 bg-gray-200 pb-4 pt-8 md:gap-6">
       <Box className="mx-auto w-full gap-8 md:flex md:items-start md:justify-center lg:max-w-7xl">
         <Box className="p-4 md:w-[33.33%]">
-          <Text className="mb-4 flex items-center justify-start gap-2 text-large font-bold text-gray-350">
+          <Text className="mb-4 flex items-center justify-start gap-2 text-large font-bold text-primary-600">
             <FaLandmark />
             Neo Traders
           </Text>
-          <Text className="mb-2 text-base text-gray-350">
+          <Text className="mb-2 text-base text-primary-600">
             Neo Traders Tecnologia e treinamento CNPJ: 36.121.207/0001-61
           </Text>
-          <Text className="mb-4 text-base text-gray-350">
+          <Text className="mb-4 text-base text-primary-600">
             Av. José de Souza Campos, 550 – 4º andar Cep. 13092-123 – Nova
             Campinas, Campinas – SP.
           </Text>
-          <Box className="flex items-center justify-center gap-7 text-normal text-gray-300 ">
+          <Box className="flex items-center justify-start gap-7 text-normal text-primary-600">
             <Link
               to="https://www.instagram.com/leononatotrader/"
               className="rounded-md bg-gray-150 p-[6px]"
@@ -67,33 +67,33 @@ export default function Footer() {
           </Box>
         </Box>
         <Box className="p-4 md:w-[33.33%]">
-          <Text className="mb-4 flex items-center justify-start gap-2 text-large font-bold text-gray-350">
+          <Text className="mb-4 flex items-center justify-start gap-2 text-large font-bold text-primary-600">
             <FaRegCalendarCheck />
             Cancelamento
           </Text>
-          <Text className="mb-2 text-base text-gray-350">
+          <Text className="mb-2 text-base text-primary-600">
             O cancelamento de cursos ou mentorias efetuados após o período de 7
             dias corridos desobriga a Neo Traders a efetuar reembolsos.
           </Text>
-          <Text className="mb-2 text-base text-gray-350">
+          <Text className="mb-2 text-base text-primary-600">
             Lembre-se de que a mentoria individual é uma reserva de agenda e o
             prazo para solicitar cancelamentos é de no máximo 7 dias corridos
             após a compra.
           </Text>
-          <Text className="mb-2 text-base text-gray-350">
+          <Text className="mb-2 text-base text-primary-600">
             Inadimplentes por 30 dias terão o serviço suspenso e com 45 dias
             inadimplente a prestação do serviço será encerra sem aviso prévio.
           </Text>
         </Box>
         <Box className="p-4 md:w-[33.33%]">
-          <Text className="mb-4 flex items-center justify-start gap-2 text-large font-bold text-gray-350">
+          <Text className="mb-4 flex items-center justify-start gap-2 text-large font-bold text-primary-600">
             <IoMdInformationCircle />
             Informações
           </Text>
-          <Text className="mb-2 text-base text-gray-350">
+          <Text className="mb-2 text-base text-primary-600">
             Para mais informações, acesse:
           </Text>
-          <Text className="mb-2 text-base text-gray-350">
+          <Text className="mb-2 text-base text-primary-600">
             <Link
               to={"https://chat.whatsapp.com/GZYfTsSYARf9diFa8eB3aN"}
               target="_blank"
@@ -103,7 +103,7 @@ export default function Footer() {
               Fale pelo Whatsapp
             </Link>
           </Text>
-          <Text className="mb-2 text-base text-gray-350" target="_blank">
+          <Text className="mb-2 text-base text-primary-600" target="_blank">
             <Link
               to={"mailto:meajuda@leononato.com"}
               className="flex items-center justify-start gap-2"
@@ -115,7 +115,7 @@ export default function Footer() {
         </Box>
       </Box>
 
-      <Box className="flex flex-col items-center justify-center p-4 text-gray-350 lg:max-w-7xl">
+      <Box className="flex flex-col items-center justify-center p-4 text-primary-600 lg:max-w-7xl">
         <Text className="mb-[10px] font-inter text-small leading-4 lg:mb-0">
           DISCLAIMER: NEOTRADERS INFORMA, RETORNOS PASSADOS NÃO SÃO GARANTIA DE
           RETORNO FUTURO. INVESTIMENTOS ENVOLVEM RISCOS E PODEM CAUSAR PERDAS AO
@@ -130,7 +130,7 @@ export default function Footer() {
         </Text>
       </Box>
 
-      <Box className="flex flex-col items-center justify-center text-gray-350">
+      <Box className="flex flex-col items-center justify-center text-primary-600">
         <Text className="mb-[10px] font-inter text-small leading-4 lg:mb-0">
           Neo Traders ©️ Copyright 2023, Todos Direitos Reservados
         </Text>
