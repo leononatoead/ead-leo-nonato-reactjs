@@ -106,11 +106,13 @@ export default function VerifyPhone() {
         });
       } else {
         toast({
-          description: "Erro ao enviar código de verificação, tente novamente.",
+          description: "Ocorreu um erro, atualize a página e tente novamente.",
           status: "error",
           duration: "3000",
           isClosable: true,
         });
+        console.log(error);
+        setTimeout(() => window.location.reload(), 3000);
       }
     } finally {
       setLoading(false);
