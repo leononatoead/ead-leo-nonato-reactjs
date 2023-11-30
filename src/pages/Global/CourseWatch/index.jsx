@@ -165,6 +165,8 @@ export default function CourseWatch() {
     }
   }, [courses, user, videoId]);
 
+  console.log(videoPlayer?.active?.advertisementList);
+
   return (
     <Box className="bg-gray-200 lg:flex lg:flex-col lg:justify-between lg:pb-14">
       <Box className="flex min-h-[100dvh] flex-col bg-gray-200 lg:min-h-[calc(100vh-78px)]">
@@ -204,11 +206,11 @@ export default function CourseWatch() {
                 ) : (
                   <VideoIframe videoPlayer={videoPlayer} />
                 )}
-                {videoPlayer?.active?.advertisementList && (
+                {videoPlayer?.active?.advertisementList?.length > 0 && (
                   <Box className="mb-4 w-full px-4">
                     <Image
                       src={
-                        videoPlayer.active.advertisementList[0]
+                        videoPlayer?.active?.advertisementList[0]
                           .advertisementImage
                       }
                       className="max-h-[80px] min-h-[80px] w-full rounded-md object-cover"
@@ -297,7 +299,7 @@ export default function CourseWatch() {
                       />
                     </Box>
                     <Box className="flex w-full max-w-[390px] flex-col gap-1">
-                      {videoPlayer?.active?.advertisementList && (
+                      {videoPlayer?.active?.advertisementList?.length > 0 && (
                         <Box className="w-full">
                           <Image
                             src={
@@ -322,9 +324,6 @@ export default function CourseWatch() {
           </>
         )}
       </Box>
-      {/* <Box className="hidden lg:block">
-        <Footer />
-      </Box> */}
     </Box>
   );
 }

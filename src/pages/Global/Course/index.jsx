@@ -152,7 +152,7 @@ export default function Course() {
           Módulos
         </Heading>
 
-        <Accordion allowToggle className="w-full">
+        <Accordion defaultIndex={[0]} allowToggle className="w-full">
           {course &&
             course?.sections
               ?.slice()

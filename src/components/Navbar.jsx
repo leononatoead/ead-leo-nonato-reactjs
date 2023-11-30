@@ -335,7 +335,7 @@ export default function Navbar({ title }) {
       </Box>
       {/* NAVBAR WEB */}
       <Box className="mx-auto !hidden w-full max-w-7xl items-center justify-between lg:!flex lg:h-16">
-        <Link to="/">
+        <Link to="/" className="pl-4">
           <Image src={logo} />
         </Link>
         <Box className="flex w-full max-w-[500px] items-center justify-around">

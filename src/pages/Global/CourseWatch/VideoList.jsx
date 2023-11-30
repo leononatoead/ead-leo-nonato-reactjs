@@ -83,7 +83,7 @@ export default function VideoList({
 
   return (
     <Box
-      className={`bottom-0 w-full bg-white lg:mt-4 lg:h-[418px] lg:max-w-[390px] lg:overflow-hidden lg:overflow-y-scroll lg:rounded-lg ${
+      className={`bottom-0 w-full bg-white lg:mt-4 lg:h-[500px] lg:max-w-[390px] lg:overflow-hidden lg:overflow-y-scroll lg:rounded-lg ${
         videoPlayer.showVideoList && "flex-grow"
       }`}
     >

@@ -36,15 +36,15 @@ export default function VideoPlayer({ video }) {
   } = useVideoPlayer(videoRef);
 
   return (
-    <Box className="flex w-full flex-col items-start justify-between p-4 lg:max-h-[450px] lg:min-h-[450px]">
+    <Box className="flex w-full flex-col items-start justify-between p-4 lg:max-h-[516px] lg:min-h-[516px]">
       <Box
-        className={`group relative min-w-full overflow-hidden rounded-lg bg-black lg:max-h-[420px] lg:min-h-[420px]`}
+        className={`group relative min-w-full overflow-hidden rounded-lg bg-black lg:max-h-[500px] lg:min-h-[500px]`}
       >
         <video
           ref={videoRef}
           src={video?.videoPath}
           onTimeUpdate={updateVideoTime}
-          className="max-h-[80vh] min-w-full rounded-lg lg:max-h-[420px] lg:min-h-[420px]"
+          className="max-h-[80vh] min-w-full rounded-lg lg:max-h-[500px] lg:min-h-[500px]"
           preload="auto"
           controls={isLargerThanLg ? false : true}
         />

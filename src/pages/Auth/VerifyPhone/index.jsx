@@ -9,7 +9,7 @@ import {
 } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
-import OtpInput from "otp-input-react";
+import OtpInput from "react-otp-input";
 import PhoneInput from "react-phone-input-2";
 import AuthHeader from "../AuthHeader";
 import {
@@ -33,11 +33,19 @@ import { useToast } from "@chakra-ui/react";
 
 export default function VerifyPhone() {
   const [loading, setLoading] = useState(false);
-  const [timer, setTimer] = useState(60);
+  const [timer, setTimer] = useState(120);
 
   const [phone, setPhone] = useState("");
   const [verificationId, setVerificationId] = useState("");
   const [verificationCode, setVerificationCode] = useState("");
+
+  const [recaptchaVerifier, setRecaptchaVerifier] = useState(null);
+
+  const onCaptchaVerify = () => {
+    if (!recaptchaVerifier) {
+      setupRecaptcha();
+    }
+  };
 
   const [isLargerThanLg] = useMediaQuery("(min-width: 992px)");
 
@@ -56,39 +64,55 @@ export default function VerifyPhone() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const onCaptchaVerify = () => {
-    if (!window.recaptchaVerifier) {
-      window.recaptchaVerifier = new RecaptchaVerifier(
-        auth,
-        "recaptcha-container",
-        {
-          size: "invisible",
-          callback: (response) => {
-            onSignInSubmit();
-          },
-          "expired-callback": () => {},
+  const setupRecaptcha = () => {
+    if (!recaptchaVerifier) {
+      const verifier = new RecaptchaVerifier(auth, "recaptcha-container", {
+        size: "invisible",
+        callback: (response) => {
+          onSignInSubmit();
         },
-      );
+        "expired-callback": () => {},
+      });
+
+      setRecaptchaVerifier(verifier);
     }
   };
 
-  useEffect(() => {
-    onCaptchaVerify();
-  }, [phone]);
-
   const verifyPhone = async () => {
     setLoading(true);
+    onCaptchaVerify();
 
     try {
       const formatPhone = `+${phone}`;
-      const appVerifier = window.recaptchaVerifier;
+
+      const appVerifier = recaptchaVerifier;
+
+      if (!appVerifier) {
+        setupRecaptcha();
+        setLoading(false);
+        return;
+      }
+
       const phoneProvider = new PhoneAuthProvider(auth);
+
+      if (typeof phoneProvider.verifyPhoneNumber !== "function") {
+        console.error("verifyPhoneNumber method is not available");
+        setLoading(false);
+        return;
+      }
+
       const id = await phoneProvider.verifyPhoneNumber(
         formatPhone,
         appVerifier,
       );
+
       setVerificationId(id);
       setLoading(false);
+
+      const otpAuthData = JSON.stringify({
+        time: Date.now(),
+        id,
+      });
 
       toast({
         description: "Código enviado por SMS",
@@ -97,9 +121,34 @@ export default function VerifyPhone() {
         isClosable: true,
       });
     } catch (error) {
-      if (error.message === "auth/account-exists-with-different-credential") {
+      console.log(error.message);
+      if (
+        error.message.includes("auth/account-exists-with-different-credential")
+      ) {
         toast({
-          description: "Telefone já cadastrado por outro usuário",
+          description: "Telefone já cadastrado por outro usuário.",
+          status: "error",
+          duration: "3000",
+          isClosable: true,
+        });
+      } else if (error.message.includes("auth/too-many-requests")) {
+        toast({
+          description:
+            "Número de tentativas excedidas, por favor aguarde e tente novamente mais tarde.",
+          status: "error",
+          duration: "3000",
+          isClosable: true,
+        });
+      } else if (error.message.includes("auth/code-expired")) {
+        toast({
+          description: "Código expirado, tente novamente.",
+          status: "error",
+          duration: "3000",
+          isClosable: true,
+        });
+      } else if (error.message.includes("auth/invalid-verification-code")) {
+        toast({
+          description: "Código inválido, tente novamente.",
           status: "error",
           duration: "3000",
           isClosable: true,
@@ -111,8 +160,6 @@ export default function VerifyPhone() {
           duration: "3000",
           isClosable: true,
         });
-        console.log(error);
-        setTimeout(() => window.location.reload(), 3000);
       }
     } finally {
       setLoading(false);
@@ -132,18 +179,43 @@ export default function VerifyPhone() {
       await updatePhoneNumber(user, phoneCredential);
 
       navigate("/verify-email");
+      localStorage.removeItem("OTP-auth-request");
     } catch (error) {
-      console.log(error);
-      if (error.message === "auth/account-exists-with-different-credential") {
+      console.log(error.message);
+      if (
+        error.message.includes("auth/account-exists-with-different-credential")
+      ) {
         toast({
-          description: "Telefone já cadastrado por outro usuário",
+          description: "Telefone já cadastrado por outro usuário.",
+          status: "error",
+          duration: "3000",
+          isClosable: true,
+        });
+      } else if (error.message.includes("auth/too-many-requests")) {
+        toast({
+          description:
+            "Número de tentativas excedidas, por favor aguarde e tente novamente mais tarde.",
+          status: "error",
+          duration: "3000",
+          isClosable: true,
+        });
+      } else if (error.message.includes("auth/code-expired")) {
+        toast({
+          description: "Código expirado, tente novamente.",
+          status: "error",
+          duration: "3000",
+          isClosable: true,
+        });
+      } else if (error.message.includes("auth/invalid-verification-code")) {
+        toast({
+          description: "Código inválido, tente novamente.",
           status: "error",
           duration: "3000",
           isClosable: true,
         });
       } else {
         toast({
-          description: "Ocorreu um erro, tente novamente",
+          description: "Ocorreu um erro, atualize a página e tente novamente.",
           status: "error",
           duration: "3000",
           isClosable: true,
@@ -154,7 +226,7 @@ export default function VerifyPhone() {
     }
   };
 
-  const handleReSendCode = () => {
+  const handleResendCode = () => {
     setVerificationId("");
     setVerificationCode("");
   };
@@ -163,6 +235,17 @@ export default function VerifyPhone() {
     dispatch(logoutUser());
     navigate("/");
   };
+
+  function secondsToMinutes(seconds) {
+    let minutes = Math.floor(seconds / 60);
+    let remainingSeconds = seconds % 60;
+
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    remainingSeconds =
+      remainingSeconds < 10 ? "0" + remainingSeconds : remainingSeconds;
+
+    return minutes + ":" + remainingSeconds;
+  }
 
   useEffect(() => {
     if (timer > 0) {
@@ -175,6 +258,10 @@ export default function VerifyPhone() {
       };
     }
   }, [verificationId]);
+
+  useEffect(() => {
+    setupRecaptcha();
+  }, [recaptchaVerifier]);
 
   return (
     <Flex
@@ -236,23 +323,30 @@ export default function VerifyPhone() {
             <Box px={4} className="!flex-grow" pt={6}>
               <Flex justify={"center"} mb={"28px"}>
                 <OtpInput
-                  OTPLength={6}
-                  otpType="number"
-                  disabled={false}
-                  autoFocus
-                  className="opt-container flex justify-between gap-2 font-poppins"
+                  numInputs={6}
                   value={verificationCode}
+                  inputType={"number"}
                   onChange={setVerificationCode}
+                  shouldAutoFocus={false}
+                  renderInput={(props) => (
+                    <input
+                      {...props}
+                      // autoComplete="one-time-code"
+                      className="!mr-4 !h-12 !w-full rounded-[4px] border-2 !bg-gray-100  !pt-1 text-[28px] font-bold !leading-[36px] text-primary-400 caret-transparent outline-none last:!mr-0 focus:border-cian"
+                    />
+                  )}
                 />
               </Flex>
               <Text className="!text-base !font-medium !leading-5 !text-black">
                 Não recebeu?{" "}
                 <button
                   className="text-[#60CDFF]"
-                  onClick={handleReSendCode}
+                  onClick={handleResendCode}
                   disabled={timer > 0}
                 >
-                  {timer > 0 ? `Reenviar em ${timer}s` : "Reenviar código"}
+                  {timer > 0
+                    ? `Reenviar em ${secondsToMinutes(timer)}s`
+                    : "Reenviar código"}
                 </button>
               </Text>
             </Box>
@@ -323,7 +417,7 @@ export default function VerifyPhone() {
 
             <Box px={4} className="!flex-grow" pt={6}>
               <Box
-                className={`relative w-full overflow-hidden rounded-[4px] after:absolute after:bottom-0 after:left-1/2 after:h-[2px] after:-translate-x-1/2 after:bg-[#60cdff] after:content-[''] ${
+                className={`relative w-full overflow-hidden rounded-[4px]  after:absolute after:bottom-0 after:left-1/2 after:h-[2px] after:-translate-x-1/2 after:bg-[#60cdff] after:content-[''] ${
                   phone ? "after:w-full" : "after:w-0"
                 } animation hover:after:w-full`}
               >
