@@ -37,42 +37,48 @@ export default function Settings() {
   useEffect(() => {
     const fetchSettingsData = async () => {
       try {
-        const fireStoreSettingsUpdate = await verifySettingsUpdate();
-        const lastSettingsUpdate =
-          new Date(JSON.parse(localStorage.getItem("lastSettingsUpdate"))) || 0;
+        // const fireStoreSettingsUpdate = await verifySettingsUpdate();
+        // const lastSettingsUpdate =
+        //   new Date(JSON.parse(localStorage.getItem("lastSettingsUpdate"))) || 0;
 
-        const calcCourse = fireStoreSettingsUpdate - lastSettingsUpdate;
-        const localSettings = JSON.parse(localStorage.getItem("settings"));
+        // const calcCourse = fireStoreSettingsUpdate - lastSettingsUpdate;
+        // const localSettings = JSON.parse(localStorage.getItem("settings"));
 
-        if (calcCourse !== 0 && !localSettings) {
-          dispatch(fetchBannerSettings());
-          dispatch(fetchWhatsAppSettings());
-          dispatch(fetchRegisterVideoSettings());
-          dispatch(fetchStudantClassesSettings());
-          dispatch(fetchNotificationsSettings());
-        } else {
-          dispatch(fetchSettingsFromLocalStorage(localSettings));
+        // if (calcCourse !== 0 && !localSettings) {
+        //   dispatch(fetchBannerSettings());
+        //   dispatch(fetchWhatsAppSettings());
+        //   dispatch(fetchRegisterVideoSettings());
+        //   dispatch(fetchStudantClassesSettings());
+        //   dispatch(fetchNotificationsSettings());
+        // } else {
+        //   dispatch(fetchSettingsFromLocalStorage(localSettings));
 
-          if (!settings.banners && !localSettings.banners) {
-            dispatch(fetchBannerSettings());
-          }
+        //   if (!settings.banners && !localSettings.banners) {
+        //     dispatch(fetchBannerSettings());
+        //   }
 
-          if (!settings.whatsAppURL && !localSettings.whatsAppURL) {
-            dispatch(fetchWhatsAppSettings());
-          }
+        //   if (!settings.whatsAppURL && !localSettings.whatsAppURL) {
+        //     dispatch(fetchWhatsAppSettings());
+        //   }
 
-          if (!settings.registerVideoURL && !localSettings.registerVideoURL) {
-            dispatch(fetchRegisterVideoSettings());
-          }
+        //   if (!settings.registerVideoURL && !localSettings.registerVideoURL) {
+        //     dispatch(fetchRegisterVideoSettings());
+        //   }
 
-          if (!settings.studantClasses && !localSettings.studantClasses) {
-            dispatch(fetchStudantClassesSettings());
-          }
+        //   if (!settings.studantClasses && !localSettings.studantClasses) {
+        //     dispatch(fetchStudantClassesSettings());
+        //   }
 
-          if (!settings.notifications && !localSettings.notifications) {
-            dispatch(fetchNotificationsSettings());
-          }
-        }
+        //   if (!settings.notifications && !localSettings.notifications) {
+        //     dispatch(fetchNotificationsSettings());
+        //   }
+        // }
+
+        dispatch(fetchBannerSettings());
+        dispatch(fetchWhatsAppSettings());
+        dispatch(fetchRegisterVideoSettings());
+        dispatch(fetchStudantClassesSettings());
+        dispatch(fetchNotificationsSettings());
       } catch (error) {
         console.error(
           "Erro ao buscar a última atualização dos banners:",

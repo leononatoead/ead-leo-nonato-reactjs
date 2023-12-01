@@ -15,7 +15,6 @@ import {
   sendPasswordResetEmail,
   updateProfile,
   updatePassword,
-  deleteUser,
   onAuthStateChanged,
 } from "firebase/auth";
 
@@ -193,7 +192,7 @@ const useAuth = () => {
     }
   };
 
-  const resetPassword = async (email, setSuccess) => {
+  const resetPassword = async (email, setSuccess = null) => {
     setLoading(true);
     try {
       const actionCodeSettings = {
@@ -202,7 +201,17 @@ const useAuth = () => {
       };
 
       await sendPasswordResetEmail(auth, email, actionCodeSettings);
-      setSuccess(true);
+
+      if (setSuccess) {
+        setSuccess(true);
+      } else {
+        toast({
+          description: "E-mail enviado com sucesso",
+          status: "success",
+          duration: "3000",
+          isClosable: true,
+        });
+      }
     } catch (error) {
       toast({
         description: error.message,

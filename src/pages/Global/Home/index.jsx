@@ -17,9 +17,10 @@ import Footer from "../../../components/Footer";
 import PostCard from "./PostCard";
 import { Box, Heading, useMediaQuery } from "@chakra-ui/react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
-import "swiper/css/navigation";
+import { Pagination } from "swiper/modules";
+// import "swiper/css/navigation";
 import "swiper/css";
+import "swiper/css/pagination";
 
 export default function Home() {
   const [openLoginModal, setOpenLoginModal] = useState(false);
@@ -43,27 +44,34 @@ export default function Home() {
   useEffect(() => {
     const fetchSettingsData = async () => {
       try {
-        const fireStoreSettingsUpdate = await verifySettingsUpdate();
-        const lastSettingsUpdate =
-          new Date(JSON.parse(localStorage.getItem("lastSettingsUpdate"))) || 0;
+        // const fireStoreSettingsUpdate = await verifySettingsUpdate();
+        // const lastSettingsUpdate =
+        //   new Date(JSON.parse(localStorage.getItem("lastSettingsUpdate"))) || 0;
 
-        const calcCourse = fireStoreSettingsUpdate - lastSettingsUpdate;
-        const localSettings = JSON.parse(localStorage.getItem("settings"));
+        // const calcCourse = fireStoreSettingsUpdate - lastSettingsUpdate;
+        // const localSettings = JSON.parse(localStorage.getItem("settings"));
 
-        if (calcCourse !== 0 && !localSettings) {
-          dispatch(fetchBannerSettings());
-          dispatch(fetchNotificationsSettings());
-        } else {
-          dispatch(fetchSettingsFromLocalStorage(localSettings));
+        // console.log(fireStoreSettingsUpdate);
+        // console.log(lastSettingsUpdate);
 
-          if (!settings.notifications && !localSettings.notifications) {
-            dispatch(fetchNotificationsSettings());
-          }
+        // if (calcCourse !== 0 && !localSettings) {
+        //   dispatch(fetchBannerSettings());
+        //   dispatch(fetchNotificationsSettings());
+        // } else {
+        //   dispatch(fetchSettingsFromLocalStorage(localSettings));
 
-          if (!settings.banners && !localSettings.banners) {
-            dispatch(fetchBannerSettings());
-          }
-        }
+        //   if (!settings.notifications && !localSettings.notifications) {
+        //     dispatch(fetchNotificationsSettings());
+        //   }
+
+        //   if (!settings.banners && !localSettings.banners) {
+        //     dispatch(fetchBannerSettings());
+        //   }
+        // }
+
+        dispatch(fetchBannerSettings());
+        dispatch(fetchNotificationsSettings());
+        dispatch(fetchBannerSettings());
       } catch (error) {
         console.error(
           "Erro ao buscar a última atualização dos banners:",
@@ -84,8 +92,13 @@ export default function Home() {
         </Box>
 
         <Swiper
-          navigation={true}
-          modules={[Navigation]}
+          spaceBetween={30}
+          pagination={{
+            clickable: true,
+          }}
+          modules={[Pagination]}
+          // navigation={true}
+          // modules={[Navigation]}
           // spaceBetween={16}
           slidesPerView={1}
           className="ml-4 mt-6 !h-[206px] lg:!h-[300px]"

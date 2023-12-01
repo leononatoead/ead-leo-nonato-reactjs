@@ -22,12 +22,15 @@ import {
 } from "@chakra-ui/react";
 import { AiOutlineWarning } from "react-icons/ai";
 import { BiTrash } from "react-icons/bi";
+import useAuth from "../../../../hooks/useAuth";
 
 export default function EditUser({ user }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const settings = useSelector((state) => state.settings);
   const { user: actualUser } = useSelector((state) => state.auth);
   const { courses } = useSelector((state) => state.courses);
+
+  const { resetPassword, loading: resetLoading } = useAuth();
 
   const [studantClass, setStudantClass] = useState("");
   const [purchased, setPurchased] = useState({
@@ -147,6 +150,10 @@ export default function EditUser({ user }) {
     }
   };
 
+  const handleSendReset = () => {
+    resetPassword(user?.email);
+  };
+
   useEffect(() => {
     if (!user) {
       return;
@@ -259,6 +266,17 @@ export default function EditUser({ user }) {
               <button
                 type="button"
                 className={` mt-6 w-full rounded-sm ${
+                  resetLoading ? "bg-gray-800" : "bg-primary-500"
+                } py-[6px] text-base  leading-5 text-white disabled:bg-gray-700 `}
+                onClick={handleSendReset}
+                disabled={resetLoading}
+              >
+                Enviar e-mail para redefinir senha
+              </button>
+
+              <button
+                type="button"
+                className={` w-full rounded-sm ${
                   loading ? "bg-gray-800" : "bg-primary-400"
                 } py-[6px] text-base  leading-5 text-white disabled:bg-gray-700 `}
                 onClick={handleUpdateUser}

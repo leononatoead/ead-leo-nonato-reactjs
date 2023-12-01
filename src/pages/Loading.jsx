@@ -5,7 +5,7 @@ export default function Loading() {
   return (
     <main className="h-screen overflow-hidden bg-gray-200">
       <Navbar />
-      <Box px={4} py={6} className="mx-auto lg:max-w-5xl">
+      <Box px={4} py={6} className="mx-auto lg:max-w-7xl">
         <Box
           className="h-40 w-full rounded-md bg-gray-100 lg:h-60"
           mb={4}

@@ -109,11 +109,6 @@ export default function VerifyPhone() {
       setVerificationId(id);
       setLoading(false);
 
-      const otpAuthData = JSON.stringify({
-        time: Date.now(),
-        id,
-      });
-
       toast({
         description: "Código enviado por SMS",
         status: "success",
@@ -325,14 +320,17 @@ export default function VerifyPhone() {
                 <OtpInput
                   numInputs={6}
                   value={verificationCode}
-                  inputType={"number"}
+                  // inputType={"text"}
                   onChange={setVerificationCode}
-                  shouldAutoFocus={false}
+                  shouldAutoFocus={true}
                   renderInput={(props) => (
                     <input
                       {...props}
-                      // autoComplete="one-time-code"
                       className="!mr-4 !h-12 !w-full rounded-[4px] border-2 !bg-gray-100  !pt-1 text-[28px] font-bold !leading-[36px] text-primary-400 caret-transparent outline-none last:!mr-0 focus:border-cian"
+                      type="text"
+                      inputMode="numeric"
+                      autoComplete="one-time-code"
+                      required
                     />
                   )}
                 />

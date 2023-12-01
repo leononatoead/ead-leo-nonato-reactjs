@@ -131,7 +131,7 @@ export default function NewCourse() {
       needForm: false,
     });
 
-    navigate("/dashboard/courses");
+    // navigate("/dashboard/courses");
   };
 
   return (
