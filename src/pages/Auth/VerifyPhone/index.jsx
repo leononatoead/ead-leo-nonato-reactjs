@@ -9,7 +9,7 @@ import {
 } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
-import OtpInput from "react-otp-input";
+import OtpInput from "react18-input-otp";
 import PhoneInput from "react-phone-input-2";
 import AuthHeader from "../AuthHeader";
 import {
@@ -242,6 +242,10 @@ export default function VerifyPhone() {
     return minutes + ":" + remainingSeconds;
   }
 
+  const handleChange = (enteredOtp) => {
+    setVerificationCode(enteredOtp);
+  };
+
   useEffect(() => {
     if (timer > 0) {
       const timerInterval = setInterval(() => {
@@ -318,21 +322,14 @@ export default function VerifyPhone() {
             <Box px={4} className="!flex-grow" pt={6}>
               <Flex justify={"center"} mb={"28px"}>
                 <OtpInput
-                  numInputs={6}
                   value={verificationCode}
-                  // inputType={"text"}
-                  onChange={setVerificationCode}
-                  shouldAutoFocus={true}
-                  renderInput={(props) => (
-                    <input
-                      {...props}
-                      className="!mr-4 !h-12 !w-full rounded-[4px] border-2 !bg-gray-100  !pt-1 text-[28px] font-bold !leading-[36px] text-primary-400 caret-transparent outline-none last:!mr-0 focus:border-cian"
-                      type="text"
-                      inputMode="numeric"
-                      autoComplete="one-time-code"
-                      required
-                    />
-                  )}
+                  onChange={handleChange}
+                  numInputs={6}
+                  autoComplete
+                  inputStyle={
+                    "!w-16 !h-12 !w-full rounded-[4px] border-2 !bg-gray-150 !pt-1 text-[28px] font-bold !leading-[36px] text-primary-400 caret-transparent outline-none  focus:border-cian"
+                  }
+                  separator={<span className="w-4"></span>}
                 />
               </Flex>
               <Text className="!text-base !font-medium !leading-5 !text-black">
