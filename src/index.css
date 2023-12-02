@@ -16,6 +16,13 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 /* AUTH */
+.swiper-pagination-bullet {
+  @apply bg-white/50;
+}
+
+.swiper-pagination-bullet-active {
+  @apply bg-white;
+}
 
 .swiper-button-prev,
 .swiper-button-next {
