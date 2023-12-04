@@ -117,7 +117,7 @@ const useAuth = () => {
       if (error.message.includes("auth/invalid-login-credentials")) {
         toast({
           description:
-            "Usuário não cadastrado, verifique seus dados e tente novamente.",
+            "Usuário ou senha inválidos, verifique seus dados e tente novamente.",
           status: "error",
           duration: "3000",
           isClosable: true,

@@ -143,7 +143,7 @@ export default function Navbar({ title }) {
               aria-label="Options"
               icon={<GiHamburgerMenu size={18} />}
               variant="outline"
-              className="-mr-[10px] !border-none !bg-transparent !outline-none focus:!border-none"
+              className="-mr-[10px] !border-none !bg-transparent !outline-none focus:!border-none focus:!outline-none"
             />
             <MenuList className="!flex !min-w-max !-translate-y-2 !flex-col !items-start !justify-center !gap-2 !border-none !p-3 !shadow-lg">
               {!user && (

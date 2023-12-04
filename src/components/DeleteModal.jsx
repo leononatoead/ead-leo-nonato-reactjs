@@ -36,7 +36,7 @@ export default function DeleteModal() {
           <ModalFooter>
             <Button
               variant="solid"
-              className="mr-4 !bg-primary-500 !text-white !outline-none"
+              className="mr-4 !bg-primary-500 !text-white !outline-none focus:!outline-none"
               onClick={handleLogout}
             >
               Sair
@@ -44,7 +44,7 @@ export default function DeleteModal() {
             <Button
               variant="solid"
               colorScheme="red"
-              className="!outline-none"
+              className="!outline-none focus:!outline-none"
               onClick={delUser}
             >
               Estou de acordo
