@@ -41,3 +41,10 @@ export const updateUserClassAndCoursePurchased = (data) => {
     payload: data,
   };
 };
+
+export const updateUserDeleteState = (data) => {
+  return {
+    type: "usersData/updateUserDeleteState",
+    payload: data,
+  };
+};

@@ -39,6 +39,24 @@ const usersDataReducer = createSlice({
         userList: updatedList,
       };
     },
+    updateUserDeleteState: (state, action) => {
+      const { userList } = JSON.parse(JSON.stringify(state));
+
+      const updatedList = userList.map((user) => {
+        if (user.id === action.payload.id) {
+          const updatedUser = {
+            ...user,
+            deleteUser: action.payload.deleteState,
+          };
+          return updatedUser;
+        } else return user;
+      });
+
+      return {
+        ...state,
+        userList: updatedList,
+      };
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchUsers.fulfilled, (state, action) => {

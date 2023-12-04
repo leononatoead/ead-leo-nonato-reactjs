@@ -24,6 +24,7 @@ import {
   fetchNotificationsSettings,
   fetchSettingsFromLocalStorage,
 } from "./redux/modules/settings/actions";
+import DeleteModal from "./components/DeleteModal";
 
 function App() {
   const { authUser, loadingAuth } = useAuth();
@@ -132,6 +133,8 @@ function App() {
           )}
         </>
       )}
+
+      {user?.deleteState && <DeleteModal />}
     </ChakraProvider>
   );
 }

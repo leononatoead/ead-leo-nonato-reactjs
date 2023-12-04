@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import {
   updateUserClassAndCoursePurchased,
+  updateUserDeleteState,
   updateUserListWhenChangeAdminState,
 } from "../redux/modules/users/actions";
 import {
@@ -251,6 +252,43 @@ const useUserData = () => {
     }
   };
 
+  const changeDeleteState = async (userId, deleteState) => {
+    try {
+      const userRef = doc(database, "users", userId);
+      await updateDoc(userRef, { deleteState });
+
+      dispatch(updateUserDeleteState({ id: userId, deleteState }));
+
+      const updateTime = Timestamp.now();
+      const updateCollection = doc(
+        database,
+        "updates",
+        "users",
+        "updates",
+        userId,
+      );
+
+      updateDoc(updateCollection, { lastUserUpdate: updateTime });
+      const updatedAt = JSON.stringify(new Date(updateTime.toMillis()));
+      localStorage.setItem("lastUserUpdate", updatedAt);
+
+      toast({
+        description: "Usuário alterado com sucesso",
+        status: "success",
+        duration: "3000",
+        isClosable: true,
+      });
+    } catch (error) {
+      toast({
+        description: error.message,
+        status: "error",
+        duration: "3000",
+        isClosable: true,
+      });
+      console.log(error);
+    }
+  };
+
   const changeUserClassAndPurchasedCourses = async (
     userId,
     actualUser,
@@ -322,6 +360,7 @@ const useUserData = () => {
     changeSurveyAnswer,
     changeAdminState,
     changeUserClassAndPurchasedCourses,
+    changeDeleteState,
     loading,
   };
 };

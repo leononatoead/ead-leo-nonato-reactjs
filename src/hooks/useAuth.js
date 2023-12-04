@@ -15,16 +15,26 @@ import {
   sendPasswordResetEmail,
   updateProfile,
   updatePassword,
+  deleteUser,
   onAuthStateChanged,
 } from "firebase/auth";
 
-import { Timestamp, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import {
+  Timestamp,
+  deleteDoc,
+  doc,
+  getDoc,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
+
 import {
   deleteObject,
   getDownloadURL,
   ref,
   uploadBytesResumable,
 } from "firebase/storage";
+
 import { v4 } from "uuid";
 import useCheckUpdate from "./useCheckUpdate";
 
@@ -104,12 +114,22 @@ const useAuth = () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
     } catch (error) {
-      toast({
-        description: error.message,
-        status: "error",
-        duration: "3000",
-        isClosable: true,
-      });
+      if (error.message.includes("auth/invalid-login-credentials")) {
+        toast({
+          description:
+            "Usuário não cadastrado, verifique seus dados e tente novamente.",
+          status: "error",
+          duration: "3000",
+          isClosable: true,
+        });
+      } else {
+        toast({
+          description: error.message,
+          status: "error",
+          duration: "3000",
+          isClosable: true,
+        });
+      }
       navigate("/");
     } finally {
       setLoading(false);
@@ -351,6 +371,26 @@ const useAuth = () => {
     }
   };
 
+  const delUser = async () => {
+    try {
+      const userDoc = doc(database, "users", auth.currentUser.uid);
+      await deleteDoc(userDoc);
+      const userUpdateDoc = doc(
+        database,
+        "updates/users/updates",
+        auth.currentUser.uid,
+      );
+      await deleteDoc(userDoc);
+      await deleteDoc(userUpdateDoc);
+
+      localStorage.removeItem("user");
+      localStorage.removeItem("lastUserUpdate");
+      await deleteUser(auth.currentUser);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return {
     authUser,
     loginUser,
@@ -359,6 +399,7 @@ const useAuth = () => {
     resetPassword,
     changePassword,
     changeImage,
+    delUser,
     loadingAuth,
     loading,
   };

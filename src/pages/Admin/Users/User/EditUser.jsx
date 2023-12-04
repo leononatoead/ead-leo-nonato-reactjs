@@ -23,6 +23,7 @@ import {
 import { AiOutlineWarning } from "react-icons/ai";
 import { BiTrash } from "react-icons/bi";
 import useAuth from "../../../../hooks/useAuth";
+import ConfirmModal from "../../../../components/ConfirmModal";
 
 export default function EditUser({ user }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -32,6 +33,7 @@ export default function EditUser({ user }) {
 
   const { resetPassword, loading: resetLoading } = useAuth();
 
+  const [open, setOpen] = useState(false);
   const [studantClass, setStudantClass] = useState("");
   const [purchased, setPurchased] = useState({
     purchasedList: [],
@@ -40,7 +42,8 @@ export default function EditUser({ user }) {
 
   const { register, handleSubmit, watch, reset } = useForm();
 
-  const { changeUserClassAndPurchasedCourses, loading } = useUserData();
+  const { changeUserClassAndPurchasedCourses, changeDeleteState, loading } =
+    useUserData();
   const { verifySettingsUpdate } = useCheckUpdate();
   const dispatch = useDispatch();
   const toast = useToast();
@@ -263,6 +266,7 @@ export default function EditUser({ user }) {
                   ))}
                 </ul>
               </form>
+
               <button
                 type="button"
                 className={` mt-6 w-full rounded-sm ${
@@ -284,6 +288,29 @@ export default function EditUser({ user }) {
               >
                 Alterar
               </button>
+
+              {user?.deleteState ? (
+                <button
+                  type="button"
+                  className={` w-full rounded-sm ${
+                    loading ? "bg-gray-800" : "bg-primary-400"
+                  } py-[6px] text-base  leading-5 text-white disabled:bg-gray-700 `}
+                  onClick={() => changeDeleteState(user.id, false)}
+                  disabled={loading}
+                >
+                  Reativar usuário
+                </button>
+              ) : (
+                <ConfirmModal
+                  button={"Desativar conta de usuário"}
+                  text={
+                    "Ao enviar essa solicitação, após o usuario clicar concordar não haverá como ser revertido."
+                  }
+                  open={open}
+                  setOpen={setOpen}
+                  deleteFunction={() => changeDeleteState(user.id, true)}
+                />
+              )}
             </Box>
           </ModalBody>
         </ModalContent>

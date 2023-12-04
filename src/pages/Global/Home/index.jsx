@@ -16,9 +16,9 @@ import Banner from "./Banner";
 import Footer from "../../../components/Footer";
 import PostCard from "./PostCard";
 import { Box, Heading, useMediaQuery } from "@chakra-ui/react";
+
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
-// import "swiper/css/navigation";
 import "swiper/css";
 import "swiper/css/pagination";
 
@@ -97,11 +97,8 @@ export default function Home() {
             clickable: true,
           }}
           modules={[Pagination]}
-          // navigation={true}
-          // modules={[Navigation]}
-          // spaceBetween={16}
           slidesPerView={1}
-          className="ml-4 mt-6 !h-[206px] lg:!h-[300px]"
+          className="mx-4 mt-6 !h-[206px] lg:!h-[300px]"
         >
           {settings?.banners
             ?.slice()

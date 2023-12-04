@@ -30,6 +30,7 @@ const authReducer = (state = initialState, action) => {
     case LOGOUT_USER: {
       const storageUser = JSON.stringify(action.payload);
       localStorage.removeItem("user", storageUser);
+      localStorage.removeItem("lastUserUpdate", storageUser);
 
       return { user: action.payload };
     }
